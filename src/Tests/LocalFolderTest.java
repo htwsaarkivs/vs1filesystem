@@ -19,7 +19,7 @@ public class LocalFolderTest {
         try {
             inst.add("TestOrdner");
             fail();
-        } catch (Throwable) {
+        } catch (Throwable e) {
             return;
         }
     }
