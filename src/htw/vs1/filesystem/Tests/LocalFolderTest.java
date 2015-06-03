@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.Tests;
 
-import FileSystem.Folder;
-import FileSystem.LocalFolder;
+import htw.vs1.filesystem.FileSystem.Folder;
+import htw.vs1.filesystem.FileSystem.LocalFolder;
 
 import java.nio.file.FileAlreadyExistsException;
 

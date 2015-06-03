@@ -1,11 +1,8 @@
 package htw.vs1.filesystem;
 
-import FileSystem.FileSystemInterface;
-import FileSystem.Folder;
-import FileSystem.LocalFolder;
-import FileSystem.*;
-
-import java.util.HashSet;
+import htw.vs1.filesystem.FileSystem.FileSystemInterface;
+import htw.vs1.filesystem.FileSystem.Folder;
+import htw.vs1.filesystem.FileSystem.LocalFolder;
 
 public class Main {
 
