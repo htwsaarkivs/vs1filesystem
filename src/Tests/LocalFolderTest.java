@@ -3,6 +3,7 @@ package Tests;
 import FileSystem.FSObject;
 import FileSystem.Folder;
 import FileSystem.LocalFolder;
+import FileSystem.RemoteFile;
 
 import static org.junit.Assert.*;
 
@@ -15,9 +16,9 @@ public class LocalFolderTest {
     public void testAdd1() throws Exception {
         Folder inst = new LocalFolder("Test");
 
-        inst.add("TestOrdner");
+        inst.add(new LocalFolder("TestOrdner"));
         try {
-            inst.add("TestOrdner");
+            inst.add(new LocalFolder("TestOrdner"));
             fail();
         } catch (Throwable e) {
             return;
