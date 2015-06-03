@@ -31,7 +31,7 @@ public abstract class Folder extends FSObject {
     /**
      * Add a FSObject to the folder.
      */
-    public abstract void add(FSObject);
+    public abstract void add(FSObject e);
 
 
     /**
