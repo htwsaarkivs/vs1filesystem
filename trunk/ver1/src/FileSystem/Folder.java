@@ -31,7 +31,7 @@ public abstract class Folder extends FSObject {
     /**
      * Add a FSObject to the folder.
      */
-    public abstract void add(FSObject e);
+    public abstract void add(FSObject object);
 
 
     /**
@@ -41,6 +41,8 @@ public abstract class Folder extends FSObject {
      * @return the content of this folder.
      */
     public abstract List<FSObject> getContent();
+
+    public abstract FSObject getObject(String name);
 
 
 }

@@ -52,6 +52,18 @@ public class LocalFolder extends Folder {
         return contents;
     }
 
+    @Override
+    public FSObject getObject(String name) {
+        for (FSObject object : contents) {
+            if (object.getName().equals(name)) {
+                return object;
+            }
+        }
+
+        // FIXME: FolderNotFoundException werfen!!
+        return null;
+    }
+
     /**
      * Add a new {@link FSObject} to this Folder.
      * Precondition: the new object has to be either a
@@ -62,6 +74,10 @@ public class LocalFolder extends Folder {
      */
     public void add(FSObject object) {
         checkPrecondition(object);
+
+        if (object instanceof LocalFolder) {
+            ((LocalFolder) object).setParent(this);
+        }
 
         contents.add(object);
     }
