@@ -45,6 +45,7 @@ public class LocalFolder extends Folder {
      */
     @Override
     public Folder getParentFolder() {
+
         return parent;
     }
 
@@ -56,6 +57,7 @@ public class LocalFolder extends Folder {
      */
     @Override
     public List<FSObject> getContent() {
+
         return contents;
     }
 
@@ -91,6 +93,7 @@ public class LocalFolder extends Folder {
     public void add(FSObject object) throws FileAlreadyExistsException {
         checkPrecondition(object);
 
+        //Ist das hier mit LocalFolder korrekt? Weil wir ja später auch Remote-Folder einbinden wollen, dann ginge die Verbindung zum Node flöten
         if (object instanceof LocalFolder) {
             ((LocalFolder) object).setParent(this);
         }
