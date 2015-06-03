@@ -8,7 +8,7 @@ package FileSystem;
  *
  * Created by markus on 01.06.15.
  */
-public class FSObject {
+public abstract class FSObject {
 
     private String name;
 
