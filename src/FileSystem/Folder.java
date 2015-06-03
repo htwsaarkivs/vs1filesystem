@@ -1,5 +1,6 @@
 package FileSystem;
 
+import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public abstract class Folder extends FSObject {
     /**
      * Add a FSObject to the folder.
      */
-    public abstract void add(FSObject object);
+    public abstract void add(FSObject object) throws FileAlreadyExistsException;
 
 
     /**
