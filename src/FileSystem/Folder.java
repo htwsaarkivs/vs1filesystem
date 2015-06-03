@@ -20,6 +20,6 @@ public class Folder extends FSObject {
     public void add(FSObject e) {
         contents.add(e);
     }
-    
+
 
 }
