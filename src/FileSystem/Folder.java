@@ -29,6 +29,12 @@ public abstract class Folder extends FSObject {
     public abstract Folder getParentFolder();
 
     /**
+     * Add a FSObject to the folder.
+     */
+    public abstract void add(FSObject);
+
+
+    /**
      * Get the Content of this {@link Folder} as a {@link List}
      * of {@link FSObject}s.
      *
