@@ -1,6 +1,6 @@
 package htw.vs1.filesystem;
 
-import FileSystem.FileSystemInterface;
+import htw.vs1.filesystem.FileSystem.FileSystemInterface;
 
 import java.util.Arrays;
 import java.util.Scanner;
