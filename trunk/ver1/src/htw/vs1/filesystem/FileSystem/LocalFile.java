@@ -2,7 +2,7 @@ package htw.vs1.filesystem.FileSystem;
 
 /**
  * A LocalFile represents a File in the local filesystem, which
- * is a leaf in our filesystem.
+ * is a leaf in a {@link LocalFolder}.
  *
  * Created by felix on 03.06.15.
  */

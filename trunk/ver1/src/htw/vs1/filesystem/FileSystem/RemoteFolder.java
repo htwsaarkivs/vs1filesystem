@@ -1,26 +1,25 @@
 package htw.vs1.filesystem.FileSystem;
 
-import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 
 /**
- * A Folder represents a node in our file system.
- * It can either be a {@link LocalFolder} or a {@link RemoteFolder}.
+ * A RemoteFolder represents a {@link Folder} located on a remote filesystem.
+ * This is a node in our filesystem.
  *
- * Created by markus on 01.06.15.
+ * Created by felix on 03.06.15.
  */
-public abstract class Folder extends FSObject {
-
+public class RemoteFolder extends Folder {
 
     /**
      * Creates a new Folder with the given name.
      *
      * @param name name of the new {@link Folder}.
      */
-    public Folder(String name) {
+    public RemoteFolder(String name) {
         super(name);
     }
 
@@ -30,7 +29,10 @@ public abstract class Folder extends FSObject {
      *
      * @return the parent {@link Folder} or {@code null} iff this is the root-Folder.
      */
-    public abstract @Nullable Folder getParentFolder();
+    @Override
+    public Folder getParentFolder() {
+        throw new NotImplementedException();
+    }
 
     /**
      * Add a FSObject to the folder.
@@ -38,8 +40,10 @@ public abstract class Folder extends FSObject {
      * @param object {@link FSObject} to add to this folder.
      * @throws FileAlreadyExistsException iff the file already exists.
      */
-    public abstract void add(FSObject object) throws FileAlreadyExistsException;
-
+    @Override
+    public void add(FSObject object) throws FileAlreadyExistsException {
+        throw new NotImplementedException();
+    }
 
     /**
      * Get the Content of this {@link Folder} as a {@link List}
@@ -47,7 +51,10 @@ public abstract class Folder extends FSObject {
      *
      * @return the content of this folder.
      */
-    public abstract List<FSObject> getContent();
+    @Override
+    public List<FSObject> getContent() {
+        throw new NotImplementedException();
+    }
 
     /**
      * Gets the {@link FSObject} identified by the given name,
@@ -56,9 +63,10 @@ public abstract class Folder extends FSObject {
      * @param name name of the requested {@link FSObject}.
      * @return {@link FSObject} identified by the given name.
      * @throws FSObjectNotFoundException iff this {@link Folder} does not contain a
-     *         {@link FSObject} identified by the given name as a direct child.
+     *                                   {@link FSObject} identified by the given name as a direct child.
      */
-    public abstract FSObject getObject(String name) throws FSObjectNotFoundException;
-
-
+    @Override
+    public FSObject getObject(String name) throws FSObjectNotFoundException {
+        throw new NotImplementedException();
+    }
 }

@@ -15,7 +15,7 @@ public abstract class FSObject {
     /**
      * Creates a new FSObject.
      *
-     * @param name
+     * @param name name of the FSObject.
      */
     public FSObject(String name) {
         setName(name);
@@ -39,6 +39,8 @@ public abstract class FSObject {
         return name;
     }
 
-
-
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

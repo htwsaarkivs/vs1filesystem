@@ -1,11 +1,14 @@
 package htw.vs1.filesystem;
 
+import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.FileSystemInterface;
 
 import java.util.Arrays;
 import java.util.Scanner;
 
 /**
+ * UserDialog to interact with a user via the command line.
+ *
  * Created by felix on 03.06.15.
  */
 public class UserDialog {
@@ -17,6 +20,12 @@ public class UserDialog {
      */
     public static final String NEW_LINE = System.getProperty("line.separator");
 
+    /**
+     * Enum representing a command for our filesystem.
+     * Each command has a String representation, which is used to
+     * create the {@link htw.vs1.filesystem.UserDialog.Command} with
+     * the static method {@link htw.vs1.filesystem.UserDialog.Command#fromString(String, String...)}.
+     */
     private enum Command {
         LS("ls"),
         CD("cd"),
@@ -28,17 +37,37 @@ public class UserDialog {
         private static final String VAL_CD = "cd";
         private static final String VAL_PWD = "pwd";
         private static final String VAL_EXIT = "exit";
-        private static final String VAL_UNKNOWN = "unknown";
 
+        /**
+         * Parameters associated with the current command.
+         */
         private String[] params;
 
+        /**
+         * String representation of the current command, may be {@code null}.
+         */
         private final String cmdText;
 
+        /**
+         * Constructor to associate the {@link htw.vs1.filesystem.UserDialog.Command}
+         * with its String representation.
+         *
+         * @param command String representation of the {@link htw.vs1.filesystem.UserDialog.Command}.
+         */
         Command(String command) {
             this.cmdText = command;
         }
 
-        public static Command fromString(String command, String... params) {
+        /**
+         * Create a new {@link htw.vs1.filesystem.UserDialog.Command} identified by its
+         * String representation.
+         *
+         * @param command String representation of the command.
+         * @param params parameters associated with the current command, may be {@code null}.
+         * @return associated {@link htw.vs1.filesystem.UserDialog.Command} identified by its
+         *         String representation.
+         */
+        public static Command fromString(String command, @Nullable String... params) {
             Command cmd;
             switch (command) {
                 case VAL_LS:
@@ -53,21 +82,29 @@ public class UserDialog {
                 case VAL_EXIT:
                     cmd = Command.EXIT;
                     break;
-                case VAL_UNKNOWN:
-                    cmd = UNKNOWN;
-                    break;
                 default:
-                    throw new IllegalArgumentException("Cannot create Command from String: " + command);
+                    cmd = UNKNOWN;
             }
 
             cmd.setParams(params);
             return cmd;
         }
 
+        /**
+         * Checks whether the current {@link htw.vs1.filesystem.UserDialog.Command}
+         * has associated parameters.
+         *
+         * @return {@code true}, iff the current {@link htw.vs1.filesystem.UserDialog.Command} has parameters.
+         */
         public boolean hasParams() {
             return (params != null) && (params.length > 0);
         }
 
+        /**
+         * Gets the associated parameters.
+         *
+         * @return the associated parameters, iff there are any.
+         */
         public String[] getParams() {
             return params;
         }
@@ -77,13 +114,28 @@ public class UserDialog {
             return cmdText;
         }
 
+        /**
+         * Associates parameters to the current {@link htw.vs1.filesystem.UserDialog.Command}
+         *
+         * @param params associated parameters.
+         */
         public void setParams(String[] params) {
             this.params = params;
         }
     }
 
+    /**
+     * The current {@link FileSystemInterface} the {@link UserDialog}
+     * is working on.
+     */
     private FileSystemInterface fileSystem;
 
+    /**
+     * Constructor for the {@link UserDialog} associating a concrete {@link FileSystemInterface}.
+     *
+     * @param fileSystem concrete {@link FileSystemInterface} this {@link UserDialog}
+     *                   is working on.
+     */
     public UserDialog(FileSystemInterface fileSystem) {
         this.fileSystem = fileSystem;
     }
@@ -104,7 +156,7 @@ public class UserDialog {
      * Executes a given command.
      *
      * @param command {@link UserDialog.Command} to declare which command should be executed.
-     * @return {@code false}, iff the user want to commit.
+     * @return {@code false}, iff the user wants to exit this dialog.
      */
     private boolean executeCommand(Command command) {
         switch (command) {
@@ -119,7 +171,8 @@ public class UserDialog {
                 if (command.hasParams() && command.getParams().length == 1) {
                     cdParam = command.getParams()[0];
                 } else {
-                    throw new IllegalArgumentException("False parameter....");
+                    // TODO: error message.
+                    break;
                 }
                 fileSystem.changeDirectory(cdParam);
                 break;
@@ -129,13 +182,26 @@ public class UserDialog {
                 System.out.print(workingDirectory);
                 System.out.print(NEW_LINE);
                 break;
+
             case EXIT:
                 return false;
+
+            case UNKNOWN:
+                // TODO: Error message.
+                break;
         }
 
         return true;
     }
 
+    /**
+     * <p>Prompts the user to input a command with its parameters.
+     * The command will be executed by the next newline token.</p>
+     * <p>Format of the user input: &lt;command&gt; [parameters...]</p>
+     * <p>Command and parameters are divided by whitespace.</p>
+     *
+     * @return {@link htw.vs1.filesystem.UserDialog.Command} entered by the user.
+     */
     private Command promptForCommand() {
         String command = null;
         String[] params = null;
@@ -153,7 +219,7 @@ public class UserDialog {
         // split command by whitespace
         String[] commandArray = commandWithParams.split("\\s+");
 
-        if (commandArray != null && commandArray.length > 0) {
+        if (commandArray.length > 0) {
             command = commandArray[0];
             if (commandArray.length > 1) {
                 params = Arrays.copyOfRange(commandArray, 1, commandArray.length);
