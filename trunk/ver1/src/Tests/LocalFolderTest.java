@@ -1,9 +1,9 @@
 package Tests;
 
-import FileSystem.FSObject;
 import FileSystem.Folder;
 import FileSystem.LocalFolder;
-import FileSystem.RemoteFile;
+
+import java.nio.file.FileAlreadyExistsException;
 
 import static org.junit.Assert.*;
 
@@ -19,9 +19,9 @@ public class LocalFolderTest {
         inst.add(new LocalFolder("TestOrdner"));
         try {
             inst.add(new LocalFolder("TestOrdner"));
-            fail();
-        } catch (Throwable e) {
-            return;
+            fail("#add(Folder) should throw FileAlreadyExistsExeption.");
+        } catch (FileAlreadyExistsException e) {
+            // fine, expected exception thrown by method.
         }
     }
 }
