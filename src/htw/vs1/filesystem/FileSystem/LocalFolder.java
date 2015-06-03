@@ -3,6 +3,7 @@ package htw.vs1.filesystem.FileSystem;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
 import java.nio.file.FileAlreadyExistsException;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -93,7 +94,8 @@ public class LocalFolder extends Folder {
     public void add(FSObject object) throws FileAlreadyExistsException {
         checkPrecondition(object);
 
-        //Ist das hier mit LocalFolder korrekt? Weil wir ja später auch Remote-Folder einbinden wollen, dann ginge die Verbindung zum Node flöten
+        //Ist das hier mit LocalFolder korrekt?
+        //Weil wir ja später auch Remote-Folder einbinden wollen, dann ginge die Verbindung zum Node flöten
         if (object instanceof LocalFolder) {
             ((LocalFolder) object).setParent(this);
         }
@@ -108,7 +110,7 @@ public class LocalFolder extends Folder {
      *
      * @param parent parent Folder, which is containing this {@link Folder}.
      */
-    public void setParent(Folder parent) {
+    private void setParent(Folder parent) {
         checkPrecondition(parent);
 
         this.parent = parent;
