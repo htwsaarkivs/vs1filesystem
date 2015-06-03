@@ -1,4 +1,4 @@
-package FileSystem;
+package htw.vs1.filesystem.FileSystem;
 
 /**
  * Created by markus on 03.06.15.

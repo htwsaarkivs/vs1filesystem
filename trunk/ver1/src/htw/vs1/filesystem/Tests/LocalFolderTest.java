@@ -1,4 +1,4 @@
-package Tests;
+package htw.vs1.filesystem.Tests;
 
 import FileSystem.Folder;
 import FileSystem.LocalFolder;

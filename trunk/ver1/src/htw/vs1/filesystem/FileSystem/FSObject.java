@@ -1,4 +1,4 @@
-package FileSystem;
+package htw.vs1.filesystem.FileSystem;
 
 /**
  * A FSObject represents a object in our filesystem.

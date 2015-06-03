@@ -1,4 +1,4 @@
-package FileSystem;
+package htw.vs1.filesystem.FileSystem;
 
 /**
  * A LocalFile represents a File in the local filesystem, which
