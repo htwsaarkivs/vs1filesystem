@@ -46,7 +46,7 @@ public class LocalFolderTest {
         Folder inst = new LocalFolder("Test");
         List<FSObject> ret = inst.getContent();
 
-        ret.add(new LocalFile("mailcious-file"));
+        ret.add(new LocalFile("malicious-file"));
 
         //Zugriff auf private-Attribut möglich?
         assertNotEquals(ret, inst.getContent());
@@ -70,9 +70,4 @@ public class LocalFolderTest {
 
     }
 
-
-    @Test
-    public void testSetParent() throws Exception {
-
-    }
 }
