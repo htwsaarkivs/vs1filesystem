@@ -1,4 +1,4 @@
-package FileSystem;
+package htw.vs1.filesystem.FileSystem;
 
 import java.util.LinkedList;
 import java.util.List;
