@@ -1,5 +1,8 @@
 package htw.vs1.filesystem.FileSystem;
 
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
+
+import java.nio.file.FileAlreadyExistsException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +16,10 @@ import java.util.List;
  */
 public class LocalFolder extends Folder {
 
+    /**
+     * Reference to the {@link Folder} containing this one.
+     * May be {@link null}, iff this is the root folder.
+     */
     private Folder parent = null;
 
     /**
@@ -52,16 +59,24 @@ public class LocalFolder extends Folder {
         return contents;
     }
 
+    /**
+     * Gets the {@link FSObject} identified by the given name,
+     * iff this {@link Folder} contains it as a direct child.
+     *
+     * @param name name of the requested {@link FSObject}.
+     * @return {@link FSObject} identified by the given name.
+     * @throws FSObjectNotFoundException iff this {@link Folder} does not contain a
+     *                                   {@link FSObject} identified by the given name as a direct child.
+     */
     @Override
-    public FSObject getObject(String name) {
+    public FSObject getObject(String name) throws FSObjectNotFoundException {
         for (FSObject object : contents) {
             if (object.getName().equals(name)) {
                 return object;
             }
         }
 
-        // FIXME: FolderNotFoundException werfen!!
-        return null;
+        throw new FSObjectNotFoundException();
     }
 
     /**
@@ -71,8 +86,9 @@ public class LocalFolder extends Folder {
      *
      * @param object the new folder, which can be either a
      *               {@link LocalFile} or a {@link LocalFolder}.
+     * @throws FileAlreadyExistsException iff the file already exists.
      */
-    public void add(FSObject object) {
+    public void add(FSObject object) throws FileAlreadyExistsException {
         checkPrecondition(object);
 
         if (object instanceof LocalFolder) {
