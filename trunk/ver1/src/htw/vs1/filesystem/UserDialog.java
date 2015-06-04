@@ -2,6 +2,7 @@ package htw.vs1.filesystem;
 
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.FileSystemInterface;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -174,7 +175,11 @@ public class UserDialog {
                     // TODO: error message.
                     break;
                 }
-                fileSystem.changeDirectory(cdParam);
+                try {
+                    fileSystem.changeDirectory(cdParam);
+                } catch (FSObjectNotFoundException e) {
+                    // TODO: error message.
+                }
                 break;
 
             case PWD:

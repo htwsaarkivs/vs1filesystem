@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.FileSystem;
 
 import com.sun.istack.internal.NotNull;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
 /**
  * <p>The FileSystemInterface declares the interface to work on
@@ -34,8 +35,10 @@ public interface FileSystemInterface {
      * {@link Folder} identified by the given name.</p>
      *
      * @param name name of the {@link Folder}.
+     * @throws FSObjectNotFoundException iff the object identified
+     *         by the given name is not available.
      */
-    void changeDirectory(@NotNull String name);
+    void changeDirectory(@NotNull String name) throws FSObjectNotFoundException;
 
     /**
      * <p>Prints the content of the current directory in a String.</p>
