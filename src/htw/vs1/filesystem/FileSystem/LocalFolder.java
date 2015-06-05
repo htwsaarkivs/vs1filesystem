@@ -3,7 +3,6 @@ package htw.vs1.filesystem.FileSystem;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
 import java.nio.file.FileAlreadyExistsException;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 

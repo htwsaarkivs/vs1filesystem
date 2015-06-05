@@ -41,7 +41,7 @@ public interface FileSystemInterface {
     void changeDirectory(@NotNull String name) throws FSObjectNotFoundException;
 
     /**
-     * <p>Prints the content of the current directory in a String.</p>
+     * <p>Returns the content of the current directory as a String.</p>
      *
      * @return content of the current directory.
      */
