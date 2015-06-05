@@ -47,6 +47,7 @@ public class TCPSimpleServer implements ServerInterface {
                 System.out.println("Sending data: "+dataToBeSent);
 
                 schreibeNachricht(socket, dataToBeSent);
+                socket.close();
 
             }
         }
