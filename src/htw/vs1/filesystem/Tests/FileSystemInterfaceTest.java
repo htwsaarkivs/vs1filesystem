@@ -62,7 +62,6 @@ public class FileSystemInterfaceTest {
     @Test
     public void testListDirectoryContent() throws Exception {
         String out = this.fs.listDirectoryContent();
-
         for(FSObject el: this.reference.getContent()) {
             if(!out.contains(el.getName())) fail("List Directory gibt nicht alle Dateinamen aus, die vorhanden sind.");
         }
