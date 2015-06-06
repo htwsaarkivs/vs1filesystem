@@ -2,10 +2,14 @@ package htw.vs1.filesystem;
 
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.FileSystemInterface;
+import htw.vs1.filesystem.FileSystem.LocalFolder;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
+import java.nio.file.FileAlreadyExistsException;
 
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * UserDialog to interact with a user via the command line.
@@ -31,14 +35,16 @@ public class UserDialog {
         LS("ls"),
         CD("cd"),
         PWD("pwd"),
+        MKDIR("mkdir"),
         EXIT("exit"),
         UNKNOWN("unknown");
 
         private static final String VAL_LS = "ls";
         private static final String VAL_CD = "cd";
         private static final String VAL_PWD = "pwd";
+        private static final String VAL_MKDIR = "mkdir";
         private static final String VAL_EXIT = "exit";
-
+        
         /**
          * Parameters associated with the current command.
          */
@@ -80,6 +86,9 @@ public class UserDialog {
                 case VAL_PWD:
                     cmd =  Command.PWD;
                     break;
+                case VAL_MKDIR:
+                    cmd = Command.MKDIR;
+                    break;    
                 case VAL_EXIT:
                     cmd = Command.EXIT;
                     break;
@@ -166,7 +175,25 @@ public class UserDialog {
                 System.out.print(content);
                 System.out.print(NEW_LINE);
                 break;
-
+            case MKDIR:
+                String folderName;
+                if(command.hasParams() && command.getParams().length ==1) {
+                    folderName = command.getParams()[0];
+                }else {
+                    // TODO: error message.
+                    break;
+                 
+               }
+                
+                LocalFolder folder = new LocalFolder(folderName);
+        
+                try {
+                    fileSystem.getWorkingDirectory().add(folder);
+                } catch (FileAlreadyExistsException ex) {
+                    // TODO: eroor message
+                }
+        
+                break;
             case CD:
                 String cdParam;
                 if (command.hasParams() && command.getParams().length == 1) {
