@@ -35,10 +35,27 @@ public interface FileSystemInterface {
      * {@link Folder} identified by the given name.</p>
      *
      * @param name name of the {@link Folder}.
-     * @throws FSObjectNotFoundException iff the object identified
+     * @throws FSObjectNotFoundException if the object identified
      *         by the given name is not available.
      */
     void changeDirectory(@NotNull String name) throws FSObjectNotFoundException;
+    /**
+     * <p>Creates a new file in the current folder.
+     * </p>
+     *
+     * @param name name of the file.
+     * @throws FSObjectNotFoundException if the object identified
+     *         by the given name is not available.
+     */
+    void createFile(@NotNull String name);
+    /**
+     * <p>Search for all files and folders in the current folder and sub-folders.
+     * </p>
+     *
+     * @param name name of the file or directory.
+     * @throws FSObjectNotFoundException if the object identified
+     *         by the given name is not available.
+     */
 
     /**
      * <p>Returns the content of the current directory as a String.</p>
