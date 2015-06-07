@@ -28,7 +28,7 @@ public abstract class FSObject {
      *
      * @param name new name of this object.
      */
-    private void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 

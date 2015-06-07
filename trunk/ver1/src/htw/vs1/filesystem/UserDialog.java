@@ -1,17 +1,14 @@
 package htw.vs1.filesystem;
 
 import com.sun.istack.internal.Nullable;
-import htw.vs1.filesystem.FileSystem.FSObject;
 import htw.vs1.filesystem.FileSystem.FileSystemInterface;
-import htw.vs1.filesystem.FileSystem.LocalFile;
 import htw.vs1.filesystem.FileSystem.LocalFolder;
+import htw.vs1.filesystem.FileSystem.LocalFile;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
-import java.nio.file.FileAlreadyExistsException;
 
+import java.nio.file.FileAlreadyExistsException;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * UserDialog to interact with a user via the command line.
@@ -21,6 +18,7 @@ import java.util.logging.Logger;
 public class UserDialog {
 
     // FIXME: Error-Handling if the user is an idiot !!
+
     /**
      * Line seperator depending on the os.
      */
@@ -38,6 +36,8 @@ public class UserDialog {
         CD("cd"),
         PWD("pwd"),
         MKDIR("mkdir"),
+        RENAME("rename"),
+        DELETE("delete"),
         TOUCH("touch"),
         SEARCH("search"),
         EXIT("exit"),
@@ -46,11 +46,13 @@ public class UserDialog {
         private static final String VAL_LS = "ls";
         private static final String VAL_CD = "cd";
         private static final String VAL_PWD = "pwd";
+        private static final String VAL_RENAME = "rename";
+        private static final String VAL_DELETE = "delete";
         private static final String VAL_MKDIR = "mkdir";
         private static final String VAL_TOUCH = "touch";
         private static final String VAL_SEARCH = "search";
         private static final String VAL_EXIT = "exit";
-
+        
         /**
          * Parameters associated with the current command.
          */
@@ -106,7 +108,10 @@ public class UserDialog {
                     break;
                 case VAL_EXIT:
                     cmd = Command.EXIT;
-                    break;
+                case VAL_RENAME:
+                    cmd = Command.RENAME;
+                case VAL_DELETE:
+                    cmd = Command.DELETE;
                 default:
                     cmd = UNKNOWN;
             }
@@ -196,28 +201,25 @@ public class UserDialog {
                 System.out.print(NEW_LINE);
                 break;
             case MKDIR:
-                //TODO: Exception Ordner und Datei im selben Verzeichnis dÃ¼rfen nicht den gleichen Namen tragen
+                //TODO: Exception Ordner und Datei im selben Verzeichnis dürfen nicht den gleichen Namen tragen
                 String folderName;
                 if (command.hasParams() && command.getParams().length == 1) {
                     folderName = command.getParams()[0];
                 } else {
                     // TODO: error message.
                     break;
-
-                }
-
+               }
                 LocalFolder folder = new LocalFolder(folderName);
-
                 try {
                     fileSystem.getWorkingDirectory().add(folder);
                 } catch (FileAlreadyExistsException ex) {
                     // TODO: eroor message
                 }
-
+        
                 break;
             case TOUCH:
-                //TODO: Exception Ordner und Datei im selben Verzeichnis dÃ¼rfen nicht den gleichen Namen tragen
-                // Ehhm das geht doch normalerweiÃŸe oder? :)
+                //TODO: Exception Ordner und Datei im selben Verzeichnis dürfen nicht den gleichen Namen tragen
+                // Ehhm das geht doch normalerweiße oder? :)
                 String fileName;
                 if (command.hasParams() && command.getParams().length == 1) {
                     fileName = command.getParams()[0];
@@ -257,8 +259,8 @@ public class UserDialog {
                 break;
             case SEARCH:
                 System.out.println("Not implemented!");
-                //Die Implementierung ist korrekt. GehÃ¶rt aber nicht in die UserDialog-Klasse!
-                    //Hier nÃ¼tzt sie uns nÃ¤mlich wenig. Bitte in eigener Implementierung verwenden.
+                //Die Implementierung ist korrekt. Gehört aber nicht in die UserDialog-Klasse!
+                    //Hier nützt sie uns nämlich wenig. Bitte in eigener Implementierung verwenden.
                 /**
                 String searchObject;
                 String typ = "";
@@ -284,17 +286,33 @@ public class UserDialog {
                 **/
         break;
 
-    
-    case EXIT:
+            case EXIT:
                 return false;
-
+            case RENAME:
+                String oldName;
+                String newName;
+                if(command.hasParams() && command.getParams().length ==2) {
+                    oldName = command.getParams()[0];
+                    newName = command.getParams()[1];
+                    fileSystem.rename(oldName, newName);
+                }
+                else{
+                 //TODO error message.
+                    }
+                break;
+            case DELETE:
+                String name;
+                if(command.hasParams() && command.getParams().length ==1){
+                    name = command.getParams()[0];
+                    fileSystem.delete(name);
+                }
+                break;
             case UNKNOWN:
                 // TODO: Error message.
                 break;
         }
 
-
-return true;
+        return true;
     }
 
     /**
