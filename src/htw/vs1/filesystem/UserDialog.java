@@ -108,10 +108,13 @@ public class UserDialog {
                     break;
                 case VAL_EXIT:
                     cmd = Command.EXIT;
+                    break;
                 case VAL_RENAME:
                     cmd = Command.RENAME;
+                    break;
                 case VAL_DELETE:
                     cmd = Command.DELETE;
+                    break;
                 default:
                     cmd = UNKNOWN;
             }
@@ -201,7 +204,7 @@ public class UserDialog {
                 System.out.print(NEW_LINE);
                 break;
             case MKDIR:
-                //TODO: Exception Ordner und Datei im selben Verzeichnis dürfen nicht den gleichen Namen tragen
+                //TODO: Exception Ordner und Datei im selben Verzeichnis dï¿½rfen nicht den gleichen Namen tragen
                 String folderName;
                 if (command.hasParams() && command.getParams().length == 1) {
                     folderName = command.getParams()[0];
@@ -218,8 +221,8 @@ public class UserDialog {
         
                 break;
             case TOUCH:
-                //TODO: Exception Ordner und Datei im selben Verzeichnis dürfen nicht den gleichen Namen tragen
-                // Ehhm das geht doch normalerweiße oder? :)
+                //TODO: Exception Ordner und Datei im selben Verzeichnis dï¿½rfen nicht den gleichen Namen tragen
+                // Ehhm das geht doch normalerweiï¿½e oder? :)
                 String fileName;
                 if (command.hasParams() && command.getParams().length == 1) {
                     fileName = command.getParams()[0];
@@ -259,8 +262,8 @@ public class UserDialog {
                 break;
             case SEARCH:
                 System.out.println("Not implemented!");
-                //Die Implementierung ist korrekt. Gehört aber nicht in die UserDialog-Klasse!
-                    //Hier nützt sie uns nämlich wenig. Bitte in eigener Implementierung verwenden.
+                //Die Implementierung ist korrekt. Gehï¿½rt aber nicht in die UserDialog-Klasse!
+                    //Hier nï¿½tzt sie uns nï¿½mlich wenig. Bitte in eigener Implementierung verwenden.
                 /**
                 String searchObject;
                 String typ = "";
@@ -309,7 +312,7 @@ public class UserDialog {
                 break;
             case UNKNOWN:
                 // TODO: Error message.
-                break;
+                throw new UnsupportedOperationException("Error message for unknown parameter not implemented");
         }
 
         return true;

@@ -5,6 +5,7 @@
  */
 package htw.vs1.filesystem.FileSystem;
 
+import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
 /**
@@ -69,6 +70,16 @@ public class FileSystemDaniel implements FileSystemInterface {
 
     public void createFile(String name) {
         
+    }
+
+    @Override
+    public void rename(@NotNull String name, String newName) {
+        throw new UnsupportedOperationException("Rename not supported in this FileSystem");
+    }
+
+    @Override
+    public void delete(@NotNull String name) {
+        throw new UnsupportedOperationException("Delete not supported in this FileSystem");
     }
 
     
