@@ -77,6 +77,7 @@ public interface FileSystemInterface {
      */
     String printWorkingDirectory();
 
-
+    void rename(@NotNull String name,String newName);
+    void delete(@NotNull String name);
 
 }
