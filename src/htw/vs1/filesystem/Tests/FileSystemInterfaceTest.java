@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.Tests;
 
 import htw.vs1.filesystem.FileSystem.*;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,6 @@ public class FileSystemInterfaceTest {
     public void setUp() throws Exception {
 
         //Hier die eigene Implementierung vermerken!
-
         this.fs = new MarkusFileSystem();
 
         Folder root = new LocalFolder("root");
@@ -57,6 +57,29 @@ public class FileSystemInterfaceTest {
     @Test
     public void testChangeDirectory() throws Exception {
 
+        try {
+            //Ordner existiert nicht
+            this.fs.changeDirectory("does-not-exist");
+            fail("Ordner exisitiert nicht. Erwartete Exception FSObjectNotFoundException wurde nicht geworfen.");
+        } catch (FSObjectNotFoundException e) {
+            //Alles in Ordnung
+        }
+
+
+        try {
+            //Übergebener Name ist eine Datei
+            this.fs.changeDirectory("datei1");
+            fail("Übergebener Name gehört zu einer Datei. Erwartete Exception FSObjectNotFoundException wurde nicht geworfen.");
+        } catch (FSObjectNotFoundException e) {
+            //.. Alles in Ordnung
+        }
+
+        String subFolder = "sub";
+        this.fs.changeDirectory(subFolder);
+        //In korrekten Unterordner gewechselt?
+        assertEquals(this.fs.getWorkingDirectory().getName(), subFolder);
+
+
     }
 
     @Test
@@ -69,6 +92,11 @@ public class FileSystemInterfaceTest {
 
     @Test
     public void testPrintWorkingDirectory() throws Exception {
+        this.fs.changeDirectory("sub");
+        this.fs.changeDirectory("subsub");
+        String out = this.fs.printWorkingDirectory();
+
+        assertEquals("/root/sub/subsub", out);
 
     }
 }
