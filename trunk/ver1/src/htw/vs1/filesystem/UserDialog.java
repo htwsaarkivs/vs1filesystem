@@ -217,6 +217,7 @@ public class UserDialog {
                 break;
             case TOUCH:
                 //TODO: Exception Ordner und Datei im selben Verzeichnis dürfen nicht den gleichen Namen tragen
+                // Ehhm das geht doch normalerweiße oder? :)
                 String fileName;
                 if (command.hasParams() && command.getParams().length == 1) {
                     fileName = command.getParams()[0];
