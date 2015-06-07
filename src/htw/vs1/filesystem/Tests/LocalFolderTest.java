@@ -21,10 +21,20 @@ public class LocalFolderTest {
         inst.add(new LocalFolder("TestOrdner"));
         try {
             inst.add(new LocalFolder("TestOrdner"));
-            fail("#add(Folder) should throw FileAlreadyExistsExeption.");
+            fail("add(Folder) should throw FileAlreadyExistsExeption, when trying to add a File with a duplicate Name in the current directory.");
         } catch (FileAlreadyExistsException e) {
             // fine, expected exception thrown by method.
         }
+
+
+        try {
+            inst.add(new LocalFile("TestOrdner"));
+        } catch (FileAlreadyExistsException e) {
+            fail("add(Folder should NOT throw FileAlreadyExistsException when adding a file whose name is equal to one of the folder's names in the curent directory. Amen.");
+        }
+
+
+
     }
 
 

@@ -21,7 +21,7 @@ public class FileSystemInterfaceTest {
     public void setUp() throws Exception {
 
         //Hier die eigene Implementierung vermerken!
-        this.fs = new MarkusFileSystem();
+        this.fs = new FileSystemDaniel();
 
         Folder root = new LocalFolder("root");
         root.add(new LocalFile("datei1"));
@@ -46,12 +46,17 @@ public class FileSystemInterfaceTest {
 
     @Test
     public void testSetWorkingDirectory() throws Exception {
+        Folder testFolder = new LocalFolder("testFolder");
+        this.fs.setWorkingDirectory(testFolder);
+
+        assertEquals(testFolder, this.fs.getWorkingDirectory());
+
 
     }
 
     @Test
     public void testGetWorkingDirectory() throws Exception {
-
+        assertEquals(this.reference, this.fs.getWorkingDirectory());
     }
 
     @Test

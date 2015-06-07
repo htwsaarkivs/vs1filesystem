@@ -255,6 +255,9 @@ public class UserDialog {
                 System.out.print(NEW_LINE);
                 break;
             case SEARCH:
+                //Die Implementierung ist korrekt. Gehört aber nicht in die UserDialog-Klasse!
+                    //Hier nützt sie uns nämlich herzliche wenig. Bitte in eigener Implementierung verwenden.
+                /**
                 String searchObject;
                 String typ = "";
                 String path;
@@ -276,7 +279,7 @@ public class UserDialog {
                     }
                      System.out.println(searchObject + typ + "path");
                 }
-                
+                **/
         break;
 
     
