@@ -51,14 +51,14 @@ public interface FileSystemInterface {
     /*
 
     void createFile(@NotNull String name);
-    /**
+    **
      * <p>Search for all files and folders in the current folder and sub-folders.
      * </p>
      *
      * @param name name of the file or directory.
      * @throws FSObjectNotFoundException if the object identified
      *         by the given name is not available.
-     */
+     *
 
     */
 
