@@ -3,6 +3,7 @@ package htw.vs1.filesystem;
 import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.FileSystemInterface;
 import htw.vs1.filesystem.FileSystem.Folder;
+import htw.vs1.filesystem.FileSystem.LocalFile;
 import htw.vs1.filesystem.FileSystem.LocalFolder;
 
 public class Main {
@@ -12,12 +13,13 @@ public class Main {
      *
      * @param args name of the class, which is implementing the {@link FileSystemInterface}.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         if (args.length != 1) {
             usage();
         }
 
         Folder root = new LocalFolder("root");
+
         FileSystemInterface fileSystem = instantiateFileSystem(args[0]);
         fileSystem.setWorkingDirectory(root);
         UserDialog dialog = new UserDialog(fileSystem);
