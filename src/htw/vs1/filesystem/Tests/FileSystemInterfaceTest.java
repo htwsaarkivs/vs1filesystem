@@ -21,7 +21,7 @@ public class FileSystemInterfaceTest {
     public void setUp() throws Exception {
 
         //Hier die eigene Implementierung vermerken!
-        this.fs = new FileSystemDaniel();
+        this.fs = new MarcsTeamFileSystem();
 
         Folder root = new LocalFolder("root");
         root.add(new LocalFile("datei1"));
