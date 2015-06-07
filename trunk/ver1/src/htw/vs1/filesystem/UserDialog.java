@@ -245,6 +245,7 @@ public class UserDialog {
                 if (command.hasParams() && command.getParams().length == 1) {
                     cdParam = command.getParams()[0];
                 } else {
+                    System.out.println("CD");
                     // TODO: error message.
                     break;
                 }
