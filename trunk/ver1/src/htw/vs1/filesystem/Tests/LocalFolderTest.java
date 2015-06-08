@@ -76,7 +76,8 @@ public class LocalFolderTest {
         File testFile = new LocalFile("test");
         inst.add(testFile);
 
-        assertEquals(inst.getObject("test"), testFile);
+        assertEquals("Ausgegebene Datei ist nicht die, die eingegeben wurde.",
+                inst.getObject("test"), testFile);
 
     }
 
