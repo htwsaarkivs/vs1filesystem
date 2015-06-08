@@ -3,7 +3,6 @@ package htw.vs1.filesystem;
 import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.FileSystemInterface;
 import htw.vs1.filesystem.FileSystem.Folder;
-import htw.vs1.filesystem.FileSystem.LocalFile;
 import htw.vs1.filesystem.FileSystem.LocalFolder;
 
 public class Main {
