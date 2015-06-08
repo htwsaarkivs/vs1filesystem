@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.FileSystem;
 
+import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
@@ -62,14 +63,21 @@ public abstract class Folder extends FSObject {
      */
     public abstract FSObject getObject(String name) throws FSObjectNotFoundException;
 
-    @Override
-    protected LinkedList<FSObject> search(LinkedList<FSObject> list, String name) {
-        super.search(list, name);
+    public abstract LinkedList<FSObject> search(LinkedList<FSObject> list, String name);
 
-        for (FSObject file : this.getContent()) {
-            file.search(list, name);
+
+
+    /**
+     * Returns the absolute path of the given folder.
+     *
+     * @return absolute path - e.g. /root/folder
+     */
+    public String getAbsolutePath() {
+
+        if (getParentFolder() == null) {
+            return "/"+getName();
         }
 
-        return list;
+        return getAbsolutePath() + "/" + getName();
     }
 }

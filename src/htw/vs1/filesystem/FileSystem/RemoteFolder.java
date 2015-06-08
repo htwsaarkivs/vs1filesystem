@@ -4,6 +4,7 @@ import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.nio.file.FileAlreadyExistsException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -67,6 +68,11 @@ public class RemoteFolder extends Folder {
      */
     @Override
     public FSObject getObject(String name) throws FSObjectNotFoundException {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public LinkedList<FSObject> search(LinkedList<FSObject> list, String name) {
         throw new NotImplementedException();
     }
 }

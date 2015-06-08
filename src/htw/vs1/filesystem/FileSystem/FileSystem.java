@@ -2,9 +2,9 @@ package htw.vs1.filesystem.FileSystem;
 
 import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
-import htw.vs1.filesystem.UserDialog;
 
-import java.util.Objects;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The {@link FileSystem} represents a file system on which you
@@ -85,15 +85,7 @@ public class FileSystem implements FileSystemInterface {
      */
     @Override
     public String listDirectoryContent() {
-        StringBuilder builder = new StringBuilder();
-        for (FSObject object : workingFolder.getContent()) {
-            builder.append(object.getName());
-            builder.append(" ");
-            builder.append((object instanceof File?"[File]":"[Folder]"));
-            builder.append(UserDialog.NEW_LINE);
-        }
-
-        return builder.toString();
+        return FSObject.printFSObjectList(workingFolder.getContent());
     }
 
     /**
@@ -101,7 +93,21 @@ public class FileSystem implements FileSystemInterface {
      */
     @Override
     public String printWorkingDirectory() {
-        return getPath(workingFolder);
+        return workingFolder.getAbsolutePath();
+    }
+
+    /**
+     * Searchs recursively through the current working directory
+     * all {@link FSObject} with the given name.
+     *
+     * @param name name of the {@link FSObject} to search for.
+     * @return a {@link List} of {@link FSObject}s matching to the given name.
+     */
+    @Override
+    public List<FSObject> search(String name) {
+        LinkedList<FSObject> result = new LinkedList<>();
+        workingFolder.search(result, name);
+        return result;
     }
 
     /**
@@ -122,20 +128,5 @@ public class FileSystem implements FileSystemInterface {
         FSObject toDelete = workingFolder.getObject(name);
         workingFolder.getContent().remove(toDelete);
 
-    }
-
-    /**
-     * Returns the absolute path of the given folder.
-     *
-     * @param folder folder requested the absolute path.
-     * @return absolute path - e.g. /root/folder
-     */
-    private String getPath(@NotNull Folder folder) {
-
-        if (folder.getParentFolder() == null) {
-            return "/"+folder.getName();
-        }
-
-        return getPath(folder.getParentFolder()) + "/" + folder.getName();
     }
 }

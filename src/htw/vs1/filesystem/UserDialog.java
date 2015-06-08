@@ -1,6 +1,7 @@
 package htw.vs1.filesystem;
 
 import com.sun.istack.internal.Nullable;
+import htw.vs1.filesystem.FileSystem.FSObject;
 import htw.vs1.filesystem.FileSystem.FileSystemInterface;
 import htw.vs1.filesystem.FileSystem.LocalFolder;
 import htw.vs1.filesystem.FileSystem.LocalFile;
@@ -8,6 +9,7 @@ import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -185,7 +187,11 @@ public class UserDialog {
             try {
                 goon = executeCommand(command);
             } catch (FSObjectNotFoundException e) {
+                e.printStackTrace();
                 // TODO: User feedback!
+            } catch (FileAlreadyExistsException e) {
+                // TODO: User feedback!
+                e.printStackTrace();
             }
 
             if (!goon) {
@@ -201,7 +207,7 @@ public class UserDialog {
      * be executed.
      * @return {@code false}, iff the user wants to exit this dialog.
      */
-    private boolean executeCommand(Command command) throws FSObjectNotFoundException {
+    private boolean executeCommand(Command command) throws FSObjectNotFoundException, FileAlreadyExistsException {
         switch (command) {
             case LS:
                 String content = fileSystem.listDirectoryContent();
@@ -209,41 +215,31 @@ public class UserDialog {
                 System.out.print(NEW_LINE);
                 break;
             case MKDIR:
-                //TODO: Exception Ordner und Datei im selben Verzeichnis d�rfen nicht den gleichen Namen tragen
+                //TODO: Exception Ordner und Datei im selben Verzeichnis dürfen nicht den gleichen Namen tragen
                 String folderName;
                 if (command.hasParams() && command.getParams().length == 1) {
                     folderName = command.getParams()[0];
                 } else {
-                    // TODO: error message.
+                    // TODO: throw exception
                     break;
                }
                 LocalFolder folder = new LocalFolder(folderName);
-                try {
-                    fileSystem.getWorkingDirectory().add(folder);
-                } catch (FileAlreadyExistsException ex) {
-                    // TODO: eroor message
-                }
+                fileSystem.getWorkingDirectory().add(folder);
         
                 break;
             case TOUCH:
-                //TODO: Exception Ordner und Datei im selben Verzeichnis d�rfen nicht den gleichen Namen tragen
-                // Ehhm das geht doch normalerwei�e oder? :)
+                //TODO: Exception Ordner und Datei im selben Verzeichnis dürfen nicht den gleichen Namen tragen
                 String fileName;
                 if (command.hasParams() && command.getParams().length == 1) {
                     fileName = command.getParams()[0];
                 } else {
-                    // TODO: error message.
+                    // TODO: throw exception.
                     break;
 
                 }
 
                 LocalFile file = new LocalFile(fileName);
-
-                try {
-                    fileSystem.getWorkingDirectory().add(file);
-                } catch (FileAlreadyExistsException ex) {
-                    // TODO: eroor message
-                }
+                fileSystem.getWorkingDirectory().add(file);
                 break;
             case CD:
                 String cdParam;
@@ -251,14 +247,10 @@ public class UserDialog {
                     cdParam = command.getParams()[0];
                 } else {
                     System.out.println("CD");
-                    // TODO: error message.
+                    // TODO: throw exception.
                     break;
                 }
-                try {
-                    fileSystem.changeDirectory(cdParam);
-                } catch (FSObjectNotFoundException e) {
-                    // TODO: error message.
-                }
+                fileSystem.changeDirectory(cdParam);
                 break;
 
             case PWD:
@@ -267,33 +259,16 @@ public class UserDialog {
                 System.out.print(NEW_LINE);
                 break;
             case SEARCH:
-                System.out.println("Not implemented!");
-                //Die Implementierung ist korrekt. Gehört aber nicht in die UserDialog-Klasse!
-                    //Hier nützt sie uns nämlich wenig. Bitte in eigener Implementierung verwenden.
-                /**
                 String searchObject;
-                String typ = "";
-                String path;
                  if (command.hasParams() && command.getParams().length == 1) {
                     searchObject = command.getParams()[0];
                 } else {
                     // TODO: error message.
                     break;
                 }
-            
-               
-                for (FSObject object : fileSystem.getWorkingDirectory().search(searchObject)) {
-                    if (object instanceof LocalFile) {
-                        typ = " (File) ";
-                    } else if (object instanceof LocalFolder) {
-                        typ = " (Folder) ";
-                    } else {
-                        //throw exception;
-                    }
-                     System.out.println(searchObject + typ + "path");
-                }
-                **/
-        break;
+
+                System.out.print(FSObject.printFSObjectList(fileSystem.search(searchObject)));
+                break;
 
             case EXIT:
                 return false;
