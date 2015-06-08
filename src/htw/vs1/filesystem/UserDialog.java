@@ -263,8 +263,8 @@ public class UserDialog {
                 break;
             case SEARCH:
                 System.out.println("Not implemented!");
-                //Die Implementierung ist korrekt. Geh�rt aber nicht in die UserDialog-Klasse!
-                    //Hier n�tzt sie uns n�mlich wenig. Bitte in eigener Implementierung verwenden.
+                //Die Implementierung ist korrekt. Gehört aber nicht in die UserDialog-Klasse!
+                    //Hier nützt sie uns nämlich wenig. Bitte in eigener Implementierung verwenden.
                 /**
                 String searchObject;
                 String typ = "";
