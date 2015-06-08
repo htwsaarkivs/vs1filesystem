@@ -3,6 +3,8 @@ package htw.vs1.filesystem.FileSystem;
 import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
+import java.util.List;
+
 /**
  * <p>The FileSystemInterface declares the interface to work on
  * our filesystem.</p>
@@ -39,28 +41,6 @@ public interface FileSystemInterface {
      *         by the given name is not available.
      */
     void changeDirectory(@NotNull String name) throws FSObjectNotFoundException;
-    /**
-     * <p>Creates a new file in the current folder.
-     * </p>
-     *
-     * @param name name of the file.
-     * @throws FSObjectNotFoundException if the object identified
-     *         by the given name is not available.
-     */
-
-    /*
-
-    void createFile(@NotNull String name);
-    **
-     * <p>Search for all files and folders in the current folder and sub-folders.
-     * </p>
-     *
-     * @param name name of the file or directory.
-     * @throws FSObjectNotFoundException if the object identified
-     *         by the given name is not available.
-     *
-
-    */
 
     /**
      * <p>Returns the content of the current directory as a String.</p>
@@ -76,6 +56,15 @@ public interface FileSystemInterface {
      * @return current working directory as String.
      */
     String printWorkingDirectory();
+
+    /**
+     * Searchs recursively through the current working directory
+     * all {@link FSObject} with the given name.
+     *
+     * @param name name of the {@link FSObject} to search for.
+     * @return a {@link List} of {@link FSObject}s matching to the given name.
+     */
+    List<FSObject> search(String name);
 
     void rename(@NotNull String name,String newName) throws FSObjectNotFoundException;
     void delete(@NotNull String name) throws FSObjectNotFoundException;

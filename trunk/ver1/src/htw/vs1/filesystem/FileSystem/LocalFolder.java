@@ -81,6 +81,20 @@ public class LocalFolder extends Folder {
         throw new FSObjectNotFoundException();
     }
 
+    @Override
+    public LinkedList<FSObject> search(LinkedList<FSObject> list, String name) {
+        for (FSObject object : getContent()) {
+            if (object.getName().equals(name)) {
+                list.add(object);
+            }
+            if (object instanceof Folder) {
+                ((Folder) object).search(list, name);
+            }
+        }
+
+        return list;
+    }
+
     /**
      * Add a new {@link FSObject} to this Folder.
      * Precondition: the new object has to be either a
