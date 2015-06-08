@@ -77,7 +77,7 @@ public interface FileSystemInterface {
      */
     String printWorkingDirectory();
 
-    void rename(@NotNull String name,String newName);
-    void delete(@NotNull String name);
+    void rename(@NotNull String name,String newName) throws FSObjectNotFoundException;
+    void delete(@NotNull String name) throws FSObjectNotFoundException;
 
 }

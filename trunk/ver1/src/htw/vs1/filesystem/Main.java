@@ -1,6 +1,6 @@
 package htw.vs1.filesystem;
 
-import com.sun.istack.internal.NotNull;
+import htw.vs1.filesystem.FileSystem.FileSystem;
 import htw.vs1.filesystem.FileSystem.FileSystemInterface;
 import htw.vs1.filesystem.FileSystem.Folder;
 import htw.vs1.filesystem.FileSystem.LocalFolder;
@@ -13,13 +13,9 @@ public class Main {
      * @param args name of the class, which is implementing the {@link FileSystemInterface}.
      */
     public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
-            usage();
-        }
-
         Folder root = new LocalFolder("root");
 
-        FileSystemInterface fileSystem = instantiateFileSystem(args[0]);
+        FileSystemInterface fileSystem = new FileSystem(root);
         fileSystem.setWorkingDirectory(root);
         UserDialog dialog = new UserDialog(fileSystem);
 
@@ -31,17 +27,19 @@ public class Main {
      */
     private static void usage() {
         System.out.println("Usage:");
-        System.out.println("Main <fileSystemClass>");
+        //System.out.println("Main <fileSystemClass>"); // This usage is out of date... Maybe we need this method later.
         System.exit(1);
     }
 
     /**
+     * For test purpose only.
+     *
      * Instantiates the class, which is implementing the {@link FileSystemInterface}, identified by its name.
      *
      * @param className name of the class, which is implementing the {@link FileSystemInterface}.
      * @return implementation of the {@link FileSystemInterface}.
      */
-    private static @NotNull FileSystemInterface instantiateFileSystem(String className) {
+    /*private static @NotNull FileSystemInterface instantiateFileSystem(String className) {
         String packageName = Main.class.getPackage().getName();
         int len = packageName.length();
         if (className.length() < len || !className.substring(0, len).equals(packageName)) {
@@ -73,5 +71,5 @@ public class Main {
 
         // never reached
         return null;
-    }
+    }*/
 }
