@@ -24,15 +24,16 @@ public class Main {
 
     /**
      * Prints the programme usage.
+     * // Maybe we need this method later again.
      */
-    private static void usage() {
+    /*private static void usage() {
         System.out.println("Usage:");
         //System.out.println("Main <fileSystemClass>"); // This usage is out of date... Maybe we need this method later.
         System.exit(1);
-    }
+    }*/
 
     /**
-     * For test purpose only.
+     * // Maybe we need this method later again.
      *
      * Instantiates the class, which is implementing the {@link FileSystemInterface}, identified by its name.
      *
