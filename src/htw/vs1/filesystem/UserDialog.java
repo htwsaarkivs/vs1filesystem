@@ -181,7 +181,12 @@ public class UserDialog {
         while (true) {
             Command command = promptForCommand();
 
-            boolean goon = executeCommand(command);
+            boolean goon = false;
+            try {
+                goon = executeCommand(command);
+            } catch (FSObjectNotFoundException e) {
+                // TODO: User feedback!
+            }
 
             if (!goon) {
                 break;
@@ -196,7 +201,7 @@ public class UserDialog {
      * be executed.
      * @return {@code false}, iff the user wants to exit this dialog.
      */
-    private boolean executeCommand(Command command) {
+    private boolean executeCommand(Command command) throws FSObjectNotFoundException {
         switch (command) {
             case LS:
                 String content = fileSystem.listDirectoryContent();

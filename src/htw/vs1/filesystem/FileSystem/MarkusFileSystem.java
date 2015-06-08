@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * Created by markus on 04.06.15.
  */
-public class MarkusFileSystem implements FileSystemInterface {
+public class MarkusFileSystem<T> implements FileSystemInterface {
 
 
     private Folder workingDirectory;
