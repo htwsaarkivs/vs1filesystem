@@ -78,6 +78,6 @@ public abstract class Folder extends FSObject {
             return "/"+getName();
         }
 
-        return getAbsolutePath() + "/" + getName();
+        return getParentFolder().getAbsolutePath() + "/" + getName();
     }
 }
