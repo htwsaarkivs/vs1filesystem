@@ -45,10 +45,6 @@ public abstract class FSObject {
     public String toString() {
         return getName();
     }
-    public LinkedList<FSObject> search ( String name){
-    return search(new LinkedList<FSObject>(),name);
-    
-    }
     
     protected LinkedList<FSObject> search (LinkedList<FSObject> list, String name){
         //Wenn mein name schmeiß ihn da rein!!!!

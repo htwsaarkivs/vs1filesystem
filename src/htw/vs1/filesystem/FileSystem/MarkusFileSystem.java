@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by markus on 04.06.15.
@@ -27,7 +28,7 @@ public class MarkusFileSystem implements FileSystemInterface {
     @Override
     public void changeDirectory(@NotNull String name) throws FSObjectNotFoundException {
         for(FSObject el: this.workingDirectory.getContent()) {
-            if (name == el.getName() && el instanceof Folder) {
+            if (Objects.equals(name, el.getName()) && el instanceof Folder) {
                 this.workingDirectory = (Folder) el;
                 return;
 
