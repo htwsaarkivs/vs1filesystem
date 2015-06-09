@@ -9,7 +9,6 @@ import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -267,7 +266,7 @@ public class UserDialog {
                     break;
                 }
 
-                System.out.print(FSObject.printFSObjectList(fileSystem.search(searchObject)));
+                System.out.print(FSObject.printFSObjectList(fileSystem.search(searchObject), true));
                 break;
 
             case EXIT:
