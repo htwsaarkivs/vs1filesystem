@@ -117,7 +117,6 @@ public class FileSystem implements FileSystemInterface {
      public void rename(@NotNull String name, String newName) throws FSObjectNotFoundException {
         FSObject toRename = workingFolder.getObject(name);
         toRename.setName(newName);
-
     }
 
     /**
@@ -125,8 +124,6 @@ public class FileSystem implements FileSystemInterface {
      */
     @Override
     public void delete(@NotNull String name) throws FSObjectNotFoundException {
-        FSObject toDelete = workingFolder.getObject(name);
-        workingFolder.getContent().remove(toDelete);
-
+        workingFolder.delete(name);
     }
 }
