@@ -27,6 +27,9 @@ public class NioTrial {
         for (Path path : directoryStream) {
             System.out.println(getTab(iterDepth) + path.toAbsolutePath().toString());
 
+
+            // Files.move(path, path.resolveSibling("text2.txt")); // Cool way to rename a file on the local file system.
+
             if (path.toFile().isDirectory()) {
                 fileSystemTreeRecursion(Files.newDirectoryStream(Paths.get(path.toAbsolutePath().toString())), iterDepth+1);
             }
