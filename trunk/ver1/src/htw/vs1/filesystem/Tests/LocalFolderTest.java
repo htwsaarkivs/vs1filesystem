@@ -10,31 +10,67 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
+ * Test-Class to test the methods of {@link LocalFolder}.
+ *
  * Created by markus on 03.06.15.
  */
 public class LocalFolderTest {
 
+    /**
+     * Tests the method add(FSObject) of a {@link LocalFolder}.
+     * If a File exists the tested method should throw a
+     * exception when adding a file or a folder with the
+     * same name.
+     *
+     * @throws Exception
+     */
     @org.junit.Test
     public void testAdd() throws Exception {
         Folder inst = new LocalFolder("Test");
 
-        inst.add(new LocalFolder("TestOrdner"));
+        String sameName = "TestOrdner";
+
+        inst.add(new LocalFolder(sameName));
         try {
-            inst.add(new LocalFolder("TestOrdner"));
-            fail("add(Folder) should throw FileAlreadyExistsExeption, when trying to add a File with a duplicate Name in the current directory.");
+            inst.add(new LocalFolder(sameName));
+            fail("add(Folder) should throw FileAlreadyExistsException, when trying to add a " +
+                    "File with a duplicate Name in the current directory.");
         } catch (FileAlreadyExistsException e) {
             // fine, expected exception thrown by method.
         }
 
 
         try {
-            inst.add(new LocalFile("TestOrdner"));
+            inst.add(new LocalFile(sameName));
+            fail("add(File) should throw FileAlreadyExistsException, when trying to add a " +
+                    "Folder with a duplicate Name in the current directory.");
         } catch (FileAlreadyExistsException e) {
-            fail("add(Folder should NOT throw FileAlreadyExistsException when adding a file whose name is equal to one of the folder's names in the curent directory. Amen.");
+            // fine, expected exception thrown by method.
+        }
+    }
+
+    @Test
+    public void testAddCheckPrecondition() {
+        Folder root = new LocalFolder("Test");
+
+        try {
+            root.add(new RemoteFile("remoteFile"));
+            fail("Method add(FSObject) does not check precondition. It should not be allowed to add a RemoteFile.");
+        } catch (IllegalArgumentException e) {
+            // Fine, expected exception thrown by method.
+        } catch (FileAlreadyExistsException e) {
+            e.printStackTrace();
         }
 
 
-
+        try {
+            root.add(new RemoteFolder("remoteFolder"));
+            fail("Method add(FSObject) does not check precondition. It should not be allowed to add a RemoteFile.");
+        } catch (IllegalArgumentException e) {
+            // Fine, expected exception thrown by method.
+        } catch (FileAlreadyExistsException e) {
+            e.printStackTrace();
+        }
     }
 
 
