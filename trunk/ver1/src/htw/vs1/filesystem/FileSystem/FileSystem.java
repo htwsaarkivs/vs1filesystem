@@ -85,7 +85,7 @@ public class FileSystem implements FileSystemInterface {
      */
     @Override
     public String listDirectoryContent() {
-        return FSObject.printFSObjectList(workingFolder.getContent());
+        return FSObject.printFSObjectList(workingFolder.getContent(), false);
     }
 
     /**

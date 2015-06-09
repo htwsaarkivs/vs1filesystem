@@ -26,16 +26,6 @@ public abstract class Folder extends FSObject {
     }
 
     /**
-     * Get the parent {@link Folder} containing this Folder. Can be
-     * {@link null}, iff this is the root-Folder.
-     *
-     * @return the parent {@link Folder} or {@code null} iff this is the
-     * root-Folder.
-     */
-    public abstract @Nullable
-    Folder getParentFolder();
-
-    /**
      * Add a FSObject to the folder.
      *
      * @param object {@link FSObject} to add to this folder.
@@ -65,19 +55,4 @@ public abstract class Folder extends FSObject {
 
     public abstract LinkedList<FSObject> search(LinkedList<FSObject> list, String name);
 
-
-
-    /**
-     * Returns the absolute path of the given folder.
-     *
-     * @return absolute path - e.g. /root/folder
-     */
-    public String getAbsolutePath() {
-
-        if (getParentFolder() == null) {
-            return "/"+getName();
-        }
-
-        return getParentFolder().getAbsolutePath() + "/" + getName();
-    }
 }

@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.FileSystem;
 
+import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.UserDialog;
 
 import java.util.List;
@@ -14,11 +15,11 @@ import java.util.List;
  */
 public abstract class FSObject {
 
-    public static String printFSObjectList(List<FSObject> list) {
+    public static String printFSObjectList(List<FSObject> list, boolean printAbsolutePath) {
         StringBuilder builder = new StringBuilder();
         for (FSObject object : list) {
             // TODO: How can I print the absolute path if the FSObject is a File?? - Used to the search...
-            builder.append(object.getName());
+            builder.append((printAbsolutePath) ? object.getAbsolutePath() : object.getName());
             builder.append(" ");
             builder.append((object instanceof File?"[File]":"[Folder]"));
             builder.append(UserDialog.NEW_LINE);
@@ -54,6 +55,38 @@ public abstract class FSObject {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Gets the parent {@link Folder} containing this FSObject. Can be
+     * {@link null}, iff this is the root-Folder.
+     *
+     * @return the parent {@link Folder} or {@code null} iff this is the
+     * root-Folder.
+     */
+    public abstract @Nullable Folder getParentFolder();
+
+    /**
+     * Sets the parent {@link Folder} containing this FSObject. Can be
+     * {@link null}, iff this is the root-Folder.
+     *
+     * @param parentFolder the parent {@link Folder} or {@code null} iff this is the
+     * root-Folder.
+     */
+    protected abstract void setParentFolder(@Nullable Folder parentFolder);
+
+    /**
+     * Returns the absolute path of this FSObject.
+     *
+     * @return absolute path - e.g. /root/folder
+     */
+    public String getAbsolutePath() {
+
+        if (getParentFolder() == null) {
+            return "/"+getName();
+        }
+
+        return getParentFolder().getAbsolutePath() + "/" + getName();
     }
 
     @Override

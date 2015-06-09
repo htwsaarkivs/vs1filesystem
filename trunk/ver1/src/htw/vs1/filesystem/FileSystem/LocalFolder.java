@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.FileSystem;
 
+import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
 import java.nio.file.FileAlreadyExistsException;
@@ -45,8 +46,23 @@ public class LocalFolder extends Folder {
      */
     @Override
     public Folder getParentFolder() {
-
         return parent;
+    }
+
+    /**
+     * Sets the parent {@link Folder} containing this FSObject. Can be
+     * {@link null}, iff this is the root-Folder.
+     * Precondition: the new object has to be either a
+     * {@link LocalFolder}.
+     *
+     * @param parentFolder the parent {@link Folder} or {@code null} iff this is the
+     *                     root-Folder.
+     */
+    @Override
+    protected void setParentFolder(@Nullable Folder parentFolder) {
+        checkPrecondition(parentFolder);
+
+        this.parent = parentFolder;
     }
 
     /**
@@ -107,24 +123,9 @@ public class LocalFolder extends Folder {
     public void add(FSObject object) throws FileAlreadyExistsException {
         checkPrecondition(object);
 
-        if (object instanceof LocalFolder) {
-            ((LocalFolder) object).setParent(this);
-        }
+        object.setParentFolder(this);
 
         contents.add(object);
-    }
-
-    /**
-     * Sets the given {@link Folder} as the parent Folder of this Object.
-     * Precondition: the new object has to be either a
-     * {@link LocalFile} or a {@link LocalFolder}.
-     *
-     * @param parent parent Folder, which is containing this {@link Folder}.
-     */
-    private void setParent(Folder parent) {
-        checkPrecondition(parent);
-
-        this.parent = parent;
     }
 
     /**

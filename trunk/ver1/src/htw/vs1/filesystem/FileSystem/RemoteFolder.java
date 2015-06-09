@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.FileSystem;
 
+import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -32,6 +33,18 @@ public class RemoteFolder extends Folder {
      */
     @Override
     public Folder getParentFolder() {
+        throw new NotImplementedException();
+    }
+
+    /**
+     * Sets the parent {@link Folder} containing this FSObject. Can be
+     * {@link null}, iff this is the root-Folder.
+     *
+     * @param parentFolder the parent {@link Folder} or {@code null} iff this is the
+     *                     root-Folder.
+     */
+    @Override
+    protected void setParentFolder(@Nullable Folder parentFolder) {
         throw new NotImplementedException();
     }
 
