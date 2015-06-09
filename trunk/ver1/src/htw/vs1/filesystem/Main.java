@@ -1,9 +1,6 @@
 package htw.vs1.filesystem;
 
-import htw.vs1.filesystem.FileSystem.FileSystem;
-import htw.vs1.filesystem.FileSystem.FileSystemInterface;
-import htw.vs1.filesystem.FileSystem.Folder;
-import htw.vs1.filesystem.FileSystem.LocalFolder;
+import htw.vs1.filesystem.FileSystem.*;
 
 public class Main {
 
@@ -13,10 +10,16 @@ public class Main {
      * @param args name of the class, which is implementing the {@link FileSystemInterface}.
      */
     public static void main(String[] args) throws Exception {
-        Folder root = new LocalFolder("root");
 
-        FileSystemInterface fileSystem = new FileSystem(root);
-        fileSystem.setWorkingDirectory(root);
+        String pathString = (args.length == 1) ? args[0] : "";
+
+        RealFileSystemAdapter adapter = new RealFileSystemAdapter(pathString);
+        System.out.println("Importing directory...");
+        String path = adapter.loadFileSystemTree();
+        System.out.println("Directory: " + path + " imported.");
+
+        FileSystemInterface fileSystem = new FileSystem(LocalFolder.getRootFolder());
+        fileSystem.setWorkingDirectory(LocalFolder.getRootFolder());
         UserDialog dialog = new UserDialog(fileSystem);
 
         dialog.showDialog();

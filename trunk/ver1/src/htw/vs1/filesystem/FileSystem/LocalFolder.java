@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.FileSystem;
 
+import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
@@ -16,6 +17,31 @@ import java.util.List;
  * Created by felix on 03.06.15.
  */
 public class LocalFolder extends Folder {
+
+    /**
+     * Name of our single root folder instance.
+     */
+    private static final String ROOT_FOLDER_NAME = "local";
+
+    /**
+     * Single instance of our local root folder.
+     */
+    private static LocalFolder rootFolder = null;
+
+    /**
+     * Gets the single instance of our local root
+     * folder located on the machine this program
+     * is running on.
+     *
+     * @return root {@link LocalFolder}.
+     */
+    public static @NotNull LocalFolder getRootFolder() {
+        if (null == rootFolder) {
+            rootFolder = new LocalFolder(ROOT_FOLDER_NAME);
+        }
+
+        return rootFolder;
+    }
 
     /**
      * Reference to the {@link Folder} containing this one.
