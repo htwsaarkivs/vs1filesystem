@@ -86,7 +86,9 @@ public class LocalFolder extends Folder {
      */
     @Override
     protected void setParentFolder(@Nullable Folder parentFolder) {
-        checkPrecondition(parentFolder);
+        if (null != parentFolder) {
+            checkPrecondition(parentFolder);
+        }
 
         this.parent = parentFolder;
     }
@@ -152,6 +154,30 @@ public class LocalFolder extends Folder {
         object.setParentFolder(this);
 
         contents.add(object);
+    }
+
+    /**
+     * Removes a {@link FSObject} from the folder.
+     *
+     * @param object {@link FSObject} to remove from this folder.
+     * @throws FSObjectNotFoundException iff the {@link FSObject} is not in this folder.
+     */
+    @Override
+    public void delete(FSObject object) throws FSObjectNotFoundException {
+        getContent().remove(object);
+        object.setParentFolder(null);
+    }
+
+    /**
+     * Removes a {@link FSObject} from the folder identified by the
+     * given name
+     *
+     * @param name String to identify the {@link FSObject} which should be removed.
+     * @throws FSObjectNotFoundException iff there is no {@link FSObject} identified by this name.
+     */
+    @Override
+    public void delete(String name) throws FSObjectNotFoundException {
+        delete(getObject(name));
     }
 
     /**

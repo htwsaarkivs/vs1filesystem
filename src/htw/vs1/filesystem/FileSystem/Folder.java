@@ -26,12 +26,29 @@ public abstract class Folder extends FSObject {
     }
 
     /**
-     * Add a FSObject to the folder.
+     * Adds a FSObject to the folder.
      *
      * @param object {@link FSObject} to add to this folder.
      * @throws FileAlreadyExistsException iff the file already exists.
      */
     public abstract void add(FSObject object) throws FileAlreadyExistsException;
+
+    /**
+     * Removes a {@link FSObject} from the folder.
+     *
+     * @param object {@link FSObject} to remove from this folder.
+     * @throws FSObjectNotFoundException iff the {@link FSObject} is not in this folder.
+     */
+    public abstract void delete(FSObject object) throws FSObjectNotFoundException;
+
+    /**
+     * Removes a {@link FSObject} from the folder identified by the
+     * given name
+     *
+     * @param name String to identify the {@link FSObject} which should be removed.
+     * @throws FSObjectNotFoundException iff there is no {@link FSObject} identified by this name.
+     */
+    public abstract void delete(String name) throws FSObjectNotFoundException;
 
     /**
      * Get the Content of this {@link Folder} as a {@link List} of

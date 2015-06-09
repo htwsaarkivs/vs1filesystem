@@ -60,6 +60,29 @@ public class RemoteFolder extends Folder {
     }
 
     /**
+     * Removes a {@link FSObject} from the folder.
+     *
+     * @param object {@link FSObject} to remove from this folder.
+     * @throws FSObjectNotFoundException iff the {@link FSObject} is not in this folder.
+     */
+    @Override
+    public void delete(FSObject object) throws FSObjectNotFoundException {
+        throw new NotImplementedException();
+    }
+
+    /**
+     * Removes a {@link FSObject} from the folder identified by the
+     * given name
+     *
+     * @param name String to identify the {@link FSObject} which should be removed.
+     * @throws FSObjectNotFoundException iff there is no {@link FSObject} identified by this name.
+     */
+    @Override
+    public void delete(String name) throws FSObjectNotFoundException {
+        throw new NotImplementedException();
+    }
+
+    /**
      * Get the Content of this {@link Folder} as a {@link List}
      * of {@link FSObject}s.
      *
