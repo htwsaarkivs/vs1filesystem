@@ -8,7 +8,7 @@ import htw.vs1.filesystem.FileSystem.LocalFolder;
 public class Main {
 
     /**
-     * Starting point in our programme.
+     * Starting point in our program.
      *
      * @param args name of the class, which is implementing the {@link FileSystemInterface}.
      */
