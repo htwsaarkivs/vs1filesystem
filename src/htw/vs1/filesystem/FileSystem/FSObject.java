@@ -15,10 +15,18 @@ import java.util.List;
  */
 public abstract class FSObject {
 
+    /**
+     * Prints the given {@link List} of {@link FSObject}s into
+     * a String in a human readable format - Objects divided by
+     * a newline.
+     *
+     * @param list {@link List} of {@link FSObject}s to print
+     * @param printAbsolutePath {@code true}, iff the absolute path of the object is desired
+     * @return String containing the given list in a human readable format.
+     */
     public static String printFSObjectList(List<FSObject> list, boolean printAbsolutePath) {
         StringBuilder builder = new StringBuilder();
         for (FSObject object : list) {
-            // TODO: How can I print the absolute path if the FSObject is a File?? - Used to the search...
             builder.append((printAbsolutePath) ? object.getAbsolutePath() : object.getName());
             builder.append(" ");
             builder.append((object instanceof File?"[File]":"[Folder]"));
