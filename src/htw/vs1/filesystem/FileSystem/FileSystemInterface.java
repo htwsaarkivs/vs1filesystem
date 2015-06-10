@@ -3,6 +3,7 @@ package htw.vs1.filesystem.FileSystem;
 import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
+import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 
 /**
@@ -66,7 +67,7 @@ public interface FileSystemInterface {
      */
     List<FSObject> search(String name);
 
-    void rename(@NotNull String name,String newName) throws FSObjectNotFoundException;
+    void rename(@NotNull String name,String newName) throws FSObjectNotFoundException, FileAlreadyExistsException;
     void delete(@NotNull String name) throws FSObjectNotFoundException;
 
 }

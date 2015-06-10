@@ -182,7 +182,7 @@ public class UserDialog {
         while (true) {
             Command command = promptForCommand();
 
-            boolean goon = false;
+            boolean goon = true;
             try {
                 goon = executeCommand(command);
             } catch (FSObjectNotFoundException e) {
@@ -190,6 +190,10 @@ public class UserDialog {
                 // TODO: User feedback!
             } catch (FileAlreadyExistsException e) {
                 // TODO: User feedback!
+                e.printStackTrace();
+            } catch (Exception e) {
+                // TODO: detect possible exception which could be caught
+                // and put a error message for the user in a seperate catch-clause.
                 e.printStackTrace();
             }
 

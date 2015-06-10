@@ -100,8 +100,10 @@ public class LocalFolder extends Folder implements LocalFSObject {
     }
 
     @Override
-    public void setName(String name) {
-        super.setName(name);
+    public void setName(String name) throws FileAlreadyExistsException {
+        if (getParentFolder() != null && getParentFolder().exists(name)) {
+            throw new FileAlreadyExistsException(name, null, "in Folder: " + getParentFolder().getAbsolutePath());
+        }
 
         if (null != getPath()) {
             try {
@@ -111,6 +113,9 @@ public class LocalFolder extends Folder implements LocalFSObject {
                 e.printStackTrace();
             }
         }
+
+
+        super.setName(name); // It is important to set the name after checking if it exists!
     }
 
     /**
@@ -152,6 +157,24 @@ public class LocalFolder extends Folder implements LocalFSObject {
     public List<FSObject> getContent() {
 
         return contents;
+    }
+
+    /**
+     * Checks whether a {@link FSObject} exists in this folder
+     * identified by the given name.
+     *
+     * @param name identifier for the {@link FSObject} to check.
+     * @return {@code true}, iff a {@link FSObject} exists in this folder identified by the given name.
+     */
+    @Override
+    public boolean exists(String name) {
+        for (FSObject object : contents) {
+            if (object.getName().equals(name)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -204,29 +227,32 @@ public class LocalFolder extends Folder implements LocalFSObject {
     public void add(FSObject object, @Nullable Path pathOfFile) throws FileAlreadyExistsException {
         checkPrecondition(object);
 
+        if (exists(object.getName())) {
+            throw new FileAlreadyExistsException(object.getName());
+        }
+
         object.setParentFolder(this);
 
-        if (null == pathOfFile) {
-            Path pathOfNewFile = Paths.get(getPath().toAbsolutePath().toString(), object.getName());
-            // TODO: set the path to the object.
+        if (null == pathOfFile && null != getPath()) {
+            pathOfFile = Paths.get(getPath().toAbsolutePath().toString(), object.getName());
             if (object instanceof LocalFile) {
                 try {
-                    Files.createFile(pathOfNewFile);
+                    Files.createFile(pathOfFile);
                 } catch (IOException e) {
                     // TODO: What shall I do with this f*cking exception?
                     e.printStackTrace();
                 }
             } else {
                 try {
-                    Files.createDirectory(pathOfNewFile);
+                    Files.createDirectory(pathOfFile);
                 } catch (IOException e) {
                     // TODO: What shall I do with this f*cking exception?
                     e.printStackTrace();
                 }
             }
-        } else {
-            // TODO: Set given path as object path.
         }
+
+        ((LocalFSObject) object).setPath(pathOfFile); // Type checked by #checkPrecondition(FSObject)
 
         contents.add(object);
     }
@@ -260,14 +286,15 @@ public class LocalFolder extends Folder implements LocalFSObject {
 
     /**
      * Checks the precondition that the given objects has to be a
-     * {@link LocalFolder} or a {@link LocalFile}.
+     * {@link LocalFolder} or a {@link LocalFile}, which means it has
+     * to be a {@link LocalFSObject}.
      *
      * @param object {@link FSObject} which has to match the precondition.
      */
     private void checkPrecondition(FSObject object) {
-        if (!((object instanceof LocalFolder) || (object instanceof LocalFile))) {
+        if (!(object instanceof LocalFSObject)) {
             // this case should never happen -> precondition !
-            throw new IllegalArgumentException("The new object has to be either a LocalFolder or a LocalFile");
+            throw new IllegalArgumentException("The new object has to be a LocalFSObject");
         }
     }
 
