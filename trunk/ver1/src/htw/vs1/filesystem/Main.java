@@ -11,9 +11,13 @@ public class Main {
      */
     public static void main(String[] args) throws Exception {
 
-        String pathString = (args.length == 1) ? args[0] : "";
+       if (args.length != 1) {
+           usage();
+       }
 
-        RealFileSystemAdapter adapter = new RealFileSystemAdapter(pathString);
+        LocalFolder.setRootDirectory(args[0]);
+
+        RealFileSystemAdapter adapter = new RealFileSystemAdapter();
         System.out.println("Importing directory...");
         String path = adapter.loadFileSystemTree();
         System.out.println("Directory: " + path + " imported.");
@@ -27,13 +31,12 @@ public class Main {
 
     /**
      * Prints the programme usage.
-     * // Maybe we need this method later again.
      */
-    /*private static void usage() {
+    private static void usage() {
         System.out.println("Usage:");
-        //System.out.println("Main <fileSystemClass>"); // This usage is out of date... Maybe we need this method later.
+        System.out.println("Main <path to working folder>");
         System.exit(1);
-    }*/
+    }
 
     /**
      * // Maybe we need this method later again.

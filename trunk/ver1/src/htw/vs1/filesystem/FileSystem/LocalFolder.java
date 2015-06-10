@@ -4,7 +4,11 @@ import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
+import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,6 +28,13 @@ public class LocalFolder extends Folder {
     private static final String ROOT_FOLDER_NAME = "local";
 
     /**
+     * Path to the local folder
+     * on our os of the local machine the
+     * program is running on.
+     */
+    private static Path ROOT_FOLDER_PATH = null;
+
+    /**
      * Single instance of our local root folder.
      */
     private static LocalFolder rootFolder = null;
@@ -37,11 +48,25 @@ public class LocalFolder extends Folder {
      */
     public static @NotNull LocalFolder getRootFolder() {
         if (null == rootFolder) {
-            rootFolder = new LocalFolder(ROOT_FOLDER_NAME);
+            if (null == ROOT_FOLDER_PATH) {
+                throw new IllegalStateException("Root folder path must be set before calling method getRootFolder().");
+            }
+
+            rootFolder = new LocalFolder(ROOT_FOLDER_NAME, ROOT_FOLDER_PATH);
         }
 
         return rootFolder;
     }
+
+    public static void setRootDirectory(@NotNull String rootPath) {
+        if (null != ROOT_FOLDER_PATH) {
+            throw new IllegalStateException("Root folder path already set.");
+        }
+
+        ROOT_FOLDER_PATH = Paths.get(rootPath);
+    }
+
+    private Path path;
 
     /**
      * Reference to the {@link Folder} containing this one.
@@ -62,6 +87,30 @@ public class LocalFolder extends Folder {
      */
     public LocalFolder(String name) {
         super(name);
+    }
+
+    /**
+     * Creates a new Folder with the given name.
+     *
+     * @param name name of the new {@link Folder}.
+     */
+    public LocalFolder(String name, Path path) {
+        super(name);
+        this.path = path;
+    }
+
+    @Override
+    public void setName(String name) {
+        super.setName(name);
+
+        if (null != getPath()) {
+            try {
+                Files.move(path, path.resolveSibling(name));
+            } catch (IOException e) {
+                // TODO: What shall I do with this f*cking exception??
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -149,9 +198,35 @@ public class LocalFolder extends Folder {
      * @throws FileAlreadyExistsException iff the file already exists.
      */
     public void add(FSObject object) throws FileAlreadyExistsException {
+        add(object, null);
+    }
+
+    public void add(FSObject object, @Nullable Path pathOfFile) throws FileAlreadyExistsException {
         checkPrecondition(object);
 
         object.setParentFolder(this);
+
+        if (null == pathOfFile) {
+            Path pathOfNewFile = Paths.get(getPath().toAbsolutePath().toString(), object.getName());
+            // TODO: set the path to the object.
+            if (object instanceof LocalFile) {
+                try {
+                    Files.createFile(pathOfNewFile);
+                } catch (IOException e) {
+                    // TODO: What shall I do with this f*cking exception?
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    Files.createDirectory(pathOfNewFile);
+                } catch (IOException e) {
+                    // TODO: What shall I do with this f*cking exception?
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            // TODO: Set given path as object path.
+        }
 
         contents.add(object);
     }
@@ -166,6 +241,9 @@ public class LocalFolder extends Folder {
     public void delete(FSObject object) throws FSObjectNotFoundException {
         getContent().remove(object);
         object.setParentFolder(null);
+
+        // TODO: is there a path available delete the object on the file system.
+        // Caution: is the object a folder delete it recursively.
     }
 
     /**
@@ -191,5 +269,13 @@ public class LocalFolder extends Folder {
             // this case should never happen -> precondition !
             throw new IllegalArgumentException("The new object has to be either a LocalFolder or a LocalFile");
         }
+    }
+
+    public Path getPath() {
+        return path;
+    }
+
+    public void setPath(Path path) {
+        this.path = path;
     }
 }

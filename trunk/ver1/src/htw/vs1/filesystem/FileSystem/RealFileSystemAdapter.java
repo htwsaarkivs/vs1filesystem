@@ -14,15 +14,7 @@ import java.nio.file.*;
  */
 public class RealFileSystemAdapter {
 
-    /**
-     * Absolute path to the local folder
-     * on our os of the local machine the
-     * program is running on.
-     */
-    private String localFolderPathString;
-
-    public RealFileSystemAdapter(String localFolderPath) {
-        this.localFolderPathString = localFolderPath;
+    public RealFileSystemAdapter() {
     }
 
     /**
@@ -34,7 +26,7 @@ public class RealFileSystemAdapter {
      * @return absolute path of the loaded file system tree.
      */
     public String loadFileSystemTree() throws IOException {
-        Path localFolderPath = Paths.get(localFolderPathString);
+        Path localFolderPath = LocalFolder.getRootFolder().getPath();
         DirectoryStream<Path> rootDirectoryStream = Files.newDirectoryStream(localFolderPath);
         loadFileSystemDirectory(rootDirectoryStream, LocalFolder.getRootFolder());
 
@@ -49,7 +41,7 @@ public class RealFileSystemAdapter {
 
             if (path.toFile().isDirectory()) {
                 LocalFolder subfolder = new LocalFolder(filename);
-                addFSObject(matchingFolder, subfolder, absolutePath);
+                addFSObject(matchingFolder, subfolder, path);
 
                 try {
                     DirectoryStream<Path> subDirectoryStream = Files.newDirectoryStream(path);
@@ -61,18 +53,18 @@ public class RealFileSystemAdapter {
                 }
             } else {
                 LocalFile subFile = new LocalFile(filename);
-                addFSObject(matchingFolder, subFile, absolutePath);
+                addFSObject(matchingFolder, subFile, path);
             }
         }
     }
 
-    private void addFSObject(Folder folder, FSObject object, String absolutePath) {
+    private void addFSObject(LocalFolder folder, FSObject object, Path path) {
         try {
-            folder.add(object);
+            folder.add(object, path);
         } catch (FileAlreadyExistsException e) {
             // This should never happen
             throw new IllegalStateException("File already exists in this folder. Absolute path: "
-                    + absolutePath);
+                    + path.toFile().getAbsolutePath());
         }
     }
 
