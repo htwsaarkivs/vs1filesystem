@@ -20,7 +20,7 @@ import java.util.List;
  *
  * Created by felix on 03.06.15.
  */
-public class LocalFolder extends Folder {
+public class LocalFolder extends Folder implements LocalFSObject {
 
     /**
      * Name of our single root folder instance.
@@ -271,10 +271,11 @@ public class LocalFolder extends Folder {
         }
     }
 
+    //TODO to comment
     public Path getPath() {
         return path;
     }
-
+    //TODO to comment
     public void setPath(Path path) {
         this.path = path;
     }

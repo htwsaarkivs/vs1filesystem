@@ -1,6 +1,9 @@
 package htw.vs1.filesystem.FileSystem;
 
+import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
+
+import java.nio.file.Path;
 
 /**
  * A LocalFile represents a File in the local filesystem, which
@@ -8,7 +11,7 @@ import com.sun.istack.internal.Nullable;
  *
  * Created by felix on 03.06.15.
  */
-public class LocalFile extends File {
+public class LocalFile extends File implements LocalFSObject{
 
     /**
      * Reference to the {@link Folder} containing this one.
@@ -49,4 +52,13 @@ public class LocalFile extends File {
     }
 
 
+    @Override
+    public void setPath(@NotNull Path path) {
+
+    }
+
+    @Override
+    public Path getPath() {
+        return null;
+    }
 }
