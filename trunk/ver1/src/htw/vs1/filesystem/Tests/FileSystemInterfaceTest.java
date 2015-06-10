@@ -20,7 +20,8 @@ public class FileSystemInterfaceTest {
     @Before
     public void setUp() throws Exception {
 
-        //Hier die eigene Implementierung vermerken!
+        //Hier die eigene Implementierung vermerken!        
+
         this.fs = new FileSystem();
 
         Folder root = new LocalFolder("root");
@@ -72,9 +73,9 @@ public class FileSystemInterfaceTest {
 
 
         try {
-            //Ãœbergebener Name ist eine Datei
+            //Übergebener Name ist eine Datei
             this.fs.changeDirectory("datei1");
-            fail("Ãœbergebener Name gehÃ¶rt zu einer Datei. Erwartete Exception FSObjectNotFoundException wurde nicht geworfen.");
+            fail("Übergebener Name gehört zu einer Datei. Erwartete Exception FSObjectNotFoundException wurde nicht geworfen.");
         } catch (FSObjectNotFoundException e) {
             //.. Alles in Ordnung
         }
