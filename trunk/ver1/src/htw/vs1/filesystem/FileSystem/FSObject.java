@@ -3,6 +3,7 @@ package htw.vs1.filesystem.FileSystem;
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.UserDialog;
 
+import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ public abstract class FSObject {
      * @param name name of the FSObject.
      */
     public FSObject(String name) {
-        setName(name);
+        this.name = name;
     }
 
     /**
@@ -52,7 +53,7 @@ public abstract class FSObject {
      *
      * @param name new name of this object.
      */
-    public void setName(String name) {
+    public void setName(String name) throws FileAlreadyExistsException {
         this.name = name;
     }
 

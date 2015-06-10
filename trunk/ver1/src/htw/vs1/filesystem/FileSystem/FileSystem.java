@@ -3,6 +3,7 @@ package htw.vs1.filesystem.FileSystem;
 import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
 
+import java.nio.file.FileAlreadyExistsException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -114,7 +115,9 @@ public class FileSystem implements FileSystemInterface {
      * {@inheritDoc}
      */
     @Override
-     public void rename(@NotNull String name, String newName) throws FSObjectNotFoundException {
+     public void rename(@NotNull String name, String newName)
+            throws FSObjectNotFoundException, FileAlreadyExistsException
+    {
         FSObject toRename = workingFolder.getObject(name);
         toRename.setName(newName);
     }

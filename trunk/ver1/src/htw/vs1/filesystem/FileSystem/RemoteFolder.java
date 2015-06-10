@@ -94,6 +94,18 @@ public class RemoteFolder extends Folder {
     }
 
     /**
+     * Checks whether a {@link FSObject} exists in this folder
+     * identified by the given name.
+     *
+     * @param name identifier for the {@link FSObject} to check.
+     * @return {@code true}, iff a {@link FSObject} exists in this folder identified by the given name.
+     */
+    @Override
+    public boolean exists(String name) {
+        throw new NotImplementedException();
+    }
+
+    /**
      * Gets the {@link FSObject} identified by the given name,
      * iff this {@link Folder} contains it as a direct child.
      *
