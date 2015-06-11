@@ -265,12 +265,35 @@ public class LocalFolder extends Folder implements LocalFSObject {
      */
     @Override
     public void delete(FSObject object) throws FSObjectNotFoundException {
-        getContent().remove(object);
-        object.setParentFolder(null);
+        checkPrecondition(object);
+        LocalFSObject localFSObject = (LocalFSObject)object;
+        localFSObject.delete();
+        contents.remove(object);
+
 
         // TODO: is there a path available delete the object on the file system.
         // Caution: is the object a folder delete it recursively.
     }
+
+    @Override
+    public void delete() {
+        for (FSObject object : getContent()) {
+            checkPrecondition(object);
+            LocalFSObject localFSObject = (LocalFSObject)object;
+            localFSObject.delete();
+        }
+
+        // TODO: delete *this* Folder in the real file system.
+        Path path = getPath();
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        setParentFolder(null);
+
+    }
+
 
     /**
      * Removes a {@link FSObject} from the folder identified by the
@@ -302,6 +325,8 @@ public class LocalFolder extends Folder implements LocalFSObject {
     public Path getPath() {
         return path;
     }
+
+
     //TODO to comment
     public void setPath(Path path) {
         this.path = path;

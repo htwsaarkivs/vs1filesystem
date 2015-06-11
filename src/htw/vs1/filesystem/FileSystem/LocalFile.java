@@ -3,6 +3,8 @@ package htw.vs1.filesystem.FileSystem;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
@@ -60,5 +62,18 @@ public class LocalFile extends File implements LocalFSObject{
     @Override
     public Path getPath() {
         return null;
+    }
+
+    @Override
+    public void delete() {
+        //TODO Fehlerbehandlung
+        Path path = getPath();
+        if (path != null){
+            try {
+                Files.delete(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
