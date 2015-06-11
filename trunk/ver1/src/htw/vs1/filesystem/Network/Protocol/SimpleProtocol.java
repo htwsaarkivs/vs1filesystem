@@ -1,5 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol;
 
+import htw.vs1.filesystem.Network.Protocol.DepcState.SimpleProtocolState;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 
 import java.io.*;
@@ -27,21 +29,11 @@ public class SimpleProtocol {
         }
     }
 
-    public void run() {
-        try {
+    public void run() throws Exception {
+            this.putLine("200 SERVER READY");
+            //Signal an Zustandsautomat
             this.state.clientConnected(this);
-            readLine();
-            if (getCurrentLine().equals("SET USER")) {
-                this.state.clientSuccessfullyAuthenticated(this);
-                System.out.print(this.state);
-            }
-            System.out.println(getCurrentLine());
 
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -55,7 +47,11 @@ public class SimpleProtocol {
     }
 
     public void putLine(String line) {
-        System.out.println(line);
+        PrintWriter printWriter =
+                new PrintWriter(
+                        new OutputStreamWriter(this.output));
+        printWriter.println(line);
+        printWriter.flush();
     }
 
     public void readLine() {

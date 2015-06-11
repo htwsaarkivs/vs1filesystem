@@ -21,7 +21,6 @@ public class TCPParallelWorker extends Thread {
         try {
 
             new SimpleProtocol(socket).run();
-
             System.out.println("IP: "+ socket.getInetAddress());
             System.out.println("Port:" + socket.getPort());
             Thread.sleep(10000);
