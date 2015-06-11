@@ -1,4 +1,8 @@
-package htw.vs1.filesystem.Network.Protocol;
+package htw.vs1.filesystem.Network.Protocol.DepcState;
+
+import htw.vs1.filesystem.Network.Protocol.SimpleProtocol;
+import htw.vs1.filesystem.Network.Protocol.StateMachine.depc.Transitions;
+import htw.vs1.filesystem.Network.Protocol.DepcState.Transitions;
 
 /**
  * Simple State Machine for our Protocol

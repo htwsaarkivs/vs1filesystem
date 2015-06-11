@@ -1,4 +1,6 @@
-package htw.vs1.filesystem.Network.Protocol;
+package htw.vs1.filesystem.Network.Protocol.DepcState;
+
+import htw.vs1.filesystem.Network.Protocol.SimpleProtocol;
 
 /**
  * Created by markus on 11.06.15.
