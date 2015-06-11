@@ -1,7 +1,6 @@
 package htw.vs1.filesystem.FileSystem;
 
 import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 
 import java.nio.file.Path;
 
@@ -16,5 +15,12 @@ public interface LocalFSObject {
     void setPath(@NotNull Path path);
     //TODO to comment
     Path getPath();
+
+    /**
+     * Deletes the LocalFSObject itself.
+     * If this is a LocalFolder it deletes
+     * the directory and contents recursively.
+     */
+    void delete();
 
 }
