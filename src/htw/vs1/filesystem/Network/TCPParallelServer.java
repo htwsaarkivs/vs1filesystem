@@ -47,10 +47,6 @@ public class TCPParallelServer implements ServerInterface {
                 System.out.println("Warten auf Verbindungen ...");
                 Socket client = socket.accept();
 
-                System.out.println("Verbunden mit: " +
-                        client.getInetAddress().getHostName() +
-                        " Port: " + client.getPort());
-
 
                 (new TCPParallelWorker(client)).start();
             }
