@@ -3,7 +3,7 @@ package htw.vs1.filesystem.Network.Protocol;
 import htw.vs1.filesystem.Network.Protocol.DepcState.SimpleProtocolState;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
-
+import com.github.oxo42.stateless4j.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -17,7 +17,19 @@ public class SimpleProtocol {
     private Socket socket;
 
     private String currentLine;
-    private SimpleProtocolState state = SimpleProtocolState.IDLE;
+
+    private enum State {
+        IDLE,
+        READY,
+        AUTHENTICATED
+    }
+
+    private enum Trigger {
+        CLIENT_CONNECTED,
+        CLIENT_AUTHENTICATED
+    }
+
+    private StateMachineConfig<State, Trigger> protoConfig = new StateMachineConfig<>();
 
     public SimpleProtocol(Socket socket) throws SimpleProtocolInitializationErrorException {
         try {
@@ -30,9 +42,14 @@ public class SimpleProtocol {
     }
 
     public void run() throws Exception {
+        //this.protoConfig.configure(State.IDLE)
+
+
+
+
             this.putLine("200 SERVER READY");
             //Signal an Zustandsautomat
-            this.state.clientConnected(this);
+            //this.state.clientConnected(this);
 
 
     }
