@@ -1,5 +1,7 @@
 package htw.vs1.filesystem.Network;
 
+import htw.vs1.filesystem.Network.Protocol.SimpleProtocol;
+
 import java.net.Socket;
 
 /**
@@ -18,10 +20,11 @@ public class TCPParallelWorker extends Thread {
         System.out.println("Thread gestartet");
         try {
 
-            socket.getOutputStream().write(new byte[] { (byte) 0x41, 0x0 });
+            new SimpleProtocol(socket).run();
+
             System.out.println("IP: "+ socket.getInetAddress());
             System.out.println("Port:" + socket.getPort());
-            //Thread.sleep(10000);
+            Thread.sleep(10000);
 
             socket.close();
 
