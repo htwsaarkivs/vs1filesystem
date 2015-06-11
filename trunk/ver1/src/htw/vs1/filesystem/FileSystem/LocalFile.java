@@ -20,6 +20,8 @@ public class LocalFile extends File implements LocalFSObject{
      */
     private Folder parent;
 
+    private Path path;
+
     /**
      * Creates a new LocalFile.
      *
@@ -56,12 +58,12 @@ public class LocalFile extends File implements LocalFSObject{
 
     @Override
     public void setPath(@NotNull Path path) {
-
+        this.path = path;
     }
 
     @Override
     public Path getPath() {
-        return null;
+        return path;
     }
 
     @Override
