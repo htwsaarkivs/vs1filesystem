@@ -114,7 +114,9 @@ public class LocalFolder extends Folder implements LocalFSObject {
 
         if (null != getPath()) {
             try {
-                Files.move(path, path.resolveSibling(name));
+                Path newPath = path.resolveSibling(name);
+                Files.move(path, newPath);
+                setPath(newPath);
             } catch (IOException e) {
                 // TODO: What shall I do with this f*cking exception??
                 e.printStackTrace();
