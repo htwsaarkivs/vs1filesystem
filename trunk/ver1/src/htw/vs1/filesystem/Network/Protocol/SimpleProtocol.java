@@ -6,12 +6,14 @@ import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolNoMoreLinesAvailableException;
+import htw.vs1.filesystem.Network.Protocol.Requests.Request;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestAnalyzer;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 import htw.vs1.filesystem.Network.Protocol.State.State;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Stack;
 
 /**
  * Created by markus on 11.06.15.
@@ -24,7 +26,10 @@ public class SimpleProtocol implements Protocol{
 
     private String currentLine;
 
+    private Stack<Request> requestStack = new Stack<Request>();
+
     private State state = SimpleProtocolState.IDLE;
+
 
     public SimpleProtocol(Socket socket) throws SimpleProtocolInitializationErrorException {
         try {
@@ -51,6 +56,17 @@ public class SimpleProtocol implements Protocol{
             }
         }
 
+    }
+
+    @Override
+    public void pushRequestStack(Request req) {
+        this.requestStack.push(req);
+
+    }
+
+    @Override
+    public Stack<Request> getRequestStack() {
+        return this.requestStack;
     }
 
     public String getCurrentLine() {

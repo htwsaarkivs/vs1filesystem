@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
 import htw.vs1.filesystem.Network.Protocol.Protocol;
+import htw.vs1.filesystem.Network.Protocol.Requests.Request;
 import htw.vs1.filesystem.Network.Protocol.SimpleProtocol;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 
@@ -14,7 +15,7 @@ public class SETUSER extends AbstractCommand {
 
 
     @Override
-    public void execute(Protocol prot) {
+    public void execute(Protocol prot, Request req) {
         prot.putLine("Successfully logged in");
         prot.setState(SimpleProtocolState.AUTHENTICATED);
     }

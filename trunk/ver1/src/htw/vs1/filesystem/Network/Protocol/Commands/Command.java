@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
 import htw.vs1.filesystem.Network.Protocol.Protocol;
+import htw.vs1.filesystem.Network.Protocol.Requests.Request;
 
 /**
  * Created by markus on 12.06.15.
@@ -8,6 +9,6 @@ import htw.vs1.filesystem.Network.Protocol.Protocol;
 public interface Command {
 
 
-    void execute(Protocol prot);
+    void execute(Protocol prot, Request req);
 
 }

@@ -18,8 +18,10 @@ public class RequestAnalyzer {
 
 
     public void parseCommand(Protocol proto) {
-        Command currCommand = this.factory.getCommand(proto.getCurrentLine());
-        currCommand.execute(proto);
+        SimpleProtocolRequest req = new SimpleProtocolRequest(proto.getCurrentLine());
+        Command currCommand = this.factory.getCommand(req.getCommandString());
+        currCommand.execute(proto, req);
+        proto.pushRequestStack(req);
     }
 
 }
