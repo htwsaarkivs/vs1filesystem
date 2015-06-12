@@ -1,9 +1,12 @@
 package htw.vs1.filesystem.Network.Protocol;
 
 
+import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolNoMoreLinesAvailableException;
+import htw.vs1.filesystem.Network.Protocol.Requests.RequestAnalyzer;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 import htw.vs1.filesystem.Network.Protocol.State.State;
 
@@ -33,19 +36,20 @@ public class SimpleProtocol implements Protocol{
         }
     }
 
-    public void run() throws Exception {
-        //this.protoConfig.configure(State.IDLE)
+    public void run() {
+        RequestAnalyzer analyzer = new RequestAnalyzer(new CommandFactory());
+
+        this.putLine("200 SERVER READY");
+        this.setState(SimpleProtocolState.READY);
 
         while (true) {
             try {
-                this.readLine();
-                this.putLine(this.getCurrentLine());
-
-            } catch (SimpleProtocolNoMoreLinesAvailableException e) {
-                break;
+                readLine();
+                analyzer.parseCommand(this);
+            } catch (Exception e) {
+                putLine("Connection terminated: "+e.toString());
             }
         }
-
 
     }
 
@@ -63,7 +67,7 @@ public class SimpleProtocol implements Protocol{
         printWriter.flush();
     }
 
-    public void readLine() throws SimpleProtocolNoMoreLinesAvailableException{
+    public void readLine() throws SimpleProtocolFatalError {
         try {
             BufferedReader bufferedReader =
                     new BufferedReader(
@@ -72,7 +76,7 @@ public class SimpleProtocol implements Protocol{
             this.currentLine = bufferedReader.readLine();
 
         } catch (IOException e) {
-            throw new SimpleProtocolNoMoreLinesAvailableException();
+            throw new SimpleProtocolFatalError();
         }
     }
 

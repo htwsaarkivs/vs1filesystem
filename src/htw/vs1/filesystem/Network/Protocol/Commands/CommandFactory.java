@@ -20,6 +20,7 @@ public class CommandFactory {
         commands.put(GETFEAT.COMMAND_STRING, new GETFEAT());
         commands.put(SETPASS.COMMAND_STRING, new SETPASS());
         commands.put(SETUSER.COMMAND_STRING, new SETUSER());
+        commands.put(LS.COMMAND_STRING, new LS());
     }
 
 
