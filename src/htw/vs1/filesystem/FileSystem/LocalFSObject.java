@@ -10,16 +10,22 @@ import java.nio.file.Path;
  * This class provides the following function(s):
  */
 public interface LocalFSObject {
-
-    //TODO to comment
+    /**
+     * Set the given path as new Path for the FSObject
+     * @param path  new Path
+     */
     void setPath(@NotNull Path path);
-    //TODO to comment
+
+    /**
+     * Returns the current path of the FSObject
+     * @return current Path
+     */
     Path getPath();
 
     /**
      * Deletes the LocalFSObject itself.
      * If this is a LocalFolder it deletes
-     * the directory and contents recursively.
+     * the directory and its contents recursively.
      */
     void delete();
 

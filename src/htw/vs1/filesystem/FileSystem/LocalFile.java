@@ -20,6 +20,9 @@ public class LocalFile extends File implements LocalFSObject{
      */
     private Folder parent;
 
+    /**
+     * Path of the Local File in the real Filesystem
+     */
     private Path path;
 
     /**
@@ -56,16 +59,29 @@ public class LocalFile extends File implements LocalFSObject{
     }
 
 
+    /**
+     * Set the given path as new Path for the FSObject
+     * @param path  new Path
+     */
     @Override
     public void setPath(@NotNull Path path) {
         this.path = path;
     }
 
+    /**
+     * Returns the current path of the FSObject
+     * @return current Path
+     */
     @Override
     public Path getPath() {
         return path;
     }
 
+    /**
+     * Deletes the LocalFSObject itself from
+     * the filetree and in the real Filesystem
+     *
+     */
     @Override
     public void delete() {
         //TODO Fehlerbehandlung

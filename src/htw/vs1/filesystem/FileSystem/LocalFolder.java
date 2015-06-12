@@ -54,7 +54,6 @@ public class LocalFolder extends Folder implements LocalFSObject {
 
             rootFolder = new LocalFolder(ROOT_FOLDER_NAME, ROOT_FOLDER_PATH);
         }
-
         return rootFolder;
     }
 
@@ -66,6 +65,9 @@ public class LocalFolder extends Folder implements LocalFSObject {
         ROOT_FOLDER_PATH = Paths.get(rootPath);
     }
 
+    /**
+     * Path of the Local Folder in the real Filesystem
+     */
     private Path path;
 
     /**
@@ -99,6 +101,11 @@ public class LocalFolder extends Folder implements LocalFSObject {
         this.path = path;
     }
 
+    /**
+     * Set the new name of a FSObject and modidies its path
+     * @param name new name of this object.
+     * @throws FileAlreadyExistsException
+     */
     @Override
     public void setName(String name) throws FileAlreadyExistsException {
         if (getParentFolder() != null && getParentFolder().exists(name)) {
@@ -224,6 +231,18 @@ public class LocalFolder extends Folder implements LocalFSObject {
         add(object, null);
     }
 
+    /**
+     *  Add a new {@link FSObject} to this Folder.
+     * Precondition: the new object has to be either a
+     * {@link LocalFile} or a {@link LocalFolder}.
+     *
+     * @param object the new folder, which can be either a
+     *               {@link LocalFile} or a {@link LocalFolder}.
+     * @param pathOfFile can be a null value if the FSObject does
+     *                   not exist, or will be not null for the
+     *                   first run of loadFileSystemDirectory()
+     * @throws FileAlreadyExistsException
+     */
     public void add(FSObject object, @Nullable Path pathOfFile) throws FileAlreadyExistsException {
         checkPrecondition(object);
 
@@ -275,6 +294,10 @@ public class LocalFolder extends Folder implements LocalFSObject {
         // Caution: is the object a folder delete it recursively.
     }
 
+    /**
+     * Iterates recursivly through the filetree and calls delete()
+     * Removes the file from the filetree and in the real Filesystem
+     */
     @Override
     public void delete() {
         for (FSObject object : getContent()) {
@@ -321,13 +344,18 @@ public class LocalFolder extends Folder implements LocalFSObject {
         }
     }
 
-    //TODO to comment
+    /**
+     * Returns the current path of the FSObject
+     * @return current Path
+     */
     public Path getPath() {
         return path;
     }
 
-
-    //TODO to comment
+    /**
+     * Set the given path as new Path for the FSObject
+     * @param path  new Path
+     */
     public void setPath(Path path) {
         this.path = path;
     }
