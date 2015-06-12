@@ -7,9 +7,9 @@ import htw.vs1.filesystem.Network.Protocol.State.State;
  */
 public interface Protocol {
 
-    //Ein Protokoll muss einen Schreibkanal besitzen
+    String getCurrentLine();
 
-
+    void putLine(String line);
 
     //Ein Protokoll muss einen veränderbaren Zustand haben
     void setState(State state);

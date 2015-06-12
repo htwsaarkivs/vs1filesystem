@@ -11,7 +11,8 @@ public class GETFEAT extends AbstractCommand {
 
 
     public void execute(Protocol prot) {
-
+        prot.putLine("This Server supports amazingly many features");
+        prot.putLine("Current State: "+prot.getState().toString());
     }
 
 

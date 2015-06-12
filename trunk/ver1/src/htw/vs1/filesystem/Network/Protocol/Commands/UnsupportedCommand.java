@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Protocol;
 
 /**
@@ -9,6 +10,6 @@ public class UnsupportedCommand extends AbstractCommand {
 
     @Override
     public void execute(Protocol prot) {
-
+        prot.putLine("Invalid Command");
     }
 }
