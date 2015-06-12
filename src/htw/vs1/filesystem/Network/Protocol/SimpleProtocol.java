@@ -1,16 +1,19 @@
 package htw.vs1.filesystem.Network.Protocol;
 
-import htw.vs1.filesystem.Network.Protocol.DepcState.SimpleProtocolState;
-import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
+
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
-import com.github.oxo42.stateless4j.*;
+
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolNoMoreLinesAvailableException;
+import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
+import htw.vs1.filesystem.Network.Protocol.State.State;
+
 import java.io.*;
 import java.net.Socket;
 
 /**
  * Created by markus on 11.06.15.
  */
-public class SimpleProtocol {
+public class SimpleProtocol implements Protocol{
 
     private InputStream input;
     private OutputStream output;
@@ -18,18 +21,7 @@ public class SimpleProtocol {
 
     private String currentLine;
 
-    private enum State {
-        IDLE,
-        READY,
-        AUTHENTICATED
-    }
-
-    private enum Trigger {
-        CLIENT_CONNECTED,
-        CLIENT_AUTHENTICATED
-    }
-
-    private StateMachineConfig<State, Trigger> protoConfig = new StateMachineConfig<>();
+    private State state = SimpleProtocolState.IDLE;
 
     public SimpleProtocol(Socket socket) throws SimpleProtocolInitializationErrorException {
         try {
@@ -44,12 +36,15 @@ public class SimpleProtocol {
     public void run() throws Exception {
         //this.protoConfig.configure(State.IDLE)
 
+        while (true) {
+            try {
+                this.readLine();
+                this.putLine(this.getCurrentLine());
 
-
-
-            this.putLine("200 SERVER READY");
-            //Signal an Zustandsautomat
-            //this.state.clientConnected(this);
+            } catch (SimpleProtocolNoMoreLinesAvailableException e) {
+                break;
+            }
+        }
 
 
     }
@@ -59,9 +54,6 @@ public class SimpleProtocol {
     }
 
 
-    public void setSimpleProtocolState(SimpleProtocolState state) {
-        this.state = state;
-    }
 
     public void putLine(String line) {
         PrintWriter printWriter =
@@ -71,7 +63,7 @@ public class SimpleProtocol {
         printWriter.flush();
     }
 
-    public void readLine() {
+    public void readLine() throws SimpleProtocolNoMoreLinesAvailableException{
         try {
             BufferedReader bufferedReader =
                     new BufferedReader(
@@ -80,9 +72,18 @@ public class SimpleProtocol {
             this.currentLine = bufferedReader.readLine();
 
         } catch (IOException e) {
-            //TODO: Excetion schreiben
+            throw new SimpleProtocolNoMoreLinesAvailableException();
         }
     }
 
 
+    @Override
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    @Override
+    public State getState() {
+        return this.state;
+    }
 }
