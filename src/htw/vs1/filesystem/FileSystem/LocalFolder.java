@@ -287,13 +287,11 @@ public class LocalFolder extends Folder implements LocalFSObject {
     @Override
     public void delete(FSObject object) throws FSObjectNotFoundException {
         checkPrecondition(object);
-        LocalFSObject localFSObject = (LocalFSObject)object;
+        LocalFSObject localFSObject = (LocalFSObject)object; // Type verified in #checkPrecondition(FSObject)
+        // First we have to ensure that the file is deleted on the real file system
         localFSObject.delete();
+        // then we can remove it from our list.
         contents.remove(object);
-
-
-        // TODO: is there a path available delete the object on the file system.
-        // Caution: is the object a folder delete it recursively.
     }
 
     /**
@@ -308,12 +306,12 @@ public class LocalFolder extends Folder implements LocalFSObject {
             localFSObject.delete();
         }
 
-        // TODO: delete *this* Folder in the real file system.
-        Path path = getPath();
-        try {
-            Files.delete(path);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (null != getPath()) {
+            try {
+                Files.delete(getPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         setParentFolder(null);
 
