@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Protocol;
 import htw.vs1.filesystem.Network.Protocol.Requests.Request;
 
@@ -12,7 +13,6 @@ public class SETPASS extends AbstractCommand {
 
 
     public void execute(Protocol prot, Request req) {
-
         prot.putLine(prot.getRequestStack().toString());
 
     }
