@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -32,6 +33,32 @@ public class LocalFile extends File implements LocalFSObject{
      */
     public LocalFile(String name) {
         super(name);
+    }
+
+    /**
+     * Set the new name of a FSObject and modidies its path
+     * @param name new name of this object.
+     * @throws FileAlreadyExistsException
+     */
+    @Override
+    public void setName(String name) throws FileAlreadyExistsException {
+        if (getParentFolder() != null && getParentFolder().exists(name)) {
+            throw new FileAlreadyExistsException(name, null, "in Folder: " + getParentFolder().getAbsolutePath());
+        }
+
+        if (null != getPath()) {
+            try {
+                Path newPath = path.resolveSibling(name);
+                Files.move(path, newPath);
+                setPath(newPath);
+            } catch (IOException e) {
+                // TODO: What shall I do with this f*cking exception??
+                e.printStackTrace();
+            }
+        }
+
+
+        super.setName(name); // It is important to set the name after checking if it exists!
     }
 
     /**
