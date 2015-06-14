@@ -2,7 +2,8 @@ package htw.vs1.filesystem.FileSystem;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
@@ -126,18 +127,18 @@ public class LocalFolder extends LocalFSObject implements Folder {
      *
      * @param name name of the requested {@link FSObject}.
      * @return {@link FSObject} identified by the given name.
-     * @throws FSObjectNotFoundException iff this {@link Folder} does not contain a
+     * @throws ObjectNotFoundException iff this {@link Folder} does not contain a
      *                                   {@link FSObject} identified by the given name as a direct child.
      */
     @Override
-    public FSObject getObject(String name) throws FSObjectNotFoundException {
+    public FSObject getObject(String name) throws ObjectNotFoundException {
         for (FSObject object : contents) {
             if (object.getName().equals(name)) {
                 return object;
             }
         }
 
-        throw new FSObjectNotFoundException();
+        throw new ObjectNotFoundException(FSObjectException.OBJECTNOTFOUND, new Throwable());
     }
 
     @Override
@@ -216,10 +217,10 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * Removes a {@link FSObject} from the folder.
      *
      * @param object {@link FSObject} to remove from this folder.
-     * @throws FSObjectNotFoundException iff the {@link FSObject} is not in this folder.
+     * @throws ObjectNotFoundException iff the {@link FSObject} is not in this folder.
      */
     @Override
-    public void delete(FSObject object) throws FSObjectNotFoundException {
+    public void delete(FSObject object) throws ObjectNotFoundException {
         checkPrecondition(object);
         LocalFSObject localFSObject = (LocalFSObject)object; // Type verified in #checkPrecondition(FSObject)
         // First we have to ensure that the file is deleted on the real file system
@@ -257,10 +258,10 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * given name
      *
      * @param name String to identify the {@link FSObject} which should be removed.
-     * @throws FSObjectNotFoundException iff there is no {@link FSObject} identified by this name.
+     * @throws ObjectNotFoundException iff there is no {@link FSObject} identified by this name.
      */
     @Override
-    public void delete(String name) throws FSObjectNotFoundException {
+    public void delete(String name) throws ObjectNotFoundException {
         delete(getObject(name));
     }
 }

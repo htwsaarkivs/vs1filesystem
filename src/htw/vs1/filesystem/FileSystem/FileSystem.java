@@ -1,7 +1,8 @@
 package htw.vs1.filesystem.FileSystem;
 
 import com.sun.istack.internal.NotNull;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.LinkedList;
@@ -66,7 +67,7 @@ public class FileSystem implements FileSystemInterface {
      * {@inheritDoc}
      */
     @Override
-    public void changeDirectory(@NotNull String name) throws FSObjectNotFoundException {
+    public void changeDirectory(@NotNull String name) throws ObjectNotFoundException {
         FSObject o;
         if (name.equals(UP)) {
             o = workingFolder.getParentFolder();
@@ -77,7 +78,7 @@ public class FileSystem implements FileSystemInterface {
         if (o instanceof Folder) {
             workingFolder = (Folder) o;
         } else {
-            throw new FSObjectNotFoundException();
+            throw new ObjectNotFoundException(FSObjectException.OBJECTNOTFOUND, new Throwable());
         }
     }
 
@@ -116,7 +117,7 @@ public class FileSystem implements FileSystemInterface {
      */
     @Override
      public void rename(@NotNull String name, String newName)
-            throws FSObjectNotFoundException, FileAlreadyExistsException
+            throws ObjectNotFoundException, FileAlreadyExistsException
     {
         FSObject toRename = workingFolder.getObject(name);
         toRename.setName(newName);
@@ -126,7 +127,7 @@ public class FileSystem implements FileSystemInterface {
      * {@inheritDoc}
      */
     @Override
-    public void delete(@NotNull String name) throws FSObjectNotFoundException {
+    public void delete(@NotNull String name) throws ObjectNotFoundException {
         workingFolder.delete(name);
     }
 }

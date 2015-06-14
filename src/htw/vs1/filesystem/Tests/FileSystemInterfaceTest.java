@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.Tests;
 
 import htw.vs1.filesystem.FileSystem.*;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,17 +66,17 @@ public class FileSystemInterfaceTest {
         try {
             //Ordner existiert nicht
             this.fs.changeDirectory("does-not-exist");
-            fail("Ordner exisitiert nicht. Erwartete Exception FSObjectNotFoundException wurde nicht geworfen.");
-        } catch (FSObjectNotFoundException e) {
+            fail("Ordner exisitiert nicht. Erwartete Exception ObjectNotFoundException wurde nicht geworfen.");
+        } catch (ObjectNotFoundException e) {
             //Alles in Ordnung
         }
 
 
         try {
-            //Übergebener Name ist eine Datei
+            //ï¿½bergebener Name ist eine Datei
             this.fs.changeDirectory("datei1");
-            fail("Übergebener Name gehört zu einer Datei. Erwartete Exception FSObjectNotFoundException wurde nicht geworfen.");
-        } catch (FSObjectNotFoundException e) {
+            fail("ï¿½bergebener Name gehï¿½rt zu einer Datei. Erwartete Exception ObjectNotFoundException wurde nicht geworfen.");
+        } catch (ObjectNotFoundException e) {
             //.. Alles in Ordnung
         }
 

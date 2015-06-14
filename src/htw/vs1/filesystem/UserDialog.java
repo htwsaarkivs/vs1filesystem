@@ -5,7 +5,7 @@ import htw.vs1.filesystem.FileSystem.FSObject;
 import htw.vs1.filesystem.FileSystem.FileSystemInterface;
 import htw.vs1.filesystem.FileSystem.LocalFolder;
 import htw.vs1.filesystem.FileSystem.LocalFile;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.Arrays;
@@ -185,7 +185,7 @@ public class UserDialog {
             boolean goon = true;
             try {
                 goon = executeCommand(command);
-            } catch (FSObjectNotFoundException e) {
+            } catch (ObjectNotFoundException e) {
                 e.printStackTrace();
                 // TODO: User feedback!
             } catch (FileAlreadyExistsException e) {
@@ -210,7 +210,7 @@ public class UserDialog {
      * be executed.
      * @return {@code false}, iff the user wants to exit this dialog.
      */
-    private boolean executeCommand(Command command) throws FSObjectNotFoundException, FileAlreadyExistsException {
+    private boolean executeCommand(Command command) throws ObjectNotFoundException, FileAlreadyExistsException {
         switch (command) {
             case LS:
                 String content = fileSystem.listDirectoryContent();

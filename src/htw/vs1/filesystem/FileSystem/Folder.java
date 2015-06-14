@@ -1,6 +1,6 @@
 package htw.vs1.filesystem.FileSystem;
 
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.LinkedList;
@@ -26,18 +26,18 @@ public interface Folder extends FSObject {
      * Removes a {@link FSObject} from the folder.
      *
      * @param object {@link FSObject} to remove from this folder.
-     * @throws FSObjectNotFoundException iff the {@link FSObject} is not in this folder.
+     * @throws ObjectNotFoundException iff the {@link FSObject} is not in this folder.
      */
-    void delete(FSObject object) throws FSObjectNotFoundException;
+    void delete(FSObject object) throws ObjectNotFoundException;
 
     /**
      * Removes a {@link FSObject} from the folder identified by the
      * given name
      *
      * @param name String to identify the {@link FSObject} which should be removed.
-     * @throws FSObjectNotFoundException iff there is no {@link FSObject} identified by this name.
+     * @throws ObjectNotFoundException iff there is no {@link FSObject} identified by this name.
      */
-    void delete(String name) throws FSObjectNotFoundException;
+    void delete(String name) throws ObjectNotFoundException;
 
     /**
      * Get the Content of this {@link Folder} as a {@link List} of
@@ -62,11 +62,11 @@ public interface Folder extends FSObject {
      *
      * @param name name of the requested {@link FSObject}.
      * @return {@link FSObject} identified by the given name.
-     * @throws FSObjectNotFoundException iff this {@link Folder} does not
+     * @throws ObjectNotFoundException iff this {@link Folder} does not
      * contain a {@link FSObject} identified by the given name as a direct
      * child.
      */
-    FSObject getObject(String name) throws FSObjectNotFoundException;
+    FSObject getObject(String name) throws ObjectNotFoundException;
 
     LinkedList<FSObject> search(LinkedList<FSObject> list, String name);
 
