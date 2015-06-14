@@ -5,6 +5,8 @@ import com.sun.istack.internal.Nullable;
 import java.nio.file.FileAlreadyExistsException;
 
 /**
+ * Base class for all objects in our file system tree.
+ *
  * Created by felix on 14.06.15.
  */
 public abstract class AbstractFSObject implements FSObject {
