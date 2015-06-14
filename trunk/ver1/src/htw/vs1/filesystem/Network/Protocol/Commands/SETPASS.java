@@ -2,6 +2,7 @@ package htw.vs1.filesystem.Network.Protocol.Commands;
 
 import htw.vs1.filesystem.Network.Protocol.Protocol;
 import htw.vs1.filesystem.Network.Protocol.Requests.Request;
+import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 
 import java.util.List;
 
@@ -13,11 +14,9 @@ public class SETPASS extends AbstractCommand {
 
 
 
-    public void execute(Protocol prot, List<Request> requestList) {
-        System.out.println(requestList);
-        if (requestList.get(requestList.size()-1).getCommandString() != SETUSER.COMMAND_STRING) {
-            prot.putLine("ERROR: SETPASS must be preceeded by SETUSER Command");
-        }
+    public void execute(Protocol prot, RequestList requestList) {
+        prot.putLine(requestList.getNthElementFromEnd(-2).toString());
+
 
     }
 }

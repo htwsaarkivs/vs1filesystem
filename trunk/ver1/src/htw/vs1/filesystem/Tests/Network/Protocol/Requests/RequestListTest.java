@@ -1,11 +1,15 @@
 package htw.vs1.filesystem.Tests.Network.Protocol.Requests;
 
 import htw.vs1.filesystem.Network.Protocol.Requests.Request;
+import htw.vs1.filesystem.Network.Protocol.Requests.RequestLinkedList;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 import htw.vs1.filesystem.Network.Protocol.Requests.SimpleProtocolRequest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 
 import static org.junit.Assert.*;
 
@@ -15,7 +19,7 @@ import static org.junit.Assert.*;
 public class RequestListTest {
 
 
-    private RequestList list = new RequestList();
+    private RequestLinkedList list = new RequestLinkedList();
 
     @Before
     public void setUp() throws Exception {
@@ -52,8 +56,17 @@ public class RequestListTest {
     }
 
     @Test
-    public void testGetUnmodifiableRequestList() throws Exception {
-        RequestList.getUnmodifiableRequestList(list);
+    public void testUnmodifiableRequestList() throws Exception {
+        for(Method meth: RequestList.class.getDeclaredMethods()) {
+            for(Type type: meth.getParameterTypes()) {
+                if (type.getTypeName().equals("htw.vs1.filesystem.Network.Protocol.Requests.Request")) {
+                    fail("Interface allows to add content.");
+                }
+            }
+            if (meth.getName().contains("del") || meth.getName().contains("loeschen")) {
+                fail("Interface seems to allow deletion of content");
+            }
+        }
 
 
     }

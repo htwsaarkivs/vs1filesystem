@@ -3,6 +3,7 @@ package htw.vs1.filesystem.Network.Protocol.Commands;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Protocol;
 import htw.vs1.filesystem.Network.Protocol.Requests.Request;
+import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class SETUSER extends AbstractCommand {
 
 
     @Override
-    public void execute(Protocol prot, List<Request> requestList) throws SimpleProtocolTerminateConnection {
+    public void execute(Protocol prot, RequestList requestList) throws SimpleProtocolTerminateConnection {
         prot.putLine("Successfully logged in");
         //prot.setState(SimpleProtocolState.AUTHENTICATED);
         //throw new SimpleProtocolTerminateConnection();
