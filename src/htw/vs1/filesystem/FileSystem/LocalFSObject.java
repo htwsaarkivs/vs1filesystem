@@ -5,9 +5,10 @@ import com.sun.istack.internal.NotNull;
 import java.nio.file.Path;
 
 /**
- * This class is part of the package htw.vs1.filesystem.FileSystem and project ver1
+ * Represents a object of our file system tree which is located
+ * on a *this* computer
+ *
  * Created by Marc Otting on 10.06.2015.
- * This class provides the following function(s):
  */
 public abstract class LocalFSObject extends AbstractFSObject {
     /**

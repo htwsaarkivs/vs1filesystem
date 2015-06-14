@@ -36,7 +36,6 @@ public class RealFileSystemAdapter {
     private void loadFileSystemDirectory(DirectoryStream<Path> directoryStream, LocalFolder matchingFolder) {
 
         for (Path path : directoryStream) {
-            String absolutePath = path.toFile().getAbsolutePath();
             String filename = path.toFile().getName();
 
             if (path.toFile().isDirectory()) {
