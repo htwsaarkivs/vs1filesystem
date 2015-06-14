@@ -17,8 +17,7 @@ public class RequestAnalyzer {
 
     private CommandFactory factory;
 
-    private List<Request> requestList = new LinkedList<Request>();
-
+    private RequestList requestList = new RequestList();
 
 
     public RequestAnalyzer(CommandFactory factory) {
