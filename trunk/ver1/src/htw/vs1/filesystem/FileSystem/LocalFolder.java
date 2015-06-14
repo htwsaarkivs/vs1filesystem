@@ -138,7 +138,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
             }
         }
 
-        throw new ObjectNotFoundException(FSObjectException.OBJECTNOTFOUND, new Throwable());
+        throw new ObjectNotFoundException(FSObjectException.OBJECTNOTFOUND);
     }
 
     @Override

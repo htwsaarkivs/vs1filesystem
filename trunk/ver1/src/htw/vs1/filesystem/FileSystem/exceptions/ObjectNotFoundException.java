@@ -31,7 +31,13 @@ public class ObjectNotFoundException extends FSObjectException {
     public ObjectNotFoundException(String msg, Throwable ex) {
         super(msg, ex);
     }
-    public ObjectNotFoundException(){
 
+    /**
+     * Costructor of a Exeption with 1 Parameter
+     *
+     * @param msg Error message of the Expetion
+     */
+    public ObjectNotFoundException(String msg) {
+        super(msg);
     }
 }

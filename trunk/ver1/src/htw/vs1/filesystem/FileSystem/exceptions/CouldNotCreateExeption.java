@@ -28,4 +28,13 @@ public class CouldNotCreateExeption extends FSObjectException {
     public CouldNotCreateExeption(String msg, Throwable ex) {
         super(msg, ex);
     }
+
+    /**
+     * Costructor of a Exeption with 1 Parameter
+     *
+     * @param msg Error message of the Expetion
+     */
+    public CouldNotCreateExeption(String msg) {
+        super(msg);
+    }
 }
