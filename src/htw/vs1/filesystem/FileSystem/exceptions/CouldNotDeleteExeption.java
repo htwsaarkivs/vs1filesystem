@@ -28,4 +28,13 @@ public class CouldNotDeleteExeption extends FSObjectException {
     public CouldNotDeleteExeption(String msg, Throwable ex) {
         super(msg, ex);
     }
+
+    /**
+     * Costructor of a Exeption with 1 Parameter
+     *
+     * @param msg Error message of the Expetion
+     */
+    public CouldNotDeleteExeption(String msg) {
+        super(msg);
+    }
 }

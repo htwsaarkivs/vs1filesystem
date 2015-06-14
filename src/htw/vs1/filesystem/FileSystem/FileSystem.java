@@ -78,7 +78,7 @@ public class FileSystem implements FileSystemInterface {
         if (o instanceof Folder) {
             workingFolder = (Folder) o;
         } else {
-            throw new ObjectNotFoundException(FSObjectException.OBJECTNOTFOUND, new Throwable());
+            throw new ObjectNotFoundException(FSObjectException.OBJECTNOTFOUND);
         }
     }
 

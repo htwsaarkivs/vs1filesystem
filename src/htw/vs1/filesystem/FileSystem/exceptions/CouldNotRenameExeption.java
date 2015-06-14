@@ -28,4 +28,13 @@ public class CouldNotRenameExeption extends FSObjectException {
     public CouldNotRenameExeption(String msg, Throwable ex) {
         super(msg, ex);
     }
+
+    /**
+     * Costructor of a Exeption with 1 Parameter
+     *
+     * @param msg Error message of the Expetion
+     */
+    public CouldNotRenameExeption(String msg) {
+        super(msg);
+    }
 }

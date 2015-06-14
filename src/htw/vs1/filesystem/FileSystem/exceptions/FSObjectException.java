@@ -18,21 +18,28 @@ public class FSObjectException extends Exception {
      * Costructor of a Exeption with 3 Parameters
      * @param object current Object the Exeption is regarding to
      * @param msg Error message of the Expetion
-     * @param ex Exeption object to deal with
+     * @param reason Exeption object to deal with
      */
-    public FSObjectException(FSObject object, String msg,Throwable ex){
+    public FSObjectException(FSObject object, String msg,Throwable reason){
         System.out.println(object.toString());
         System.out.println(msg);
-        System.out.println(ex.toString());
+        System.out.println(reason.toString());
     }
     /**
      * Costructor of a Exeption with 2 Parameters
      * @param msg Error message of the Expetion
-     * @param ex Exeption object to deal wit
+     * @param reason Exeption object to deal with
      */
-    public FSObjectException(String msg,Throwable ex){
+    public FSObjectException(String msg,Throwable reason){
         System.out.println(msg);
-        System.out.println(ex.toString());
+        System.out.println(reason.toString());
     }
 
+    /**
+     * Costructor of a Exeption with 1 Parameter
+     * @param msg Error message of the Expetion
+     */
+    public FSObjectException (String msg){
+        System.out.println(msg);
+    }
 }
