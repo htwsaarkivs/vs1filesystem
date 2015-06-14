@@ -3,6 +3,7 @@ package htw.vs1.filesystem.Network.Protocol;
 import htw.vs1.filesystem.Network.Protocol.Requests.Request;
 import htw.vs1.filesystem.Network.Protocol.State.State;
 
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -10,8 +11,6 @@ import java.util.Stack;
  */
 public interface Protocol {
 
-    void pushRequestStack(Request req);
-    Stack<Request> getRequestStack();
 
     //Man muss den aktuelle gelesenen Zeile lesen können
     String getCurrentLine();

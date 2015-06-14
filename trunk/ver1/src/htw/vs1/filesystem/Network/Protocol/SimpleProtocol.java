@@ -6,6 +6,7 @@ import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolNoMoreLinesAvailableException;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Requests.Request;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestAnalyzer;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
@@ -13,6 +14,8 @@ import htw.vs1.filesystem.Network.Protocol.State.State;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -26,7 +29,12 @@ public class SimpleProtocol implements Protocol{
 
     private String currentLine;
 
-    private Stack<Request> requestStack = new Stack<Request>();
+    /*
+     * Der RequestStack hat im Protokoll (Klasse) nichts verloren, da er keine Eigenschaft des Protokolls darstellt.
+     * Er ist viel mehr ein Hilfskonstrukt, welches es bestimmten Kommandos erlaubt auf vorherige Request zurückzugreifen.
+      * Auch würde eine solche Konstruktion die Veränderung des Stacks aus Kommandos herraus erlauben, da im Protokoll zwangsläufig eine pushRequestStack-Methode vorhanden sein muss.
+      * Durch Programmierfehler, könnte man so einfacher Lücken im Protokoll ausnutzen.
+     */
 
     private State state = SimpleProtocolState.IDLE;
 
@@ -52,21 +60,11 @@ public class SimpleProtocol implements Protocol{
                 readLine();
                 analyzer.parseCommand(this);
             } catch (Exception e) {
-                putLine("Connection terminated: "+e.toString());
+                putLine("Connection terminated: " + e.toString());
+                break;
             }
         }
 
-    }
-
-    @Override
-    public void pushRequestStack(Request req) {
-        this.requestStack.push(req);
-
-    }
-
-    @Override
-    public Stack<Request> getRequestStack() {
-        return this.requestStack;
     }
 
     public String getCurrentLine() {
