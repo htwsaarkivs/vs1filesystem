@@ -31,6 +31,7 @@ public class SimpleProtocolRequest implements Request {
         return this.commandString;
     }
 
+
     public boolean hasArguments() {
         return !this.arguments.isEmpty();
     }

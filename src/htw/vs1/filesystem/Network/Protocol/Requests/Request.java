@@ -8,6 +8,7 @@ import java.util.List;
 public interface Request {
     String getCommandString();
 
+
     boolean hasArguments();
     int numOfArguments();
     List<String> getArguments();
