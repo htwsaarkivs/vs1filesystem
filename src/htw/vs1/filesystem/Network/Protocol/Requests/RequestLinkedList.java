@@ -26,6 +26,12 @@ public class RequestLinkedList extends LinkedList<Request> implements RequestLis
 
     }
 
+    @Override
+    public Request getCurrentElement() {
+        return this.peek();
+    }
+
+
     public static RequestList getUnmodifiableRequestList(RequestLinkedList requestList) {
         return requestList;
         //return null;

@@ -2,6 +2,7 @@ package htw.vs1.filesystem.Network.Protocol.Commands;
 
 import htw.vs1.filesystem.Network.Protocol.Protocol;
 import htw.vs1.filesystem.Network.Protocol.Requests.Request;
+import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 public class LS extends AbstractCommand {
     public static String COMMAND_STRING = "LS";
 
-    public void execute(Protocol prot, List<Request> requestList) {
+    public void execute(Protocol prot, RequestList requestList) {
         if(prot.getState().equals(SimpleProtocolState.AUTHENTICATED)) {
             prot.putLine("YoloSwag Liste");
         } else {
