@@ -9,24 +9,33 @@ import java.nio.file.Path;
  * Created by Marc Otting on 10.06.2015.
  * This class provides the following function(s):
  */
-public interface LocalFSObject {
+public abstract class LocalFSObject extends AbstractFSObject {
+    /**
+     * Creates a new FSObject.
+     *
+     * @param name name of the FSObject.
+     */
+    public LocalFSObject(String name) {
+        super(name);
+    }
+
     /**
      * Set the given path as new Path for the FSObject
      * @param path  new Path
      */
-    void setPath(@NotNull Path path);
+    abstract void setPath(@NotNull Path path);
 
     /**
      * Returns the current path of the FSObject
      * @return current Path
      */
-    Path getPath();
+    abstract Path getPath();
 
     /**
      * Deletes the LocalFSObject itself.
      * If this is a LocalFolder it deletes
      * the directory and its contents recursively.
      */
-    void delete();
+    abstract void delete();
 
 }

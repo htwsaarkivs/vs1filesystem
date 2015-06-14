@@ -14,7 +14,7 @@ import java.util.List;
  *
  * Created by markus on 01.06.15.
  */
-public abstract class FSObject {
+public interface FSObject {
 
     /**
      * Prints the given {@link List} of {@link FSObject}s into
@@ -25,7 +25,7 @@ public abstract class FSObject {
      * @param printAbsolutePath {@code true}, iff the absolute path of the object is desired
      * @return String containing the given list in a human readable format.
      */
-    public static String printFSObjectList(List<FSObject> list, boolean printAbsolutePath) {
+    static String printFSObjectList(List<FSObject> list, boolean printAbsolutePath) {
         StringBuilder builder = new StringBuilder();
         for (FSObject object : list) {
             builder.append((printAbsolutePath) ? object.getAbsolutePath() : object.getName());
@@ -37,34 +37,19 @@ public abstract class FSObject {
         return builder.toString();
     }
 
-    private String name;
-
-    /**
-     * Creates a new FSObject.
-     *
-     * @param name name of the FSObject.
-     */
-    public FSObject(String name) {
-        this.name = name;
-    }
-
     /**
      * Set the name of this {@link FSObject}.
      *
      * @param name new name of this object.
      */
-    public void setName(String name) throws FileAlreadyExistsException {
-        this.name = name;
-    }
+    void setName(String name) throws FileAlreadyExistsException;
 
     /**
      * Gets the name of this {@link FSObject}.
      *
      * @return name of this object.
      */
-    public String getName() {
-        return name;
-    }
+    String getName();
 
     /**
      * Gets the parent {@link Folder} containing this FSObject. Can be
@@ -73,34 +58,13 @@ public abstract class FSObject {
      * @return the parent {@link Folder} or {@code null} iff this is the
      * root-Folder.
      */
-    public abstract @Nullable Folder getParentFolder();
-
-    /**
-     * Sets the parent {@link Folder} containing this FSObject. Can be
-     * {@link null}, iff this is the root-Folder.
-     *
-     * @param parentFolder the parent {@link Folder} or {@code null} iff this is the
-     * root-Folder.
-     */
-    protected abstract void setParentFolder(@Nullable Folder parentFolder);
+    @Nullable Folder getParentFolder();
 
     /**
      * Returns the absolute path of this FSObject.
      *
      * @return absolute path - e.g. /root/folder
      */
-    public String getAbsolutePath() {
-
-        if (getParentFolder() == null) {
-            return "/"+getName();
-        }
-
-        return getParentFolder().getAbsolutePath() + "/" + getName();
-    }
-
-    @Override
-    public String toString() {
-        return getName();
-    }
+    String getAbsolutePath();
 
 }
