@@ -2,7 +2,8 @@ package htw.vs1.filesystem.Network.Protocol.Commands;
 
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Protocol;
-import htw.vs1.filesystem.Network.Protocol.Requests.Request;
+import htw.vs1.filesystem.Network.Protocol.RequestList;
+
 
 import java.util.List;
 
@@ -12,5 +13,5 @@ import java.util.List;
 public interface Command {
 
 
-    void execute(Protocol prot, List<Request> requestList) throws SimpleProtocolTerminateConnection;
+    void execute(Protocol prot, RequestList requestList) throws SimpleProtocolTerminateConnection;
 }
