@@ -17,20 +17,11 @@ public class RequestAnalyzer {
 
     private CommandFactory factory;
 
-    private RequestList requestList = new RequestList();
+    private RequestLinkedList requestList = new RequestLinkedList();
 
 
     public RequestAnalyzer(CommandFactory factory) {
         this.factory = factory;
-    }
-
-
-    private void addToList(Request req) {
-        requestList.add(req);
-    }
-
-    private List<Request> getUnmodifiableList() {
-        return Collections.unmodifiableList(requestList);
     }
 
 
@@ -40,10 +31,10 @@ public class RequestAnalyzer {
 
         //Invalid commands are not added to our stack
         if (!(currCommand instanceof UnsupportedCommand)) {
-            addToList(req);
+            requestList.add(req);
         }
         //Exceute command
-        currCommand.execute(proto, getUnmodifiableList());
+        currCommand.execute(proto, requestList);
 
     }
 
