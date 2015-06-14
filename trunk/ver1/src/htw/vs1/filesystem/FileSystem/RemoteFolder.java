@@ -14,7 +14,7 @@ import java.util.List;
  *
  * Created by felix on 03.06.15.
  */
-public class RemoteFolder extends Folder {
+public class RemoteFolder extends RemoteFSObject implements Folder {
 
     /**
      * Creates a new Folder with the given name.

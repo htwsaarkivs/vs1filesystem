@@ -20,7 +20,7 @@ import java.util.List;
  *
  * Created by felix on 03.06.15.
  */
-public class LocalFolder extends Folder implements LocalFSObject {
+public class LocalFolder extends LocalFSObject implements Folder {
 
     /**
      * Name of our single root folder instance.
@@ -252,7 +252,7 @@ public class LocalFolder extends Folder implements LocalFSObject {
             throw new FileAlreadyExistsException(object.getName());
         }
 
-        object.setParentFolder(this);
+        ((LocalFSObject) object).setParentFolder(this); // cast verified by #checkPrecondition(FSObject).
 
         if (null == pathOfFile && null != getPath()) {
             pathOfFile = Paths.get(getPath().toAbsolutePath().toString(), object.getName());

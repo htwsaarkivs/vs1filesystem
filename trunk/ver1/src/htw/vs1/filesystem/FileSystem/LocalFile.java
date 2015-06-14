@@ -14,7 +14,7 @@ import java.nio.file.Path;
  *
  * Created by felix on 03.06.15.
  */
-public class LocalFile extends File implements LocalFSObject{
+public class LocalFile extends LocalFSObject implements File{
 
     /**
      * Reference to the {@link Folder} containing this one.

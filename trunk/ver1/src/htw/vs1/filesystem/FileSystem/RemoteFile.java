@@ -9,7 +9,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  *
  * Created by markus on 03.06.15.
  */
-public class RemoteFile extends File {
+public class RemoteFile extends RemoteFSObject implements File {
 
     /**
      * Creates a new File.
