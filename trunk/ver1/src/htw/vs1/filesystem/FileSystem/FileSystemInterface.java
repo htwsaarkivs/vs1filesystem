@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.FileSystem;
 
 import com.sun.istack.internal.NotNull;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
@@ -38,10 +38,10 @@ public interface FileSystemInterface {
      * {@link Folder} identified by the given name.</p>
      *
      * @param name name of the {@link Folder}.
-     * @throws FSObjectNotFoundException if the object identified
+     * @throws ObjectNotFoundException if the object identified
      *         by the given name is not available.
      */
-    void changeDirectory(@NotNull String name) throws FSObjectNotFoundException;
+    void changeDirectory(@NotNull String name) throws ObjectNotFoundException;
 
     /**
      * <p>Returns the content of the current directory as a String.</p>
@@ -67,7 +67,7 @@ public interface FileSystemInterface {
      */
     List<FSObject> search(String name);
 
-    void rename(@NotNull String name,String newName) throws FSObjectNotFoundException, FileAlreadyExistsException;
-    void delete(@NotNull String name) throws FSObjectNotFoundException;
+    void rename(@NotNull String name,String newName) throws ObjectNotFoundException, FileAlreadyExistsException;
+    void delete(@NotNull String name) throws ObjectNotFoundException;
 
 }

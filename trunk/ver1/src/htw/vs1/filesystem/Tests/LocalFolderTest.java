@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.Tests;
 
 import htw.vs1.filesystem.FileSystem.*;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import org.junit.Test;
 
 import java.nio.file.FileAlreadyExistsException;
@@ -105,7 +105,7 @@ public class LocalFolderTest {
         try {
             inst.getObject("a");
             fail("FSObjectNotFound Exception wurde nicht geworfen.");
-        } catch(FSObjectNotFoundException e) {
+        } catch(ObjectNotFoundException e) {
             //Alles hat geklappt
         }
 
