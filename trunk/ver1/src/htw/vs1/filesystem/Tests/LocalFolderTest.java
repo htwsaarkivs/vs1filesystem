@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.Tests;
 
 import htw.vs1.filesystem.FileSystem.*;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import org.junit.Test;
 
@@ -60,6 +61,8 @@ public class LocalFolderTest {
             // Fine, expected exception thrown by method.
         } catch (FileAlreadyExistsException e) {
             e.printStackTrace();
+        } catch (CouldNotCreateExeption e) {
+            fail("couldNotCreateException should not been thrown.");
         }
 
 
@@ -70,6 +73,8 @@ public class LocalFolderTest {
             // Fine, expected exception thrown by method.
         } catch (FileAlreadyExistsException e) {
             e.printStackTrace();
+        } catch (CouldNotCreateExeption e) {
+            fail("CouldNotCreateException should not been thrown.");
         }
     }
 

@@ -1,5 +1,7 @@
 package htw.vs1.filesystem.FileSystem;
 
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteExeption;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 
 import java.nio.file.FileAlreadyExistsException;
@@ -20,7 +22,7 @@ public interface Folder extends FSObject {
      * @param object {@link FSObject} to add to this folder.
      * @throws FileAlreadyExistsException iff the file already exists.
      */
-    void add(FSObject object) throws FileAlreadyExistsException;
+    void add(FSObject object) throws FileAlreadyExistsException, CouldNotCreateExeption;
 
     /**
      * Removes a {@link FSObject} from the folder.
@@ -28,7 +30,7 @@ public interface Folder extends FSObject {
      * @param object {@link FSObject} to remove from this folder.
      * @throws ObjectNotFoundException iff the {@link FSObject} is not in this folder.
      */
-    void delete(FSObject object) throws ObjectNotFoundException;
+    void delete(FSObject object) throws ObjectNotFoundException, CouldNotDeleteExeption;
 
     /**
      * Removes a {@link FSObject} from the folder identified by the
@@ -37,7 +39,7 @@ public interface Folder extends FSObject {
      * @param name String to identify the {@link FSObject} which should be removed.
      * @throws ObjectNotFoundException iff there is no {@link FSObject} identified by this name.
      */
-    void delete(String name) throws ObjectNotFoundException;
+    void delete(String name) throws ObjectNotFoundException, CouldNotDeleteExeption;
 
     /**
      * Get the Content of this {@link Folder} as a {@link List} of

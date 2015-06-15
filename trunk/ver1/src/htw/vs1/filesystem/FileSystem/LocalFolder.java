@@ -2,6 +2,8 @@ package htw.vs1.filesystem.FileSystem;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteExeption;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 
@@ -165,7 +167,11 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * @throws FileAlreadyExistsException iff the file already exists.
      */
     public void add(FSObject object) throws FileAlreadyExistsException {
-        add(object, null);
+        try {
+            add(object, null);
+        } catch (CouldNotCreateExeption couldNotCreateExeption) {
+            couldNotCreateExeption.printStackTrace();
+        }
     }
 
     /**
@@ -180,7 +186,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      *                   first run of loadFileSystemDirectory()
      * @throws FileAlreadyExistsException
      */
-    public void add(FSObject object, @Nullable Path pathOfFile) throws FileAlreadyExistsException {
+    public void add(FSObject object, @Nullable Path pathOfFile) throws FileAlreadyExistsException, CouldNotCreateExeption {
         checkPrecondition(object);
 
         if (exists(object.getName())) {
@@ -191,20 +197,14 @@ public class LocalFolder extends LocalFSObject implements Folder {
 
         if (null == pathOfFile && null != getPath()) {
             pathOfFile = Paths.get(getPath().toAbsolutePath().toString(), object.getName());
-            if (object instanceof LocalFile) {
-                try {
+            try {
+                if (object instanceof LocalFile) {
                     Files.createFile(pathOfFile);
-                } catch (IOException e) {
-                    // TODO: What shall I do with this f*cking exception?
-                    e.printStackTrace();
-                }
-            } else {
-                try {
+                } else {
                     Files.createDirectory(pathOfFile);
-                } catch (IOException e) {
-                    // TODO: What shall I do with this f*cking exception?
-                    e.printStackTrace();
                 }
+            } catch (UnsupportedOperationException | SecurityException | IOException e) {
+                throw new CouldNotCreateExeption(FSObjectException.COULDNOTCREATE, e);
             }
         }
 
@@ -220,7 +220,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * @throws ObjectNotFoundException iff the {@link FSObject} is not in this folder.
      */
     @Override
-    public void delete(FSObject object) throws ObjectNotFoundException {
+    public void delete(FSObject object) throws ObjectNotFoundException, CouldNotDeleteExeption {
         checkPrecondition(object);
         LocalFSObject localFSObject = (LocalFSObject)object; // Type verified in #checkPrecondition(FSObject)
         // First we have to ensure that the file is deleted on the real file system
@@ -234,7 +234,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * Removes the file from the filetree and in the real Filesystem
      */
     @Override
-    public void delete() {
+    public void delete() throws ObjectNotFoundException, CouldNotDeleteExeption {
         for (FSObject object : getContent()) {
             checkPrecondition(object);
             LocalFSObject localFSObject = (LocalFSObject)object;
@@ -261,7 +261,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * @throws ObjectNotFoundException iff there is no {@link FSObject} identified by this name.
      */
     @Override
-    public void delete(String name) throws ObjectNotFoundException {
+    public void delete(String name) throws ObjectNotFoundException, CouldNotDeleteExeption {
         delete(getObject(name));
     }
 }

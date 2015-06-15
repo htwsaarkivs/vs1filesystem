@@ -1,6 +1,8 @@
 package htw.vs1.filesystem.FileSystem;
 
 import com.sun.istack.internal.NotNull;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 
@@ -117,17 +119,21 @@ public class FileSystem implements FileSystemInterface {
      */
     @Override
      public void rename(@NotNull String name, String newName)
-            throws ObjectNotFoundException, FileAlreadyExistsException
+            throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotRenameExeption
     {
         FSObject toRename = workingFolder.getObject(name);
-        toRename.setName(newName);
+        try {
+            toRename.setName(newName);
+        } catch (htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption couldNotRenameExeption) {
+            couldNotRenameExeption.printStackTrace();
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void delete(@NotNull String name) throws ObjectNotFoundException {
+    public void delete(@NotNull String name) throws ObjectNotFoundException, CouldNotDeleteExeption {
         workingFolder.delete(name);
     }
 }
