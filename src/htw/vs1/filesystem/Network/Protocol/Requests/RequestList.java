@@ -6,5 +6,6 @@ package htw.vs1.filesystem.Network.Protocol.Requests;
 public interface RequestList {
     Request getNthElementFromEnd(int n) throws IndexOutOfBoundsException;
     Request getCurrentElement();
+    Request getPreviousElement();
 
 }
