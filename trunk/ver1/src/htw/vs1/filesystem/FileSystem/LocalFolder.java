@@ -246,6 +246,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
                 Files.delete(getPath());
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new CouldNotDeleteExeption(this, FSObjectException.COULDNOTDELETE, e);
             }
         }
         setParentFolder(null);
