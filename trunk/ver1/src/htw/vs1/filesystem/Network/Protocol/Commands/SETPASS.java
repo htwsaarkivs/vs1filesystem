@@ -15,7 +15,17 @@ public class SETPASS extends AbstractCommand {
 
 
     public void execute(Protocol prot, RequestList requestList) {
-        prot.putLine(requestList.getNthElementFromEnd(-2).toString());
+
+
+        if (requestList.getPreviousElement().getCommandString().equals(SETUSER.COMMAND_STRING) && requestList.getPreviousElement().hasArguments()) {
+            if (requestList.getCurrentElement().hasArguments()) {
+
+            } else {
+                prot.putLine("4xx No Arguments supplied");
+            }
+        } else {
+            prot.putLine("4xx SETPASS must be preceeded by valid SETUSER.");
+        }
 
 
     }

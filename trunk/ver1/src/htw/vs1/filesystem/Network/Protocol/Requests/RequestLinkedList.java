@@ -27,8 +27,13 @@ public class RequestLinkedList extends LinkedList<Request> implements RequestLis
     }
 
     @Override
-    public Request getCurrentElement() {
+    public Request getCurrentElement()  {
         return this.peek();
+    }
+
+    @Override
+    public Request getPreviousElement() {
+        return this.getNthElementFromEnd(1);
     }
 
 
