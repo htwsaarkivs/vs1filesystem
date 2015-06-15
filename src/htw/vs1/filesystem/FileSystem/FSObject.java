@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.FileSystem;
 
 import com.sun.istack.internal.Nullable;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
 import htw.vs1.filesystem.UserDialog;
 
 import java.nio.file.FileAlreadyExistsException;
@@ -42,7 +43,7 @@ public interface FSObject {
      *
      * @param name new name of this object.
      */
-    void setName(String name) throws FileAlreadyExistsException;
+    void setName(String name) throws FileAlreadyExistsException, CouldNotRenameExeption;
 
     /**
      * Gets the name of this {@link FSObject}.

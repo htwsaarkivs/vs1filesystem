@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.FileSystem;
 
 import com.sun.istack.internal.Nullable;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
 
 import java.nio.file.FileAlreadyExistsException;
 
@@ -29,7 +30,7 @@ public abstract class AbstractFSObject implements FSObject {
      * @param name new name of this object.
      */
     @Override
-    public void setName(String name) throws FileAlreadyExistsException {
+    public void setName(String name) throws FileAlreadyExistsException, CouldNotRenameExeption {
         this.name = name;
     }
 

@@ -1,5 +1,8 @@
 package htw.vs1.filesystem.FileSystem;
 
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -62,8 +65,13 @@ public class RealFileSystemAdapter {
             folder.add(object, path);
         } catch (FileAlreadyExistsException e) {
             // This should never happen
+            e.printStackTrace();
             throw new IllegalStateException("File already exists in this folder. Absolute path: "
                     + path.toFile().getAbsolutePath());
+        } catch (CouldNotCreateExeption e) {
+            e.printStackTrace();
+            // This should never happen at this point we do not create any file or folder
+            throw new IllegalStateException(FSObjectException.COULDNOTCREATE);
         }
     }
 

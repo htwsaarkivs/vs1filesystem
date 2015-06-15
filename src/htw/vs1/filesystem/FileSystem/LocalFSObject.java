@@ -1,6 +1,10 @@
 package htw.vs1.filesystem.FileSystem;
 
 import com.sun.istack.internal.Nullable;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
@@ -40,7 +44,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
      * @throws FileAlreadyExistsException
      */
     @Override
-    public void setName(String name) throws FileAlreadyExistsException {
+    public void setName(String name) throws FileAlreadyExistsException, CouldNotRenameExeption {
         if (getParentFolder() != null && getParentFolder().exists(name)) {
             throw new FileAlreadyExistsException(name, null, "in Folder: " + getParentFolder().getAbsolutePath());
         }
@@ -51,8 +55,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
                 Files.move(getPath(), newPath);
                 setPath(newPath);
             } catch (IOException e) {
-                // TODO: What shall I do with this f*cking exception??
-                e.printStackTrace();
+                throw new CouldNotRenameExeption(this, FSObjectException.COULDNOTRENAME, e);
             }
         }
 
@@ -110,7 +113,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
      * If this is a LocalFolder it deletes
      * the directory and its contents recursively.
      */
-    abstract void delete();
+    abstract void delete() throws ObjectNotFoundException, CouldNotDeleteExeption;
 
     /**
      * Checks the precondition that the given objects has to be a

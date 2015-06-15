@@ -5,6 +5,9 @@ import htw.vs1.filesystem.FileSystem.FSObject;
 import htw.vs1.filesystem.FileSystem.FileSystemInterface;
 import htw.vs1.filesystem.FileSystem.LocalFolder;
 import htw.vs1.filesystem.FileSystem.LocalFile;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 
 import java.nio.file.FileAlreadyExistsException;
@@ -210,7 +213,9 @@ public class UserDialog {
      * be executed.
      * @return {@code false}, iff the user wants to exit this dialog.
      */
-    private boolean executeCommand(Command command) throws ObjectNotFoundException, FileAlreadyExistsException {
+    private boolean executeCommand(Command command)
+            throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotCreateExeption,
+                    CouldNotDeleteExeption, CouldNotRenameExeption {
         switch (command) {
             case LS:
                 String content = fileSystem.listDirectoryContent();
