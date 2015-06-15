@@ -36,6 +36,7 @@ public class FileSystem implements FileSystemInterface {
     private Folder workingFolder;
 
     public FileSystem() {
+        this.workingFolder = LocalFolder.getRootFolder();
     }
 
     /**
