@@ -69,7 +69,14 @@ public class FileSystem implements FileSystemInterface {
      * {@inheritDoc}
      */
     @Override
-    public void changeDirectory(@NotNull String name) throws ObjectNotFoundException {
+    public void changeDirectory(@NotNull String path) throws ObjectNotFoundException {
+        String[] pathArray = path.split("/");
+        for (String name : pathArray) {
+            changeDirectoryToSubFolder(name);
+        }
+    }
+
+    private void changeDirectoryToSubFolder(@NotNull String name) throws ObjectNotFoundException {
         FSObject o;
         if (name.equals(UP)) {
             o = workingFolder.getParentFolder();
