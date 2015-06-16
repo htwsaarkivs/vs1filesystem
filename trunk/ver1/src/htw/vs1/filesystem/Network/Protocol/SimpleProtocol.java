@@ -1,12 +1,14 @@
 package htw.vs1.filesystem.Network.Protocol;
 
 
+import htw.vs1.filesystem.FileSystem.FileSystemInterface;
 import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 
-import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolNoMoreLinesAvailableException;
+
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
+import htw.vs1.filesystem.Network.Protocol.Replies.Reply;
 import htw.vs1.filesystem.Network.Protocol.Requests.Request;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestAnalyzer;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
@@ -26,9 +28,9 @@ public class SimpleProtocol implements Protocol{
     private InputStream input;
     private OutputStream output;
     private Socket socket;
-
     private String currentLine;
 
+    private FileSystemInterface fileSystem;
     /*
      * Der RequestStack hat im Protokoll (Klasse) nichts verloren, da er keine Eigenschaft des Protokolls darstellt.
      * Er ist viel mehr ein Hilfskonstrukt, welches es bestimmten Kommandos erlaubt auf vorherige Request zurückzugreifen.
@@ -43,8 +45,9 @@ public class SimpleProtocol implements Protocol{
      * @param socket Reference to a ServerSocket
      * @throws SimpleProtocolInitializationErrorException
      */
-    public SimpleProtocol(Socket socket) throws SimpleProtocolInitializationErrorException {
+    public SimpleProtocol(Socket socket, FileSystemInterface fileSystem) throws SimpleProtocolInitializationErrorException {
         try {
+            this.fileSystem = fileSystem;
             this.socket = socket;
             this.input = socket.getInputStream();
             this.output = socket.getOutputStream();
@@ -65,7 +68,9 @@ public class SimpleProtocol implements Protocol{
         while (true) {
             try {
                 readLine();
-                analyzer.parseCommand(this);
+                Reply reply = analyzer.parseCommand(this);
+                if (reply.terminatesConnection()) throw new SimpleProtocolTerminateConnection();
+                reply.putReply(this);
             } catch (Exception e) {
                 putLine("Connection terminated: " + e.toString());
                 break;
@@ -115,5 +120,10 @@ public class SimpleProtocol implements Protocol{
     @Override
     public State getState() {
         return this.state;
+    }
+
+    @Override
+    public FileSystemInterface getFileSystem() {
+        return this.fileSystem;
     }
 }

@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol;
 
+import htw.vs1.filesystem.FileSystem.FileSystemInterface;
 import htw.vs1.filesystem.Network.Protocol.Requests.Request;
 import htw.vs1.filesystem.Network.Protocol.State.State;
 
@@ -35,4 +36,7 @@ public interface Protocol {
      * @return
      */
     State getState();
+
+    FileSystemInterface getFileSystem();
+
 }
