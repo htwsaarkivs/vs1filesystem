@@ -1,10 +1,8 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
 import htw.vs1.filesystem.Network.Protocol.Protocol;
-import htw.vs1.filesystem.Network.Protocol.Requests.Request;
+import htw.vs1.filesystem.Network.Protocol.Replies.Reply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
-
-import java.util.List;
 
 /**
  * Created by markus on 12.06.15.
@@ -14,7 +12,7 @@ public class SETPASS extends AbstractCommand {
 
 
 
-    public void execute(Protocol prot, RequestList requestList) {
+    public Reply execute(Protocol prot, RequestList requestList) {
 
 
         if (requestList.getPreviousElement().getCommandString().equals(SETUSER.COMMAND_STRING) && requestList.getPreviousElement().hasArguments()) {
@@ -27,6 +25,6 @@ public class SETPASS extends AbstractCommand {
             prot.putLine("4xx SETPASS must be preceeded by valid SETUSER.");
         }
 
-
+        return null;
     }
 }

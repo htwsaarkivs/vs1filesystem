@@ -34,7 +34,9 @@ public class TCPParallelServer implements ServerInterface {
         this.port = port;
     }
 
-
+    /**
+     * Start the parallel Server.
+     */
     public void run() {
 
         try

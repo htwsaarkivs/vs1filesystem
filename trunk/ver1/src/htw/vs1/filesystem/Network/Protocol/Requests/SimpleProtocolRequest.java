@@ -18,6 +18,9 @@ public class SimpleProtocolRequest implements Request {
         this.parse();
     }
 
+    /**
+     * Analyzes the String passed to this Object during Construction
+     */
     private void parse() {
         String[] tokens = this.requestLine.split(" ");
             this.commandString = tokens[0];
@@ -27,19 +30,36 @@ public class SimpleProtocolRequest implements Request {
 
     }
 
+    /**
+     * Returns the Command String
+     * Warning: May be Empty, when an empty command has been isseud.
+     * @return
+     */
     public String getCommandString() {
         return this.commandString;
     }
 
-
+    /**
+     * Tells you whether the amazingly awesome Command you have just read from the client actually contains some nice arguments or not.
+     * Who the hell is even reading this idiotic and unnecessary JavaDoc Comment. It's just taking up a whole lot of memory in our repository.
+     * @return
+     */
     public boolean hasArguments() {
         return !this.arguments.isEmpty();
     }
 
+    /**
+     * Tells you how many arguments were appended to the Command
+     * @return
+     */
     public int numOfArguments() {
         return this.arguments.size();
     }
 
+    /**
+     * May or not give you a complete list of all arguments. Please use @hasArguments to see if there's actually anything in here!
+     * @return
+     */
     public List<String> getArguments() {
         return this.arguments;
     }
