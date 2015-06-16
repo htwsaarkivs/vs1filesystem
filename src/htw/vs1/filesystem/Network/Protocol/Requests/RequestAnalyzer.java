@@ -5,6 +5,7 @@ import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
 import htw.vs1.filesystem.Network.Protocol.Commands.UnsupportedCommand;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Protocol;
+import htw.vs1.filesystem.Network.Protocol.Replies.Reply;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -25,7 +26,7 @@ public class RequestAnalyzer {
     }
 
 
-    public void parseCommand(Protocol proto) throws SimpleProtocolTerminateConnection {
+    public Reply parseCommand(Protocol proto) throws SimpleProtocolTerminateConnection {
         Request req = new SimpleProtocolRequest(proto.getCurrentLine());
         Command currCommand = this.factory.getCommand(req.getCommandString());
 
@@ -34,7 +35,7 @@ public class RequestAnalyzer {
             requestList.add(req);
         }
         //Exceute command
-        currCommand.execute(proto, requestList);
+        return currCommand.execute(proto, requestList);
 
     }
 
