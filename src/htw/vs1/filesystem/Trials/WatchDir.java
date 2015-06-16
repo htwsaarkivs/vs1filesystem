@@ -32,6 +32,8 @@ package htw.vs1.filesystem.Trials;
  */
 
 
+import com.sun.nio.file.SensitivityWatchEventModifier;
+
 import java.nio.file.*;
 import static java.nio.file.StandardWatchEventKinds.*;
 import static java.nio.file.LinkOption.*;
@@ -59,7 +61,9 @@ public class WatchDir {
      * Register the given directory with the WatchService
      */
     private void register(Path dir) throws IOException {
-        WatchKey key = dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
+        WatchKey key = dir.register(watcher,
+                new WatchEvent.Kind[] {ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY},
+                SensitivityWatchEventModifier.HIGH); // Sensitive high will update immediately !
         if (trace) {
             Path prev = keys.get(key);
             if (prev == null) {
