@@ -8,29 +8,15 @@ public class ThreadSafety {
 
     private Calculator calculator = new Calculator();
 
-    private int resultThread1 = 0;
+    public void start(final boolean threadSafe) throws InterruptedException {
+        System.out.println("Initial calculator value " + calculator.getResult());
 
-    private int resultThread2 = 0;
-
-    private void setResult(int thread, int result) {
-        switch (thread) {
-            case 1:
-                resultThread1 = result;
-                break;
-            case 2:
-                resultThread2 = result;
-                break;
-        }
-    }
-
-    public void start() throws InterruptedException {
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                calculator.addThreadSafe(3);
-                setResult(1, calculator.getResult());
+                calculator.addThreadSafe(3, threadSafe);
             }
-        });
+        }, "Thread1");
         t1.start();
 
         Thread t2 = new Thread(new Runnable() {
@@ -41,10 +27,9 @@ public class ThreadSafety {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                calculator.addThreadSafe(7);
-                setResult(2, calculator.getResult());
+                calculator.addThreadSafe(7, threadSafe);
             }
-        });
+        }, "Thread2");
         t2.start();
 
 
@@ -52,18 +37,29 @@ public class ThreadSafety {
         t1.join();
         t2.join();
 
-        System.out.println("Result Thread1: " + resultThread1);
-        System.out.println("Result Thread2: " + resultThread2);
+        System.out.println("Result: " + calculator.getResult());
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void demonstrate(boolean threadSafe) throws InterruptedException {
         long start = System.currentTimeMillis();
-        (new ThreadSafety()).start();
+        (new ThreadSafety()).start(threadSafe);
         long end = System.currentTimeMillis();
 
         long diff = end - start;
 
         System.out.println("Dauer: " + (diff / 1000) + " Sekunden.");
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+
+        System.out.println("Starting two concurrently thread non-thread-safe:");
+        demonstrate(false);
+
+        System.out.println("--------------------------------------------------");
+
+        System.out.println("Starting two concurrently thread non-thread-safe:");
+        demonstrate(true);
+
     }
 
 }

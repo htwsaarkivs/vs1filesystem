@@ -10,6 +10,8 @@ public class Calculator {
     private int result;
 
     public void add(int value) {
+        System.out.println(Thread.currentThread().getName() + ", " +
+                "Calculator: starting add process with value of " + value + ". This will take 5 seconds.");
         int temp = result;
         try {
             Thread.sleep(5000); // sleeps 5 seconds
@@ -19,8 +21,12 @@ public class Calculator {
         result = temp + value;
     }
 
-    public void addThreadSafe(int value) {
-        synchronized (lock) {
+    public void addThreadSafe(int value, boolean threadSafe) {
+        if (threadSafe) {
+            synchronized (lock) {
+                add(value);
+            }
+        } else {
             add(value);
         }
     }
