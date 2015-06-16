@@ -38,7 +38,11 @@ public class SimpleProtocol implements Protocol{
 
     private State state = SimpleProtocolState.IDLE;
 
-
+    /**
+     * Creates a new SimpleProtocol instance.
+     * @param socket Reference to a ServerSocket
+     * @throws SimpleProtocolInitializationErrorException
+     */
     public SimpleProtocol(Socket socket) throws SimpleProtocolInitializationErrorException {
         try {
             this.socket = socket;
@@ -49,6 +53,9 @@ public class SimpleProtocol implements Protocol{
         }
     }
 
+    /**
+     * Initiate SimpleProtocol.
+     */
     public void run() {
         RequestAnalyzer analyzer = new RequestAnalyzer(new CommandFactory());
 
@@ -67,12 +74,13 @@ public class SimpleProtocol implements Protocol{
 
     }
 
+    @Override
     public String getCurrentLine() {
         return this.currentLine;
     }
 
 
-
+    @Override
     public void putLine(String line) {
         PrintWriter printWriter =
                 new PrintWriter(
@@ -81,6 +89,10 @@ public class SimpleProtocol implements Protocol{
         printWriter.flush();
     }
 
+    /**
+     * Read from the Socket.
+     * @throws SimpleProtocolFatalError
+     */
     public void readLine() throws SimpleProtocolFatalError {
         try {
             BufferedReader bufferedReader =

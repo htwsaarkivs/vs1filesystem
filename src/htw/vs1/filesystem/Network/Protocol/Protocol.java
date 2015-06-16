@@ -12,13 +12,27 @@ import java.util.Stack;
 public interface Protocol {
 
 
-    //Man muss den aktuelle gelesenen Zeile lesen können
+    /**
+     * Get the last line of text, which has been read from the socket.
+     * @return
+     */
     String getCurrentLine();
 
-    //Ein Protokoll muss ausgeben können
+    /**
+     * Write to the Socket.
+     * @param line
+     */
     void putLine(String line);
 
-    //Ein Protokoll muss einen veränderbaren Zustand haben
+    /**
+     * Change the state of the protocol.
+     * @param state
+     */
     void setState(State state);
+
+    /**
+     * Get the current state of the protocol.
+     * @return
+     */
     State getState();
 }

@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.State;
 
 /**
- * Created by markus on 12.06.15.
+ * Holds all valid states of @SimpleProtocol
  */
 public enum SimpleProtocolState implements State {
     IDLE,
