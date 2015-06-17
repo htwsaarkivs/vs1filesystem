@@ -20,16 +20,16 @@ public class ReplyCode403 extends ReplyCode {
 
     @Override
     public int getCode() {
-        return 0;
+        return CODE;
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return DESCRIPTION;
     }
 
     @Override
     public Type getReplyType() {
-        return null;
+        return REPLY_TYPE;
     }
 }
