@@ -30,11 +30,11 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
     }
 
     @Override
-    protected void onEntryCreate(Path child, Path dir) {
+    protected void onEntryCreate(Path child, Path parent) {
         System.out.format(
                 "Created %s %s in directory %s\n",
                 (child.toFile().isDirectory()) ? "folder" : "file",
                 child.toFile().getName(),
-                dir);
+                parent);
     }
 }
