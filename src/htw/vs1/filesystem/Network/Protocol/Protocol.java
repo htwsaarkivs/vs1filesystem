@@ -1,11 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol;
 
-import htw.vs1.filesystem.FileSystem.FileSystemInterface;
-import htw.vs1.filesystem.Network.Protocol.Requests.Request;
+import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
 import htw.vs1.filesystem.Network.Protocol.State.State;
-
-import java.util.List;
-import java.util.Stack;
 
 /**
  * Created by markus on 12.06.15.

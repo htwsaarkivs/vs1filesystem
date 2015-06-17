@@ -1,8 +1,6 @@
 package htw.vs1.filesystem.Network;
 
-import htw.vs1.filesystem.FileSystem.FileSystem;
-import htw.vs1.filesystem.FileSystem.LocalFolder;
-import htw.vs1.filesystem.FileSystem.RealFileSystemAdapter;
+import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
 import htw.vs1.filesystem.Network.Protocol.SimpleProtocol;
 
 import java.net.Socket;

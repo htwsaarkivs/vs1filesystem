@@ -1,4 +1,4 @@
-package htw.vs1.filesystem.FileSystem;
+package htw.vs1.filesystem.FileSystem.virtual;
 
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteExeption;

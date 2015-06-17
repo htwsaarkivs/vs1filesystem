@@ -1,6 +1,6 @@
 package htw.vs1.filesystem.FileSystem.exceptions;
 
-import htw.vs1.filesystem.FileSystem.FSObject;
+import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 
 /**
  * This class is part of the package htw.vs1.filesystem.FileSystem.exceptions and project ver1

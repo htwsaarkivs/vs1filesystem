@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol;
 
 
-import htw.vs1.filesystem.FileSystem.FileSystemInterface;
+import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
 import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
@@ -9,16 +9,12 @@ import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializati
 
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.Reply;
-import htw.vs1.filesystem.Network.Protocol.Requests.Request;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestAnalyzer;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 import htw.vs1.filesystem.Network.Protocol.State.State;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
 
 /**
  * Created by markus on 11.06.15.

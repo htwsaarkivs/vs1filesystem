@@ -1,4 +1,4 @@
-package htw.vs1.filesystem.FileSystem;
+package htw.vs1.filesystem.FileSystem.virtual;
 
 /**
  * Represents a object of our file system tree which is located

@@ -1,6 +1,9 @@
 package htw.vs1.filesystem;
 
-import htw.vs1.filesystem.FileSystem.*;
+import htw.vs1.filesystem.FileSystem.physical.PhysicalFileSystemAdapter;
+import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
+import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
+import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 
 public class Main {
 
@@ -17,16 +20,18 @@ public class Main {
 
         LocalFolder.setRootDirectory(args[0]);
 
-        RealFileSystemAdapter adapter = new RealFileSystemAdapter();
+        PhysicalFileSystemAdapter adapter = new PhysicalFileSystemAdapter();
         System.out.println("Importing directory...");
         String path = adapter.loadFileSystemTree();
         System.out.println("Directory: " + path + " imported.");
+        adapter.startWatchService();
 
         FileSystemInterface fileSystem = new FileSystem(LocalFolder.getRootFolder());
         fileSystem.setWorkingDirectory(LocalFolder.getRootFolder());
         UserDialog dialog = new UserDialog(fileSystem);
 
         dialog.showDialog();
+        adapter.stopWatchService();
     }
 
     /**
