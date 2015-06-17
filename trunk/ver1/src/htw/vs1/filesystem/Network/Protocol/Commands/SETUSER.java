@@ -4,6 +4,7 @@ import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateCon
 import htw.vs1.filesystem.Network.Protocol.Protocol;
 import htw.vs1.filesystem.Network.Protocol.Replies.Reply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
+import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 
 /**
  * Created by markus on 12.06.15.
@@ -17,7 +18,7 @@ public class SETUSER extends AbstractCommand {
     @Override
     public Reply execute(Protocol prot, RequestList requestList) throws SimpleProtocolTerminateConnection {
         prot.putLine("Successfully logged in");
-        //prot.setState(SimpleProtocolState.AUTHENTICATED);
+        prot.setState(SimpleProtocolState.AUTHENTICATED);
         //throw new SimpleProtocolTerminateConnection();
         return null;
     }
