@@ -1,6 +1,6 @@
 package htw.vs1.filesystem.FileSystem.exceptions;
 
-import htw.vs1.filesystem.FileSystem.FSObject;
+import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 
 /**
  * Exception indicating that the requested {@link FSObject}

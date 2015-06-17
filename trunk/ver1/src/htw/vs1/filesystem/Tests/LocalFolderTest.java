@@ -1,8 +1,8 @@
 package htw.vs1.filesystem.Tests;
 
-import htw.vs1.filesystem.FileSystem.*;
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.virtual.*;
 import org.junit.Test;
 
 import java.nio.file.FileAlreadyExistsException;

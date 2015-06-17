@@ -1,4 +1,4 @@
-package htw.vs1.filesystem.FileSystem;
+package htw.vs1.filesystem.FileSystem.virtual;
 
 /**
  * A File represents a leaf in our filesystem.

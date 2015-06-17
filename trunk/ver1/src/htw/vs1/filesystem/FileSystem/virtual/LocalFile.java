@@ -1,10 +1,6 @@
-package htw.vs1.filesystem.FileSystem;
-
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
+package htw.vs1.filesystem.FileSystem.virtual;
 
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 

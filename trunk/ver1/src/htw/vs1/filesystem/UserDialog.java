@@ -1,10 +1,10 @@
 package htw.vs1.filesystem;
 
 import com.sun.istack.internal.Nullable;
-import htw.vs1.filesystem.FileSystem.FSObject;
-import htw.vs1.filesystem.FileSystem.FileSystemInterface;
-import htw.vs1.filesystem.FileSystem.LocalFolder;
-import htw.vs1.filesystem.FileSystem.LocalFile;
+import htw.vs1.filesystem.FileSystem.virtual.FSObject;
+import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
+import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
+import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteExeption;
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;

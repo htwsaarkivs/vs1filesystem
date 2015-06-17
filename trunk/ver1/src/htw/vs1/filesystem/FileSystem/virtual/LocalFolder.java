@@ -1,4 +1,4 @@
-package htw.vs1.filesystem.FileSystem;
+package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;

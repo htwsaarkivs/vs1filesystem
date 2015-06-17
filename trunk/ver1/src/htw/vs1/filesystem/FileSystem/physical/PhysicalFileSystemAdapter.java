@@ -1,7 +1,10 @@
-package htw.vs1.filesystem.FileSystem;
+package htw.vs1.filesystem.FileSystem.physical;
 
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.virtual.FSObject;
+import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
+import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -15,9 +18,27 @@ import java.nio.file.*;
  *
  * Created by Felix on 09.06.2015.
  */
-public class RealFileSystemAdapter {
+public class PhysicalFileSystemAdapter {
 
-    public RealFileSystemAdapter() {
+    public PhysicalFileSystemAdapter() {
+    }
+
+    AbstractWatchService watchThread;
+
+    public void startWatchService() {
+        try {
+            watchThread = new PhysicalFileSystemWatchService();
+            watchThread.start();
+        } catch (IOException e) {
+            // TODO: What shall I do with this f*cking exception ?!
+            e.printStackTrace();
+        }
+    }
+
+    public void stopWatchService() {
+        if (null != watchThread) {
+            watchThread.requestStop();
+        }
     }
 
     /**

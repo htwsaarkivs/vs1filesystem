@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.Tests;
 
-import htw.vs1.filesystem.FileSystem.*;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.virtual.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

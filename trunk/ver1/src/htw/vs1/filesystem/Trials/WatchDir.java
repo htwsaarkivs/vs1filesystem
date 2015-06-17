@@ -148,7 +148,7 @@ public class WatchDir {
                 Path child = dir.resolve(name);
 
                 // print out event
-                System.out.format("%s: %s\n", event.kind().name(), child);
+                System.out.format("%s: %s - dir: %s\n", event.kind().name(), child, dir);
 
                 // if directory is created, and watching recursively, then
                 // register it and its sub-directories
