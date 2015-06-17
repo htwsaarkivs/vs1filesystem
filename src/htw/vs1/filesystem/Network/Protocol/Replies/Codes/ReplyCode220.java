@@ -12,8 +12,8 @@ public class ReplyCode220 extends ReplyCode {
     public static final Type REPLY_TYPE = SimpleProtocolReplyType.CONFIRMATION;
     public static final int CODE = 220;
     public static final String DESCRIPTION = "";
-    public static final String STANDARD_MESSAGE1 = "User ";
-    public static final String STANDARD_MESSAGE2 = " logged in";
+    public static final String STANDARD_MESSAGE1 = "USER ";
+    public static final String STANDARD_MESSAGE2 = " LOGGED IN";
     // public static final String USER = getUsername();
 
 

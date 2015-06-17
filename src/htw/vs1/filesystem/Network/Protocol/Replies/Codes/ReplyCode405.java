@@ -6,24 +6,30 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 /**
  * Created by Hendrik on 17.06.2015.
  */
-public class ReplyCode400 extends ReplyCode {
+public class ReplyCode405 extends ReplyCode {
 
 
     public static final Type REPLY_TYPE = SimpleProtocolReplyType.ERROR;
-    public static final int CODE = 400;
+    public static final int CODE = 405;
     public static final String DESCRIPTION = "";
-    public static final String STANDARD_MESSAGE = "INVALID COMMAND";
+    public static final String STANDARD_MESSAGE = "PERMISSION DENIED";
 
 
-    public ReplyCode400() { this.message = STANDARD_MESSAGE; }
+    public ReplyCode405() { this.message = STANDARD_MESSAGE; }
 
 
     @Override
-    public int getCode() { return CODE; }
+    public int getCode() {
+        return 0;
+    }
 
     @Override
-    public String getDescription() { return DESCRIPTION; }
+    public String getDescription() {
+        return null;
+    }
 
     @Override
-    public Type getReplyType() { return REPLY_TYPE; }
+    public Type getReplyType() {
+        return null;
+    }
 }

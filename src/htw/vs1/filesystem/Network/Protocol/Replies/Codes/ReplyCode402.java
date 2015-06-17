@@ -12,7 +12,7 @@ public class ReplyCode402 extends ReplyCode{
     public static final Type REPLY_TYPE = SimpleProtocolReplyType.ERROR;
     public static final int CODE = 402;
     public static final String DESCRIPTION = "";
-    public static final String STANDARD_MESSAGE = "File does not exists.";
+    public static final String STANDARD_MESSAGE = "FILE DOES NOT EXISTS";
 
 
     public ReplyCode402() { this.message = STANDARD_MESSAGE; }
