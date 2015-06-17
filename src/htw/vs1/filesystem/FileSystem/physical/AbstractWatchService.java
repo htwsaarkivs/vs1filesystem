@@ -131,9 +131,9 @@ public abstract class AbstractWatchService extends Thread {
         }
     }
 
-    protected abstract void onEntryDelete(Path child, Path dir);
+    protected abstract void onEntryDelete(Path child, Path parent);
 
-    protected abstract void onEntryCreate(Path child, Path dir);
+    protected abstract void onEntryCreate(Path child, Path parent);
 
     /**
      * {@inheritDoc}
