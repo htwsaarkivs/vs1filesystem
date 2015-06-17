@@ -1,6 +1,8 @@
 package htw.vs1.filesystem.Network;
 
 import com.sun.corba.se.spi.activation.Server;
+import htw.vs1.filesystem.FileSystem.LocalFolder;
+import htw.vs1.filesystem.FileSystem.RealFileSystemAdapter;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -39,8 +41,15 @@ public class TCPParallelServer implements ServerInterface {
      */
     public void run() {
 
+
+
         try
         {
+
+            //Intialisierung des Filesystems
+            LocalFolder.setRootDirectory("/Users/markus/Documents/HTW/test-fs");
+            new RealFileSystemAdapter().loadFileSystemTree();
+
             // Erzeugen der Socket/binden an Port/Wartestellung
             ServerSocket socket = new ServerSocket(port);
 
