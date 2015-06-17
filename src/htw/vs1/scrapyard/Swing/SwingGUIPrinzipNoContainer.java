@@ -11,11 +11,17 @@ import java.awt.*;
  */
 
 
+//          Info zu JFrame
+//          class javax.swing.JFrame
+//          extends Frame
+//          implements WindowConstants, Accessible, RootPaneContainer
+
 
 public class SwingGUIPrinzipNoContainer extends JFrame {
 
     private JFrame frame;
     private JPanel panel;
+    private JPanel panel2;
     private JButton button;
 
 
@@ -26,7 +32,7 @@ public class SwingGUIPrinzipNoContainer extends JFrame {
     buildFrame();
     }
 
-    private JPanel buildPanel(){
+    private void buildPanel(JFrame frame){
         panel = new JPanel();
 
         Border border = panel.getBorder();
@@ -34,29 +40,34 @@ public class SwingGUIPrinzipNoContainer extends JFrame {
         panel.setBorder(new CompoundBorder(border, margin));
 
         button = new JButton("TestButton");
-        panel.add(button,BorderLayout.EAST);
-        JPanel panel2 = new JPanel();
+        panel.add(button);
 
+        frame.add(panel,BorderLayout.CENTER);
+
+        panel2 = new JPanel();
         Border border2 = panel2.getBorder();
         Border margin2 = new LineBorder(Color.gray,4);
         panel2.setBorder(new CompoundBorder(border2, margin2));
 
         JButton button2 = new JButton("Button2");
-        panel2.add(button2,BorderLayout.EAST);
+        panel2.add(button2);
         JButton button3 = new JButton("Button3");
-        panel2.add(button3,BorderLayout.WEST);
-        panel.add(panel2,BorderLayout.WEST);
+        panel2.add(button3);
 
-        return panel;
+        frame.add(panel2,BorderLayout.NORTH);
+
+
 
     }
 
     private  void buildFrame() {
         frame = new JFrame("Window");
         frame.setSize(250,250);
-        frame.add(buildPanel(),BorderLayout.CENTER);
+        buildPanel(frame);
         frame.setVisible(true);
-//      frame.setContentPane(panel);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
