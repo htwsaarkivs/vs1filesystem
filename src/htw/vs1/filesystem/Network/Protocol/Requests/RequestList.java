@@ -26,4 +26,6 @@ public interface RequestList {
      */
     Request getPreviousElement() throws IndexOutOfBoundsException;
 
+    String toString();
+
 }

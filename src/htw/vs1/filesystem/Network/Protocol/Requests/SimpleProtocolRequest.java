@@ -66,6 +66,6 @@ public class SimpleProtocolRequest implements Request {
 
     @Override
     public String toString() {
-        return this.commandString;
+        return "[ " + this.commandString + " | " + getArguments().toString() + " ]";
     }
 }
