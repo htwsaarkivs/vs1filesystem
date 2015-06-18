@@ -1,7 +1,9 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
+import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
 import htw.vs1.filesystem.Network.Protocol.Protocol;
+import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode219;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode406;
 import htw.vs1.filesystem.Network.Protocol.Replies.Reply;
 import htw.vs1.filesystem.Network.Protocol.Replies.SimpleProtocolReply;
@@ -27,15 +29,12 @@ public class CD extends AbstractCommand {
         if(!prot.getState().equals(SimpleProtocolState.AUTHENTICATED)) return new SimpleProtocolReply(new ReplyCode406(), this);
         String path = requestlist.getCurrentElement().getArguments().get(0);
 
-        //Ab hier Änderungen von mir.
-        //Soweit stimmt schonmal alles. Die statische Methode brauchen wir nicht unbedingt, das ist aber Geschmackssache.
-        //Im nächsten Schritt muss die Verbindung zum Dateisystem hergestellt werden
-        //Die Schnittstelle liegt in prot
-        prot.getFileSystem();
-        //
+        try {
+            prot.getFileSystem().changeDirectory(path);
+        } catch (ObjectNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        return null;
+        return new SimpleProtocolReply(new ReplyCode219(), this);
     }
-
-
 }
