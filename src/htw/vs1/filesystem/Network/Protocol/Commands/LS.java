@@ -16,7 +16,8 @@ public class LS extends AbstractCommand {
     public static String COMMAND_STRING = "LS";
 
     public Reply execute(Protocol prot, RequestList requestList) {
-        if(!prot.getState().equals(SimpleProtocolState.AUTHENTICATED)) return new SimpleProtocolReply(new ReplyCode406(), this);
+        if(!prot.getState().equals(SimpleProtocolState.AUTHENTICATED))
+            return new SimpleProtocolReply(new ReplyCode406(), this);
 
 
         String ret = prot.getFileSystem().getWorkingDirectory().getContent().toString();
