@@ -12,12 +12,13 @@ public class ReplyCode220 extends ReplyCode {
     public static final Type REPLY_TYPE = SimpleProtocolReplyType.CONFIRMATION;
     public static final int CODE = 220;
     public static final String DESCRIPTION = "";
-    public static final String STANDARD_MESSAGE1 = "USER ";
-    public static final String STANDARD_MESSAGE2 = " LOGGED IN";
-    // public static final String USER = getUsername();
+    public static final String STANDARD_MESSAGE1 = "USER";
+    public static final String STANDARD_MESSAGE2 = "LOGGED IN";
 
+    public ReplyCode220(String USER) {
+        this.message = STANDARD_MESSAGE1+" "+USER+" "+ STANDARD_MESSAGE2;
+    }
 
-    // public ReplyCode220(String USER) { this.message = STANDARD_MESSAGE1+USER+STANDARD_MESSAGE2; }
 
 
     @Override

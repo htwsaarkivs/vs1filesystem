@@ -21,6 +21,7 @@ public class RequestListTest {
 
     private RequestLinkedList list = new RequestLinkedList();
 
+
     @Before
     public void setUp() throws Exception {
         list.add(new SimpleProtocolRequest("A"));
@@ -31,6 +32,21 @@ public class RequestListTest {
 
     @After
     public void tearDown() throws Exception {
+
+    }
+
+    @Test
+    public void testGetPreviousElement() throws Exception {
+        assertEquals("Does not return previous element",list.getPreviousElement().getCommandString(), "B");
+
+    }
+
+    @Test
+    public void testGetCurrentElement() throws Exception {
+
+        assertEquals("Does not return current element",list.getCurrentElement().getCommandString(), "C");
+
+
 
     }
 
