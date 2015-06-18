@@ -20,7 +20,10 @@ public class RequestAnalyzer {
 
     private RequestLinkedList requestList = new RequestLinkedList();
 
-
+    /**
+     * The RequestAnalyzer is initialized with a reference to a Co
+     * @param factory
+     */
     public RequestAnalyzer(CommandFactory factory) {
         this.factory = factory;
     }

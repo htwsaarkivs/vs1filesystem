@@ -2,13 +2,17 @@ package htw.vs1.filesystem.Network.Protocol;
 
 
 import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
+import htw.vs1.filesystem.Main;
 import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 
 
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
+import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode200;
+import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode401;
 import htw.vs1.filesystem.Network.Protocol.Replies.Reply;
+import htw.vs1.filesystem.Network.Protocol.Replies.SimpleProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestAnalyzer;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 import htw.vs1.filesystem.Network.Protocol.State.State;
@@ -58,7 +62,7 @@ public class SimpleProtocol implements Protocol{
     public void run() {
         RequestAnalyzer analyzer = new RequestAnalyzer(new CommandFactory());
 
-        this.putLine("200 SERVER READY");
+        new SimpleProtocolReply(new ReplyCode200(Main.VERSION), null).putReply(this);
         this.setState(SimpleProtocolState.READY);
 
         while (true) {

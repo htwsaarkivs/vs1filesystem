@@ -14,7 +14,11 @@ public class SimpleProtocolReply implements Reply {
     private ReplyCode code;
     private Command command;
 
-
+    /**
+     * Creates a new SimpleProtocolReply
+     * @param code
+     * @param command
+     */
     public SimpleProtocolReply(ReplyCode code, Command command) {
         this.code = code;
         this.command = command;
@@ -25,7 +29,6 @@ public class SimpleProtocolReply implements Reply {
     }
 
     public void putReply(Protocol prot) {
-
         prot.putLine(code.getCode() + " " + code.getMessage());
     }
 
