@@ -23,7 +23,13 @@ public class CommandFactory {
         commands.put(LS.COMMAND_STRING, new LS());
     }
 
-
+    /**
+     * Get a Command-instance from the internal HashTable of this Object.
+     * This method will always return the very same instance of a the corresponding command class.
+     * A @UnsupportedCommand command will be returned, if the supplied command-String does not exists in the internal HashTable.
+     * @param command
+     * @return
+     */
     public Command getCommand(String command) {
         if (commands.containsKey(command)) {
             return commands.get(command);

@@ -17,7 +17,7 @@ public class ReplyCode200 extends ReplyCode{
      * Generates a new 200-Reply
      * @param version specifies Server version
      */
-    public ReplyCode200(int version) {
+    public ReplyCode200(double version) {
         this.message = STANDARD_MESSAGE+" VERSION: "+version;
     }
 

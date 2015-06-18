@@ -7,6 +7,8 @@ import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 
 public class Main {
 
+    public static double VERSION = 0.1;
+
     /**
      * Starting point in our program.
      *

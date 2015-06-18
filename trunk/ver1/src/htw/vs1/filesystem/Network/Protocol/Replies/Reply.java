@@ -9,7 +9,15 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
  */
 public interface Reply {
 
-
+    /**
+     * Allows to check whether this reply will lead to an immediate termination of the connection.
+     * @return
+     */
     boolean terminatesConnection();
+
+    /**
+     * Trigger output of this command.
+     * @param prot
+     */
     void putReply(Protocol prot);
 }

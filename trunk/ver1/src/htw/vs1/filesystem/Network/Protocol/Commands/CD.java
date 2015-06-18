@@ -25,11 +25,16 @@ public class CD extends AbstractCommand {
 
     public Reply execute(Protocol prot, RequestList requestlist) {
         if(!prot.getState().equals(SimpleProtocolState.AUTHENTICATED)) return new SimpleProtocolReply(new ReplyCode406(), this);
-
-
-
         String path = requestlist.getCurrentElement().getArguments().get(0);
 
+        //Ab hier Änderungen von mir.
+        //Soweit stimmt schonmal alles. Die statische Methode brauchen wir nicht unbedingt, das ist aber Geschmackssache.
+        //Im nächsten Schritt muss die Verbindung zum Dateisystem hergestellt werden
+        //Die Schnittstelle liegt in prot
+        prot.getFileSystem();
+        //
+
+        return null;
     }
 
 
