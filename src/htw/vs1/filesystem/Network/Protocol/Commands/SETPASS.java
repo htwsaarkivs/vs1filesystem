@@ -1,10 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
 import htw.vs1.filesystem.Network.Protocol.Protocol;
-import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
-import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode100;
-import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode200;
-import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode401;
+import htw.vs1.filesystem.Network.Protocol.Replies.Codes.*;
 import htw.vs1.filesystem.Network.Protocol.Replies.Reply;
 import htw.vs1.filesystem.Network.Protocol.Replies.SimpleProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
@@ -47,7 +44,7 @@ public class SETPASS extends AbstractCommand {
             prot.setState(SimpleProtocolState.AUTHENTICATED);
         }
 
-        return new SimpleProtocolReply(new ReplyCode100("YO YOO ARE LOGGED IN BIATCH"), this);
+        return new SimpleProtocolReply(new ReplyCode220(user), this);
 
 
     }

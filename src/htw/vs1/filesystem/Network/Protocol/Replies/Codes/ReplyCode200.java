@@ -9,7 +9,7 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 public class ReplyCode200 extends ReplyCode{
 
     public static final Type REPLY_TYPE = SimpleProtocolReplyType.CONFIRMATION;
-    public static final int CODE = 100;
+    public static final int CODE = 200;
     public static final String DESCRIPTION = "Informative reply, which supplies additional information to the end-user.";
     public static final String STANDARD_MESSAGE = "SERVER READY";
 

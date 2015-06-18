@@ -22,6 +22,8 @@ public class GETFEAT extends AbstractCommand {
 
         new SimpleProtocolReply(new ReplyCode210(), this).putReply(prot);
 
+        prot.putLine(new CommandFactory().getRegisteredCommands().toString());
+
         return new SimpleProtocolReply(new ReplyCode219(), this);
     }
 

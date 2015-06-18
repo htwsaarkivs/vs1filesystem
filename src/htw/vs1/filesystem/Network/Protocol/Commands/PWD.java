@@ -23,7 +23,6 @@ public class PWD extends AbstractCommand {
         String ret = prot.getFileSystem().printWorkingDirectory();
         new SimpleProtocolReply(new ReplyCode210(), this).putReply(prot);
         prot.putLine(ret);
-
         return new SimpleProtocolReply(new ReplyCode219(), this);
     }
 }

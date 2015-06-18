@@ -12,7 +12,7 @@ public class ReplyCode230 extends ReplyCode {
     public static final Type REPLY_TYPE = SimpleProtocolReplyType.CONFIRMATION;
     public static final int CODE = 230;
     public static final String DESCRIPTION = "";
-    public static final String STANDARD_MESSAGE ="FS DIRECTORY SET";
+    public static final String STANDARD_MESSAGE ="CHANGED DIR";
 
 
     public ReplyCode230() { this.message = STANDARD_MESSAGE; }
