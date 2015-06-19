@@ -1,10 +1,7 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.Nullable;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
-import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.exceptions.*;
 
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
@@ -44,7 +41,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
      * @throws FileAlreadyExistsException
      */
     @Override
-    public void setName(String name) throws FileAlreadyExistsException, CouldNotRenameExeption {
+    public void setName(String name) throws FileAlreadyExistsException, CouldNotRenameExeption, InvalidFilenameException {
         if (getParentFolder() != null && getParentFolder().exists(name)) {
             throw new FileAlreadyExistsException(name, null, "in Folder: " + getParentFolder().getAbsolutePath());
         }
