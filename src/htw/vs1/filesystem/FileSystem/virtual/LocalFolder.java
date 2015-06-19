@@ -52,7 +52,8 @@ public class LocalFolder extends LocalFSObject implements Folder {
     public static @NotNull LocalFolder getRootFolder() {
         if (null == rootFolder) {
             if (null == ROOT_FOLDER_PATH) {
-                throw new IllegalStateException("Root folder path must be set before calling method getRootFolder().");
+                //throw new IllegalStateException("Root folder path must be set before calling method getRootFolder().");
+                System.out.println("Root folder is not connected to the physical file system.");
             }
 
             rootFolder = new LocalFolder(ROOT_FOLDER_NAME, ROOT_FOLDER_PATH);
