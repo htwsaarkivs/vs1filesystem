@@ -25,7 +25,7 @@ public class Main {
         PhysicalFileSystemAdapter adapter = new PhysicalFileSystemAdapter();
         System.out.println("Importing directory...");
         String path = adapter.loadFileSystemTree();
-        System.out.println("Directory: " + path + " imported.");
+        System.out.println("Directory" + ((path.isEmpty()) ? " not" : ": ") + path + " imported.");
         adapter.startWatchService();
 
         FileSystemInterface fileSystem = new FileSystem(LocalFolder.getRootFolder());

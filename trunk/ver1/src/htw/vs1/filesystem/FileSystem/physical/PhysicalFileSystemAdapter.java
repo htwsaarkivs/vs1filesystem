@@ -23,9 +23,17 @@ public class PhysicalFileSystemAdapter {
     public PhysicalFileSystemAdapter() {
     }
 
+    boolean physicalFileSystemLinked = false;
+
     AbstractWatchService watchThread;
 
     public void startWatchService() {
+        Path localFolderPath = LocalFolder.getRootFolder().getPath();
+        if (null == localFolderPath) {
+            physicalFileSystemLinked = true;
+            return;
+        }
+        physicalFileSystemLinked = true;
         try {
             watchThread = new PhysicalFileSystemWatchService();
             watchThread.start();
@@ -51,6 +59,11 @@ public class PhysicalFileSystemAdapter {
      */
     public String loadFileSystemTree() throws IOException {
         Path localFolderPath = LocalFolder.getRootFolder().getPath();
+        if (null == localFolderPath) {
+            physicalFileSystemLinked = true;
+            return "";
+        }
+        physicalFileSystemLinked = true;
         DirectoryStream<Path> rootDirectoryStream = Files.newDirectoryStream(localFolderPath);
         loadFileSystemDirectory(rootDirectoryStream, LocalFolder.getRootFolder());
 
