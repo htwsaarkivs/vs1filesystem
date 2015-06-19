@@ -2,10 +2,7 @@ package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
-import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.exceptions.*;
 
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
@@ -56,7 +53,11 @@ public class LocalFolder extends LocalFSObject implements Folder {
                 System.out.println("Root folder is not connected to the physical file system.");
             }
 
-            rootFolder = new LocalFolder(ROOT_FOLDER_NAME, ROOT_FOLDER_PATH);
+            try {
+                rootFolder = new LocalFolder(ROOT_FOLDER_NAME, ROOT_FOLDER_PATH);
+            } catch (CouldNotRenameExeption | InvalidFilenameException | FileAlreadyExistsException couldNotRenameExeption) {
+                couldNotRenameExeption.printStackTrace();
+            }
         }
         return rootFolder;
     }
@@ -80,7 +81,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      *
      * @param name name of the new {@link Folder}.
      */
-    public LocalFolder(String name) {
+    public LocalFolder(String name) throws CouldNotRenameExeption, FileAlreadyExistsException, InvalidFilenameException {
         super(name);
     }
 
@@ -89,7 +90,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      *
      * @param name name of the new {@link Folder}.
      */
-    public LocalFolder(String name, Path path) {
+    public LocalFolder(String name, Path path) throws CouldNotRenameExeption, FileAlreadyExistsException, InvalidFilenameException {
         super(name);
         setPath(path);
     }

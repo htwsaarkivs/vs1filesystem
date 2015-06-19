@@ -1,6 +1,10 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
+
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -17,7 +21,7 @@ public class LocalFile extends LocalFSObject implements File {
      *
      * @param name name of the new {@link File}.
      */
-    public LocalFile(String name) {
+    public LocalFile(String name) throws CouldNotRenameExeption, FileAlreadyExistsException, InvalidFilenameException {
         super(name);
     }
 

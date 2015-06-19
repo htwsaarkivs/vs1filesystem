@@ -1,7 +1,9 @@
 package htw.vs1.filesystem.FileSystem.physical;
 
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
@@ -76,7 +78,13 @@ public class PhysicalFileSystemAdapter {
             String filename = path.toFile().getName();
 
             if (path.toFile().isDirectory()) {
-                LocalFolder subfolder = new LocalFolder(filename);
+                LocalFolder subfolder = null;
+                try {
+                    subfolder = new LocalFolder(filename);
+                } catch (CouldNotRenameExeption | FileAlreadyExistsException | InvalidFilenameException couldNotRenameExeption) {
+                    // Todo: What shall I do with this f*cking exception
+                    couldNotRenameExeption.printStackTrace();
+                }
                 addFSObject(matchingFolder, subfolder, path);
 
                 try {
@@ -88,7 +96,13 @@ public class PhysicalFileSystemAdapter {
                     e.printStackTrace();
                 }
             } else {
-                LocalFile subFile = new LocalFile(filename);
+                LocalFile subFile = null;
+                try {
+                    subFile = new LocalFile(filename);
+                } catch (CouldNotRenameExeption | FileAlreadyExistsException | InvalidFilenameException couldNotRenameExeption) {
+                    // Todo: What shall I do with this f*cking exception
+                    couldNotRenameExeption.printStackTrace();
+                }
                 addFSObject(matchingFolder, subFile, path);
             }
         }
