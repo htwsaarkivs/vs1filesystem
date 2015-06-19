@@ -23,8 +23,8 @@ public abstract class AbstractFSObject implements FSObject {
      *
      * @param name name of the FSObject.
      */
-    public AbstractFSObject(String name) {
-        this.name = name;
+    public AbstractFSObject(String name) throws InvalidFilenameException, FileAlreadyExistsException, CouldNotRenameExeption {
+        setName(name);
     }
 
 

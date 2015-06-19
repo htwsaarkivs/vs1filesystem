@@ -1,6 +1,8 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.Nullable;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -21,7 +23,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      *
      * @param name name of the new {@link Folder}.
      */
-    public RemoteFolder(String name) {
+    public RemoteFolder(String name) throws CouldNotRenameExeption, FileAlreadyExistsException, InvalidFilenameException {
         super(name);
     }
 
