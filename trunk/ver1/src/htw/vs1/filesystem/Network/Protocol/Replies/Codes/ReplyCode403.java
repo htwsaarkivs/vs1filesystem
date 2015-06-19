@@ -12,7 +12,7 @@ public class ReplyCode403 extends ReplyCode {
     public static final Type REPLY_TYPE = SimpleProtocolReplyType.ERROR;
     public static final int CODE = 403;
     public static final String DESCRIPTION = "";
-    public static final String STANDARD_MESSAGE = "DIRECTORY DOES NOT EXISTS";
+    public static final String STANDARD_MESSAGE = "DIRECTORY OR PATH DOES NOT EXIST";
 
 
     public ReplyCode403() { this.message = STANDARD_MESSAGE; }
