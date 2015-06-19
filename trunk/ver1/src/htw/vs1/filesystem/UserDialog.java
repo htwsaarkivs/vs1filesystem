@@ -1,14 +1,11 @@
 package htw.vs1.filesystem;
 
 import com.sun.istack.internal.Nullable;
+import htw.vs1.filesystem.FileSystem.exceptions.*;
 import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.Arrays;
@@ -215,7 +212,7 @@ public class UserDialog {
      */
     private boolean executeCommand(Command command)
             throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotCreateExeption,
-                    CouldNotDeleteExeption, CouldNotRenameExeption {
+            CouldNotDeleteExeption, CouldNotRenameExeption, InvalidFilenameException {
         switch (command) {
             case LS:
                 String content = fileSystem.listDirectoryContent();
