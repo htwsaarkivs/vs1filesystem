@@ -2,8 +2,12 @@ package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 
 import java.nio.file.FileAlreadyExistsException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Base class for all objects in our file system tree.
@@ -30,8 +34,15 @@ public abstract class AbstractFSObject implements FSObject {
      * @param name new name of this object.
      */
     @Override
-    public void setName(String name) throws FileAlreadyExistsException, CouldNotRenameExeption {
-        this.name = name;
+    public void setName(String name) throws FileAlreadyExistsException, CouldNotRenameExeption, InvalidFilenameException {
+        Pattern regularExpression = Pattern.compile("^[a-zA-Z0-7ÄäÖöÜü_]+[a-zA-Z0-7ÄäÖöÜü_ ]*([.]{1}[A-Za-z]{3})?$");
+        Matcher filename = regularExpression.matcher(name);
+        if(filename.matches()) {
+            this.name = name;
+        }
+        else {
+            throw new InvalidFilenameException(FSObjectException.INVALIDFILENAME);
+        }
     }
 
     /**

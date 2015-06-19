@@ -1,10 +1,7 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.NotNull;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
-import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.exceptions.*;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.LinkedList;
@@ -127,8 +124,7 @@ public class FileSystem implements FileSystemInterface {
      */
     @Override
      public void rename(@NotNull String name, String newName)
-            throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotRenameExeption
-    {
+            throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotRenameExeption, InvalidFilenameException {
         FSObject toRename = workingFolder.getObject(name);
         try {
             toRename.setName(newName);
