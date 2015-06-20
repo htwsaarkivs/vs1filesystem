@@ -278,4 +278,17 @@ public class LocalFolder extends LocalFSObject implements Folder {
     public void delete(String name) throws ObjectNotFoundException, CouldNotDeleteExeption {
         delete(getObject(name));
     }
+
+    @Override
+    public void setPath(Path path) {
+        super.setPath(path);
+
+        if (null == path) {
+            for (FSObject object : contents) {
+                if (object instanceof LocalFSObject) {
+                    ((LocalFSObject) object).setPath(null);
+                }
+            }
+        }
+    }
 }

@@ -325,8 +325,12 @@ public class UserDialog {
         //  prompt for the user's name
         String commandWithParams =  scanner.nextLine().trim();
 
+        CommandParser parser = new CommandParser();
+        parser.parse(commandWithParams);
+        return Command.fromString(parser.getCommand(), parser.getArgs());
 
-        // split command by whitespace
+
+       /* // split command by whitespace
         String[] commandArray = commandWithParams.split("\\s+");
 
         if (commandArray.length > 0) {
@@ -336,7 +340,7 @@ public class UserDialog {
             }
         }
 
-        return Command.fromString(command, params);
+        return Command.fromString(command, params);*/
     }
 
 }
