@@ -30,6 +30,17 @@ public abstract class LocalFSObject extends AbstractFSObject {
      * Creates a new FSObject.
      *
      * @param name name of the FSObject.
+     * @param path path of the FSObject.
+     */
+    public LocalFSObject(String name, Path path) throws FileAlreadyExistsException, InvalidFilenameException, CouldNotRenameExeption {
+        super(name);
+        setPath(path);
+    }
+
+    /**
+     * Creates a new FSObject.
+     *
+     * @param name name of the FSObject.
      */
     public LocalFSObject(String name) throws FileAlreadyExistsException, InvalidFilenameException, CouldNotRenameExeption {
         super(name);
