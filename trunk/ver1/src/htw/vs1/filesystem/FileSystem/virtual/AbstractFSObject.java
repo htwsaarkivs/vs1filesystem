@@ -35,14 +35,15 @@ public abstract class AbstractFSObject implements FSObject {
      */
     @Override
     public void setName(String name) throws FileAlreadyExistsException, CouldNotRenameExeption, InvalidFilenameException {
-        Pattern regularExpression = Pattern.compile("^[a-zA-Z0-7ÄäÖöÜü_]+[a-zA-Z0-7ÄäÖöÜü_ ]*([.]{1}[A-Za-z]{3})?$");
+        this.name = name;
+        /*Pattern regularExpression = Pattern.compile("^[a-zA-Z0-7ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_]+[a-zA-Z0-7ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ ]*([.]{1}[A-Za-z]{3})?$");
         Matcher filename = regularExpression.matcher(name);
         if(filename.matches()) {
             this.name = name;
         }
         else {
             throw new InvalidFilenameException(FSObjectException.INVALIDFILENAME);
-        }
+        }*/
     }
 
     /**
