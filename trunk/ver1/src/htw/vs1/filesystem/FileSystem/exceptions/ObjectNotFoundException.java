@@ -11,15 +11,17 @@ import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 
 public class ObjectNotFoundException extends FSObjectException {
 
+    private String objectName;
+
     /**
-     * Costructor of a Exeption with 3 Parameters
+     * Costructor of a Exeption with 2 Parameters
      *
-     * @param object current Object the Exeption is regarding to
+     * @param objectName name of the current Object the Exeption is regarding to
      * @param msg    Error message of the Expetion
-     * @param ex     Exeption object to deal with
      */
-    public ObjectNotFoundException(FSObject object, String msg, Throwable ex) {
-        super(object, msg, ex);
+    public ObjectNotFoundException(String objectName, String msg) {
+        super(msg);
+        this.objectName = objectName;
     }
 
     /**
@@ -32,12 +34,7 @@ public class ObjectNotFoundException extends FSObjectException {
         super(msg, ex);
     }
 
-    /**
-     * Costructor of a Exeption with 1 Parameter
-     *
-     * @param msg Error message of the Expetion
-     */
-    public ObjectNotFoundException(String msg) {
-        super(msg);
+    public String getObjectName() {
+        return objectName;
     }
 }

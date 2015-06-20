@@ -186,8 +186,7 @@ public class UserDialog {
             try {
                 goon = executeCommand(command);
             } catch (ObjectNotFoundException e) {
-                e.printStackTrace();
-                // TODO: User feedback!
+                System.out.format("cd: %s: No such file or directory\n", e.getObjectName());
             } catch (FileAlreadyExistsException e) {
                 // TODO: User feedback!
                 e.printStackTrace();
@@ -313,8 +312,6 @@ public class UserDialog {
      * @return {@link htw.vs1.filesystem.UserDialog.Command} entered by the user.
      */
     private Command promptForCommand() {
-        String command = null;
-        String[] params = null;
 
         // create a scanner so we can read the command-line input
         Scanner scanner = new Scanner(System.in);
@@ -322,25 +319,18 @@ public class UserDialog {
         // prompt user for input
         System.out.println("Enter command: ");
 
-        //  prompt for the user's name
-        String commandWithParams =  scanner.nextLine().trim();
-
         CommandParser parser = new CommandParser();
-        parser.parse(commandWithParams);
-        return Command.fromString(parser.getCommand(), parser.getArgs());
 
+        boolean inputParsed = false;
+        while (!inputParsed) {
+            //  prompt for the user's name
+            String commandWithParams =  scanner.nextLine();
 
-       /* // split command by whitespace
-        String[] commandArray = commandWithParams.split("\\s+");
-
-        if (commandArray.length > 0) {
-            command = commandArray[0];
-            if (commandArray.length > 1) {
-                params = Arrays.copyOfRange(commandArray, 1, commandArray.length);
-            }
+            inputParsed = parser.parse(commandWithParams);
         }
 
-        return Command.fromString(command, params);*/
+
+        return Command.fromString(parser.getCommand(), parser.getArgs());
     }
 
 }
