@@ -1,12 +1,10 @@
 package htw.vs1.filesystem.FileSystem.physical;
 
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
-import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
-import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
-import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
+import htw.vs1.filesystem.FileSystem.exceptions.*;
+import htw.vs1.filesystem.FileSystem.virtual.*;
 
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Path;
 
 /**
@@ -29,16 +27,30 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
     protected void onEntryDelete(Path child, Path dir) {
         System.out.format("Deleted file/folder %s in directory %s\n", child.toFile().getName(), dir);
         System.out.format("Relative path from local-root: " + LocalFolder.getRootFolder().getPath().relativize(child));
-        try {
-            fileSystem.changeDirectory(LocalFolder.getRootFolder().getPath().relativize(dir).toString());
+
+        if (!LocalFolder.getRootFolder().getPath().relativize(dir).toString().isEmpty()){
             try {
-                fileSystem.getWorkingDirectory().delete(child.toFile().getName());
-            } catch (CouldNotDeleteExeption couldNotDeleteExeption) {
-                couldNotDeleteExeption.printStackTrace();
+                fileSystem.changeDirectory(LocalFolder.getRootFolder().getPath().relativize(dir).toString());
+            } catch (ObjectNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            FSObject toDelete = fileSystem.getWorkingDirectory().getObject(child.toFile().getName());
+            if (toDelete instanceof LocalFSObject) {
+                ((LocalFolder) toDelete).setPath(null);
+                fileSystem.getWorkingDirectory().delete(toDelete);
+
             }
         } catch (ObjectNotFoundException e) {
             e.printStackTrace();
+        } catch (CouldNotDeleteExeption couldNotDeleteExeption) {
+            couldNotDeleteExeption.printStackTrace();
         }
+
+
+        fileSystem.setWorkingDirectory(LocalFolder.getRootFolder());
     }
 
     @Override
@@ -51,16 +63,18 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
 
         System.out.println("Relative path from local-root: " + LocalFolder.getRootFolder().getPath().relativize(parent));
 
-        /*if (fileSystem.getWorkingDirectory().exists(child.toFile().getName())){
+        if (fileSystem.getWorkingDirectory().exists(child.toFile().getName())){
             // the file was created by our program
             return;
         }
 
 
-        try {
-            fileSystem.changeDirectory(LocalFolder.getRootFolder().getPath().relativize(parent).toString());
-        } catch (ObjectNotFoundException e) {
-            e.printStackTrace();
+        if (!LocalFolder.getRootFolder().getPath().relativize(parent).toString().isEmpty()){
+            try {
+                fileSystem.changeDirectory(LocalFolder.getRootFolder().getPath().relativize(parent).toString());
+            } catch (ObjectNotFoundException e) {
+                e.printStackTrace();
+            }
         }
             if(child.toFile().isFile()){
                 try {
@@ -78,6 +92,7 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
                 } catch (InvalidFilenameException e) {
                     e.printStackTrace();
                 }
+
             }else{
                 try {
                     LocalFolder toCreate = new LocalFolder(child.toFile().getName(),child);
@@ -86,6 +101,7 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
                     }
                     try {
                         fileSystem.getWorkingDirectory().add(toCreate);
+                        System.out.println(fileSystem.getWorkingDirectory().toString());
                     } catch (CouldNotCreateExeption couldNotCreateExeption) {
                         couldNotCreateExeption.printStackTrace();
                     }
@@ -96,8 +112,10 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
                 } catch (InvalidFilenameException e) {
                     e.printStackTrace();
                 }
-            }*/
+            }
 
+        fileSystem.setWorkingDirectory(LocalFolder.getRootFolder());
+        System.out.println(fileSystem.printWorkingDirectory());
     }
 
 }
