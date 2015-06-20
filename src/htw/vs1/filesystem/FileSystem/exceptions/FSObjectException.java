@@ -15,6 +15,8 @@ public class FSObjectException extends Exception {
     public static final String COULDNOTCREATE = "Could not create the file/folder";
     public static final String INVALIDFILENAME = "The filename is invalid";
 
+    private FSObject object;
+
     /**
      * Costructor of a Exeption with 3 Parameters
      * @param object current Object the Exeption is regarding to
@@ -42,5 +44,9 @@ public class FSObjectException extends Exception {
      */
     public FSObjectException (String msg){
         System.out.println(msg);
+    }
+
+    public FSObject getObject() {
+        return object;
     }
 }
