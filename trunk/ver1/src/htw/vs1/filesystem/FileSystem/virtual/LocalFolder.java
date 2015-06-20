@@ -171,7 +171,11 @@ public class LocalFolder extends LocalFSObject implements Folder {
      */
     public void add(FSObject object) throws FileAlreadyExistsException {
         try {
-            add(object, null);
+            Path pathOfFile = null;
+            if (object instanceof LocalFSObject) {
+                pathOfFile = ((LocalFSObject) object).getPath();
+            }
+            add(object, pathOfFile);
         } catch (CouldNotCreateExeption couldNotCreateExeption) {
             couldNotCreateExeption.printStackTrace();
         }
