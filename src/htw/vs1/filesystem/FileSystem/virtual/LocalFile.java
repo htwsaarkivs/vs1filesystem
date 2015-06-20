@@ -26,6 +26,16 @@ public class LocalFile extends LocalFSObject implements File {
     }
 
     /**
+     * Creates a new LocalFile.
+     *
+     * @param name name of the LocalFile.
+     * @param path path of the LocalFile.
+     */
+    public LocalFile(String name, Path path) throws FileAlreadyExistsException, InvalidFilenameException, CouldNotRenameExeption {
+        super(name, path);
+    }
+
+    /**
      * Deletes the LocalFSObject itself from
      * the filetree and in the real Filesystem
      *

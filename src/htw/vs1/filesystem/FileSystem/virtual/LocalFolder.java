@@ -83,16 +83,17 @@ public class LocalFolder extends LocalFSObject implements Folder {
      */
     public LocalFolder(String name) throws CouldNotRenameExeption, FileAlreadyExistsException, InvalidFilenameException {
         super(name);
+
     }
 
     /**
-     * Creates a new Folder with the given name.
+     * Creates a new Folder with the given name
+     * and a given path
      *
      * @param name name of the new {@link Folder}.
      */
     public LocalFolder(String name, Path path) throws CouldNotRenameExeption, FileAlreadyExistsException, InvalidFilenameException {
-        super(name);
-        setPath(path);
+        super(name,path);
     }
 
     /**
