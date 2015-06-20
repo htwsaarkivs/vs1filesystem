@@ -46,7 +46,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      *                     root-Folder.
      */
     @Override
-    protected void setParentFolder(@Nullable Folder parentFolder) {
+    public void setParentFolder(@Nullable Folder parentFolder) {
         throw new NotImplementedException();
     }
 

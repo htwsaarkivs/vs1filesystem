@@ -82,6 +82,12 @@ public class FileSystem implements FileSystemInterface {
             o = workingFolder.getObject(name);
         }
 
+        if (null == o) {
+            // if your are in the root folder then there is nothing to do.
+            // unix does not show any error message either.
+            return;
+        }
+
         if (o instanceof Folder) {
             workingFolder = (Folder) o;
         } else {

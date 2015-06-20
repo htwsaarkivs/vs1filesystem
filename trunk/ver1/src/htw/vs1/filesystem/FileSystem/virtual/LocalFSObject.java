@@ -81,7 +81,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
      *                     root-Folder.
      */
     @Override
-    protected void setParentFolder(@Nullable Folder parentFolder) {
+    public void setParentFolder(@Nullable Folder parentFolder) {
         if (null != parentFolder) {
             checkPrecondition(parentFolder);
         }

@@ -67,15 +67,6 @@ public abstract class AbstractFSObject implements FSObject {
     public abstract @Nullable Folder getParentFolder();
 
     /**
-     * Sets the parent {@link Folder} containing this FSObject. Can be
-     * {@link null}, iff this is the root-Folder.
-     *
-     * @param parentFolder the parent {@link Folder} or {@code null} iff this is the
-     * root-Folder.
-     */
-    protected abstract void setParentFolder(@Nullable Folder parentFolder);
-
-    /**
      * Returns the absolute path of this FSObject.
      *
      * @return absolute path - e.g. /root/folder
@@ -83,7 +74,7 @@ public abstract class AbstractFSObject implements FSObject {
     @Override
     public String getAbsolutePath() {
         if (getParentFolder() == null) {
-            return "/"+getName();
+            return "/";
         }
 
         return getParentFolder().getAbsolutePath() + "/" + getName();
