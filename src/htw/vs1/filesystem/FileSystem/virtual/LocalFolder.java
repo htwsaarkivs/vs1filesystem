@@ -195,7 +195,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
             throw new FileAlreadyExistsException(object.getName());
         }
 
-        ((LocalFSObject) object).setParentFolder(this); // cast verified by #checkPrecondition(FSObject).
+        object.setParentFolder(this);
 
         if (null == pathOfFile && null != getPath()) {
             pathOfFile = Paths.get(getPath().toAbsolutePath().toString(), object.getName());
@@ -209,8 +209,9 @@ public class LocalFolder extends LocalFSObject implements Folder {
                 throw new CouldNotCreateExeption(FSObjectException.COULDNOTCREATE, e);
             }
         }
-
-        ((LocalFSObject) object).setPath(pathOfFile); // Type checked by #checkPrecondition(FSObject)
+        if (object instanceof LocalFSObject) {
+            ((LocalFSObject) object).setPath(pathOfFile); // Type checked by #checkPrecondition(FSObject)
+        }
 
         contents.add(object);
     }
@@ -224,9 +225,12 @@ public class LocalFolder extends LocalFSObject implements Folder {
     @Override
     public void delete(FSObject object) throws ObjectNotFoundException, CouldNotDeleteExeption {
         checkPrecondition(object);
-        LocalFSObject localFSObject = (LocalFSObject)object; // Type verified in #checkPrecondition(FSObject)
-        // First we have to ensure that the file is deleted on the real file system
-        localFSObject.delete();
+        if (object instanceof LocalFSObject) {
+            LocalFSObject localFSObject = (LocalFSObject) object; // Type verified in #checkPrecondition(FSObject)
+            // First we have to ensure that the file is deleted on the real file system
+            localFSObject.delete();
+        }
+
         // then we can remove it from our list.
         contents.remove(object);
     }
@@ -239,8 +243,10 @@ public class LocalFolder extends LocalFSObject implements Folder {
     public void delete() throws ObjectNotFoundException, CouldNotDeleteExeption {
         for (FSObject object : getContent()) {
             checkPrecondition(object);
-            LocalFSObject localFSObject = (LocalFSObject)object;
-            localFSObject.delete();
+            if (object instanceof LocalFSObject) {
+                LocalFSObject localFSObject = (LocalFSObject) object;
+                localFSObject.delete();
+            }
         }
 
         if (null != getPath()) {
