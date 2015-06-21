@@ -20,7 +20,7 @@ public class FileSystemInterfaceTest {
     @Before
     public void setUp() throws Exception {
 
-        //Hier die eigene Implementierung vermerken!        
+        //Hier die eigene Implementierung vermerken!
 
         this.fs = new FileSystem();
 

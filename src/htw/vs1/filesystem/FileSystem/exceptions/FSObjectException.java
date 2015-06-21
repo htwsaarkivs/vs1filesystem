@@ -13,7 +13,7 @@ public class FSObjectException extends Exception {
     public static final String COULDNOTDELETE = "Could not delete the file/folder";
     public static final String COULDNOTRENAME = "Could not rename the file/folder";
     public static final String COULDNOTCREATE = "Could not create the file/folder";
-    public static final String INVALIDFILENAME = "The filename is invalid";
+    public static final String INVALIDFILENAME = "The name of the file/folder is invalid";
 
     private FSObject object;
 
