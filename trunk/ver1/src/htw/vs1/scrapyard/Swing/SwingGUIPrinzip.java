@@ -18,10 +18,18 @@ public class SwingGUIPrinzip extends JFrame {
     sb = new JButton("Sub");
     //Layout
     Container c = getContentPane();
-    c.add(ta,BorderLayout.CENTER);
-    c.add(ab,BorderLayout.WEST);
-    c.add(sb,BorderLayout.EAST);
-    //Ereignisbehandlung
+
+
+    if (true) {
+      add(ta, BorderLayout.CENTER);
+      add(ab, BorderLayout.WEST);
+      add(sb, BorderLayout.EAST);
+    } else {
+      c.add(ta, BorderLayout.CENTER);
+      c.add(ab, BorderLayout.WEST);
+      c.add(sb, BorderLayout.EAST);
+    }
+            //Ereignisbehandlung
     ab.setActionCommand("add");
     sb.setActionCommand("sub");
     ctrl = new SwingController(ta);
