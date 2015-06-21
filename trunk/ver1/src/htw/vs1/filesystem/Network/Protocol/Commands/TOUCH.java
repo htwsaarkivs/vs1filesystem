@@ -32,7 +32,7 @@ public class TOUCH extends AbstractCommand {
         String name = requestlist.getCurrentElement().getArguments().get(0);
 
 
-        prot.getFileSystem().getWorkingDirectory().add(name);
+        //prot.getFileSystem().getWorkingDirectory().add(name);
 
 
         return new SimpleProtocolReply(new ReplyCode219(), this);
