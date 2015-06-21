@@ -69,8 +69,8 @@ public class SimpleProtocol implements Protocol{
             try {
                 readLine();
                 Reply reply = analyzer.parseCommand(this);
-                if (reply.terminatesConnection()) throw new SimpleProtocolTerminateConnection();
                 reply.putReply(this);
+                if (reply.terminatesConnection()) throw new SimpleProtocolTerminateConnection();
             } catch (Exception e) {
                 putLine("Connection terminated: " + e.toString());
                 break;
