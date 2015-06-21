@@ -1,5 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 import htw.vs1.filesystem.Network.Protocol.Protocol;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode219;
@@ -9,6 +11,8 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Reply;
 import htw.vs1.filesystem.Network.Protocol.Replies.SimpleProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
+
+import java.nio.file.FileAlreadyExistsException;
 
 /**
  * Created by Hendrik on 21.06.2015.
@@ -32,8 +36,12 @@ public class MKDIR extends AbstractCommand {
 
         String name = requestlist.getCurrentElement().getArguments().get(0);
 
+        try {
+            prot.getFileSystem().getWorkingDirectory().add(new LocalFolder(name));
+        } catch(FileAlreadyExistsException | FSObjectException e) {
+            return new SimpleProtocolReply(new ReplyCode406(), this);
+        }
 
-        prot.getFileSystem().getWorkingDirectory().add(new LocalFolder(name));
 
 
         return new SimpleProtocolReply(new ReplyCode219(), this);
