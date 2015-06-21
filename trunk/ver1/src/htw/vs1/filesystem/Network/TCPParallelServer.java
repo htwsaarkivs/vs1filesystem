@@ -21,8 +21,16 @@ public class TCPParallelServer implements ServerInterface {
     private int port = STANDARD_PORT;
     private int timeout = STANDARD_TIMEOUT;
 
+    public static String path = "/Users/markus/Documents/HTW/test-fs";
+
 
     public static void main(String[] args) {
+        if (args.length != 1) {
+            System.out.println("Usage: [path]");
+
+            return;
+        }
+        path = args[0];
         TCPParallelServer server = new TCPParallelServer(4322);
         server.run();
 
@@ -48,7 +56,7 @@ public class TCPParallelServer implements ServerInterface {
         {
 
             //Intialisierung des Filesystems
-            LocalFolder.setRootDirectory("/Users/markus/Documents/HTW/test-fs");
+            LocalFolder.setRootDirectory(path);
             new PhysicalFileSystemAdapter().loadFileSystemTree();
 
             // Erzeugen der Socket/binden an Port/Wartestellung
