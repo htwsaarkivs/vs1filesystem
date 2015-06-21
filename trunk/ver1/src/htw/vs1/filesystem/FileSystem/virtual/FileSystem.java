@@ -27,13 +27,21 @@ public class FileSystem implements FileSystemInterface {
      */
     private static final String UP = "..";
 
+    private static final String THIS_FOLDER = ".";
+
+    /**
+     * The folder to evaluate a absolute
+     * path from.
+     */
+    private Folder rootFolder;
+
     /**
      * Current working folder.
      */
     private Folder workingFolder;
 
     public FileSystem() {
-        this.workingFolder = LocalFolder.getRootFolder();
+        this(LocalFolder.getRootFolder());
     }
 
     /**
@@ -44,6 +52,7 @@ public class FileSystem implements FileSystemInterface {
      */
     public FileSystem(Folder workingFolder) {
         this.workingFolder = workingFolder;
+        this.rootFolder = workingFolder;
     }
 
     /**
@@ -68,18 +77,32 @@ public class FileSystem implements FileSystemInterface {
      */
     @Override
     public void changeDirectory(@NotNull String path) throws ObjectNotFoundException {
+        if (!path.isEmpty() && path.substring(0,1).equals("/")) {
+            // path is an absolute path
+            setWorkingDirectory(rootFolder);
+        }
+
         String[] pathArray = path.split("/");
         for (String name : pathArray) {
+            if (name.equals(rootFolder.getName()) || name.isEmpty()) {
+                continue;
+            }
             changeDirectoryToSubFolder(name);
         }
     }
 
     private void changeDirectoryToSubFolder(@NotNull String name) throws ObjectNotFoundException {
         FSObject o;
-        if (name.equals(UP)) {
-            o = workingFolder.getParentFolder();
-        } else {
-            o = workingFolder.getObject(name);
+        switch (name) {
+            case UP:
+                o = workingFolder.getParentFolder();
+                break;
+            case THIS_FOLDER:
+                // stay in this folder
+                return;
+            default:
+                o = workingFolder.getObject(name);
+                break;
         }
 
         if (null == o) {
