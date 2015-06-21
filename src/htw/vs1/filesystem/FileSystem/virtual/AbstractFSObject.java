@@ -74,10 +74,10 @@ public abstract class AbstractFSObject implements FSObject {
     @Override
     public String getAbsolutePath() {
         if (getParentFolder() == null) {
-            return "/"+getName();
+            return "/";
         }
 
-        return getParentFolder().getAbsolutePath() + "/" + getName();
+        return getParentFolder().getAbsolutePath() + getName() + "/";
     }
 
     @Override

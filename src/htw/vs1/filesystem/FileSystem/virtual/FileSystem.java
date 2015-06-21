@@ -131,7 +131,11 @@ public class FileSystem implements FileSystemInterface {
      */
     @Override
     public String printWorkingDirectory() {
-        return workingFolder.getAbsolutePath();
+        String pwd = workingFolder.getAbsolutePath();
+        if (!pwd.equals("/")) {
+            pwd = pwd.substring(0, pwd.length()-1);
+        }
+        return pwd;
     }
 
     /**
