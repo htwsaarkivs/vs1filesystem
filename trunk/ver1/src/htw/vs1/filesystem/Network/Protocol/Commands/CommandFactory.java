@@ -27,6 +27,8 @@ public class CommandFactory {
         commands.put(LS.COMMAND_STRING, new LS());
         commands.put(CD.COMMAND_STRING, new CD());
         commands.put(PWD.COMMAND_STRING, new PWD());
+        commands.put(TOUCH.COMMAND_STRING, new TOUCH());
+        commands.put(MKDIR.COMMAND_STRING, new MKDIR());
         commands.put(COWBOY.COMMAND_STRING, new COWBOY());
     }
 

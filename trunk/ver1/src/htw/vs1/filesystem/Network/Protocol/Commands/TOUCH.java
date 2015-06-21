@@ -1,13 +1,18 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
+import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
+import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 import htw.vs1.filesystem.Network.Protocol.Protocol;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode219;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode401;
+import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode404;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode406;
 import htw.vs1.filesystem.Network.Protocol.Replies.Reply;
 import htw.vs1.filesystem.Network.Protocol.Replies.SimpleProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
+
+import java.nio.file.FileAlreadyExistsException;
 
 /**
  * Created by Hendrik on 21.06.2015.
@@ -31,8 +36,12 @@ public class TOUCH extends AbstractCommand {
 
         String name = requestlist.getCurrentElement().getArguments().get(0);
 
+        try {
+            prot.getFileSystem().getWorkingDirectory().add(new LocalFile(name));
+        } catch(Exception e) {
+            return new SimpleProtocolReply(new ReplyCode404(), this);
+        } //TODO: Individuelle Fehler-Codes (Marc/Felix bitte räumt euren Exception-Salat auf :P)
 
-        //prot.getFileSystem().getWorkingDirectory().add(name);
 
 
         return new SimpleProtocolReply(new ReplyCode219(), this);
