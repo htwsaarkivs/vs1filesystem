@@ -38,13 +38,15 @@ public interface FileSystemInterface {
 
     /**
      * <p>Changes the current working directory to the
-     * {@link Folder} identified by the given name.</p>
+     * {@link Folder} under the given path.</p>
      *
-     * @param name name of the {@link Folder}.
+     * @param path path to the {@link Folder}. This can be either a relative path,
+     *             an absolute path or simple the name of a {@link Folder} in the
+     *             current working directory.
      * @throws ObjectNotFoundException if the object identified
      *         by the given name is not available.
      */
-    void changeDirectory(@NotNull String name) throws ObjectNotFoundException;
+    void changeDirectory(@NotNull String path) throws ObjectNotFoundException;
 
     /**
      * <p>Returns the content of the current directory as a String.</p>
