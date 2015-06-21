@@ -17,7 +17,7 @@ import java.awt.*;
 //          implements WindowConstants, Accessible, RootPaneContainer
 
 
-public class SwingGUIPrinzipNoContainer extends JFrame {
+public class SwingGUIPrinzipNoContainer  {
 
     private JFrame frame;
     private JPanel panel;
@@ -56,8 +56,7 @@ public class SwingGUIPrinzipNoContainer extends JFrame {
 
         frame.add(panel2,BorderLayout.NORTH);
 
-
-
+        frame.pack();
     }
 
     private  void buildFrame() {
