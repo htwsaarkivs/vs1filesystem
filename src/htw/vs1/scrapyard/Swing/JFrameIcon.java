@@ -1,6 +1,8 @@
 package htw.vs1.scrapyard.Swing;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
 /**
@@ -21,6 +23,7 @@ public class JFrameIcon extends JFrame {
         this.setSize(250,250);
         this.setResizable(false);
         this.setVisible(true);
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         buildPane();
         this.add(panel);
@@ -38,12 +41,23 @@ public class JFrameIcon extends JFrame {
         icon1 = new ImageIcon(imgURL);
         icon2 = new ImageIcon(imgURL2);
 
-        JButton button1 = new JButton(icon2);
-        JButton button2 = new JButton(icon1);
+        JButton button1 = new JButton(icon1);
+        JButton button2 = new JButton(icon2);
 
         panel.add(button1);
         panel.add(button2);
 
-
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null,"Button 1 hit");
+            }
+        });
+        button2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null,"Button 2 hit");
+            }
+        });
     }
 }
