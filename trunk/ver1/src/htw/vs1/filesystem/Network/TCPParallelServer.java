@@ -57,7 +57,11 @@ public class TCPParallelServer implements ServerInterface {
 
             //Intialisierung des Filesystems
             LocalFolder.setRootDirectory(path);
-            new PhysicalFileSystemAdapter().loadFileSystemTree();
+            PhysicalFileSystemAdapter adapter = new PhysicalFileSystemAdapter();
+            System.out.println("Importing directory...");
+            String path = adapter.loadFileSystemTree();
+            System.out.println("Directory" + ((path.isEmpty()) ? " not" : ": ") + path + " imported.");
+            adapter.startWatchService();
 
             // Erzeugen der Socket/binden an Port/Wartestellung
             ServerSocket socket = new ServerSocket(port);
@@ -70,6 +74,7 @@ public class TCPParallelServer implements ServerInterface {
 
                 (new TCPParallelWorker(client)).start();
             }
+
         }
         catch (Exception e)
         {
