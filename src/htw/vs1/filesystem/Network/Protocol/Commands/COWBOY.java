@@ -16,7 +16,8 @@ public class COWBOY extends AbstractCommand {
 
     @Override
     public Reply execute(Protocol prot, RequestList requestList) throws SimpleProtocolTerminateConnection {
-        String cowboy = "            ___\n" +
+        String cowboy =
+                "            ___\n" +
                 "         __|___|__\n" +
                 "          ('o_o')\n" +
                 "          _\\~-~/_    ______.\n" +
