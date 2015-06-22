@@ -1,5 +1,8 @@
 package htw.vs1.filesystem.Network.Protocol.Requests;
 
+import htw.vs1.filesystem.CommandParser;
+
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -22,11 +25,16 @@ public class SimpleProtocolRequest implements Request {
      * Analyzes the String passed to this Object during Construction
      */
     private void parse() {
-        String[] tokens = this.requestLine.split(" ");
+        CommandParser parser = new CommandParser();
+        parser.parse(requestLine);
+        this.commandString = parser.getCommand();
+        this.arguments.addAll(Arrays.asList(parser.getArgs()));
+
+        /*String[] tokens = this.requestLine.split(" ");
             this.commandString = tokens[0];
             for (int i = 1; i < tokens.length; i++) {
                 this.arguments.add(tokens[i]);
-            }
+            }*/
 
     }
 
