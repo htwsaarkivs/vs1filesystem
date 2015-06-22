@@ -35,7 +35,7 @@ public abstract class AbstractFSObject implements FSObject {
      */
     @Override
   public void setName(String name) throws FileAlreadyExistsException, CouldNotRenameExeption, InvalidFilenameException {
-        this.name = name;
+        name = name.trim();
         Pattern regularExpression = Pattern.compile("^[^/\\:*?\"<>|]+$");
         Matcher filename = regularExpression.matcher(name);
         if(filename.matches()) {
