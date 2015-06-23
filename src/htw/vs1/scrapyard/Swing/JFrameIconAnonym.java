@@ -10,7 +10,7 @@ import java.net.URL;
  * Created by Marc Otting on 22.06.2015.
  * This class provides the following function(s):
  */
-public class JFrameIcon extends JFrame {
+public class JFrameIconAnonym extends JFrame {
     private JPanel panel;
     private Icon icon1;
     private Icon icon2;
