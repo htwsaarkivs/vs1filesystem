@@ -13,7 +13,19 @@ public class startGUI {
 //        JLabelGUI gui = new JLabelGUI();
 //        gui.start();
 
-        JFrameIcon frameIcon = new JFrameIcon();
-        frameIcon.start();
+//        JFrameIconAnonym frameIcon = new JFrameIconAnonym();
+//        frameIcon.start();
+
+//        JFrameIconExtern frameIcon = new JFrameIconExtern();
+//        frameIcon.start();
+
+//        Window window = new Window();
+//        window.start();
+
+//        JFrameIconSelfListener selfListener = new JFrameIconSelfListener();
+//        selfListener.start();
+
+        JTextfieldGUI jTextfieldGUI = new JTextfieldGUI();
+        jTextfieldGUI.start();
     }
 }
