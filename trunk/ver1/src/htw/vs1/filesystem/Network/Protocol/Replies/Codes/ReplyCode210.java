@@ -12,7 +12,7 @@ public class ReplyCode210 extends ReplyCode {
     public static final Type REPLY_TYPE = SimpleProtocolReplyType.CONFIRMATION;
     public static final int CODE = 210;
     public static final String DESCRIPTION = "";
-    public static final String STANDARD_MESSAGE = "JSONDATA";
+    public static final String STANDARD_MESSAGE = "LIST";
 
 
     public ReplyCode210() {
