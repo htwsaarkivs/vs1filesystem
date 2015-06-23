@@ -38,7 +38,13 @@ public class PhysicalFileSystemAdapter {
         return INSTANCE;
     }
 
+    /**
+     * Private constructor to ensure that
+     * this class will be instantiated
+     * once.
+     */
     private PhysicalFileSystemAdapter() {
+        startWatchService();
     }
 
     boolean physicalFileSystemLinked = false;
@@ -46,6 +52,10 @@ public class PhysicalFileSystemAdapter {
     AbstractWatchService watchThread;
 
     public void startWatchService() {
+        if (null != watchThread) {
+            return;
+        }
+
         Path localFolderPath = LocalFolder.getRootFolder().getPath();
         if (null == localFolderPath) {
             physicalFileSystemLinked = true;
@@ -82,47 +92,54 @@ public class PhysicalFileSystemAdapter {
             return "";
         }
         physicalFileSystemLinked = true;
+        watchThread.register(localFolderPath);
         DirectoryStream<Path> rootDirectoryStream = Files.newDirectoryStream(localFolderPath);
-        loadFileSystemDirectory(rootDirectoryStream, LocalFolder.getRootFolder());
+        loadFileSystemDirectories(rootDirectoryStream, LocalFolder.getRootFolder());
 
         return localFolderPath.toAbsolutePath().toString();
     }
 
-    private void loadFileSystemDirectory(DirectoryStream<Path> directoryStream, LocalFolder matchingFolder) {
+    protected void loadFileSystemDirectories(DirectoryStream<Path> directoryStream, LocalFolder parentFolder) throws IOException {
 
-        for (Path path : directoryStream) {
-            String filename = path.toFile().getName();
-
-            if (path.toFile().isDirectory()) {
-                LocalFolder subfolder = null;
-                try {
-                    subfolder = new LocalFolder(filename);
-                } catch (CouldNotRenameExeption | FileAlreadyExistsException | InvalidFilenameException couldNotRenameExeption) {
-                    // Todo: What shall I do with this f*cking exception
-                    couldNotRenameExeption.printStackTrace();
-                }
-                addFSObject(matchingFolder, subfolder, path);
-
-                try {
-                    DirectoryStream<Path> subDirectoryStream = Files.newDirectoryStream(path);
-                    loadFileSystemDirectory(subDirectoryStream, subfolder);
-                } catch (IOException e) {
-                    // We should not break at this point, because maybe there are other files...
-                    // But we should do anything..
-                    e.printStackTrace();
-                }
-            } else {
-                LocalFile subFile = null;
-                try {
-                    subFile = new LocalFile(filename);
-                } catch (CouldNotRenameExeption | FileAlreadyExistsException | InvalidFilenameException couldNotRenameExeption) {
-                    // Todo: What shall I do with this f*cking exception
-                    couldNotRenameExeption.printStackTrace();
-                }
-                addFSObject(matchingFolder, subFile, path);
-            }
+        for (Path dir : directoryStream) {
+            loadFileSystemDirectory(dir, parentFolder);
         }
     }
+
+    protected void loadFileSystemDirectory(Path dir, LocalFolder parentFolder) throws IOException {
+        String filename = dir.toFile().getName();
+
+        if (dir.toFile().isDirectory()) {
+            watchThread.register(dir);
+            LocalFolder subfolder = null;
+            try {
+                subfolder = new LocalFolder(filename);
+            } catch (CouldNotRenameExeption | FileAlreadyExistsException | InvalidFilenameException couldNotRenameExeption) {
+                // Todo: What shall I do with this f*cking exception
+                couldNotRenameExeption.printStackTrace();
+            }
+            addFSObject(parentFolder, subfolder, dir);
+
+            try {
+                DirectoryStream<Path> subDirectoryStream = Files.newDirectoryStream(dir);
+                loadFileSystemDirectories(subDirectoryStream, subfolder);
+            } catch (IOException e) {
+                // We should not break at this point, because maybe there are other files...
+                // But we should do anything..
+                e.printStackTrace();
+            }
+        } else {
+            LocalFile subFile = null;
+            try {
+                subFile = new LocalFile(filename);
+            } catch (CouldNotRenameExeption | FileAlreadyExistsException | InvalidFilenameException couldNotRenameExeption) {
+                // Todo: What shall I do with this f*cking exception
+                couldNotRenameExeption.printStackTrace();
+            }
+            addFSObject(parentFolder, subFile, dir);
+        }
+    }
+
 
     private void addFSObject(LocalFolder folder, FSObject object, Path path) {
         try {

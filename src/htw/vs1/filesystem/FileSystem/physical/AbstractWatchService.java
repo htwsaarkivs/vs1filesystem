@@ -21,8 +21,6 @@ public abstract class AbstractWatchService extends Thread {
 
     private final WatchService watcher;
     private final Map<WatchKey,Path> keys;
-    private final boolean recursive;
-    private boolean trace = false;
 
     /**
      * Creates a WatchService and registers the given directory
@@ -30,40 +28,15 @@ public abstract class AbstractWatchService extends Thread {
     AbstractWatchService(Path dir, boolean recursive) throws IOException {
         this.watcher = FileSystems.getDefault().newWatchService();
         this.keys = new HashMap<>();
-        this.recursive = recursive;
-
-        if (recursive) {
-            System.out.format("Scanning %s ...\n", dir);
-            registerAll(dir);
-            System.out.println("Done.");
-        } else {
-            register(dir);
-        }
-
-        // enable trace after initial registration
-        this.trace = true;
     }
 
-    private void register(Path dir) throws IOException {
+    public void register(Path dir) throws IOException {
         WatchKey key = dir.register(watcher,
                 new WatchEvent.Kind[] {ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY},
                 SensitivityWatchEventModifier.HIGH); // Sensitive high will update immediately !
 
         keys.put(key, dir);
-
-    }
-
-    private void registerAll(final Path start) throws IOException {
-        // register directory and sub-directories
-        Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
-                    throws IOException
-            {
-                register(dir);
-                return FileVisitResult.CONTINUE;
-            }
-        });
+        System.out.println("Register path: " + dir.toString());
     }
 
     private void processEvents() {
@@ -101,14 +74,14 @@ public abstract class AbstractWatchService extends Thread {
 
                 if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
                     onEntryCreate(child, dir);
-                    if (recursive && Files.isDirectory(child, LinkOption.NOFOLLOW_LINKS)) {
+                    /*if (recursive && Files.isDirectory(child, LinkOption.NOFOLLOW_LINKS)) {
                         try {
                             registerAll(child);
                         } catch (IOException e) {
                             // TODO: What shall I do with this f*cking exception ?!
                             e.printStackTrace();
                         }
-                    }
+                    }*/
 
                 } else if (kind == StandardWatchEventKinds.ENTRY_DELETE) {
                     onEntryDelete(child, dir);
