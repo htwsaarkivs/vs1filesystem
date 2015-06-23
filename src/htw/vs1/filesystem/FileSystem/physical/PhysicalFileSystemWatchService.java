@@ -26,8 +26,8 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
 
     @Override
     protected void onEntryDelete(Path child, Path dir) {
-        System.out.format("Deleted file/folder %s in directory %s\n", child.toFile().getName(), dir);
-        System.out.format("Relative path from local-root: " + LocalFolder.getRootFolder().getPath().relativize(child));
+        //System.out.format("Deleted file/folder %s in directory %s\n", child.toFile().getName(), dir);
+        //System.out.format("Relative path from local-root: %s\n", LocalFolder.getRootFolder().getPath().relativize(dir));
 
         if (!LocalFolder.getRootFolder().getPath().relativize(dir).toString().isEmpty()){
             try {
@@ -57,11 +57,11 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
 
     @Override
     protected void onEntryCreate(Path child, Path parent) {
-        System.out.format(
+        /*System.out.format(
                 "Created %s %s in directory %s\n",
                 (child.toFile().isDirectory()) ? "folder" : "file",
                 child.toFile().getName(),
-                parent);
+                parent);*/
 
         if (fileSystem.getWorkingDirectory().exists(child.toFile().getName())){
             // the file was created by our program
