@@ -26,7 +26,6 @@ public class Main {
         System.out.println("Importing directory...");
         String path = adapter.loadFileSystemTree();
         System.out.println("Directory" + ((path.isEmpty()) ? " not" : ": ") + path + " imported.");
-        adapter.startWatchService();
 
         FileSystemInterface fileSystem = new FileSystem(LocalFolder.getRootFolder());
         fileSystem.setWorkingDirectory(LocalFolder.getRootFolder());

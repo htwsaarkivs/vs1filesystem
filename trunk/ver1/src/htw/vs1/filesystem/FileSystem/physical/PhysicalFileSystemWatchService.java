@@ -5,6 +5,7 @@ import htw.vs1.filesystem.FileSystem.virtual.*;
 
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
@@ -25,8 +26,8 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
 
     @Override
     protected void onEntryDelete(Path child, Path dir) {
-        //System.out.format("Deleted file/folder %s in directory %s\n", child.toFile().getName(), dir);
-        //System.out.format("Relative path from local-root: " + LocalFolder.getRootFolder().getPath().relativize(child));
+        System.out.format("Deleted file/folder %s in directory %s\n", child.toFile().getName(), dir);
+        System.out.format("Relative path from local-root: " + LocalFolder.getRootFolder().getPath().relativize(child));
 
         if (!LocalFolder.getRootFolder().getPath().relativize(dir).toString().isEmpty()){
             try {
@@ -37,9 +38,10 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
         }
 
         try {
+            System.out.println("pwd: " + fileSystem.getWorkingDirectory().getAbsolutePath());
             FSObject toDelete = fileSystem.getWorkingDirectory().getObject(child.toFile().getName());
             if (toDelete instanceof LocalFSObject) {
-                ((LocalFolder) toDelete).setPath(null);
+                ((LocalFSObject) toDelete).setPath(null);
                 fileSystem.getWorkingDirectory().delete(toDelete);
 
             }
@@ -55,14 +57,12 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
 
     @Override
     protected void onEntryCreate(Path child, Path parent) {
-        /*System.out.format(
+        System.out.format(
                 "Created %s %s in directory %s\n",
                 (child.toFile().isDirectory()) ? "folder" : "file",
                 child.toFile().getName(),
                 parent);
 
-        System.out.println("Relative path from local-root: " + LocalFolder.getRootFolder().getPath().relativize(parent));
-*/
         if (fileSystem.getWorkingDirectory().exists(child.toFile().getName())){
             // the file was created by our program
             return;
@@ -101,9 +101,12 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
                     }
                     try {
                         fileSystem.getWorkingDirectory().add(toCreate);
-                        System.out.println(fileSystem.getWorkingDirectory().toString());
+                        PhysicalFileSystemAdapter.getInstance().loadFileSystemDirectories(
+                                Files.newDirectoryStream(child), toCreate);
                     } catch (CouldNotCreateExeption couldNotCreateExeption) {
                         couldNotCreateExeption.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 } catch (CouldNotRenameExeption couldNotRenameExeption) {
                     couldNotRenameExeption.printStackTrace();
