@@ -22,7 +22,23 @@ import java.nio.file.*;
  */
 public class PhysicalFileSystemAdapter {
 
-    public PhysicalFileSystemAdapter() {
+    private static PhysicalFileSystemAdapter INSTANCE = null;
+
+    /**
+     * Gets the single instance of the
+     * {@link PhysicalFileSystemAdapter}.
+     *
+     * @return the single instance of this class.
+     */
+    public static PhysicalFileSystemAdapter getInstance() {
+        if (null == INSTANCE) {
+            INSTANCE = new PhysicalFileSystemAdapter();
+        }
+
+        return INSTANCE;
+    }
+
+    private PhysicalFileSystemAdapter() {
     }
 
     boolean physicalFileSystemLinked = false;
