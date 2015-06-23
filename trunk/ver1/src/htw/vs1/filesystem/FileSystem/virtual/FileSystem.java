@@ -77,6 +77,7 @@ public class FileSystem implements FileSystemInterface {
      */
     @Override
     public void changeDirectory(@NotNull String path) throws ObjectNotFoundException {
+        path = path.replace("\\", "/");
         if (!path.isEmpty() && path.substring(0,1).equals("/")) {
             // path is an absolute path
             setWorkingDirectory(rootFolder);
