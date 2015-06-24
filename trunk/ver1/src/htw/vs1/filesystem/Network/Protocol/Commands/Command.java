@@ -23,9 +23,9 @@ public interface Command {
 
     /**
      * Specifies the invocation directive for client-side use of commands.
-     * @param port A reference to a Protocol context
+     * @param prot A reference to a Protocol context
      * @return
      * @throws SimpleProtocolTerminateConnection
      */
-    ClientReply invoke(ClientProtocol port) throws SimpleProtocolTerminateConnection;
+    ClientReply invoke(ClientProtocol prot) throws SimpleProtocolTerminateConnection;
 }

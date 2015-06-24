@@ -53,7 +53,7 @@ public class SETPASS extends AbstractCommand {
     }
 
     @Override
-    public ClientReply invoke(ClientProtocol port) throws SimpleProtocolTerminateConnection {
+    public ClientReply invoke(ClientProtocol prot) throws SimpleProtocolTerminateConnection {
         return null;
     }
 }
