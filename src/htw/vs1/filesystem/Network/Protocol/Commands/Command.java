@@ -1,12 +1,11 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
+import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
-import htw.vs1.filesystem.Network.Protocol.Protocol;
-import htw.vs1.filesystem.Network.Protocol.Replies.Reply;
+import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
+import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
-
-
-import java.util.List;
+import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
 
 /**
  * Created by markus on 12.06.15.
@@ -20,5 +19,13 @@ public interface Command {
      * @return
      * @throws SimpleProtocolTerminateConnection
      */
-    Reply execute(Protocol prot, RequestList requestList) throws SimpleProtocolTerminateConnection;
+    ServerReply execute(ServerProtocol prot, RequestList requestList) throws SimpleProtocolTerminateConnection;
+
+    /**
+     * Specifies the invocation directive for client-side use of commands.
+     * @param port A reference to a Protocol context
+     * @return
+     * @throws SimpleProtocolTerminateConnection
+     */
+    ClientReply invoke(ClientProtocol port) throws SimpleProtocolTerminateConnection;
 }

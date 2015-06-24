@@ -26,7 +26,9 @@ public class SimpleProtocolRequest implements Request {
      */
     private void parse() {
         CommandParser parser = new CommandParser();
-        parser.parse(requestLine);
+        if (!parser.parse(requestLine)) {
+            // TODO: fehler
+        }
         this.commandString = parser.getCommand();
         this.arguments.addAll(Arrays.asList(parser.getArgs()));
 

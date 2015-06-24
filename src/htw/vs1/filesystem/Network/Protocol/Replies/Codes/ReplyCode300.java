@@ -1,6 +1,5 @@
 package htw.vs1.filesystem.Network.Protocol.Replies.Codes;
 
-import htw.vs1.filesystem.Network.Protocol.Replies.SimpleProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.SimpleProtocolReplyType;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
