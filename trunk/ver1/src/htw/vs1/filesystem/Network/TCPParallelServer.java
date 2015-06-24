@@ -1,12 +1,8 @@
 package htw.vs1.filesystem.Network;
 
-import com.sun.corba.se.spi.activation.Server;
-import htw.vs1.filesystem.FileSystem.physical.PhysicalFileSystemAdapter;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -57,11 +53,6 @@ public class TCPParallelServer implements ServerInterface {
 
             //Intialisierung des Filesystems
             LocalFolder.setRootDirectory(path);
-            PhysicalFileSystemAdapter adapter = PhysicalFileSystemAdapter.getInstance();
-            System.out.println("Importing directory...");
-            String path = adapter.loadFileSystemTree();
-            System.out.println("Directory" + ((path.isEmpty()) ? " not" : ": ") + path + " imported.");
-            adapter.startWatchService();
 
             // Erzeugen der Socket/binden an Port/Wartestellung
             ServerSocket socket = new ServerSocket(port);

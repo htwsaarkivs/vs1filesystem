@@ -22,17 +22,10 @@ public class Main {
 
         LocalFolder.setRootDirectory(args[0]);
 
-        PhysicalFileSystemAdapter adapter = PhysicalFileSystemAdapter.getInstance();
-        System.out.println("Importing directory...");
-        String path = adapter.loadFileSystemTree();
-        System.out.println("Directory" + ((path.isEmpty()) ? " not" : ": ") + path + " imported.");
-
         FileSystemInterface fileSystem = new FileSystem(LocalFolder.getRootFolder());
-        fileSystem.setWorkingDirectory(LocalFolder.getRootFolder());
         UserDialog dialog = new UserDialog(fileSystem);
 
         dialog.showDialog();
-        adapter.stopWatchService();
     }
 
     /**
