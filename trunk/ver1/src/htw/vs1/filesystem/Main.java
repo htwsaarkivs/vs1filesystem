@@ -1,6 +1,5 @@
 package htw.vs1.filesystem;
 
-import htw.vs1.filesystem.FileSystem.physical.PhysicalFileSystemAdapter;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
@@ -22,7 +21,7 @@ public class Main {
 
         LocalFolder.setRootDirectory(args[0]);
 
-        FileSystemInterface fileSystem = new FileSystem(LocalFolder.getRootFolder());
+        FileSystemInterface fileSystem = new FileSystem();
         UserDialog dialog = new UserDialog(fileSystem);
 
         dialog.showDialog();

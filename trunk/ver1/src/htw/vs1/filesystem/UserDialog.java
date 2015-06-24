@@ -9,7 +9,6 @@ import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 
 import java.nio.file.FileAlreadyExistsException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -42,6 +41,7 @@ public class UserDialog {
         DELETE("delete"),
         TOUCH("touch"),
         SEARCH("search"),
+        MOUNT("mount"),
         EXIT("exit"),
         UNKNOWN("unknown");
 
@@ -53,6 +53,7 @@ public class UserDialog {
         private static final String VAL_MKDIR = "mkdir";
         private static final String VAL_TOUCH = "touch";
         private static final String VAL_SEARCH = "search";
+        private static final String VAL_MOUNT = "mount";
         private static final String VAL_EXIT = "exit";
         
         /**
@@ -116,6 +117,9 @@ public class UserDialog {
                     break;
                 case VAL_DELETE:
                     cmd = Command.DELETE;
+                    break;
+                case VAL_MOUNT:
+                    cmd = Command.MOUNT;
                     break;
                 default:
                     cmd = UNKNOWN;
@@ -222,12 +226,11 @@ public class UserDialog {
                 System.out.print(NEW_LINE);
                 break;
             case MKDIR:
-                //TODO: Exception Ordner und Datei im selben Verzeichnis dürfen nicht den gleichen Namen tragen
                 String folderName;
                 if (command.hasParams() && command.getParams().length == 1) {
                     folderName = command.getParams()[0];
                 } else {
-                    // TODO: throw exception
+                    // TODO: print usage
                     break;
                }
                 LocalFolder folder = new LocalFolder(folderName);
@@ -235,12 +238,11 @@ public class UserDialog {
         
                 break;
             case TOUCH:
-                //TODO: Exception Ordner und Datei im selben Verzeichnis dürfen nicht den gleichen Namen tragen
                 String fileName;
                 if (command.hasParams() && command.getParams().length == 1) {
                     fileName = command.getParams()[0];
                 } else {
-                    // TODO: throw exception.
+                    // TODO: print usage
                     break;
 
                 }
@@ -253,8 +255,7 @@ public class UserDialog {
                 if (command.hasParams() && command.getParams().length == 1) {
                     cdParam = command.getParams()[0];
                 } else {
-                    System.out.println("CD");
-                    // TODO: throw exception.
+                    // TODO: print usage
                     break;
                 }
                 fileSystem.changeDirectory(cdParam);
@@ -270,7 +271,7 @@ public class UserDialog {
                  if (command.hasParams() && command.getParams().length == 1) {
                     searchObject = command.getParams()[0];
                 } else {
-                    // TODO: error message.
+                    // TODO: print usage
                     break;
                 }
 
@@ -282,24 +283,49 @@ public class UserDialog {
             case RENAME:
                 String oldName;
                 String newName;
-                if(command.hasParams() && command.getParams().length ==2) {
+                if(command.hasParams() && command.getParams().length == 2) {
                     oldName = command.getParams()[0];
                     newName = command.getParams()[1];
                     fileSystem.rename(oldName, newName);
                 }
                 else{
-                 //TODO error message.
+                 //TODO: print usage
                     }
                 break;
             case DELETE:
                 String name;
-                if(command.hasParams() && command.getParams().length ==1){
+                if(command.hasParams() && command.getParams().length == 1){
                     name = command.getParams()[0];
                     fileSystem.delete(name);
                 }
                 break;
+            case MOUNT:
+                String remoteIP = null;
+                String remotePort = null;
+                String user = null;
+                String pass = null;
+                boolean printUsage = true;
+                if (command.hasParams()) {
+                    if (command.getParams().length == 2 || command.getParams().length == 4) {
+                        remoteIP = command.getParams()[0];
+                        remotePort = command.getParams()[1];
+                        printUsage = false;
+                    }
+                    if (command.getParams().length == 4) {
+                        user = command.getParams()[2];
+                        pass = command.getParams()[3];
+                    }
+                }
+                if (printUsage) {
+                    // TODO: print usage;
+                    break;
+                }
+
+                fileSystem.mount(remoteIP, remotePort, user, pass);
+
+                break;
             case UNKNOWN:
-                // TODO: Error message.
+                // TODO: print usage
                 throw new UnsupportedOperationException("Error message for unknown parameter not implemented");
         }
 

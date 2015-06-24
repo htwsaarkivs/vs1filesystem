@@ -18,6 +18,10 @@ import java.util.List;
  */
 public class RemoteFolder extends RemoteFSObject implements Folder {
 
+    public static RemoteFolder createAsMountPoint(String remoteIP, String remotePort, String user, String pass) {
+        throw new NotImplementedException();
+    }
+
     /**
      * Creates a new Folder with the given name.
      *

@@ -1,10 +1,7 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.NotNull;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
-import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.exceptions.*;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
@@ -77,4 +74,13 @@ public interface FileSystemInterface {
 
     void delete(@NotNull String name) throws ObjectNotFoundException, CouldNotDeleteExeption;
 
+    /**
+     * Mounts a {@link RemoteFolder} into our file system.
+     *
+     * @param remoteIP IP-Adress of the remote file system
+     * @param remotePort Port of the remote file system
+     * @param user username
+     * @param pass password
+     */
+    void mount(String remoteIP, String remotePort, String user, String pass) throws FileAlreadyExistsException, CouldNotCreateExeption;
 }
