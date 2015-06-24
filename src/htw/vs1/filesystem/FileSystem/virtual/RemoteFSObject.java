@@ -1,6 +1,5 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 
 import java.nio.file.FileAlreadyExistsException;
@@ -17,7 +16,7 @@ public abstract class RemoteFSObject extends AbstractFSObject {
      *
      * @param name name of the FSObject.
      */
-    public RemoteFSObject(String name) throws FileAlreadyExistsException, InvalidFilenameException, CouldNotRenameExeption {
+    public RemoteFSObject(String name) throws FileAlreadyExistsException, InvalidFilenameException {
         super(name);
     }
 }

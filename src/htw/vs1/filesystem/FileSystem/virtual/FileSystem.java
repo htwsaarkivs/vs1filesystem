@@ -29,6 +29,8 @@ public class FileSystem implements FileSystemInterface {
 
     private static final String THIS_FOLDER = ".";
 
+    private final boolean mountAllowed;
+
     /**
      * The folder to evaluate a absolute
      * path from.
@@ -41,7 +43,7 @@ public class FileSystem implements FileSystemInterface {
     private Folder workingFolder;
 
     public FileSystem() {
-        this(LocalFolder.getRootFolder());
+        this(LocalFolder.getRootFolder(), false);
     }
 
     /**
@@ -50,9 +52,10 @@ public class FileSystem implements FileSystemInterface {
      *
      * @param workingFolder {@link Folder} to work on.
      */
-    public FileSystem(Folder workingFolder) {
+    public FileSystem(Folder workingFolder, boolean mountAllowed) {
         this.workingFolder = workingFolder;
         this.rootFolder = workingFolder;
+        this.mountAllowed = mountAllowed;
     }
 
     /**
@@ -173,5 +176,24 @@ public class FileSystem implements FileSystemInterface {
     @Override
     public void delete(@NotNull String name) throws ObjectNotFoundException, CouldNotDeleteExeption {
         workingFolder.delete(name);
+    }
+
+    /**
+     * Mounts a {@link RemoteFolder} into our file system.
+     *
+     * @param remoteIP   IP-Adress of the remote file system
+     * @param remotePort Port of the remote file system
+     * @param user       username
+     * @param pass       password
+     */
+    @Override
+    public void mount(String remoteIP, String remotePort, String user, String pass)
+            throws FileAlreadyExistsException, CouldNotCreateExeption {
+        if (!mountAllowed) {
+            return;
+        }
+
+        RemoteFolder remote = RemoteFolder.createAsMountPoint(remoteIP, remotePort, user, pass);
+        rootFolder.add(remote);
     }
 }
