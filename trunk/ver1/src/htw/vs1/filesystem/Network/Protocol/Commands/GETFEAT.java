@@ -1,12 +1,16 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
 
-import htw.vs1.filesystem.Network.Protocol.Protocol;
+import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
+import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode210;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode219;
-import htw.vs1.filesystem.Network.Protocol.Replies.Reply;
-import htw.vs1.filesystem.Network.Protocol.Replies.SimpleProtocolReply;
+import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
+import htw.vs1.filesystem.Network.Protocol.Replies.SimpleServerProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
+import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
+
 import java.util.Set;
 
 /**
@@ -16,7 +20,7 @@ public class GETFEAT extends AbstractCommand {
     public static String COMMAND_STRING = "GETFEAT";
 
 
-    public Reply execute(Protocol prot, RequestList requestList) {
+    public ServerReply execute(ServerProtocol prot, RequestList requestList) {
 
         Set<String> set = new CommandFactory().getRegisteredCommands();
 
@@ -26,10 +30,15 @@ public class GETFEAT extends AbstractCommand {
             buf.append("[" + obj + "]\n");
         }
 
-        new SimpleProtocolReply(new ReplyCode210(), this).putReply(prot);
+        new SimpleServerProtocolReply(new ReplyCode210(), this).putReply(prot);
 
         prot.putLine(buf.toString());
 
-        return new SimpleProtocolReply(new ReplyCode219(), this);
+        return new SimpleServerProtocolReply(new ReplyCode219(), this);
+    }
+
+    @Override
+    public ClientReply invoke(ClientProtocol port) throws SimpleProtocolTerminateConnection {
+        return null;
     }
 }

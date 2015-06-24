@@ -9,17 +9,17 @@ import htw.vs1.filesystem.Network.Protocol.SimpleProtocol;
 /**
  * Created by markus on 16.06.15.
  */
-public class SimpleProtocolReply implements Reply {
+public class SimpleServerProtocolReply implements ServerReply {
 
     private ReplyCode code;
     private Command command;
 
     /**
-     * Creates a new SimpleProtocolReply
+     * Creates a new SimpleServerProtocolReply
      * @param code
      * @param command
      */
-    public SimpleProtocolReply(ReplyCode code, Command command) {
+    public SimpleServerProtocolReply(ReplyCode code, Command command) {
         this.code = code;
         this.command = command;
     }

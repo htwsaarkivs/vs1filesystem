@@ -1,11 +1,13 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
-import htw.vs1.filesystem.Network.Protocol.Protocol;
+import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
+import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode400;
-import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode401;
-import htw.vs1.filesystem.Network.Protocol.Replies.Reply;
-import htw.vs1.filesystem.Network.Protocol.Replies.SimpleProtocolReply;
+import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
+import htw.vs1.filesystem.Network.Protocol.Replies.SimpleServerProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
+import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
 
 /**
  * Created by markus on 13.06.15.
@@ -13,7 +15,12 @@ import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 public class UnsupportedCommand extends AbstractCommand {
 
     @Override
-    public Reply execute(Protocol prot, RequestList requestList) {
-        return new SimpleProtocolReply(new ReplyCode400(), this);
+    public ServerReply execute(ServerProtocol prot, RequestList requestList) {
+        return new SimpleServerProtocolReply(new ReplyCode400(), this);
+    }
+
+    @Override
+    public ClientReply invoke(ClientProtocol port) throws SimpleProtocolTerminateConnection {
+        return null;
     }
 }

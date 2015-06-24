@@ -1,10 +1,13 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
-import htw.vs1.filesystem.Network.Protocol.Protocol;
+import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
+import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.*;
-import htw.vs1.filesystem.Network.Protocol.Replies.Reply;
-import htw.vs1.filesystem.Network.Protocol.Replies.SimpleProtocolReply;
+import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
+import htw.vs1.filesystem.Network.Protocol.Replies.SimpleServerProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
+import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 
 /**
@@ -13,9 +16,9 @@ import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 public class SETPASS extends AbstractCommand {
     public static final String COMMAND_STRING = "SETPASS";
 
-    public Reply execute(Protocol prot, RequestList requestList) {
+    public ServerReply execute(ServerProtocol prot, RequestList requestList) {
         if (requestList.getCurrentElement().numOfArguments() != 1) {
-            return new SimpleProtocolReply(new ReplyCode401(COMMAND_STRING+" must have exactly one argument."), this);
+            return new SimpleServerProtocolReply(new ReplyCode401(COMMAND_STRING+" must have exactly one argument."), this);
         }
         String pass = requestList.getCurrentElement().getArguments().get(0);
 
@@ -31,7 +34,7 @@ public class SETPASS extends AbstractCommand {
 
 
         if (failure)
-            return new SimpleProtocolReply(
+            return new SimpleServerProtocolReply(
                 new ReplyCode401(
                         COMMAND_STRING+ "  must be preceeded by "+SETUSER.COMMAND_STRING),
                 this);
@@ -44,8 +47,13 @@ public class SETPASS extends AbstractCommand {
             prot.setState(SimpleProtocolState.AUTHENTICATED);
         }
 
-        return new SimpleProtocolReply(new ReplyCode220(user), this);
+        return new SimpleServerProtocolReply(new ReplyCode220(user), this);
 
 
+    }
+
+    @Override
+    public ClientReply invoke(ClientProtocol port) throws SimpleProtocolTerminateConnection {
+        return null;
     }
 }

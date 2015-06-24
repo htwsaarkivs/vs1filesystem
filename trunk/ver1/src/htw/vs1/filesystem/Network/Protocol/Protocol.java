@@ -33,6 +33,5 @@ public interface Protocol {
      */
     State getState();
 
-    FileSystemInterface getFileSystem();
 
 }

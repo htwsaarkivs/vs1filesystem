@@ -101,6 +101,8 @@ public class CommandParser {
      * @return String array of the arguments.
      */
     public String[] getArgs() {
+        if (words.size() < 1) return new String[0];
+
         String[] argsArray = new String[words.size()-1];
         boolean first = true;
         int i = 0;
@@ -130,6 +132,10 @@ public class CommandParser {
 
         if (words.isEmpty()) {
             // TODO: throw exception
+            //Keine Exception!!
+            // Einfach ein leerer String, andernfalls fährt der Server gradwegs gegen die Wand, wenn man nur Enter drückt.
+
+            return "";
         }
 
         return words.get(0);

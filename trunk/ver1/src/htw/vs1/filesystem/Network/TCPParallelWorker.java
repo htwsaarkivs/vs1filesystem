@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.Network;
 
 import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
-import htw.vs1.filesystem.Network.Protocol.SimpleProtocol;
+import htw.vs1.filesystem.Network.Protocol.Server.SimpleServerProtocol;
 
 import java.net.Socket;
 
@@ -24,7 +24,7 @@ public class TCPParallelWorker extends Thread {
         System.out.println("Thread gestartet");
         try {
 
-            new SimpleProtocol(socket, new FileSystem()).run();
+            new SimpleServerProtocol(socket, new FileSystem()).run();
             socket.close();
 
         } catch (Exception e) {
