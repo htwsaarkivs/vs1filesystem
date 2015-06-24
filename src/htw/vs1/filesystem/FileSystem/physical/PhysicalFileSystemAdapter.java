@@ -2,9 +2,7 @@ package htw.vs1.filesystem.FileSystem.physical;
 
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
-import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 
@@ -22,6 +20,9 @@ import java.nio.file.*;
  */
 public class PhysicalFileSystemAdapter {
 
+    /**
+     * Single instance of the PhysicalFileSystemAdapter.
+     */
     private static PhysicalFileSystemAdapter INSTANCE = null;
 
     /**
@@ -47,10 +48,16 @@ public class PhysicalFileSystemAdapter {
         startWatchService();
     }
 
-    boolean physicalFileSystemLinked = false;
-
+    /**
+     * Instance of the thread of the watch service.
+     * Used to stop it on demand.
+     */
     AbstractWatchService watchThread;
 
+    /**
+     * Starts the watch service which observes
+     * the physical file system for changes.
+     */
     public void startWatchService() {
         if (null != watchThread) {
             return;
@@ -58,19 +65,19 @@ public class PhysicalFileSystemAdapter {
 
         Path localFolderPath = LocalFolder.getRootFolder().getPath();
         if (null == localFolderPath) {
-            physicalFileSystemLinked = true;
             return;
         }
-        physicalFileSystemLinked = true;
         try {
             watchThread = new PhysicalFileSystemWatchService();
             watchThread.start();
         } catch (IOException e) {
-            // TODO: What shall I do with this f*cking exception ?!
             e.printStackTrace();
         }
     }
 
+    /**
+     * Stops the watch service.
+     */
     public void stopWatchService() {
         if (null != watchThread) {
             watchThread.requestStop();
@@ -88,71 +95,59 @@ public class PhysicalFileSystemAdapter {
     public String loadFileSystemTree() throws IOException {
         Path localFolderPath = LocalFolder.getRootFolder().getPath();
         if (null == localFolderPath) {
-            physicalFileSystemLinked = true;
             return "";
         }
-        physicalFileSystemLinked = true;
         watchThread.register(localFolderPath);
-        DirectoryStream<Path> rootDirectoryStream = Files.newDirectoryStream(localFolderPath);
-        loadFileSystemDirectories(rootDirectoryStream, LocalFolder.getRootFolder());
+        loadFileSystemDirectories(localFolderPath, LocalFolder.getRootFolder());
 
         return localFolderPath.toAbsolutePath().toString();
     }
 
-    protected void loadFileSystemDirectories(DirectoryStream<Path> directoryStream, LocalFolder parentFolder) throws IOException {
+    /**
+     * Iterates over a given directory and adds all its
+     * objects to our virtual file system.
+     *
+     * @param directory {@link Path} to the directory.
+     * @param parentFolder {@link LocalFolder} to add the items to.
+     * @throws IOException
+     */
+    protected void loadFileSystemDirectories(Path directory, LocalFolder parentFolder) throws IOException {
+        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(directory);
 
         for (Path dir : directoryStream) {
-            loadFileSystemDirectory(dir, parentFolder);
+            try {
+                loadFileSystemObject(dir, parentFolder);
+            }  catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    protected void loadFileSystemDirectory(Path dir, LocalFolder parentFolder) throws IOException {
+    /**
+     * Imports a object of the physical file system into
+     * our virtual file system.
+     *
+     * @param dir {@link Path} to the object on the physical file system
+     * @param parentFolder {@link LocalFolder} to add the object to.
+     * @throws IOException
+     * @throws InvalidFilenameException
+     * @throws CouldNotRenameExeption
+     */
+    private void loadFileSystemObject(Path dir, LocalFolder parentFolder)
+            throws IOException, InvalidFilenameException, CouldNotRenameExeption, CouldNotCreateExeption {
         String filename = dir.toFile().getName();
 
         if (dir.toFile().isDirectory()) {
             watchThread.register(dir);
-            LocalFolder subfolder = null;
-            try {
-                subfolder = new LocalFolder(filename);
-            } catch (CouldNotRenameExeption | FileAlreadyExistsException | InvalidFilenameException couldNotRenameExeption) {
-                // Todo: What shall I do with this f*cking exception
-                couldNotRenameExeption.printStackTrace();
-            }
-            addFSObject(parentFolder, subfolder, dir);
+            LocalFolder subfolder;
+            subfolder = new LocalFolder(filename);
+            parentFolder.add(subfolder, dir);
 
-            try {
-                DirectoryStream<Path> subDirectoryStream = Files.newDirectoryStream(dir);
-                loadFileSystemDirectories(subDirectoryStream, subfolder);
-            } catch (IOException e) {
-                // We should not break at this point, because maybe there are other files...
-                // But we should do anything..
-                e.printStackTrace();
-            }
+            loadFileSystemDirectories(dir, subfolder);
         } else {
-            LocalFile subFile = null;
-            try {
-                subFile = new LocalFile(filename);
-            } catch (CouldNotRenameExeption | FileAlreadyExistsException | InvalidFilenameException couldNotRenameExeption) {
-                // Todo: What shall I do with this f*cking exception
-                couldNotRenameExeption.printStackTrace();
-            }
-            addFSObject(parentFolder, subFile, dir);
-        }
-    }
-
-
-    private void addFSObject(LocalFolder folder, FSObject object, Path path) {
-        try {
-            folder.add(object, path);
-        } catch (FileAlreadyExistsException e) {
-            // This should never happen
-            e.printStackTrace();
-            throw new IllegalStateException("File already exists in this folder. Absolute path: "
-                    + path.toFile().getAbsolutePath());
-        } catch (CouldNotCreateExeption e) {
-            e.printStackTrace();
-            // This should never happen at this point we do not create any file or folder
-            throw new IllegalStateException(FSObjectException.COULDNOTCREATE);
+            LocalFile subFile;
+            subFile = new LocalFile(filename);
+            parentFolder.add(subFile, dir);
         }
     }
 

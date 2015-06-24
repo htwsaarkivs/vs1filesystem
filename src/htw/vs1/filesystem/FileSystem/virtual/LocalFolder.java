@@ -3,6 +3,7 @@ package htw.vs1.filesystem.FileSystem.virtual;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
+import htw.vs1.filesystem.FileSystem.physical.PhysicalFileSystemAdapter;
 
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
@@ -54,7 +55,11 @@ public class LocalFolder extends LocalFSObject implements Folder {
             }
 
             try {
-                rootFolder = new LocalFolder(ROOT_FOLDER_NAME, ROOT_FOLDER_PATH);
+                if (null == ROOT_FOLDER_PATH) {
+                    rootFolder = new LocalFolder(ROOT_FOLDER_NAME);
+                } else {
+                    rootFolder = new LocalFolder(ROOT_FOLDER_NAME, ROOT_FOLDER_PATH);
+                }
             } catch (CouldNotRenameExeption | InvalidFilenameException | FileAlreadyExistsException couldNotRenameExeption) {
                 couldNotRenameExeption.printStackTrace();
             }
@@ -62,12 +67,17 @@ public class LocalFolder extends LocalFSObject implements Folder {
         return rootFolder;
     }
 
-    public static void setRootDirectory(@NotNull String rootPath) {
+    public static void setRootDirectory(@NotNull String rootPath) throws IOException {
         if (null != ROOT_FOLDER_PATH) {
             throw new IllegalStateException("Root folder path already set.");
         }
 
         ROOT_FOLDER_PATH = Paths.get(rootPath);
+
+        PhysicalFileSystemAdapter adapter = PhysicalFileSystemAdapter.getInstance();
+        System.out.println("Importing directory...");
+        String path = adapter.loadFileSystemTree();
+        System.out.println("Directory" + ((path.isEmpty()) ? " not" : ": ") + path + " imported.");
     }
 
     /**

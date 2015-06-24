@@ -2,6 +2,7 @@ package htw.vs1.filesystem;
 
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
+import htw.vs1.filesystem.FileSystem.physical.PhysicalFileSystemAdapter;
 import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
@@ -200,6 +201,8 @@ public class UserDialog {
                 break;
             }
         }
+
+        PhysicalFileSystemAdapter.getInstance().stopWatchService();
     }
 
     /**

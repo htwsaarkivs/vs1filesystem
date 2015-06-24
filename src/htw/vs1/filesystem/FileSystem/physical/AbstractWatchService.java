@@ -4,7 +4,6 @@ import com.sun.nio.file.SensitivityWatchEventModifier;
 
 import java.io.IOException;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +12,9 @@ import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 
 /**
+ * Abstract service to watch a directory on the
+ * physical file system.
+ *
  * Created by felix on 17.06.15.
  */
 public abstract class AbstractWatchService extends Thread {
@@ -25,18 +27,24 @@ public abstract class AbstractWatchService extends Thread {
     /**
      * Creates a WatchService and registers the given directory
      */
-    AbstractWatchService(Path dir, boolean recursive) throws IOException {
+    AbstractWatchService() throws IOException {
         this.watcher = FileSystems.getDefault().newWatchService();
         this.keys = new HashMap<>();
     }
 
-    public void register(Path dir) throws IOException {
+    /**
+     * Registers a directory given by the {@link Path}.
+     * The directory will be added to the watch list.
+     *
+     * @param dir {@link Path} to the directory.
+     * @throws IOException
+     */
+    protected void register(Path dir) throws IOException {
         WatchKey key = dir.register(watcher,
                 new WatchEvent.Kind[] {ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY},
                 SensitivityWatchEventModifier.HIGH); // Sensitive high will update immediately !
 
         keys.put(key, dir);
-        System.out.println("Register path: " + dir.toString());
     }
 
     private void processEvents() {
@@ -52,8 +60,6 @@ public abstract class AbstractWatchService extends Thread {
             Path dir = keys.get(key);
             if (null == dir) {
                 // key not recognized !
-                // TODO: What shall I do with this f*cking exception ?!
-                System.err.println("Unknown WatchKey!");
                 continue;
             }
 
@@ -65,6 +71,7 @@ public abstract class AbstractWatchService extends Thread {
                 }
 
                 // Context for directory entry event is the file name of entry
+                @SuppressWarnings("unchecked")
                 WatchEvent<Path> pathWatchEvent = (WatchEvent<Path>) watchEvent;
                 // in case of kind=(create,delete,modify) the context is the relative path between
                 // the directory that is registered and the entry which is created/deleted/modified.
@@ -74,20 +81,10 @@ public abstract class AbstractWatchService extends Thread {
 
                 if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
                     onEntryCreate(child, dir);
-                    /*if (recursive && Files.isDirectory(child, LinkOption.NOFOLLOW_LINKS)) {
-                        try {
-                            registerAll(child);
-                        } catch (IOException e) {
-                            // TODO: What shall I do with this f*cking exception ?!
-                            e.printStackTrace();
-                        }
-                    }*/
-
                 } else if (kind == StandardWatchEventKinds.ENTRY_DELETE) {
                     onEntryDelete(child, dir);
-                } else {
-                    // we do not handle the modify event.
                 }
+                    // we do not handle the modify event.
 
                 // reset key and remove from set if directory no longer accessible
                 boolean valid = key.reset();
@@ -104,8 +101,20 @@ public abstract class AbstractWatchService extends Thread {
         }
     }
 
+    /**
+     * Called, when a object was deleted.
+     *
+     * @param child affected entry.
+     * @param parent parent folder containing the affected entry.
+     */
     protected abstract void onEntryDelete(Path child, Path parent);
 
+    /**
+     * Called, when a new object was created.
+     *
+     * @param child affected entry.
+     * @param parent parent folder containing the affected entry.
+     */
     protected abstract void onEntryCreate(Path child, Path parent);
 
     /**
@@ -114,9 +123,12 @@ public abstract class AbstractWatchService extends Thread {
     @Override
     public void run() {
         processEvents();
-        System.out.println("Watcher is dead now...");
     }
 
+    /**
+     * Tells the thread to stop as soon as
+     * possible.
+     */
     public void requestStop() {
         stop = true;
         interrupt();
