@@ -47,6 +47,7 @@ public class GETFEAT extends AbstractCommand {
         } catch(Exception e) {
 
         }
+        return null;
 
 
     }

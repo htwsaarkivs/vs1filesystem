@@ -9,4 +9,5 @@ import htw.vs1.filesystem.Network.Protocol.Protocol;
 public interface ServerProtocol extends Protocol {
 
     public FileSystemInterface getFileSystem();
+    public void run();
 }
