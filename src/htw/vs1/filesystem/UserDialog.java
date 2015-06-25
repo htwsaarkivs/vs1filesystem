@@ -194,10 +194,18 @@ public class UserDialog {
                 System.out.format("cd: %s: No such file or directory\n", e.getObjectName());
             } catch (FileAlreadyExistsException e) {
                 // TODO: User feedback!
-                e.printStackTrace();
-            } catch (Exception e) {
+                System.out.println(FSObjectException.INVALIDFILENAME);
+            } catch (CouldNotCreateException e) {
+                System.out.println(FSObjectException.COULDNOTCREATE);
+            }catch (CouldNotDeleteException e) {
+                System.out.println(FSObjectException.COULDNOTDELETE);
+            }catch (CouldNotRenameException e) {
+                System.out.println(FSObjectException.COULDNOTRENAME);
+            }catch (InvalidFilenameException e) {
+                System.out.println(FSObjectException.INVALIDFILENAME);
+            }catch (Exception e) {
                 // TODO: detect possible exception which could be caught
-                // and put a error message for the user in a seperate catch-clause.
+                System.out.println(FSObjectException.UNKNOWNEXCEPTION);
                 e.printStackTrace();
             }
 
