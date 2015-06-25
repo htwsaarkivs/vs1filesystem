@@ -70,9 +70,9 @@ public interface FileSystemInterface {
     List<FSObject> search(String name);
 
     void rename(@NotNull String name,String newName)
-            throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotRenameExeption, InvalidFilenameException;
+            throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotRenameException, InvalidFilenameException;
 
-    void delete(@NotNull String name) throws ObjectNotFoundException, CouldNotDeleteExeption;
+    void delete(@NotNull String name) throws ObjectNotFoundException, CouldNotDeleteException;
 
     /**
      * Mounts a {@link RemoteFolder} into our file system.
@@ -82,5 +82,5 @@ public interface FileSystemInterface {
      * @param user username
      * @param pass password
      */
-    void mount(String remoteIP, String remotePort, String user, String pass) throws FileAlreadyExistsException, CouldNotCreateExeption;
+    void mount(String remoteIP, String remotePort, String user, String pass) throws FileAlreadyExistsException, CouldNotCreateException;
 }

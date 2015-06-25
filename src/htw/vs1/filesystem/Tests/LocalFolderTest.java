@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.Tests;
 
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateException;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameException;
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import htw.vs1.filesystem.FileSystem.virtual.*;
@@ -53,7 +53,7 @@ public class LocalFolderTest {
     }
 
     @Test
-    public void testAddCheckPrecondition() throws InvalidFilenameException, FileAlreadyExistsException, CouldNotRenameExeption {
+    public void testAddCheckPrecondition() throws InvalidFilenameException, FileAlreadyExistsException, CouldNotRenameException {
         Folder root = new LocalFolder("Test");
 
         try {
@@ -63,7 +63,7 @@ public class LocalFolderTest {
             // Fine, expected exception thrown by method.
         } catch (FileAlreadyExistsException e) {
             e.printStackTrace();
-        } catch (CouldNotCreateExeption e) {
+        } catch (CouldNotCreateException e) {
             fail("couldNotCreateException should not been thrown.");
         }
 
@@ -75,7 +75,7 @@ public class LocalFolderTest {
             // Fine, expected exception thrown by method.
         } catch (FileAlreadyExistsException e) {
             e.printStackTrace();
-        } catch (CouldNotCreateExeption e) {
+        } catch (CouldNotCreateException e) {
             fail("CouldNotCreateException should not been thrown.");
         }
     }
