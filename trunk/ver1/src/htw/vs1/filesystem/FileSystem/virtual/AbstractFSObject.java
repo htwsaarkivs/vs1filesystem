@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.Nullable;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameException;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 
@@ -26,9 +26,9 @@ public abstract class AbstractFSObject implements FSObject {
     public AbstractFSObject(String name) throws InvalidFilenameException, FileAlreadyExistsException {
         try {
             setName(name);
-        } catch (CouldNotRenameExeption couldNotRenameExeption) {
+        } catch (CouldNotRenameException couldNotRenameException) {
             // This should not happen by the creation of this object.
-            couldNotRenameExeption.printStackTrace();
+            couldNotRenameException.printStackTrace();
         }
     }
 
@@ -39,7 +39,7 @@ public abstract class AbstractFSObject implements FSObject {
      * @param name new name of this object.
      */
     @Override
-  public void setName(String name) throws FileAlreadyExistsException, CouldNotRenameExeption, InvalidFilenameException {
+  public void setName(String name) throws FileAlreadyExistsException, CouldNotRenameException, InvalidFilenameException {
         name = name.trim();
         Pattern regularExpression = Pattern.compile("^[^/\\:*?\"<>|]+$");
         Matcher filename = regularExpression.matcher(name);

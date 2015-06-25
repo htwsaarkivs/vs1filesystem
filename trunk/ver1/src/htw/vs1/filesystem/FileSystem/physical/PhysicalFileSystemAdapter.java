@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.FileSystem.physical;
 
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateExeption;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateException;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameException;
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
@@ -131,10 +131,10 @@ public class PhysicalFileSystemAdapter {
      * @param parentFolder {@link LocalFolder} to add the object to.
      * @throws IOException
      * @throws InvalidFilenameException
-     * @throws CouldNotRenameExeption
+     * @throws CouldNotRenameException
      */
     private void loadFileSystemObject(Path dir, LocalFolder parentFolder)
-            throws IOException, InvalidFilenameException, CouldNotRenameExeption, CouldNotCreateExeption {
+            throws IOException, InvalidFilenameException, CouldNotRenameException, CouldNotCreateException {
         String filename = dir.toFile().getName();
 
         if (dir.toFile().isDirectory()) {

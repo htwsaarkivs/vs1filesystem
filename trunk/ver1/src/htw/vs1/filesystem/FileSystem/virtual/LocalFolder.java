@@ -60,8 +60,8 @@ public class LocalFolder extends LocalFSObject implements Folder {
                 } else {
                     rootFolder = new LocalFolder(ROOT_FOLDER_NAME, ROOT_FOLDER_PATH);
                 }
-            } catch (CouldNotRenameExeption | InvalidFilenameException | FileAlreadyExistsException couldNotRenameExeption) {
-                couldNotRenameExeption.printStackTrace();
+            } catch (CouldNotRenameException | InvalidFilenameException | FileAlreadyExistsException couldNotRenameException) {
+                couldNotRenameException.printStackTrace();
             }
         }
         return rootFolder;
@@ -91,7 +91,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      *
      * @param name name of the new {@link Folder}.
      */
-    public LocalFolder(String name) throws CouldNotRenameExeption, FileAlreadyExistsException, InvalidFilenameException {
+    public LocalFolder(String name) throws CouldNotRenameException, FileAlreadyExistsException, InvalidFilenameException {
         super(name);
 
     }
@@ -102,7 +102,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      *
      * @param name name of the new {@link Folder}.
      */
-    public LocalFolder(String name, Path path) throws CouldNotRenameExeption, FileAlreadyExistsException, InvalidFilenameException {
+    public LocalFolder(String name, Path path) throws CouldNotRenameException, FileAlreadyExistsException, InvalidFilenameException {
         super(name,path);
     }
 
@@ -186,8 +186,8 @@ public class LocalFolder extends LocalFSObject implements Folder {
                 pathOfFile = ((LocalFSObject) object).getPath();
             }
             add(object, pathOfFile);
-        } catch (CouldNotCreateExeption couldNotCreateExeption) {
-            couldNotCreateExeption.printStackTrace();
+        } catch (CouldNotCreateException couldNotCreateException) {
+            couldNotCreateException.printStackTrace();
         }
     }
 
@@ -203,7 +203,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      *                   first run of loadFileSystemDirectory()
      * @throws FileAlreadyExistsException
      */
-    public void add(FSObject object, @Nullable Path pathOfFile) throws FileAlreadyExistsException, CouldNotCreateExeption {
+    public void add(FSObject object, @Nullable Path pathOfFile) throws FileAlreadyExistsException, CouldNotCreateException {
         checkPrecondition(object);
 
         if (exists(object.getName())) {
@@ -221,7 +221,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
                     Files.createDirectory(pathOfFile);
                 }
             } catch (UnsupportedOperationException | SecurityException | IOException e) {
-                throw new CouldNotCreateExeption(FSObjectException.COULDNOTCREATE, e);
+                throw new CouldNotCreateException(FSObjectException.COULDNOTCREATE, e);
             }
         }
         if (object instanceof LocalFSObject) {
@@ -238,7 +238,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * @throws ObjectNotFoundException iff the {@link FSObject} is not in this folder.
      */
     @Override
-    public void delete(FSObject object) throws ObjectNotFoundException, CouldNotDeleteExeption {
+    public void delete(FSObject object) throws ObjectNotFoundException, CouldNotDeleteException {
         checkPrecondition(object);
         if (object instanceof LocalFSObject) {
             LocalFSObject localFSObject = (LocalFSObject) object; // Type verified in #checkPrecondition(FSObject)
@@ -255,7 +255,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * Removes the file from the filetree and in the real Filesystem
      */
     @Override
-    public void delete() throws ObjectNotFoundException, CouldNotDeleteExeption {
+    public void delete() throws ObjectNotFoundException, CouldNotDeleteException {
         for (FSObject object : getContent()) {
             checkPrecondition(object);
             if (object instanceof LocalFSObject) {
@@ -269,7 +269,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
                 Files.delete(getPath());
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new CouldNotDeleteExeption(this, FSObjectException.COULDNOTDELETE, e);
+                throw new CouldNotDeleteException(this, FSObjectException.COULDNOTDELETE, e);
             }
         }
         setParentFolder(null);
@@ -285,7 +285,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * @throws ObjectNotFoundException iff there is no {@link FSObject} identified by this name.
      */
     @Override
-    public void delete(String name) throws ObjectNotFoundException, CouldNotDeleteExeption {
+    public void delete(String name) throws ObjectNotFoundException, CouldNotDeleteException {
         delete(getObject(name));
     }
 

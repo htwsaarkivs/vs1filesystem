@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.Nullable;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameException;
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -20,7 +20,7 @@ public class RemoteFile extends RemoteFSObject implements File {
      *
      * @param name name of the new {@link File}.
      */
-    public RemoteFile(String name) throws CouldNotRenameExeption, FileAlreadyExistsException, InvalidFilenameException {
+    public RemoteFile(String name) throws CouldNotRenameException, FileAlreadyExistsException, InvalidFilenameException {
         super(name);
     }
 

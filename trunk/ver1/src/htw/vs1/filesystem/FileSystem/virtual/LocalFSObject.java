@@ -42,7 +42,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
      *
      * @param name name of the FSObject.
      */
-    public LocalFSObject(String name) throws FileAlreadyExistsException, InvalidFilenameException, CouldNotRenameExeption {
+    public LocalFSObject(String name) throws FileAlreadyExistsException, InvalidFilenameException, CouldNotRenameException {
         super(name);
     }
 
@@ -52,7 +52,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
      * @throws FileAlreadyExistsException
      */
     @Override
-    public void setName(String name) throws FileAlreadyExistsException, CouldNotRenameExeption, InvalidFilenameException {
+    public void setName(String name) throws FileAlreadyExistsException, CouldNotRenameException, InvalidFilenameException {
         if (getParentFolder() != null && getParentFolder().exists(name)) {
             throw new FileAlreadyExistsException(name, null, "in Folder: " + getParentFolder().getAbsolutePath());
         }
@@ -63,7 +63,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
                 Files.move(getPath(), newPath);
                 setPath(newPath);
             } catch (IOException e) {
-                throw new CouldNotRenameExeption(this, FSObjectException.COULDNOTRENAME, e);
+                throw new CouldNotRenameException(this, FSObjectException.COULDNOTRENAME, e);
             }
         }
 
@@ -121,7 +121,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
      * If this is a LocalFolder it deletes
      * the directory and its contents recursively.
      */
-    abstract void delete() throws ObjectNotFoundException, CouldNotDeleteExeption;
+    abstract void delete() throws ObjectNotFoundException, CouldNotDeleteException;
 
     /**
      * Checks the precondition that the given objects has to be a

@@ -217,8 +217,8 @@ public class UserDialog {
      * @return {@code false}, iff the user wants to exit this dialog.
      */
     private boolean executeCommand(Command command)
-            throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotCreateExeption,
-            CouldNotDeleteExeption, CouldNotRenameExeption, InvalidFilenameException {
+            throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotCreateException,
+            CouldNotDeleteException, CouldNotRenameException, InvalidFilenameException {
         switch (command) {
             case LS:
                 String content = fileSystem.listDirectoryContent();

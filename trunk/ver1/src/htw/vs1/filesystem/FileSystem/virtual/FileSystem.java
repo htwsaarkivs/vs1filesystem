@@ -161,12 +161,12 @@ public class FileSystem implements FileSystemInterface {
      */
     @Override
      public void rename(@NotNull String name, String newName)
-            throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotRenameExeption, InvalidFilenameException {
+            throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotRenameException, InvalidFilenameException {
         FSObject toRename = workingFolder.getObject(name);
         try {
             toRename.setName(newName);
-        } catch (htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameExeption couldNotRenameExeption) {
-            couldNotRenameExeption.printStackTrace();
+        } catch (CouldNotRenameException couldNotRenameException) {
+            couldNotRenameException.printStackTrace();
         }
     }
 
@@ -174,7 +174,7 @@ public class FileSystem implements FileSystemInterface {
      * {@inheritDoc}
      */
     @Override
-    public void delete(@NotNull String name) throws ObjectNotFoundException, CouldNotDeleteExeption {
+    public void delete(@NotNull String name) throws ObjectNotFoundException, CouldNotDeleteException {
         workingFolder.delete(name);
     }
 
@@ -188,7 +188,7 @@ public class FileSystem implements FileSystemInterface {
      */
     @Override
     public void mount(String remoteIP, String remotePort, String user, String pass)
-            throws FileAlreadyExistsException, CouldNotCreateExeption {
+            throws FileAlreadyExistsException, CouldNotCreateException {
         if (!mountAllowed) {
             return;
         }
