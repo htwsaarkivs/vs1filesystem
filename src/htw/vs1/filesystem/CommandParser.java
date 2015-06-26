@@ -72,7 +72,8 @@ public class CommandParser {
         if (quotationOpen) {
             currentWord += currentChar;
         } else {
-            words.add(currentWord);
+            //words.add(currentWord);
+            words.addLast(currentWord);
             currentWord = "";
         }
     }
@@ -111,6 +112,7 @@ public class CommandParser {
                 first = false;
             } else {
                 argsArray[i] = arg;
+                i++;
             }
         }
 
