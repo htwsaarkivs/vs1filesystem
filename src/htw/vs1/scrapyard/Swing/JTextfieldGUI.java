@@ -49,6 +49,14 @@ public class JTextfieldGUI extends JFrame {
             }
         });
    //   panel.add(textfield, BorderLayout.NORTH);
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nochEinSchreibsel = textfield.getText();
+                JOptionPane.showMessageDialog(null,nochEinSchreibsel);
+            }
+        });
         panel.add(button,BorderLayout.SOUTH);
 
 
