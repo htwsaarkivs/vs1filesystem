@@ -1,6 +1,13 @@
 package htw.vs1.filesystem.Tests;
 
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteException;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
+import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 import org.junit.Test;
+
+import java.io.IOException;
 
 import static org.junit.Assert.*;
 
@@ -9,14 +16,37 @@ import static org.junit.Assert.*;
  */
 public class LocalFileTest {
 
+    /**
+     * Creates a file, delete it (so that the file does not exists) and then to delete a non-existing file.
+     * (Nachfragen welche Exception geworfen wird)
+     */
     @Test
     public void testDelete() throws Exception {
+        LocalFile file = new LocalFile("Test.txt");
+        file.delete();
 
+        try {
+            file.delete();
+            fail("delete(File) should throw CouldNotDeleteException, when trying to delete a " +
+                    "File that not exists.");
+        } catch (Exception e) {
+            // Alles OK
+        }
     }
-
+    /**
+     * Tests to rename a file with an invalid filename.
+     */
     @Test
     public void testSetName() throws Exception {
+        LocalFile file = new LocalFile("Test.txt");
 
+        try {
+            file.setName(".-/?");
+            fail("delete(File) should throw InvalidFilenameException, when trying to setname of a " +
+                    "File that already exists.");
+        } catch (InvalidFilenameException e) {
+            // Alles OK
+        }
     }
 
     @Test
@@ -27,6 +57,7 @@ public class LocalFileTest {
     @Test
     public void testSetParentFolder() throws Exception {
 
+       // root.setParentFolder();
     }
 
     @Test
