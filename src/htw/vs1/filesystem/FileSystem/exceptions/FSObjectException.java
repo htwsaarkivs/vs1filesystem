@@ -26,9 +26,9 @@ public class FSObjectException extends Exception {
      * @param reason Exeption object to deal with
      */
     public FSObjectException(FSObject object, String msg,Throwable reason){
-        System.out.println(object.toString());
-        System.out.println(msg);
-        System.out.println(reason.toString());
+        //System.out.println(object.toString());
+        //System.out.println(msg);
+        //System.out.println(reason.toString());
     }
     /**
      * Costructor of a Exeption with 2 Parameters
@@ -36,8 +36,8 @@ public class FSObjectException extends Exception {
      * @param reason Exeption object to deal with
      */
     public FSObjectException(String msg,Throwable reason){
-        System.out.println(msg);
-        System.out.println(reason.toString());
+        //System.out.println(msg);
+        //System.out.println(reason.toString());
     }
 
     /**
@@ -45,7 +45,7 @@ public class FSObjectException extends Exception {
      * @param msg Error message of the Expetion
      */
     public FSObjectException (String msg){
-        System.out.println(msg);
+        //System.out.println(msg);
     }
 
     public FSObject getObject() {

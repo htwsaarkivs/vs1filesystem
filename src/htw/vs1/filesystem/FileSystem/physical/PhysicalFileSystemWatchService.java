@@ -62,9 +62,14 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
     private LocalFSObject getAffectedObject(Path pathToObject, Path pathToParent) throws ObjectNotFoundException {
         // Change the working directory to the affected directory
         changeWorkingDirectory(pathToParent);
+        FSObject affected;
 
-        // get the object represented by the name
-        FSObject affected = fileSystem.getWorkingDirectory().getObject(pathToObject.toFile().getName());
+        try {
+            // get the object represented by the name
+            affected = fileSystem.getWorkingDirectory().getObject(pathToObject.toFile().getName());
+        } catch (ObjectNotFoundException e) {
+            return null;
+        }
 
         if (affected instanceof LocalFSObject) {
             return (LocalFSObject) affected;
