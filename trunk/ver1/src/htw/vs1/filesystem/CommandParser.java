@@ -1,5 +1,7 @@
 package htw.vs1.filesystem;
 
+import com.sun.istack.internal.Nullable;
+
 import java.util.LinkedList;
 
 /**
@@ -50,7 +52,12 @@ public class CommandParser {
      *
      * @param string input string to parse.
      */
-    public boolean parse(String string) {
+    public boolean parse(@Nullable String string) {
+        if (null == string) {
+            inputParsed = true;
+            return true;
+        }
+
         for (int i = 0; i < string.length(); i++) {
             currentChar = string.charAt(i);
             parseToken();
@@ -125,7 +132,8 @@ public class CommandParser {
      * The command is the first string of the input
      * divided by a whitespace from the rest of it.
      *
-     * @return
+     * @return the command as a {@link String} or an empty String
+     *         iff there is no command.
      */
     public String getCommand() {
         if (!inputParsed) {
@@ -133,7 +141,6 @@ public class CommandParser {
         }
 
         if (words.isEmpty()) {
-            // TODO: throw exception
             //Keine Exception!!
             // Einfach ein leerer String, andernfalls fährt der Server gradwegs gegen die Wand, wenn man nur Enter drückt.
 
