@@ -1,74 +1,72 @@
 package htw.vs1.filesystem.Network;
+import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
+import htw.vs1.filesystem.Network.Protocol.Commands.Command;
+import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
+import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 /**
  * Created by ray on 24.06.2015.
  */
 public class TCPClient {
 
-        private InputStream input;
-        private OutputStream output;
-        private String currentLine;
+    private SimpleClientProtocol clientProtocol;
 
-        public static void main(String[] args) throws Exception {
-            TCPClient client = new TCPClient();
-            try {
-                client.run();
-                client.readLine();
-                if (client.getCurrentLine().contains("200")) {
-                    client.putLine("GETFEAT");
-                    client.readLine();
-                    client.readLine();
-                    System.out.print(client.getCurrentLine());
-                    return;
-                }
-                throw new Exception("Server im Arsch");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    private boolean isAuthenticated = false;
 
+    public static void main(String[] args) throws Exception {
+        TCPClient client = new TCPClient();
 
-    void run() throws IOException {
-            String ip = "127.0.0.1"; // localhost
-            int port = 4322;
-            Socket socket = new java.net.Socket(ip,port); // verbindet sich mit Server
-            this.input = socket.getInputStream();
-            this.output = socket.getOutputStream();
-
-        }
-
-
-    public String getCurrentLine() {
-        return this.currentLine;
     }
 
-    public void putLine(String line) {
-        PrintWriter printWriter =
-                new PrintWriter(
-                        new OutputStreamWriter(output));
-        printWriter.println(line);
-        printWriter.flush();
+    public TCPClient() {
+        this("localhost", TCPParallelServer.DEFAULT_PORT, TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
     }
 
-    /**
-     * Read from the Socket.
-     * @throws SimpleProtocolFatalError
-     */
-    public void readLine() throws SimpleProtocolFatalError {
+    public TCPClient(String ip, int port, String user, String pass) {
         try {
-            BufferedReader bufferedReader =
-                    new BufferedReader(
-                            new InputStreamReader(input));
-
-            this.currentLine = bufferedReader.readLine();
-
+            clientProtocol = new SimpleClientProtocol(new Socket(ip, port));
+            clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
+            authenticate(user, pass);
+        } catch (SimpleProtocolInitializationErrorException e) {
+            e.printStackTrace();
         } catch (IOException e) {
-            throw new SimpleProtocolFatalError();
+            e.printStackTrace();
+        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
+            simpleProtocolFatalError.printStackTrace();
         }
+    }
+
+    private void authenticate(String user, String pass) {
+        if (isAuthenticated) return;
+
+        try {
+            ClientReply reply;
+            reply = Command.SetUser(clientProtocol, user);
+            // TODO: reply auswerten, ggf. Exception werfen
+
+            reply = Command.SetPass(clientProtocol, pass);
+
+            isAuthenticated = true;
+        } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
+            simpleProtocolTerminateConnection.printStackTrace();
+        }
+    }
+
+    public List<String> listFolderContent() {
+        try {
+            ClientReply reply = Command.LS(clientProtocol);
+            return reply.getData();
+        } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
+            simpleProtocolTerminateConnection.printStackTrace();
+        }
+        return null;
     }
 
 }

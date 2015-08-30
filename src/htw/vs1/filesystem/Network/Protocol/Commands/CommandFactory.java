@@ -56,17 +56,4 @@ public class CommandFactory {
         }
     }
 
-    public static Command createLS() {
-        return new LS();
-    }
-
-    public static Command createSetUser(String user) {
-        return new SETUSER(user);
-    }
-
-    public static Command createSetPass(String pass) {
-        return new SETPASS(pass);
-    }
-
-
 }

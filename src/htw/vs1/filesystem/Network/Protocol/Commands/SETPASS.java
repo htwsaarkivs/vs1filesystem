@@ -18,16 +18,6 @@ public class SETPASS extends AbstractCommand {
 
     public static final String COMMAND_STRING = "SETPASS";
 
-    private String pass = "";
-
-    public SETPASS() {
-
-    }
-
-    public SETPASS(String pass) {
-        this.pass = pass;
-    }
-
     public ServerReply execute(ServerProtocol prot, RequestList requestList) {
         if (requestList.getCurrentElement().numOfArguments() != 1) {
             return new SimpleServerProtocolReply(new ReplyCode401(COMMAND_STRING+" must have exactly one argument."), this);
@@ -65,9 +55,9 @@ public class SETPASS extends AbstractCommand {
     }
 
     @Override
-    public ClientReply invoke(ClientProtocol prot) throws SimpleProtocolTerminateConnection {
+    public ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection {
         try {
-            prot.putLine(COMMAND_STRING + " " + pass);
+            prot.putLine(getCommandString(COMMAND_STRING, parameters));
             prot.readLine();
             prot.getCurrentLine();
         } catch (SimpleProtocolFatalError simpleProtocolFatalError) {

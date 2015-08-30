@@ -29,7 +29,7 @@ public class SimpleServerProtocolReply implements ServerReply {
     }
 
     public void putReply(Protocol prot) {
-        prot.putLine(code.getCode() + " " + code.getMessage());
+        prot.putLine(code.toString());
     }
 
 

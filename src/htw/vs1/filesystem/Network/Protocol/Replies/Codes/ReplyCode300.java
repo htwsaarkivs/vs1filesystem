@@ -12,11 +12,24 @@ public class ReplyCode300 extends ReplyCode {
     public static final Type REPLY_TYPE = SimpleProtocolReplyType.PROMPT;
     public static final int CODE = 300;
     public static final String DESCRIPTION = "";
-    public static final String STANDARD_MESSAGE = "LOGIN REQUIRED";
+    public static final String STANDARD_MESSAGE = "LOGIN REQUIRED FOR USER ";
 
+    private String user;
+
+    public ReplyCode300() {
+
+    }
 
     public ReplyCode300(String user) {
-        this.message = STANDARD_MESSAGE + " FOR USER " + user;
+        this.user = user;
+        this.message = STANDARD_MESSAGE + user;
+    }
+
+    @Override
+    public void setReplyString(String reply) {
+        super.setReplyString(reply);
+        int start = STANDARD_MESSAGE.length();
+        user = message.substring(start);
     }
 
     @Override
@@ -32,5 +45,9 @@ public class ReplyCode300 extends ReplyCode {
     @Override
     public Type getReplyType() {
         return REPLY_TYPE;
+    }
+
+    public String getUser() {
+        return user;
     }
 }

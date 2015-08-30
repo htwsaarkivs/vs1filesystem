@@ -11,11 +11,14 @@ import java.net.Socket;
  */
 public class TCPParallelServer implements ServerInterface {
 
-    private static final int STANDARD_PORT = 4711;
-    private static final int STANDARD_TIMEOUT = 10000;
+    public static final int DEFAULT_PORT = 4322;
+    private static final int DEFAULT_TIMEOUT = 10000;
 
-    private int port = STANDARD_PORT;
-    private int timeout = STANDARD_TIMEOUT;
+    public static final String DEFAULT_USER = "A";
+    public static final String DEFAULT_PASS = "B";
+
+    private int port = DEFAULT_PORT;
+    private int timeout = DEFAULT_TIMEOUT;
 
     public static String path = "/Users/markus/Documents/HTW/test-fs";
 
@@ -27,7 +30,7 @@ public class TCPParallelServer implements ServerInterface {
             return;
         }
         path = args[0];
-        TCPParallelServer server = new TCPParallelServer(4322);
+        TCPParallelServer server = new TCPParallelServer(DEFAULT_PORT);
         server.run();
 
     }
