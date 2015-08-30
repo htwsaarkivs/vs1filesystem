@@ -8,6 +8,7 @@ import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Commands.Command;
 import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
@@ -36,12 +37,15 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
         super(name);
         try {
             clientProtocol = new SimpleClientProtocol(new Socket(remoteIP, remotePort));
+            clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
             clientProtocol.executeCommand(CommandFactory.createSetUser(user));
             clientProtocol.executeCommand(CommandFactory.createSetPass(pass));
             // TODO: ClientReply's auswerten!
         } catch (IOException | SimpleProtocolInitializationErrorException | SimpleProtocolTerminateConnection e) {
             // TODO: Neue Exceptions einführen!
             throw new CouldNotCreateException("Could not create socket.", e);
+        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
+            simpleProtocolFatalError.printStackTrace();
         }
     }
 

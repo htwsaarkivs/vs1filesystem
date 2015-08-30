@@ -15,7 +15,8 @@ import java.net.Socket;
  */
 public abstract class SimpleProtocol implements Protocol {
 
-    private InputStream input;
+    private final BufferedReader bufferedReader;
+    //private InputStream input;
     private OutputStream output;
     private Socket socket;
     private String currentLine;
@@ -39,7 +40,9 @@ public abstract class SimpleProtocol implements Protocol {
     public SimpleProtocol(Socket socket) throws SimpleProtocolInitializationErrorException {
         try {
             this.socket = socket;
-            this.input = socket.getInputStream();
+            this.bufferedReader =
+                    new BufferedReader(
+                            new InputStreamReader(socket.getInputStream()));
             this.output = socket.getOutputStream();
         } catch (IOException e) {
             throw new SimpleProtocolInitializationErrorException();
@@ -72,10 +75,6 @@ public abstract class SimpleProtocol implements Protocol {
      */
     public void readLine() throws SimpleProtocolFatalError {
         try {
-            BufferedReader bufferedReader =
-                    new BufferedReader(
-                            new InputStreamReader(input));
-
             this.currentLine = bufferedReader.readLine();
 
         } catch (IOException e) {
