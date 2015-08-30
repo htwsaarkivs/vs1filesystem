@@ -44,4 +44,9 @@ public interface Command {
         Command cmd = new LS();
         return cmd.invoke(prot);
     }
+
+    static ClientReply CD(SimpleClientProtocol prot, String path) throws SimpleProtocolTerminateConnection {
+        Command cmd = new CD();
+        return cmd.invoke(prot, path);
+    }
 }

@@ -1,13 +1,11 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.Nullable;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateException;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameException;
-import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
-import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.exceptions.*;
 import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
 import htw.vs1.filesystem.Network.Protocol.Commands.LS;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.IllegalTransitionException;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
@@ -31,13 +29,13 @@ import java.util.Objects;
 public class RemoteFolder extends RemoteFSObject implements Folder {
 
     private TCPClient tcpClient;
-
-    private Folder parentFolder;
+    private String remoteAbsolutePath;
 
     public RemoteFolder(String name, String remoteIP, int remotePort, String user, String pass)
             throws CouldNotRenameException, FileAlreadyExistsException, InvalidFilenameException, CouldNotCreateException {
         super(name);
         tcpClient = new TCPClient(remoteIP, remotePort, user, pass);
+        remoteAbsolutePath = "/";
     }
 
     /**
@@ -46,34 +44,19 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      *
      * @param name name of the new {@link Folder}.
      */
-    public RemoteFolder(String name,  TCPClient tcpClient)
+    public RemoteFolder(String name,  TCPClient tcpClient, Folder parentFolder)
             throws CouldNotRenameException, FileAlreadyExistsException, InvalidFilenameException
     {
         super(name);
         this.tcpClient = tcpClient;
-    }
-
-    /**
-     * Get the parent {@link Folder} containing this Folder.
-     * Can be {@link null}, iff this is the root-Folder.
-     *
-     * @return the parent {@link Folder} or {@code null} iff this is the root-Folder.
-     */
-    @Override
-    public Folder getParentFolder() {
-        return parentFolder;
-    }
-
-    /**
-     * Sets the parent {@link Folder} containing this FSObject. Can be
-     * {@link null}, iff this is the root-Folder.
-     *
-     * @param parentFolder the parent {@link Folder} or {@code null} iff this is the
-     *                     root-Folder.
-     */
-    @Override
-    public void setParentFolder(@Nullable Folder parentFolder) {
-        this.parentFolder = parentFolder;
+        setParentFolder(parentFolder);
+        if (parentFolder instanceof RemoteFolder) {
+            String parentPath = ((RemoteFolder) parentFolder).remoteAbsolutePath;
+            if (Objects.equals(parentPath, "/")) {
+                parentPath = "";
+            }
+            remoteAbsolutePath = parentPath + "/" + name;
+        }
     }
 
     /**
@@ -131,11 +114,11 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
 
             try {
                 if (Objects.equals(type, LS.FOLDER)) {
-                    object = new RemoteFolder(name, tcpClient);
+                    object = new RemoteFolder(name, tcpClient, this);
                 } else {
                     object = new RemoteFile(name);
+                    object.setParentFolder(this);
                 }
-                object.setParentFolder(this);
                 fileList.add(object);
             } catch (CouldNotRenameException e) {
                 e.printStackTrace();
@@ -159,7 +142,15 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      */
     @Override
     public boolean exists(String name) {
-        throw new NotImplementedException();
+        List<FSObject> contents = getContent();
+
+        for (FSObject object : contents) {
+            if (object.getName().equals(name)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -173,11 +164,22 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      */
     @Override
     public FSObject getObject(String name) throws ObjectNotFoundException {
-        throw new NotImplementedException();
+        List<FSObject> contents = getContent();
+        for (FSObject object : contents) {
+            if (object.getName().equals(name)) {
+                return object;
+            }
+        }
+
+        throw new ObjectNotFoundException(name, FSObjectException.OBJECTNOTFOUND);
     }
 
     @Override
     public LinkedList<FSObject> search(LinkedList<FSObject> list, String name) {
         throw new NotImplementedException();
+    }
+
+    public void changeDir() {
+        tcpClient.changeDirectory(remoteAbsolutePath);
     }
 }

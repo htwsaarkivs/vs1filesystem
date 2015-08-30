@@ -135,6 +135,10 @@ public class FileSystem implements FileSystemInterface {
             return;
         }
 
+        if (o instanceof RemoteFolder) {
+            ((RemoteFolder) o).changeDir();
+        }
+
         if (o instanceof Folder) {
             workingFolder = (Folder) o;
         } else {
