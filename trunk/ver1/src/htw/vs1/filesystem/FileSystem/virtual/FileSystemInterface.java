@@ -77,10 +77,12 @@ public interface FileSystemInterface {
     /**
      * Mounts a {@link RemoteFolder} into our file system.
      *
+     * @param name Name of the new remote foler
      * @param remoteIP IP-Adress of the remote file system
      * @param remotePort Port of the remote file system
      * @param user username
      * @param pass password
      */
-    void mount(String remoteIP, String remotePort, String user, String pass) throws FileAlreadyExistsException, CouldNotCreateException;
+    void mount(String name, String remoteIP, int remotePort, String user, String pass)
+            throws FileAlreadyExistsException, CouldNotCreateException;
 }

@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.*;
@@ -14,7 +15,18 @@ import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
  * Created by markus on 12.06.15.
  */
 public class SETPASS extends AbstractCommand {
+
     public static final String COMMAND_STRING = "SETPASS";
+
+    private String pass = "";
+
+    public SETPASS() {
+
+    }
+
+    public SETPASS(String pass) {
+        this.pass = pass;
+    }
 
     public ServerReply execute(ServerProtocol prot, RequestList requestList) {
         if (requestList.getCurrentElement().numOfArguments() != 1) {
@@ -54,6 +66,13 @@ public class SETPASS extends AbstractCommand {
 
     @Override
     public ClientReply invoke(ClientProtocol prot) throws SimpleProtocolTerminateConnection {
+        try {
+            prot.putLine(COMMAND_STRING + " " + pass);
+            prot.readLine();
+            prot.getCurrentLine();
+        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
+            simpleProtocolFatalError.printStackTrace();
+        }
         return null;
     }
 }

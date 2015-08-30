@@ -8,6 +8,9 @@ import htw.vs1.filesystem.Network.Protocol.Protocol;
  */
 public interface ServerProtocol extends Protocol {
 
+    String DEFAULT_USER = "A";
+    String DEFAULT_PASS = "B";
+
     public FileSystemInterface getFileSystem();
     public void run();
 }

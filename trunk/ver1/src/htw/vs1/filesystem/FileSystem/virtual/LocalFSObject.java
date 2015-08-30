@@ -133,7 +133,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
     protected void checkPrecondition(FSObject object) {
         if (!(object instanceof LocalFSObject)) {
             // this case should never happen -> precondition !
-            throw new IllegalArgumentException("The new object has to be a LocalFSObject");
+            //throw new IllegalArgumentException("The new object has to be a LocalFSObject");
         }
     }
 

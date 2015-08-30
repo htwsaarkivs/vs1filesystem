@@ -43,7 +43,7 @@ public abstract class AbstractFSObject implements FSObject {
         name = name.trim();
         Pattern regularExpression = Pattern.compile("^[^/\\:*?\"<>|]+$");
         Matcher filename = regularExpression.matcher(name);
-        if(filename.matches()) {
+        if(name.isEmpty() || filename.matches()) {
             this.name = name;
         }
         else {

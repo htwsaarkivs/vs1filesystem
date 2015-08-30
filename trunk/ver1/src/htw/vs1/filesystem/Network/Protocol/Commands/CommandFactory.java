@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -53,6 +54,18 @@ public class CommandFactory {
         } else {
             return new UnsupportedCommand();
         }
+    }
+
+    public static Command createLS() {
+        return new LS();
+    }
+
+    public static Command createSetUser(String user) {
+        return new SETUSER(user);
+    }
+
+    public static Command createSetPass(String pass) {
+        return new SETPASS(pass);
     }
 
 

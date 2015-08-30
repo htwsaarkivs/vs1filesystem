@@ -21,7 +21,7 @@ public class Main {
 
         LocalFolder.setRootDirectory(args[0]);
 
-        FileSystemInterface fileSystem = new FileSystem();
+        FileSystemInterface fileSystem = new FileSystem(true);
         UserDialog dialog = new UserDialog(fileSystem);
 
         dialog.showDialog();

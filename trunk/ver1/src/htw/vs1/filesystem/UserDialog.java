@@ -7,6 +7,7 @@ import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
+import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.Scanner;
@@ -300,28 +301,36 @@ public class UserDialog {
                  //TODO: print usage
                     }
                 break;
-            case DELETE:
+            case DELETE: {
                 String name;
-                if(command.hasParams() && command.getParams().length == 1){
+                if (command.hasParams() && command.getParams().length == 1) {
                     name = command.getParams()[0];
                     fileSystem.delete(name);
                 }
                 break;
-            case MOUNT:
+            }
+            case MOUNT: {
+                String remoteFolderName = null;
                 String remoteIP = null;
-                String remotePort = null;
-                String user = null;
-                String pass = null;
+                int remotePort = -1;
+                String user = ServerProtocol.DEFAULT_USER;
+                String pass = ServerProtocol.DEFAULT_PASS;
                 boolean printUsage = true;
                 if (command.hasParams()) {
-                    if (command.getParams().length == 2 || command.getParams().length == 4) {
-                        remoteIP = command.getParams()[0];
-                        remotePort = command.getParams()[1];
-                        printUsage = false;
+                    if (command.getParams().length == 3 || command.getParams().length == 5) {
+                        remoteFolderName = command.getParams()[0];
+                        remoteIP = command.getParams()[1];
+                        String remotePortStr = command.getParams()[2];
+                        try {
+                            remotePort = Integer.parseInt(remotePortStr);
+                            printUsage = false;
+                        } catch (NumberFormatException e) {
+                            printUsage = true;
+                        }
                     }
-                    if (command.getParams().length == 4) {
-                        user = command.getParams()[2];
-                        pass = command.getParams()[3];
+                    if (command.getParams().length == 5) {
+                        user = command.getParams()[3];
+                        pass = command.getParams()[4];
                     }
                 }
                 if (printUsage) {
@@ -329,9 +338,10 @@ public class UserDialog {
                     break;
                 }
 
-                fileSystem.mount(remoteIP, remotePort, user, pass);
+                fileSystem.mount(remoteFolderName, remoteIP, remotePort, user, pass);
 
                 break;
+            }
             case UNKNOWN:
                 // TODO: print usage
                 throw new UnsupportedOperationException("Error message for unknown parameter not implemented");

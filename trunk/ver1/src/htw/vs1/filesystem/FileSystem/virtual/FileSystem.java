@@ -43,7 +43,11 @@ public class FileSystem implements FileSystemInterface {
     private Folder workingFolder;
 
     public FileSystem() {
-        this(LocalFolder.getRootFolder(), false);
+        this(false);
+    }
+
+    public FileSystem(boolean mountAllowed) {
+        this(LocalFolder.getRootFolder(), mountAllowed);
     }
 
     /**
@@ -53,8 +57,24 @@ public class FileSystem implements FileSystemInterface {
      * @param workingFolder {@link Folder} to work on.
      */
     public FileSystem(Folder workingFolder, boolean mountAllowed) {
-        this.workingFolder = workingFolder;
-        this.rootFolder = workingFolder;
+        if (mountAllowed) {
+            try {
+                rootFolder = new LocalFolder("");
+                rootFolder.add(workingFolder);
+                this.workingFolder = rootFolder;
+            } catch (CouldNotRenameException e) {
+                e.printStackTrace();
+            } catch (FileAlreadyExistsException e) {
+                e.printStackTrace();
+            } catch (InvalidFilenameException e) {
+                e.printStackTrace();
+            } catch (CouldNotCreateException e) {
+                e.printStackTrace();
+            }
+        } else {
+            this.workingFolder = workingFolder;
+            this.rootFolder = workingFolder;
+        }
         this.mountAllowed = mountAllowed;
     }
 
@@ -181,19 +201,23 @@ public class FileSystem implements FileSystemInterface {
     /**
      * Mounts a {@link RemoteFolder} into our file system.
      *
+     * @param name Name of the new remote foler
      * @param remoteIP   IP-Adress of the remote file system
      * @param remotePort Port of the remote file system
      * @param user       username
      * @param pass       password
      */
     @Override
-    public void mount(String remoteIP, String remotePort, String user, String pass)
+    public void mount(String name, String remoteIP, int remotePort, String user, String pass)
             throws FileAlreadyExistsException, CouldNotCreateException {
         if (!mountAllowed) {
             return;
         }
 
-        RemoteFolder remote = RemoteFolder.createAsMountPoint(remoteIP, remotePort, user, pass);
-        rootFolder.add(remote);
+        try {
+            rootFolder.add(new RemoteFolder(name, remoteIP, remotePort, user, pass));
+        } catch (CouldNotRenameException | InvalidFilenameException e) {
+            throw new CouldNotCreateException("Could not create remote Folder", e);
+        }
     }
 }
