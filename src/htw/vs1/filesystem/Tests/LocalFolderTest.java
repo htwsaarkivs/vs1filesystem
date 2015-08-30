@@ -68,7 +68,7 @@ public class LocalFolderTest {
         }
 
 
-        try {
+        /*try {
             root.add(new RemoteFolder("remoteFolder"));
             fail("Method add(FSObject) does not check precondition. It should not be allowed to add a RemoteFile.");
         } catch (IllegalArgumentException e) {
@@ -77,7 +77,7 @@ public class LocalFolderTest {
             e.printStackTrace();
         } catch (CouldNotCreateException e) {
             fail("CouldNotCreateException should not been thrown.");
-        }
+        }*/
     }
 
 

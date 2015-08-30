@@ -24,8 +24,9 @@ public abstract class SimpleProtocol implements Protocol {
     /*
      * Der RequestStack hat im Protokoll (Klasse) nichts verloren, da er keine Eigenschaft des Protokolls darstellt.
      * Er ist viel mehr ein Hilfskonstrukt, welches es bestimmten Kommandos erlaubt auf vorherige Request zurückzugreifen.
-      * Auch würde eine solche Konstruktion die Veränderung des Stacks aus Kommandos herraus erlauben, da im Protokoll zwangsläufig eine pushRequestStack-Methode vorhanden sein muss.
-      * Durch Programmierfehler, könnte man so einfacher Lücken im Protokoll ausnutzen.
+     * Auch würde eine solche Konstruktion die Veränderung des Stacks aus Kommandos herraus erlauben, da im Protokoll
+     * zwangsläufig eine pushRequestStack-Methode vorhanden sein muss.
+     * Durch Programmierfehler, könnte man so einfacher Lücken im Protokoll ausnutzen.
      */
 
     private State state = SimpleProtocolState.IDLE;

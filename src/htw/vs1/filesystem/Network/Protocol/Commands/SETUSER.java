@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode300;
@@ -15,8 +16,18 @@ import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
  * Created by markus on 12.06.15.
  */
 public class SETUSER extends AbstractCommand {
+
     public static String COMMAND_STRING = "SETUSER";
 
+    private String user = "";
+
+    public SETUSER() {
+
+    }
+
+    public SETUSER(String user) {
+        this.user = user;
+    }
 
     protected static boolean isValid(Request req) {
         if (!req.getCommandString().equals(COMMAND_STRING)) return false;
@@ -41,6 +52,13 @@ public class SETUSER extends AbstractCommand {
 
     @Override
     public ClientReply invoke(ClientProtocol prot) throws SimpleProtocolTerminateConnection {
+        try {
+            prot.putLine(COMMAND_STRING + " " + user);
+            prot.readLine();
+            prot.getCurrentLine();
+        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
+            simpleProtocolFatalError.printStackTrace();
+        }
         return null;
     }
 }

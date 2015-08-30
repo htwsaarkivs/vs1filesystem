@@ -1,11 +1,20 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.Nullable;
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateException;
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameException;
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
+import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
+import htw.vs1.filesystem.Network.Protocol.Commands.Command;
+import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
+import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,17 +27,35 @@ import java.util.List;
  */
 public class RemoteFolder extends RemoteFSObject implements Folder {
 
-    public static RemoteFolder createAsMountPoint(String remoteIP, String remotePort, String user, String pass) {
-        throw new NotImplementedException();
+    private SimpleClientProtocol clientProtocol;
+
+    private Folder parentFolder;
+
+    public RemoteFolder(String name, String remoteIP, int remotePort, String user, String pass)
+            throws CouldNotRenameException, FileAlreadyExistsException, InvalidFilenameException, CouldNotCreateException {
+        super(name);
+        try {
+            clientProtocol = new SimpleClientProtocol(new Socket(remoteIP, remotePort));
+            clientProtocol.executeCommand(CommandFactory.createSetUser(user));
+            clientProtocol.executeCommand(CommandFactory.createSetPass(pass));
+            // TODO: ClientReply's auswerten!
+        } catch (IOException | SimpleProtocolInitializationErrorException | SimpleProtocolTerminateConnection e) {
+            // TODO: Neue Exceptions einführen!
+            throw new CouldNotCreateException("Could not create socket.", e);
+        }
     }
 
     /**
-     * Creates a new Folder with the given name.
+     * Creates a new Folder with the given name and an
+     * existing SimpleClientProtocol.
      *
      * @param name name of the new {@link Folder}.
      */
-    public RemoteFolder(String name) throws CouldNotRenameException, FileAlreadyExistsException, InvalidFilenameException {
+    public RemoteFolder(String name, SimpleClientProtocol clientProtocol)
+            throws CouldNotRenameException, FileAlreadyExistsException, InvalidFilenameException
+    {
         super(name);
+        this.clientProtocol = clientProtocol;
     }
 
     /**
@@ -39,7 +66,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      */
     @Override
     public Folder getParentFolder() {
-        throw new NotImplementedException();
+        return parentFolder;
     }
 
     /**
@@ -51,7 +78,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      */
     @Override
     public void setParentFolder(@Nullable Folder parentFolder) {
-        throw new NotImplementedException();
+        this.parentFolder = parentFolder;
     }
 
     /**
@@ -96,7 +123,15 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      */
     @Override
     public List<FSObject> getContent() {
-        throw new NotImplementedException();
+        try {
+            ClientReply reply = clientProtocol.executeCommand(CommandFactory.createLS());
+            String data = reply.getData();
+        } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
+            // TODO: Exception Handling...
+            simpleProtocolTerminateConnection.printStackTrace();
+        }
+
+        return null;
     }
 
     /**
