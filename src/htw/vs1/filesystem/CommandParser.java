@@ -142,7 +142,7 @@ public class CommandParser {
 
         if (words.isEmpty()) {
             //Keine Exception!!
-            // Einfach ein leerer String, andernfalls fährt der Server gradwegs gegen die Wand, wenn man nur Enter drückt.
+            //Einfach ein leerer String, andernfalls fährt der Server gradwegs gegen die Wand, wenn man nur Enter drückt.
 
             return "";
         }

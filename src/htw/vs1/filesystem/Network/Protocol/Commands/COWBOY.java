@@ -36,7 +36,6 @@ public class COWBOY extends AbstractCommand {
                 "         |_|  |_|\n" +
                 "         /_\\  /_\\";
 
-
         String[] lines = cowboy.split("\n");
 
         for(String eachLine: lines) {

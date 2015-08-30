@@ -29,7 +29,7 @@ public class SETPASS extends AbstractCommand {
             failure = !SETUSER.isValid(requestList.getPreviousElement());
 
         } catch (IndexOutOfBoundsException e) {
-            //Nothing to do here. Boobs!
+            //Nothing to do here. Boobs! (. ) ( .)
         }
 
 
