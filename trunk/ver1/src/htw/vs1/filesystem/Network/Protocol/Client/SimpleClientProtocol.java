@@ -34,7 +34,7 @@ public class SimpleClientProtocol extends SimpleProtocol implements ClientProtoc
         return command.invoke(this);
     }
 
-    public ReplyCode analyzeReply() {
+    public ReplyCode analyzeReply() throws SimpleProtocolFatalError {
         return analyzer.parseServerReply(this);
     }
 

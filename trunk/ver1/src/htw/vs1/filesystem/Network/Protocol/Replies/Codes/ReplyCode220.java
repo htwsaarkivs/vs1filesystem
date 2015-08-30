@@ -15,11 +15,25 @@ public class ReplyCode220 extends ReplyCode {
     public static final String STANDARD_MESSAGE1 = "USER";
     public static final String STANDARD_MESSAGE2 = "LOGGED IN";
 
-    public ReplyCode220(String USER) {
-        this.message = STANDARD_MESSAGE1+" "+USER+" "+ STANDARD_MESSAGE2;
+    private String user;
+
+    public ReplyCode220() {
+
     }
 
+    public ReplyCode220(String USER) {
+        this.message = STANDARD_MESSAGE1 + " " + USER + " " + STANDARD_MESSAGE2;
+    }
 
+    @Override
+    public void setReplyString(String reply) {
+        super.setReplyString(reply);
+
+        user = message.substring(
+                STANDARD_MESSAGE1.length(),
+                message.length() - STANDARD_MESSAGE2.length()
+        );
+    }
 
     @Override
     public int getCode() { return CODE; }

@@ -47,7 +47,7 @@ public class COWBOY extends AbstractCommand {
     }
 
     @Override
-    public ClientReply invoke(ClientProtocol prot) throws SimpleProtocolTerminateConnection {
+    public ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection {
         return null;
     }
 }

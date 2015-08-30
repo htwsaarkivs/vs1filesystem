@@ -1,9 +1,12 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
+import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode300;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode401;
 import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
@@ -18,16 +21,6 @@ import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
 public class SETUSER extends AbstractCommand {
 
     public static String COMMAND_STRING = "SETUSER";
-
-    private String user = "";
-
-    public SETUSER() {
-
-    }
-
-    public SETUSER(String user) {
-        this.user = user;
-    }
 
     protected static boolean isValid(Request req) {
         if (!req.getCommandString().equals(COMMAND_STRING)) return false;
@@ -51,13 +44,15 @@ public class SETUSER extends AbstractCommand {
     }
 
     @Override
-    public ClientReply invoke(ClientProtocol prot) throws SimpleProtocolTerminateConnection {
+    public ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection {
         try {
-            prot.putLine(COMMAND_STRING + " " + user);
-            prot.readLine();
-            prot.getCurrentLine();
+            prot.putLine(getCommandString(COMMAND_STRING, parameters));
+            ReplyCode reply = prot.analyzeReply();
+            if (reply.getCode() != ReplyCode300.CODE) {
+                // TODO: was sollen wir hier machen ?
+            }
         } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-            simpleProtocolFatalError.printStackTrace();
+            throw new SimpleProtocolTerminateConnection();
         }
         return null;
     }

@@ -2,26 +2,46 @@ package htw.vs1.filesystem.Network.Protocol.Replies;
 
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
-import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
-import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCodeFactory;
+import htw.vs1.filesystem.Network.Protocol.Replies.Codes.*;
 
 /**
  * Created by Felix on 30.08.2015.
  */
 public class ReplyAnalyzer {
 
-    public ReplyCode parseServerReply(ClientProtocol proto) {
-        try {
-            proto.readLine();
-        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-            simpleProtocolFatalError.printStackTrace();
-        }
+    public ReplyCode parseServerReply(ClientProtocol proto) throws SimpleProtocolFatalError {
+        proto.readLine();
         String currentLine = proto.getCurrentLine();
 
-        // TODO: Fehlerbehandlung: currentLine=null | count(currentLine) < 3 | keine 3 stellige Zahl
+        if (currentLine == null || currentLine.length() < 3) {
+            throw new SimpleProtocolFatalError();
+        }
 
         String codeStr = currentLine.substring(0,3);
-        return ReplyCodeFactory.parseReplyCode(codeStr);
+
+        ReplyCode replyCode;
+        switch (codeStr) {
+            case "200":
+                replyCode = new ReplyCode200();
+                break;
+            case "220":
+                replyCode = new ReplyCode220();
+                break;
+            case "300":
+                replyCode = new ReplyCode300();
+                break;
+            case "210":
+                replyCode = new ReplyCode210();
+                break;
+            case "219":
+                replyCode = new ReplyCode219();
+                break;
+            default:
+                throw new SimpleProtocolFatalError();
+        }
+
+        replyCode.setReplyString(currentLine);
+        return replyCode;
     }
 
 

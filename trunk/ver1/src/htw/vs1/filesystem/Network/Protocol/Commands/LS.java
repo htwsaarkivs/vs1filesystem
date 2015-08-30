@@ -23,7 +23,10 @@ import java.util.Objects;
  * Created by markus on 13.06.15.
  */
 public class LS extends AbstractCommand {
+
     public static String COMMAND_STRING = "LS";
+    public static String FOLDER = "[FOLDER]";
+    public static String FILE = "[FILE]";
 
     public ServerReply execute(ServerProtocol prot, RequestList requestList) {
         if(!prot.getState().equals(SimpleProtocolState.AUTHENTICATED))
@@ -40,9 +43,13 @@ public class LS extends AbstractCommand {
 
             buf.append(obj.getName());
             if (isFolder) {
-                buf.append("\t [FOLDER]");
+                buf.append("\t");
+                buf.append(FOLDER);
             }
-            else buf.append("\t [FILE]");
+            else {
+                buf.append("\t");
+                buf.append(FILE);
+            }
             buf.append("\n");
         }
 
@@ -54,9 +61,14 @@ public class LS extends AbstractCommand {
     }
 
     @Override
-    public ClientReply invoke(ClientProtocol prot) throws SimpleProtocolTerminateConnection {
+    public ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection {
         prot.putLine(COMMAND_STRING);
-        ReplyCode code = prot.analyzeReply();
+        ReplyCode code = null;
+        try {
+            code = prot.analyzeReply();
+        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
+            simpleProtocolFatalError.printStackTrace();
+        }
         switch (code.getCode()) {
             case ReplyCode406.CODE: {
                 // TODO: Exception...
@@ -64,7 +76,7 @@ public class LS extends AbstractCommand {
             }
             case ReplyCode210.CODE: // Beginn JSON
             {
-                return new SimpleClientProtocolReply(getReplyData(prot));
+                return getReplyData(prot);
             }
             default:
                 // TODO: Exception...
@@ -72,8 +84,8 @@ public class LS extends AbstractCommand {
         }
     }
 
-    private String getReplyData(ClientProtocol prot) {
-        String result = "";
+    private SimpleClientProtocolReply getReplyData(ClientProtocol prot) {
+        SimpleClientProtocolReply result = new SimpleClientProtocolReply();
         boolean read = true;
         while(read) {
             try {
@@ -84,7 +96,7 @@ public class LS extends AbstractCommand {
                         ) {
                     read = false;
                 } else {
-                    result += currentLine + "\n";
+                    result.feedLine(currentLine);
                 }
 
             } catch (SimpleProtocolFatalError simpleProtocolFatalError) {

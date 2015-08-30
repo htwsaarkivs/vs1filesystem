@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
+import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
@@ -27,5 +28,20 @@ public interface Command {
      * @return
      * @throws SimpleProtocolTerminateConnection
      */
-    ClientReply invoke(ClientProtocol prot) throws SimpleProtocolTerminateConnection;
+    ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection;
+
+    static ClientReply SetUser(ClientProtocol prot, String user) throws SimpleProtocolTerminateConnection {
+        Command cmd = new SETUSER();
+        return cmd.invoke(prot, user);
+    }
+
+    static ClientReply SetPass(SimpleClientProtocol prot, String pass) throws SimpleProtocolTerminateConnection {
+        Command cmd = new SETPASS();
+        return cmd.invoke(prot, pass);
+    }
+
+    static ClientReply LS(SimpleClientProtocol prot)  throws SimpleProtocolTerminateConnection {
+        Command cmd = new LS();
+        return cmd.invoke(prot);
+    }
 }

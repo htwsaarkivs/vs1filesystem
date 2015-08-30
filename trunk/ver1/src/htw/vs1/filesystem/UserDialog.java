@@ -8,6 +8,7 @@ import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
+import htw.vs1.filesystem.Network.TCPParallelServer;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.util.Scanner;
@@ -313,8 +314,8 @@ public class UserDialog {
                 String remoteFolderName = null;
                 String remoteIP = null;
                 int remotePort = -1;
-                String user = ServerProtocol.DEFAULT_USER;
-                String pass = ServerProtocol.DEFAULT_PASS;
+                String user = TCPParallelServer.DEFAULT_USER;
+                String pass = TCPParallelServer.DEFAULT_PASS;
                 boolean printUsage = true;
                 if (command.hasParams()) {
                     if (command.getParams().length == 3 || command.getParams().length == 5) {

@@ -1,6 +1,5 @@
 package htw.vs1.filesystem.Network.Protocol.Replies.Codes;
 
-import htw.vs1.filesystem.Network.Protocol.Replies.Type.SimpleProtocolReplyType;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
 /**
@@ -36,7 +35,13 @@ public abstract class ReplyCode {
      */
     public abstract Type getReplyType();
 
+    public void setReplyString(String reply) {
+        this.message = reply.substring(4);
+    }
 
-
+    @Override
+    public String toString() {
+        return getCode() + " " + getMessage();
+    }
 }
 

@@ -38,7 +38,7 @@ public class GETFEAT extends AbstractCommand {
     }
 
     @Override
-    public ClientReply invoke(ClientProtocol prot) throws SimpleProtocolTerminateConnection {
+    public ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection {
         try {
             prot.putLine(COMMAND_STRING);
             prot.readLine();

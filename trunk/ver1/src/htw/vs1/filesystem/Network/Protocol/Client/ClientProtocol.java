@@ -14,6 +14,6 @@ public interface ClientProtocol extends Protocol {
 
     void readLine() throws SimpleProtocolFatalError;
     ClientReply executeCommand(Command command) throws SimpleProtocolTerminateConnection;
-    ReplyCode analyzeReply();
+    ReplyCode analyzeReply() throws SimpleProtocolFatalError;
 
 }

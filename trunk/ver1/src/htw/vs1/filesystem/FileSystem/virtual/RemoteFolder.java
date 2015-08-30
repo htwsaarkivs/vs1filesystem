@@ -6,12 +6,13 @@ import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameException;
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
-import htw.vs1.filesystem.Network.Protocol.Commands.Command;
 import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
+import htw.vs1.filesystem.Network.Protocol.Commands.LS;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
+import htw.vs1.filesystem.Network.TCPClient;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.net.Socket;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A RemoteFolder represents a {@link Folder} located on a remote filesystem.
@@ -28,25 +30,14 @@ import java.util.List;
  */
 public class RemoteFolder extends RemoteFSObject implements Folder {
 
-    private SimpleClientProtocol clientProtocol;
+    private TCPClient tcpClient;
 
     private Folder parentFolder;
 
     public RemoteFolder(String name, String remoteIP, int remotePort, String user, String pass)
             throws CouldNotRenameException, FileAlreadyExistsException, InvalidFilenameException, CouldNotCreateException {
         super(name);
-        try {
-            clientProtocol = new SimpleClientProtocol(new Socket(remoteIP, remotePort));
-            clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
-            clientProtocol.executeCommand(CommandFactory.createSetUser(user));
-            clientProtocol.executeCommand(CommandFactory.createSetPass(pass));
-            // TODO: ClientReply's auswerten!
-        } catch (IOException | SimpleProtocolInitializationErrorException | SimpleProtocolTerminateConnection e) {
-            // TODO: Neue Exceptions einführen!
-            throw new CouldNotCreateException("Could not create socket.", e);
-        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-            simpleProtocolFatalError.printStackTrace();
-        }
+        tcpClient = new TCPClient(remoteIP, remotePort, user, pass);
     }
 
     /**
@@ -55,11 +46,11 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      *
      * @param name name of the new {@link Folder}.
      */
-    public RemoteFolder(String name, SimpleClientProtocol clientProtocol)
+    public RemoteFolder(String name,  TCPClient tcpClient)
             throws CouldNotRenameException, FileAlreadyExistsException, InvalidFilenameException
     {
         super(name);
-        this.clientProtocol = clientProtocol;
+        this.tcpClient = tcpClient;
     }
 
     /**
@@ -127,15 +118,36 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      */
     @Override
     public List<FSObject> getContent() {
-        try {
-            ClientReply reply = clientProtocol.executeCommand(CommandFactory.createLS());
-            String data = reply.getData();
-        } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
-            // TODO: Exception Handling...
-            simpleProtocolTerminateConnection.printStackTrace();
+        List<String> result = tcpClient.listFolderContent();
+
+        List<FSObject> fileList = new LinkedList<>();
+
+        for (String line : result) {
+            String[] lineArr = line.split("\t");
+            if (lineArr.length < 2) continue;
+            String name = lineArr[0];
+            String type = lineArr[1];
+            FSObject object;
+
+            try {
+                if (Objects.equals(type, LS.FOLDER)) {
+                    object = new RemoteFolder(name, tcpClient);
+                } else {
+                    object = new RemoteFile(name);
+                }
+                object.setParentFolder(this);
+                fileList.add(object);
+            } catch (CouldNotRenameException e) {
+                e.printStackTrace();
+            } catch (FileAlreadyExistsException e) {
+                e.printStackTrace();
+            } catch (InvalidFilenameException e) {
+                e.printStackTrace();
+            }
+
         }
 
-        return null;
+        return fileList;
     }
 
     /**
