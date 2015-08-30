@@ -27,6 +27,9 @@ public class ReplyAnalyzer {
             case "220":
                 replyCode = new ReplyCode220();
                 break;
+            case "230":
+                replyCode = new ReplyCode230();
+                break;
             case "300":
                 replyCode = new ReplyCode300();
                 break;

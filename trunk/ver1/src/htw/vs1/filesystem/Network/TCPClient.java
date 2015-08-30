@@ -69,4 +69,11 @@ public class TCPClient {
         return null;
     }
 
+    public void changeDirectory(String remoteAbsolutePath) {
+        try {
+            ClientReply reply = Command.CD(clientProtocol, remoteAbsolutePath);
+        } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
+            simpleProtocolTerminateConnection.printStackTrace();
+        }
+    }
 }
