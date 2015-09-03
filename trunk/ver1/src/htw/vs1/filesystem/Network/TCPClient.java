@@ -76,4 +76,20 @@ public class TCPClient {
             simpleProtocolTerminateConnection.printStackTrace();
         }
     }
+
+    public void mkdir(String name) {
+        try {
+            ClientReply reply = Command.MKDIR(clientProtocol, name);
+        } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
+            simpleProtocolTerminateConnection.printStackTrace();
+        }
+    }
+
+    public void touch(String name) {
+        try {
+            ClientReply reply = Command.TOUCH(clientProtocol, name);
+        } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
+            simpleProtocolTerminateConnection.printStackTrace();
+        }
+    }
 }

@@ -1,20 +1,10 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
-import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
-import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
-import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
 import htw.vs1.filesystem.Network.Protocol.Commands.LS;
-import htw.vs1.filesystem.Network.Protocol.Exceptions.IllegalTransitionException;
-import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
-import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
-import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
-import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.TCPClient;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.LinkedList;
 import java.util.List;
@@ -66,8 +56,17 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      * @throws FileAlreadyExistsException iff the file already exists.
      */
     @Override
-    public void add(FSObject object) throws FileAlreadyExistsException {
-        throw new NotImplementedException();
+    public void add(FSObject object) throws FileAlreadyExistsException, CouldNotCreateException {
+        add(object.getName(), object instanceof Folder);
+    }
+
+    @Override
+    public void add(String name, boolean isFolder) throws FileAlreadyExistsException, CouldNotCreateException {
+        if (isFolder) {
+            tcpClient.mkdir(name);
+        } else {
+            tcpClient.touch(name);
+        }
     }
 
     /**

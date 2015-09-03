@@ -9,7 +9,7 @@ import java.net.Socket;
 /**
  * Created by markus on 05.06.15.
  */
-public class TCPParallelServer implements ServerInterface {
+public class TCPParallelServer extends Thread implements ServerInterface {
 
     public static final int DEFAULT_PORT = 4322;
     private static final int DEFAULT_TIMEOUT = 10000;
@@ -17,8 +17,15 @@ public class TCPParallelServer implements ServerInterface {
     public static final String DEFAULT_USER = "A";
     public static final String DEFAULT_PASS = "B";
 
+    private static TCPParallelServer INSTANCE = null;
+
     private int port = DEFAULT_PORT;
     private int timeout = DEFAULT_TIMEOUT;
+
+    /**
+     * Start the server without the user dialog.
+     */
+    private boolean startSingleServer = false;
 
     public static String path = "/Users/markus/Documents/HTW/test-fs";
 
@@ -30,17 +37,19 @@ public class TCPParallelServer implements ServerInterface {
             return;
         }
         path = args[0];
-        TCPParallelServer server = new TCPParallelServer(DEFAULT_PORT);
-        server.run();
+        getInstance().startSingleServer = false;
+        getInstance().run();
 
     }
 
-
-
-    public TCPParallelServer() {
+    public static TCPParallelServer getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new TCPParallelServer(DEFAULT_PORT);
+        }
+        return  INSTANCE;
     }
 
-    public TCPParallelServer(int port) {
+    private TCPParallelServer(int port) {
         this.port = port;
     }
 
@@ -48,14 +57,13 @@ public class TCPParallelServer implements ServerInterface {
      * Start the parallel Server.
      */
     public void run() {
-
-
-
         try
         {
 
-            //Intialisierung des Filesystems
-            LocalFolder.setRootDirectory(path);
+            if (startSingleServer) {
+                //Intialisierung des Filesystems
+                LocalFolder.setRootDirectory(path);
+            }
 
             // Erzeugen der Socket/binden an Port/Wartestellung
             ServerSocket socket = new ServerSocket(port);
