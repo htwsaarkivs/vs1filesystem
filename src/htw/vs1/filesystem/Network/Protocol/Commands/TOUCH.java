@@ -2,12 +2,10 @@ package htw.vs1.filesystem.Network.Protocol.Commands;
 
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
-import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode219;
-import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode401;
-import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode404;
-import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode406;
+import htw.vs1.filesystem.Network.Protocol.Replies.Codes.*;
 import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.SimpleServerProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
@@ -49,6 +47,17 @@ public class TOUCH extends AbstractCommand {
 
     @Override
     public ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection {
+        prot.putLine(getCommandString(COMMAND_STRING, parameters));
+
+        try {
+            ReplyCode reply = prot.analyzeReply();
+            if (reply.getCode() == ReplyCode219.CODE) {
+                // TODO: Rückgabe...
+            }
+        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
+            simpleProtocolFatalError.printStackTrace();
+        }
+
         return null;
     }
 

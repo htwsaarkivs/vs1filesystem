@@ -11,7 +11,7 @@ import java.util.Set;
 public class CommandFactory {
 
 
-    private HashMap<String, Command> commands = new HashMap<String, Command>();
+    private HashMap<String, Command> commands = new HashMap<>();
 
 
     public CommandFactory() {
@@ -31,6 +31,7 @@ public class CommandFactory {
         commands.put(TOUCH.COMMAND_STRING, new TOUCH());
         commands.put(MKDIR.COMMAND_STRING, new MKDIR());
         commands.put(COWBOY.COMMAND_STRING, new COWBOY());
+        commands.put(EXIT.COMMAND_STRING, new EXIT());
     }
 
     /**
