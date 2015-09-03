@@ -35,6 +35,8 @@ public class UserDialog {
      */
     private enum Command {
 
+        START_SERVER("start_server"),
+        STOP_SERVER("stop_server"),
         LS("ls"),
         CD("cd"),
         PWD("pwd"),
@@ -47,6 +49,8 @@ public class UserDialog {
         EXIT("exit"),
         UNKNOWN("unknown");
 
+        private static final String VAL_START_SERVER = "start_server";
+        private static final String VAL_STOP_SERVER = "stop_server";
         private static final String VAL_LS = "ls";
         private static final String VAL_CD = "cd";
         private static final String VAL_PWD = "pwd";
@@ -93,6 +97,12 @@ public class UserDialog {
         public static Command fromString(String command, @Nullable String... params) {
             Command cmd;
             switch (command) {
+                case VAL_START_SERVER:
+                    cmd = Command.START_SERVER;
+                    break;
+                case VAL_STOP_SERVER:
+                    cmd = Command.STOP_SERVER;
+                    break;
                 case VAL_LS:
                     cmd = Command.LS;
                     break;
@@ -230,6 +240,12 @@ public class UserDialog {
             throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotCreateException,
             CouldNotDeleteException, CouldNotRenameException, InvalidFilenameException {
         switch (command) {
+            case START_SERVER:
+                TCPParallelServer.getInstance().start();
+                break;
+            case STOP_SERVER:
+                TCPParallelServer.getInstance().stop();
+                break;
             case LS:
                 String content = fileSystem.listDirectoryContent();
                 System.out.print(content);

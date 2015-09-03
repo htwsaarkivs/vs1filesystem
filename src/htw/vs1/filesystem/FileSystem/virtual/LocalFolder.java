@@ -191,6 +191,19 @@ public class LocalFolder extends LocalFSObject implements Folder {
         }
     }
 
+    @Override
+    public void add(String name, boolean isFolder) throws FileAlreadyExistsException, CouldNotCreateException {
+        try {
+            FSObject object = (isFolder)
+                    ? new LocalFolder(name)
+                    : new LocalFile(name);
+            add(object);
+        } catch (CouldNotRenameException | InvalidFilenameException e) {
+            e.printStackTrace();
+            // TODO: Exception-Salat aufräumen
+        }
+    }
+
     /**
      *  Add a new {@link FSObject} to this Folder.
      * Precondition: the new object has to be either a

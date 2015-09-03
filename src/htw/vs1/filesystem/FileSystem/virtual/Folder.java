@@ -24,6 +24,8 @@ public interface Folder extends FSObject {
      */
     void add(FSObject object) throws FileAlreadyExistsException, CouldNotCreateException;
 
+    void add(String name, boolean isFolder) throws FileAlreadyExistsException, CouldNotCreateException;
+
     /**
      * Removes a {@link FSObject} from the folder.
      *

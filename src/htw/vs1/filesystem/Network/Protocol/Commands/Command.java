@@ -49,4 +49,14 @@ public interface Command {
         Command cmd = new CD();
         return cmd.invoke(prot, path);
     }
+
+    static ClientReply MKDIR(SimpleClientProtocol prot, String name) throws SimpleProtocolTerminateConnection {
+        Command cmd = new MKDIR();
+        return cmd.invoke(prot, name);
+    }
+
+    static ClientReply TOUCH(SimpleClientProtocol prot, String name) throws SimpleProtocolTerminateConnection {
+        Command cmd = new TOUCH();
+        return cmd.invoke(prot, name);
+    }
 }
