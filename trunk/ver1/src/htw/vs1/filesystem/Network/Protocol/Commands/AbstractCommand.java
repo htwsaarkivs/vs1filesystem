@@ -22,8 +22,9 @@ public abstract class AbstractCommand implements Command {
         StringBuilder sb = new StringBuilder(commandString);
         if (parameters != null) {
             for (String parameter : parameters) {
-                sb.append(" ");
+                sb.append(" \"");
                 sb.append(parameter);
+                sb.append("\"");
             }
         }
 

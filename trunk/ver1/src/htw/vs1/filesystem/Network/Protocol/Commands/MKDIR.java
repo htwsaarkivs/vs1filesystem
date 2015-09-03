@@ -3,8 +3,10 @@ package htw.vs1.filesystem.Network.Protocol.Commands;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
+import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode219;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode401;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode406;
@@ -41,6 +43,7 @@ public class MKDIR extends AbstractCommand {
         try {
             prot.getFileSystem().getWorkingDirectory().add(new LocalFolder(name));
         } catch(FileAlreadyExistsException | FSObjectException e) {
+            // TODO: hier sollte kein 406 kommen, sonst weiß der Client nicht, dass die Datei schon existiert oder was halt passiert ist.
             return new SimpleServerProtocolReply(new ReplyCode406(), this);
         }
 
@@ -51,6 +54,17 @@ public class MKDIR extends AbstractCommand {
 
     @Override
     public ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection {
+        prot.putLine(getCommandString(COMMAND_STRING, parameters));
+
+        try {
+            ReplyCode reply = prot.analyzeReply();
+            if (reply.getCode() == ReplyCode219.CODE) {
+                //TODO: Rueckgabewert bzw. fehler abfangen
+            }
+        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
+            simpleProtocolFatalError.printStackTrace();
+        }
+
         return null;
     }
 
