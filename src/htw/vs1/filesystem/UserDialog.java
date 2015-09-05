@@ -371,7 +371,10 @@ public class UserDialog {
      * <p>Prompts the user to input a command with its parameters.
      * The command will be executed by the next newline token.</p>
      * <p>Format of the user input: &lt;command&gt; [parameters...]</p>
-     * <p>Command and parameters are divided by whitespace.</p>
+     * <p>
+     *     Command and parameters are divided by whitespace.<br>
+     *     Parameters with newline may be quoted by quotation marks.
+     * </p>
      *
      * @return {@link htw.vs1.filesystem.UserDialog.Command} entered by the user.
      */

@@ -9,21 +9,23 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode200;
 import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.SimpleServerProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestAnalyzer;
-import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
 import htw.vs1.filesystem.Network.Protocol.SimpleProtocol;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 
 import java.net.Socket;
 
 /**
+ * The servers protocol implementation holding the
+ * {@link FileSystemInterface} implementation the server
+ * works with.
+ *
  * Created by markus on 24.06.15.
  */
 public class SimpleServerProtocol extends SimpleProtocol implements ServerProtocol {
 
-
-
-
-
+    /**
+     * The FileSystem the server works with.
+     */
     private FileSystemInterface fileSystem;
 
 
@@ -32,7 +34,7 @@ public class SimpleServerProtocol extends SimpleProtocol implements ServerProtoc
      * Creates a new SimpleProtocol instance.
      *
      * @param socket     Reference to a ServerSocket
-     * @param fileSystem
+     * @param fileSystem {@link FileSystemInterface} implementation the server should work with.
      * @throws SimpleProtocolInitializationErrorException
      */
     public SimpleServerProtocol(Socket socket, FileSystemInterface fileSystem) throws SimpleProtocolInitializationErrorException {
