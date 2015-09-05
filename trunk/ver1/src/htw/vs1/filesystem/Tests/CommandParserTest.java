@@ -28,9 +28,14 @@ public class CommandParserTest {
             fail("Empty String should not throw an exception");
         }
     }
+
     @Test
     public void testGetArgs() throws Exception {
+        test.parse("cmd arg1 arg2");
 
+        assertEquals("Command string is not correct.", "cmd", test.getCommand());
+        assertEquals("Argument 1 is not correct." , "arg1", test.getArgs()[0]);
+        assertEquals("Argument 2 is not correct." , "arg2", test.getArgs()[1]);
     }
 
     @Test
