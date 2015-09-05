@@ -11,14 +11,27 @@ import java.io.*;
 import java.net.Socket;
 
 /**
+ * Base Protocol class which provides methods to read the
+ * next line, get the current line and write a line to
+ * the communication partner.
+ *
  * Created by markus on 11.06.15.
  */
 public abstract class SimpleProtocol implements Protocol {
 
+    /**
+     * {@link BufferedReader} to read from the socket.
+     */
     private final BufferedReader bufferedReader;
-    //private InputStream input;
+
+    /**
+     * {@link OutputStream} to write on the socket.
+     */
     private OutputStream output;
-    private Socket socket;
+
+    /**
+     * Current line read from the socket.
+     */
     private String currentLine;
 
 
@@ -30,6 +43,9 @@ public abstract class SimpleProtocol implements Protocol {
      * Durch Programmierfehler, könnte man so einfacher Lücken im Protokoll ausnutzen.
      */
 
+    /**
+     * Current protocl state.
+     */
     private State state = SimpleProtocolState.IDLE;
 
     /**
@@ -39,7 +55,6 @@ public abstract class SimpleProtocol implements Protocol {
      */
     public SimpleProtocol(Socket socket) throws SimpleProtocolInitializationErrorException {
         try {
-            this.socket = socket;
             this.bufferedReader =
                     new BufferedReader(
                             new InputStreamReader(socket.getInputStream()));

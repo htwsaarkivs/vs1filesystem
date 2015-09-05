@@ -3,10 +3,14 @@ package htw.vs1.filesystem.Network.Protocol.Requests;
 import java.util.*;
 
 /**
+ * List to hold the requests sent by the client in the
+ * correct order.
+ *
  * Created by markus on 14.06.15.
  */
 public class RequestLinkedList extends LinkedList<Request> implements RequestList{
 
+    @Override
     public Request getNthElementFromEnd(int n) throws IndexOutOfBoundsException {
         ListIterator<Request> it = this.listIterator();
         while (it.hasNext()) {
@@ -37,10 +41,11 @@ public class RequestLinkedList extends LinkedList<Request> implements RequestLis
     }
 
 
-    public static RequestList getUnmodifiableRequestList(RequestLinkedList requestList) {
+    // TODO: brauchen wir die Methode noch ?
+    /*public static RequestList getUnmodifiableRequestList(RequestLinkedList requestList) {
         return requestList;
         //return null;
-    }
+    }*/
 
 
 

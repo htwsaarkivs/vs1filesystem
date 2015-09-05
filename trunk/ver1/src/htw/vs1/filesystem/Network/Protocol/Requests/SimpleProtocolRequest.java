@@ -5,7 +5,6 @@ import htw.vs1.filesystem.CommandParser;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * Created by markus on 13.06.15.
@@ -14,7 +13,7 @@ public class SimpleProtocolRequest implements Request {
 
     public String requestLine;
     public String commandString;
-    public List<String> arguments = new LinkedList<String>();
+    public List<String> arguments = new LinkedList<>();
 
     public SimpleProtocolRequest(String requestLine) {
         this.requestLine = requestLine;
@@ -50,8 +49,10 @@ public class SimpleProtocolRequest implements Request {
     }
 
     /**
-     * Tells you whether the amazingly awesome Command you have just read from the client actually contains some nice arguments or not.
-     * Who the hell is even reading this idiotic and unnecessary JavaDoc Comment. It's just taking up a whole lot of memory in our repository.
+     * Tells you whether the amazingly awesome Command you have just read
+     * from the client actually contains some nice arguments or not.
+     * Who the hell is even reading this idiotic and unnecessary JavaDoc Comment. --> me ;-)
+     * It's just taking up a whole lot of memory in our repository.
      * @return
      */
     public boolean hasArguments() {
