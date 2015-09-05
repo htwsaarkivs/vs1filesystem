@@ -305,6 +305,7 @@ public class UserDialog {
                 break;
 
             case EXIT:
+                executeCommand(Command.STOP_SERVER);
                 return false;
             case RENAME:
                 String oldName;
