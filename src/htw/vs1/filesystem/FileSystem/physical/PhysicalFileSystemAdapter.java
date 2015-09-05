@@ -138,7 +138,7 @@ public class PhysicalFileSystemAdapter {
         String filename = dir.toFile().getName();
 
         if (dir.toFile().isDirectory()) {
-            watchThread.register(dir);
+            registerDirectoryToWatchService(dir);
             LocalFolder subfolder;
             subfolder = new LocalFolder(filename);
             parentFolder.add(subfolder, dir);
@@ -149,6 +149,16 @@ public class PhysicalFileSystemAdapter {
             subFile = new LocalFile(filename);
             parentFolder.add(subFile, dir);
         }
+    }
+
+    /**
+     * Adds a directory identified by its {@link Path} to the watch service.
+     *
+     * @param dir {@link Path} to the directory.
+     * @throws IOException
+     */
+    protected void registerDirectoryToWatchService(Path dir) throws IOException {
+        watchThread.register(dir);
     }
 
 }
