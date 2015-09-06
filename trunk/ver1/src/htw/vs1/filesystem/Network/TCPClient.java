@@ -6,6 +6,7 @@ import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.*;
 import java.net.Socket;
@@ -92,4 +93,9 @@ public class TCPClient {
             simpleProtocolTerminateConnection.printStackTrace();
         }
     }
+
+    public void delete(String name) {
+        throw new NotImplementedException();
+    }
+
 }

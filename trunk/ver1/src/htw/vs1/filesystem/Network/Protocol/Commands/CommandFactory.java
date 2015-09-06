@@ -32,6 +32,7 @@ public class CommandFactory {
         commands.put(MKDIR.COMMAND_STRING, new MKDIR());
         commands.put(COWBOY.COMMAND_STRING, new COWBOY());
         commands.put(EXIT.COMMAND_STRING, new EXIT());
+        commands.put(DELETE.COMMAND_STRING, new DELETE());
     }
 
     /**

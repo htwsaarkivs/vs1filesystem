@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Replies.Codes;
 
+import htw.vs1.filesystem.Network.Protocol.Replies.Type.SimpleProtocolReplyType;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
 /**
@@ -8,18 +9,29 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
 public class ReplyCode407 extends ReplyCode {
 
+    public static final Type REPLY_TYPE = SimpleProtocolReplyType.ERROR;
+    public static final int CODE = 407;
+    public static final String DESCRIPTION = "";
+    public static final String STANDARD_MESSAGE = "SOMETHING WENT TERRIBLY WRONG :(";
+
+
+    public ReplyCode407() {
+        this.message = STANDARD_MESSAGE;
+    }
+
+
     @Override
     public int getCode() {
-        return 0;
+        return CODE;
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return DESCRIPTION;
     }
 
     @Override
     public Type getReplyType() {
-        return null;
+        return REPLY_TYPE;
     }
 }
