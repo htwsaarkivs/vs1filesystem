@@ -95,7 +95,12 @@ public class TCPClient {
     }
 
     public void delete(String name) {
-        throw new NotImplementedException();
+        try {
+            ClientReply reply = Command.DELETE(clientProtocol, name);
+        } catch(SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
+            simpleProtocolTerminateConnection.printStackTrace();
+        }
+
     }
 
 }

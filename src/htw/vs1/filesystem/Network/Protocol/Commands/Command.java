@@ -59,4 +59,10 @@ public interface Command {
         Command cmd = new TOUCH();
         return cmd.invoke(prot, name);
     }
+
+    static ClientReply DELETE(SimpleClientProtocol prot, String name) throws SimpleProtocolTerminateConnection {
+        Command cmd = new DELETE();
+        return cmd.invoke(prot, name);
+
+    }
 }

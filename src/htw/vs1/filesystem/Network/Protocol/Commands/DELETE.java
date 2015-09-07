@@ -4,6 +4,7 @@ import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteException;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.*;
@@ -48,6 +49,16 @@ public class DELETE extends AbstractCommand {
     public ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection {
         prot.putLine(getCommandString(COMMAND_STRING, parameters));
 
+        try {
+            ReplyCode reply = prot.analyzeReply();
+            if (reply.getCode() == ReplyCode219.CODE) {
+                // TODO: YOO alles cool, sonst halt fehler...
+            }
+        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
+            simpleProtocolFatalError.printStackTrace();
+        }
 
+
+        return null;
     }
 }
