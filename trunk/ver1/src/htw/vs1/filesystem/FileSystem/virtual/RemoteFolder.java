@@ -65,6 +65,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
         if (isFolder) {
             tcpClient.mkdir(name);
         } else {
+            //Because we don't care about the contents. Just touching the file is all we need to do!
             tcpClient.touch(name);
         }
     }
@@ -89,7 +90,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      */
     @Override
     public void delete(String name) throws ObjectNotFoundException {
-        throw new NotImplementedException();
+        tcpClient.delete(name);
     }
 
     /**
