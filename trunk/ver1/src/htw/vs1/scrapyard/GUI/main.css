@@ -1,0 +1,40 @@
+#HomeBtn {
+	-fx-background-image: url('images/32x32-Home.png');
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
+}
+
+#CreateDirBtn {
+
+	-fx-background-image: url('images/32x32-Add_Folder_2.png');
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
+}
+
+#CreateFileBtn {
+	-fx-background-image: url('images/32x32-File_Add_2.png');
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
+}
+
+#RenameBtn {
+
+	-fx-background-image: url('images/32x32-Refresh.png');
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
+}
+
+#DeleteBtn {
+
+	-fx-background-image: url('images/32x32-Delete.png');
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
+}
+
+/*#ToolBarButtons { */
+
+/*	-fx-background-image: url('images/logo_resize.jpg'); */
+/*	-fx-background-repeat: no-repeat; */
+/*	-fx-background-position: 680px; */
+/*} */
+       

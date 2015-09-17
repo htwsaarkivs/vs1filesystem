@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<VBox fx:id="VBox" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="315.0" prefHeight="600.0" prefWidth="800.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MenuBar fx:id="MenuBar" VBox.vgrow="ALWAYS">
+        <menus>
+            <Menu fx:id="MenuSystem" mnemonicParsing="false" text="System">
+              <items>
+              <MenuItem fx:id="MenuItemClose" mnemonicParsing="false" text="Close  " />
+              </items>
+            </Menu>
+          <Menu fx:id="MenuFile" mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem fx:id="MenuItemFolder" mnemonicParsing="false" text="Create new Folder" />
+                  <MenuItem fx:id="MenuItemFile" mnemonicParsing="false" text="Create new File" />
+            </items>
+          </Menu>
+          <Menu fx:id="MenuEdit" mnemonicParsing="false" text="Edit">
+            <items>
+                  <MenuItem fx:id="MenuItemRename" mnemonicParsing="false" text="Rename" />
+              <MenuItem fx:id="MenuItemDelete" mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu fx:id="MenuHelp" mnemonicParsing="false" text="Help">
+            <items>
+                  <MenuItem fx:id="MenuItemHelp" mnemonicParsing="false" text="Help" />
+              <MenuItem fx:id="MenuItemAbout" mnemonicParsing="false" text="About vfiles_1.0" />
+            </items>
+          </Menu>
+        </menus>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="1.0" />
+         </padding>
+      </MenuBar>
+      <ToolBar fx:id="ToolBarButtons"  VBox.vgrow="ALWAYS">
+        <items>
+          <Button fx:id="HomeBtn" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" >
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <tooltip>
+                  <Tooltip fx:id="TooltipHomeBtn" text="Home" textAlignment="CENTER" />
+               </tooltip>
+            </Button>
+            <Button fx:id="CreateDirBtn" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" >
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <tooltip>
+                  <Tooltip fx:id="TooltipCreateDirectory" text="Create new Directory" textAlignment="CENTER" />
+               </tooltip>
+            </Button>
+            <Button fx:id="CreateFileBtn" layoutX="57.0" layoutY="14.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <tooltip>
+                  <Tooltip fx:id="TooltipCreateFile" text="Create new File" textAlignment="CENTER" />
+               </tooltip>
+            </Button>
+            <Button fx:id="RenameBtn" layoutX="147.0" layoutY="14.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" >
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <tooltip>
+                  <Tooltip fx:id="TooltipRename" text="Rename" textAlignment="CENTER" />
+               </tooltip>
+            </Button>
+            <Button fx:id="DeleteBtn" layoutX="212.0" layoutY="14.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" >
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <tooltip>
+                  <Tooltip fx:id="TooltipDelete" text="Delete" textAlignment="CENTER" />
+               </tooltip>
+            </Button>
+        </items>
+      </ToolBar>
+      <HBox>
+         <children>
+            <Label fx:id="LabelDirectory" minWidth="50.0" prefWidth="50.0" text="Directory:">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="2.0" left="5.0" top="2.0" />
+               </padding>
+            </Label>
+            <TextField fx:id="TextFieldDirectory" layoutX="43.0" maxHeight="20.0" minHeight="20.0" minWidth="200.0" prefHeight="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="TextFieldSearch" layoutX="653.0" maxHeight="20.0" minHeight="20.0" minWidth="150.0" prefHeight="20.0" promptText="Search">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="2.0" right="2.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+      </HBox>
+      <SplitPane fx:id="SplitPane" dividerPositions="0.6" orientation="VERTICAL" VBox.vgrow="ALWAYS">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TableView fx:id="TableView" layoutX="144.0" layoutY="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="TableColumeName" minWidth="680.0" prefWidth="680.0" text="Name" />
+                      <TableColumn fx:id="TableColumnType" minWidth="100.0" prefWidth="100.0" text="Type" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TabPane fx:id="TabPane" layoutX="48.0" layoutY="-70.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <tabs>
+                      <Tab fx:id="TabLog" text="Log">
+                        <content>
+                          <AnchorPane>
+                                 <children>
+                                    <ListView fx:id="ListViewTabLog" layoutX="122.0" layoutY="-44.0" prefHeight="156.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab fx:id="TabSearch" text="Search">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="TableViewSearch" layoutX="171.0" layoutY="-35.0" prefHeight="130.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn fx:id="TableColumnSearchName" minWidth="390.0" prefWidth="390.0" text="Name" />
+                                        <TableColumn fx:id="TableColumnSearchDirectory" minWidth="390.0" prefWidth="75.0" text="Directory" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</VBox>
