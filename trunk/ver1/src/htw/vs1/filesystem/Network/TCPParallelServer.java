@@ -71,16 +71,16 @@ public class TCPParallelServer extends Thread implements ServerInterface {
 
             // Erzeugen der Socket/binden an Port/Wartestellung
             ServerSocket socket = new ServerSocket(port);
+            System.out.printf("Warten auf Verbindungen (IP: %s, Port: %s) ...\n",
+                    InetAddress.getLocalHost().getHostAddress(),
+                    String.valueOf(port));
 
             while (running)
             {
-                System.out.printf("Warten auf Verbindungen (IP: %s, Port: %s) ...\n",
-                        InetAddress.getLocalHost().getHostAddress(),
-                        String.valueOf(port));
+
                 Socket client = socket.accept();
-
-
-                (new TCPParallelWorker(client)).start();
+                System.out.println("Neuer Client verbunden: "+client.getInetAddress().toString());
+                        (new TCPParallelWorker(client)).start();
             }
 
         }
