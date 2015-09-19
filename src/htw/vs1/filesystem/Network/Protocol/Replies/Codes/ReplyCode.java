@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Replies.Codes;
 
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
 /**
@@ -8,9 +9,7 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 public abstract class ReplyCode {
 
     protected String message;
-    protected Exception e;
-
-    private String additionalMessage;
+    protected String additionalMessage;
 
     /**
      * Returns a textual, human-readable explanation of the issued reply
@@ -40,6 +39,10 @@ public abstract class ReplyCode {
 
     public void setReplyString(String reply) {
         this.message = reply.substring(4);
+    }
+
+    public FSObjectException getException() {
+        return null;
     }
 
     public void setAdditionalMessage(String message) {

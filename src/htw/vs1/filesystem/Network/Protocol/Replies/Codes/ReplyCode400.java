@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Replies.Codes;
 
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.SimpleProtocolReplyType;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
@@ -26,4 +27,5 @@ public class ReplyCode400 extends ReplyCode {
 
     @Override
     public Type getReplyType() { return REPLY_TYPE; }
+
 }
