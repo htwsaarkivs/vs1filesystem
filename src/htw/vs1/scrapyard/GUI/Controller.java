@@ -2,11 +2,18 @@ package htw.vs1.scrapyard.GUI;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,9 +34,9 @@ public class Controller implements Initializable {
     @FXML
     private TextField textFieldSearch;
     @FXML
-    private TableColumn<FileType, String> tableColumnName;
+    private TableColumn<FileType, FileType.FileObject> tableColumnName;
     @FXML
-    private TableColumn<FileType,String> tableColumnType;
+    private TableColumn<FileType, String> tableColumnType;
 
     private ObservableList<FileType> currentDirectory = FXCollections.observableArrayList();
     private ObservableList<SearchItem> searchResults = FXCollections.observableArrayList();
@@ -72,9 +79,18 @@ public class Controller implements Initializable {
         alert.showAndWait();
     }
 
-    public void search(){
-        //call search
+    public void close(ActionEvent actionEvent) {
+        System.exit(0);
+    }
 
+    public void search(){
+        String searchStr = textFieldSearch.getText();
+        if (searchStr == null || searchStr.isEmpty()) return;
+
+        //call search
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("Search for " + searchStr);
+        alert.showAndWait();
     }
 
     @Override
@@ -83,18 +99,41 @@ public class Controller implements Initializable {
          * Initiate the textfields
          */
         textFieldDirectory.setText("Current Path ....");
-        textFieldSearch.setText("Enter value ...");
 
         /**
          * Fill in some dummydata in the list
          */
-        currentDirectory.add(new FileType("Folder1", "Folder"));
-        currentDirectory.add(new FileType("File1", "File"));
+        currentDirectory.add(new FileType("Folder1", true));
+        currentDirectory.add(new FileType("File1", false));
 
         /**
          * Don't know how, but it works
          */
         tableColumnName.setCellValueFactory(cellData -> cellData.getValue().fileNameProperty());
+        tableColumnName.setCellFactory(param -> new TableCell<FileType, FileType.FileObject>() {
+            ImageView imageView = new ImageView();
+            @Override
+            protected void updateItem(FileType.FileObject item, boolean empty) {
+                if (item != null) {
+                    HBox box = new HBox();
+                    box.setSpacing(12);
+                    VBox vbox = new VBox();
+                    Label label = new Label(item.getName());
+                    label.setAlignment(Pos.CENTER_LEFT);
+                    vbox.getChildren().add(label);
+
+                    imageView.setFitHeight(20);
+                    imageView.setFitWidth(20);
+                    String imgName = "images/";
+                    imgName += item.isFolder() ? "folder.png" : "document-icon.png";
+                    imageView.setImage(
+                            new Image(Controller.class.getResource(imgName).toString())
+                    );
+                    box.getChildren().addAll(imageView, vbox);
+                    setGraphic(box);
+                }
+            }
+        });
         tableColumnType.setCellValueFactory(cellData -> cellData.getValue().fileTypeProperty());
         tableView.setItems(currentDirectory);
 
@@ -102,22 +141,30 @@ public class Controller implements Initializable {
          * Add Mouselistener, check for doubleclick and that the clicked item is a folder
          */
         tableView.getSelectionModel().setCellSelectionEnabled(true);
-        tableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getClickCount() == 2 ){
-                    TablePosition position = tableView.getSelectionModel().getSelectedCells().get(0);
-                    int row = position.getRow();
-                    int col = position.getColumn();
-                    TableColumn column = position.getTableColumn();
-                    String cellContent = column.getCellData(row).toString();
-                    String fileType = currentDirectory.get(row).toString();
+        tableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2 ){
+                TablePosition position = tableView.getSelectionModel().getSelectedCells().get(0);
 
-                    if (col == 0 && fileType.equals(CONDITION)){
-                        changeDirectory(cellContent);
+                TableColumn<FileType, ?> col = tableView.getColumns().get(position.getRow());
+                Object object = col.getCellData(0);
+                if (object instanceof FileType.FileObject) {
+                    if ( ((FileType.FileObject) object).isFolder() ) {
+                        changeDirectory(object.toString());
                     }
-
                 }
+
+
+                /*TablePosition position = tableView.getSelectionModel().getSelectedCells().get(0);
+                int row = position.getRow();
+                int col = position.getColumn();
+                TableColumn column = position.getTableColumn();
+                String cellContent = column.getCellData(row).toString();
+                String fileType = currentDirectory.get(row).toString();
+
+                if (col == 0 && fileType.equals(CONDITION)){
+                    changeDirectory(cellContent);
+                }*/
+
             }
         });
 
