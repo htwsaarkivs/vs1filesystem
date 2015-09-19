@@ -13,7 +13,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<VBox fx:id="vBox" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="315.0" prefHeight="600.0" prefWidth="800.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="htw.vs1.filesystem.FileSystem.GUI.Controller">
+<VBox fx:id="vBox" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="315.0" prefHeight="600.0" prefWidth="800.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="htw.vs1.filesystem.GUI.Controller">
    <children>
       <MenuBar fx:id="menuBar" VBox.vgrow="ALWAYS">
         <menus>
