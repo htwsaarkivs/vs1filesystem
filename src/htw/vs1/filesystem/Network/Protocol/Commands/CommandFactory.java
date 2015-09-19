@@ -34,6 +34,7 @@ public class CommandFactory {
         commands.put(EXIT.COMMAND_STRING, new EXIT());
         commands.put(DELETE.COMMAND_STRING, new DELETE());
         commands.put(RENAME.COMMAND_STRING, new RENAME());
+        commands.put(SEARCH.COMMAND_STRING, new SEARCH());
     }
 
     /**
