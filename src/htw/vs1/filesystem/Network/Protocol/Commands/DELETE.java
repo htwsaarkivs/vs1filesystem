@@ -36,7 +36,7 @@ public class DELETE extends AbstractCommand {
             prot.getFileSystem().delete(requestList.getCurrentElement().getArguments().get(0));
         } catch (ObjectNotFoundException e) {
             return new SimpleServerProtocolReply(new ReplyCode402(), this);
-        } catch (CouldNotDeleteException e) {
+        } catch (FSObjectException e) {
             //TODO: When does this happen? Is this a permission(s) error?
             return new SimpleServerProtocolReply(new ReplyCode407(), this);
         }

@@ -204,9 +204,6 @@ public class UserDialog {
                 goon = executeCommand(command);
             } catch (ObjectNotFoundException e) {
                 System.out.format("cd: %s: No such file or directory\n", e.getObjectName());
-            } catch (FileAlreadyExistsException e) {
-                // TODO: User feedback!
-                System.out.println(FSObjectException.INVALIDFILENAME);
             } catch (CouldNotCreateException e) {
                 System.out.println(FSObjectException.COULDNOTCREATE);
             }catch (CouldNotDeleteException e) {
@@ -236,9 +233,7 @@ public class UserDialog {
      * be executed.
      * @return {@code false}, iff the user wants to exit this dialog.
      */
-    private boolean executeCommand(Command command)
-            throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotCreateException,
-            CouldNotDeleteException, CouldNotRenameException, InvalidFilenameException {
+    private boolean executeCommand(Command command) throws FSObjectException {
         switch (command) {
             case START_SERVER:
                 TCPParallelServer.getInstance().start();
