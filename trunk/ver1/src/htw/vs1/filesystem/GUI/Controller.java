@@ -68,10 +68,16 @@ public class Controller implements Initializable {
     public void listDirectoryContent (){
         currentDirectory.clear();
         currentDirectory.add(new FileType("..", true));
-        List<FSObject> list = fileSystem.getWorkingDirectory().getContent();
-        for (FSObject fsObject : list) {
-            currentDirectory.add(new FileType(fsObject.getName(), fsObject instanceof Folder));
+        List<FSObject> list = null;
+        try {
+            list = fileSystem.getWorkingDirectory().getContent();
+            for (FSObject fsObject : list) {
+                currentDirectory.add(new FileType(fsObject.getName(), fsObject instanceof Folder));
+            }
+        } catch (FSObjectException e) {
+            e.printStackTrace();
         }
+
 
 
 

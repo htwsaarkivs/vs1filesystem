@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Replies.Codes;
 
+import htw.vs1.filesystem.Main;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.SimpleProtocolReplyType;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
@@ -17,7 +18,8 @@ public class ReplyCode200 extends ReplyCode{
     private double version;
 
     public ReplyCode200() {
-
+        this.version = Main.VERSION;
+        this.message = STANDARD_MESSAGE + VERSION_LABEL + version;
     }
 
     /**

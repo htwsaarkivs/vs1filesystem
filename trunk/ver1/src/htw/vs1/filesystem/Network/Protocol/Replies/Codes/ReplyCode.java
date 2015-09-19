@@ -38,9 +38,9 @@ public abstract class ReplyCode {
     public abstract Type getReplyType();
 
     public void setReplyString(String reply) {
-        this.message = reply.substring(4, getMessage().length());
-        if (reply.length() > getMessage().length()+1) {
-            this.additionalMessage = reply.substring(getMessage().length() + 1);
+        this.message = reply.substring(4, getMessage().length() + 4);
+        if (reply.length() > getMessage().length() + 5) {
+            this.additionalMessage = reply.substring(getMessage().length() + 5);
         }
     }
 

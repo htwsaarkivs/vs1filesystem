@@ -11,6 +11,8 @@ public class SimpleClientProtocolReply implements ClientReply {
 
     private List<String> data = new LinkedList<>();
 
+    private boolean success = true;
+
     public SimpleClientProtocolReply() {
     }
 
@@ -21,6 +23,20 @@ public class SimpleClientProtocolReply implements ClientReply {
     @Override
     public List<String> getData() {
         return data;
+    }
+
+    @Override
+    public boolean success() {
+        return this.success;
+    }
+
+    public void setSuccess() {
+        this.success = true;
+    }
+
+    @Override
+    public void setFailure() {
+        this.success = false;
     }
 
     @Override

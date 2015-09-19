@@ -7,6 +7,10 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
  */
 public class ReplyCode410 extends ReplyCode {
 
+    public ReplyCode410() {
+        this.message = "LOGIN FAILED";
+    }
+
 
     @Override
     public int getCode() {

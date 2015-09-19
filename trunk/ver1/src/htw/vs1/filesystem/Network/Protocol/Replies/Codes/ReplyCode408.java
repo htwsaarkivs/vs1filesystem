@@ -15,6 +15,9 @@ public class ReplyCode408 extends ReplyCode {
     public static final String DESCRIPTION = "";
     public static final String STANDARD_MESSAGE = "COULDNOTCREATE";
 
+    public ReplyCode408() {
+        this.message = STANDARD_MESSAGE;
+    }
 
     @Override
     public int getCode() {

@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.FSRemoteException;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
@@ -11,6 +12,7 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode219;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode401;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode406;
 import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
+import htw.vs1.filesystem.Network.Protocol.Replies.SimpleClientProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.SimpleServerProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
@@ -52,19 +54,27 @@ public class MKDIR extends AbstractCommand {
     }
 
     @Override
-    public ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection {
+    public ClientReply invoke(ClientProtocol prot, String... parameters)
+            throws SimpleProtocolTerminateConnection, FSObjectException
+    {
+        ClientReply result = new SimpleClientProtocolReply();
+        result.setFailure();
+
         prot.putLine(getCommandString(COMMAND_STRING, parameters));
 
         try {
             ReplyCode reply = prot.analyzeReply();
             if (reply.getCode() == ReplyCode219.CODE) {
-                //TODO: Rueckgabewert bzw. fehler abfangen
+                result.setSuccess();
+            } else {
+                FSObjectException e = reply.getException();
+                if (null != e) throw e;
             }
         } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-            simpleProtocolFatalError.printStackTrace();
+            throw new FSRemoteException(simpleProtocolFatalError.getMessage());
         }
 
-        return null;
+        return result;
     }
 
 }

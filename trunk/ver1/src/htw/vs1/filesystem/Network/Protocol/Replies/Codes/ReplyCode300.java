@@ -17,7 +17,7 @@ public class ReplyCode300 extends ReplyCode {
     private String user;
 
     public ReplyCode300() {
-
+        this.message = STANDARD_MESSAGE;
     }
 
     public ReplyCode300(String user) {
@@ -28,8 +28,7 @@ public class ReplyCode300 extends ReplyCode {
     @Override
     public void setReplyString(String reply) {
         super.setReplyString(reply);
-        int start = STANDARD_MESSAGE.length();
-        user = message.substring(start);
+        user = additionalMessage;
     }
 
     @Override

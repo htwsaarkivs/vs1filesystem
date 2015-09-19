@@ -50,7 +50,7 @@ public interface FileSystemInterface {
      *
      * @return content of the current directory.
      */
-    String listDirectoryContent();
+    String listDirectoryContent() throws FSObjectException;
 
     /**
      * <p>Prints the current working directory in a String.</p>
