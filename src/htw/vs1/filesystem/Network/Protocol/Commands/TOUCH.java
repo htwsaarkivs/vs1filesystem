@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
@@ -36,9 +37,9 @@ public class TOUCH extends AbstractCommand {
 
         try {
             prot.getFileSystem().getWorkingDirectory().add(new LocalFile(name));
-        } catch(Exception e) {
-            return new SimpleServerProtocolReply(new ReplyCode404(), this);
-        } //TODO: Individuelle Fehler-Codes (Marc/Felix bitte räumt euren Exception-Salat auf :P)
+        } catch(FSObjectException e) {
+            return new SimpleServerProtocolReply(e.getReplyCode(), this);
+        }
 
 
 
