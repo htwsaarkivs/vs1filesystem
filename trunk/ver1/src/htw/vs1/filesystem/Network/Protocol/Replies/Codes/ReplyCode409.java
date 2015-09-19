@@ -1,5 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.Replies.Codes;
 
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.SimpleProtocolReplyType;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
@@ -28,6 +30,11 @@ public class ReplyCode409 extends ReplyCode {
     @Override
     public Type getReplyType() {
         return REPLY_TYPE;
-
     }
+
+    @Override
+    public FSObjectException getException() {
+        return new InvalidFilenameException(additionalMessage);
+    }
+
 }
