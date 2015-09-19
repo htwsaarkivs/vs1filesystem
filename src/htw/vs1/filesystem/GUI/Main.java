@@ -1,4 +1,4 @@
-package htw.vs1.filesystem.FileSystem.GUI;
+package htw.vs1.filesystem.GUI;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
