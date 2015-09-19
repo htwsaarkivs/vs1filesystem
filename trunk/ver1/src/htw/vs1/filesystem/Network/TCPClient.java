@@ -37,12 +37,8 @@ public class TCPClient {
             clientProtocol = new SimpleClientProtocol(new Socket(ip, port));
             clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
             authenticate(user, pass);
-        } catch (SimpleProtocolInitializationErrorException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-            simpleProtocolFatalError.printStackTrace();
+        } catch (SimpleProtocolInitializationErrorException | IOException | SimpleProtocolFatalError e) {
+            throw new FSRemoteException("Connection error.");
         }
     }
 
