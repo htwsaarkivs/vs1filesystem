@@ -1,7 +1,6 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateException;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteException;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 
 import java.nio.file.FileAlreadyExistsException;
@@ -22,9 +21,9 @@ public interface Folder extends FSObject {
      * @param object {@link FSObject} to add to this folder.
      * @throws FileAlreadyExistsException iff the file already exists.
      */
-    void add(FSObject object) throws FileAlreadyExistsException, CouldNotCreateException;
+    void add(FSObject object) throws FSObjectException;
 
-    void add(String name, boolean isFolder) throws FileAlreadyExistsException, CouldNotCreateException;
+    void add(String name, boolean isFolder) throws FSObjectException;
 
     /**
      * Removes a {@link FSObject} from the folder.
@@ -32,7 +31,7 @@ public interface Folder extends FSObject {
      * @param object {@link FSObject} to remove from this folder.
      * @throws ObjectNotFoundException iff the {@link FSObject} is not in this folder.
      */
-    void delete(FSObject object) throws ObjectNotFoundException, CouldNotDeleteException;
+    void delete(FSObject object) throws FSObjectException;
 
     /**
      * Removes a {@link FSObject} from the folder identified by the
@@ -41,7 +40,7 @@ public interface Folder extends FSObject {
      * @param name String to identify the {@link FSObject} which should be removed.
      * @throws ObjectNotFoundException iff there is no {@link FSObject} identified by this name.
      */
-    void delete(String name) throws ObjectNotFoundException, CouldNotDeleteException;
+    void delete(String name) throws FSObjectException;
 
     /**
      * Get the Content of this {@link Folder} as a {@link List} of
@@ -70,7 +69,7 @@ public interface Folder extends FSObject {
      * contain a {@link FSObject} identified by the given name as a direct
      * child.
      */
-    FSObject getObject(String name) throws ObjectNotFoundException;
+    FSObject getObject(String name) throws FSObjectException;
 
     LinkedList<FSObject> search(LinkedList<FSObject> list, String name);
 

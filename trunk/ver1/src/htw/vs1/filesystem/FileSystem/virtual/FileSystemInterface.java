@@ -43,7 +43,7 @@ public interface FileSystemInterface {
      * @throws ObjectNotFoundException if the object identified
      *         by the given name is not available.
      */
-    void changeDirectory(@NotNull String path) throws ObjectNotFoundException;
+    void changeDirectory(@NotNull String path) throws FSObjectException;
 
     /**
      * <p>Returns the content of the current directory as a String.</p>
@@ -69,10 +69,9 @@ public interface FileSystemInterface {
      */
     List<FSObject> search(String name);
 
-    void rename(@NotNull String name,String newName)
-            throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotRenameException, InvalidFilenameException;
+    void rename(@NotNull String name,String newName)  throws FSObjectException;
 
-    void delete(@NotNull String name) throws ObjectNotFoundException, CouldNotDeleteException;
+    void delete(@NotNull String name) throws FSObjectException;
 
     /**
      * Mounts a {@link RemoteFolder} into our file system.
@@ -83,6 +82,5 @@ public interface FileSystemInterface {
      * @param user username
      * @param pass password
      */
-    void mount(String name, String remoteIP, int remotePort, String user, String pass)
-            throws FileAlreadyExistsException, CouldNotCreateException;
+    void mount(String name, String remoteIP, int remotePort, String user, String pass) throws FSObjectException;
 }

@@ -1,9 +1,6 @@
 package htw.vs1.filesystem.Tests;
 
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateException;
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameException;
-import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
-import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
+import htw.vs1.filesystem.FileSystem.exceptions.*;
 import htw.vs1.filesystem.FileSystem.virtual.*;
 import org.junit.Test;
 
@@ -38,7 +35,7 @@ public class LocalFolderTest {
             inst.add(new LocalFolder(sameName));
             fail("add(Folder) should throw FileAlreadyExistsException, when trying to add a " +
                     "File with a duplicate Name in the current directory.");
-        } catch (FileAlreadyExistsException e) {
+        } catch (FSObjectException e) {
             // fine, expected exception thrown by method.
         }
 
@@ -47,24 +44,25 @@ public class LocalFolderTest {
             inst.add(new LocalFile(sameName));
             fail("add(File) should throw FileAlreadyExistsException, when trying to add a " +
                     "Folder with a duplicate Name in the current directory.");
-        } catch (FileAlreadyExistsException e) {
+        } catch (FSObjectException e) {
             // fine, expected exception thrown by method.
         }
     }
 
     @Test
     public void testAddCheckPrecondition() throws InvalidFilenameException, FileAlreadyExistsException, CouldNotRenameException {
-        Folder root = new LocalFolder("Test");
+
 
         try {
+            Folder root = new LocalFolder("Test");
             root.add(new RemoteFile("remoteFile"));
             fail("Method add(FSObject) does not check precondition. It should not be allowed to add a RemoteFile.");
         } catch (IllegalArgumentException e) {
             // Fine, expected exception thrown by method.
-        } catch (FileAlreadyExistsException e) {
-            e.printStackTrace();
         } catch (CouldNotCreateException e) {
             fail("couldNotCreateException should not been thrown.");
+        } catch (FSObjectException e) {
+            e.printStackTrace();
         }
 
 

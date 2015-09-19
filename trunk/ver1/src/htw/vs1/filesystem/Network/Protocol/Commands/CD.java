@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
@@ -43,6 +44,11 @@ public class CD extends AbstractCommand {
             return new SimpleServerProtocolReply(
                     new ReplyCode403(),
                     this);
+        } catch (FSObjectException e) {
+            return new SimpleServerProtocolReply(
+                    new ReplyCode407(),
+                    this
+            );
         }
 
         return new SimpleServerProtocolReply

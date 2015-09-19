@@ -62,13 +62,7 @@ public class FileSystem implements FileSystemInterface {
                 rootFolder = new LocalFolder("");
                 rootFolder.add(workingFolder);
                 this.workingFolder = rootFolder;
-            } catch (CouldNotRenameException e) {
-                e.printStackTrace();
-            } catch (FileAlreadyExistsException e) {
-                e.printStackTrace();
-            } catch (InvalidFilenameException e) {
-                e.printStackTrace();
-            } catch (CouldNotCreateException e) {
+            } catch (FSObjectException e) {
                 e.printStackTrace();
             }
         } else {
@@ -99,7 +93,7 @@ public class FileSystem implements FileSystemInterface {
      * {@inheritDoc}
      */
     @Override
-    public void changeDirectory(@NotNull String path) throws ObjectNotFoundException {
+    public void changeDirectory(@NotNull String path) throws FSObjectException {
         path = path.replace("\\", "/");
         if (!path.isEmpty() && path.substring(0,1).equals("/")) {
             // path is an absolute path
@@ -115,7 +109,7 @@ public class FileSystem implements FileSystemInterface {
         }
     }
 
-    private void changeDirectoryToSubFolder(@NotNull String name) throws ObjectNotFoundException {
+    private void changeDirectoryToSubFolder(@NotNull String name) throws FSObjectException {
         FSObject o;
         switch (name) {
             case UP:
@@ -184,8 +178,7 @@ public class FileSystem implements FileSystemInterface {
      * {@inheritDoc}
      */
     @Override
-     public void rename(@NotNull String name, String newName)
-            throws ObjectNotFoundException, FileAlreadyExistsException, CouldNotRenameException, InvalidFilenameException {
+     public void rename(@NotNull String name, String newName) throws FSObjectException {
         FSObject toRename = workingFolder.getObject(name);
         try {
             toRename.setName(newName);
@@ -198,7 +191,7 @@ public class FileSystem implements FileSystemInterface {
      * {@inheritDoc}
      */
     @Override
-    public void delete(@NotNull String name) throws ObjectNotFoundException, CouldNotDeleteException {
+    public void delete(@NotNull String name) throws FSObjectException {
         workingFolder.delete(name);
     }
 
@@ -212,16 +205,11 @@ public class FileSystem implements FileSystemInterface {
      * @param pass       password
      */
     @Override
-    public void mount(String name, String remoteIP, int remotePort, String user, String pass)
-            throws FileAlreadyExistsException, CouldNotCreateException {
+    public void mount(String name, String remoteIP, int remotePort, String user, String pass) throws FSObjectException {
         if (!mountAllowed) {
             return;
         }
 
-        try {
-            rootFolder.add(new RemoteFolder(name, remoteIP, remotePort, user, pass));
-        } catch (CouldNotRenameException | InvalidFilenameException e) {
-            throw new CouldNotCreateException("Could not create remote Folder", e);
-        }
+        rootFolder.add(new RemoteFolder(name, remoteIP, remotePort, user, pass));
     }
 }

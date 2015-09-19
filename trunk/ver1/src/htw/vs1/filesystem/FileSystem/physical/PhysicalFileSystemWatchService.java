@@ -43,7 +43,7 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
      * @param pathToWorkingDir Path linked to the desired folder.
      * @throws ObjectNotFoundException iff the path could not be resolved.
      */
-    private void changeWorkingDirectory(Path pathToWorkingDir) throws ObjectNotFoundException {
+    private void changeWorkingDirectory(Path pathToWorkingDir) throws FSObjectException {
         String relativePathString = LocalFolder.getRootFolder().getPath().relativize(pathToWorkingDir).toString();
         if (!relativePathString.isEmpty()){
             fileSystem.changeDirectory(relativePathString);
@@ -59,7 +59,7 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
      *          object, {@code null} iff it was not found.
      * @throws ObjectNotFoundException
      */
-    private LocalFSObject getAffectedObject(Path pathToObject, Path pathToParent) throws ObjectNotFoundException {
+    private LocalFSObject getAffectedObject(Path pathToObject, Path pathToParent) throws FSObjectException {
         // Change the working directory to the affected directory
         changeWorkingDirectory(pathToParent);
         FSObject affected;
@@ -119,7 +119,7 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
                 if (object instanceof  LocalFolder) {
                     PhysicalFileSystemAdapter.getInstance().registerDirectoryToWatchService(child);
                 }
-            } catch (ObjectNotFoundException e) {
+            } catch (FSObjectException e) {
                 // this should never happen because we already checked if the object exists...
                 throw new IllegalStateException("Object doesn't exists even though #exists evaluates to true.", e);
             } catch (IOException e) {

@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.Nullable;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 
 import java.nio.file.FileAlreadyExistsException;
@@ -20,7 +21,7 @@ public abstract class RemoteFSObject extends AbstractFSObject {
      *
      * @param name name of the FSObject.
      */
-    public RemoteFSObject(String name) throws FileAlreadyExistsException, InvalidFilenameException {
+    public RemoteFSObject(String name) throws FSObjectException {
         super(name);
     }
 

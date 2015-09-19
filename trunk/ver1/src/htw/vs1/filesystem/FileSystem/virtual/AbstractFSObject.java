@@ -23,7 +23,7 @@ public abstract class AbstractFSObject implements FSObject {
      *
      * @param name name of the FSObject.
      */
-    public AbstractFSObject(String name) throws InvalidFilenameException, FileAlreadyExistsException {
+    public AbstractFSObject(String name) throws FSObjectException {
         try {
             setName(name);
         } catch (CouldNotRenameException couldNotRenameException) {
@@ -39,7 +39,7 @@ public abstract class AbstractFSObject implements FSObject {
      * @param name new name of this object.
      */
     @Override
-  public void setName(String name) throws FileAlreadyExistsException, CouldNotRenameException, InvalidFilenameException {
+  public void setName(String name) throws FSObjectException {
         name = name.trim();
         Pattern regularExpression = Pattern.compile("^[^/\\:*?\"<>|]+$");
         Matcher filename = regularExpression.matcher(name);

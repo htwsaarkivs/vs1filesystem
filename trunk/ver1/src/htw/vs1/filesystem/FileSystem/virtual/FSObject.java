@@ -2,6 +2,8 @@ package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameException;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectAlreadyExistsException;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 import htw.vs1.filesystem.UserDialog;
 
@@ -44,7 +46,7 @@ public interface FSObject {
      *
      * @param name new name of this object.
      */
-    void setName(String name) throws FileAlreadyExistsException, CouldNotRenameException, InvalidFilenameException;
+    void setName(String name) throws FSObjectException;
 
     /**
      * Gets the name of this {@link FSObject}.
