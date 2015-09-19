@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.GUI;
 
+import com.sun.javafx.scene.control.skin.TableViewSkinBase;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import htw.vs1.filesystem.FileSystem.virtual.*;
@@ -51,9 +52,6 @@ public class Controller implements Initializable {
     private FileSystemInterface fileSystem;
 
     public void changeDirectory (String directory){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("CD " + directory);
-        alert.showAndWait();
         try {
             fileSystem.changeDirectory(directory);
         } catch (ObjectNotFoundException e) {
@@ -151,10 +149,11 @@ public class Controller implements Initializable {
          * Don't know how, but it works
          */
         tableColumnName.setCellValueFactory(cellData -> cellData.getValue().fileNameProperty());
-        tableColumnName.setCellFactory(param -> new TableCell<FileType, FileType.FileObject>() {
+        /*tableColumnName.setCellFactory(param -> new TableCell<FileType, FileType.FileObject>() {
             ImageView imageView = new ImageView();
             @Override
             protected void updateItem(FileType.FileObject item, boolean empty) {
+                setText(null);
                 if (item != null) {
                     HBox box = new HBox();
                     box.setSpacing(12);
@@ -174,7 +173,7 @@ public class Controller implements Initializable {
                     setGraphic(box);
                 }
             }
-        });
+        });*/
         tableColumnType.setCellValueFactory(cellData -> cellData.getValue().fileTypeProperty());
         tableView.setItems(currentDirectory);
 
