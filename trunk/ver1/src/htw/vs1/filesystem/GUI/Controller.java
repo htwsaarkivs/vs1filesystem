@@ -39,6 +39,8 @@ public class Controller implements Initializable {
     @FXML
     private TextField textFieldSearch;
     @FXML
+    private TableColumn<FileType, Image> tableColumnIcon;
+    @FXML
     private TableColumn<FileType, FileType.FileObject> tableColumnName;
     @FXML
     private TableColumn<FileType, String> tableColumnType;
@@ -68,7 +70,7 @@ public class Controller implements Initializable {
     public void listDirectoryContent (){
         currentDirectory.clear();
         currentDirectory.add(new FileType("..", true));
-        List<FSObject> list = null;
+        List<FSObject> list;
         try {
             list = fileSystem.getWorkingDirectory().getContent();
             for (FSObject fsObject : list) {
@@ -102,11 +104,6 @@ public class Controller implements Initializable {
     }
 
     public void createFile(){
-        /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("createFile");
-        alert.showAndWait();*/
-
-
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Text Input Dialog");
         dialog.setHeaderText("Look, a Text Input Dialog");
@@ -116,7 +113,7 @@ public class Controller implements Initializable {
 
         result.ifPresent(name -> {
             try {
-                fileSystem.getWorkingDirectory().add(new LocalFile(name));
+                fileSystem.createFSObject(name, false);
             } catch (FSObjectException e) {
                 e.printStackTrace();
             }
@@ -175,32 +172,25 @@ public class Controller implements Initializable {
         /**
          * Don't know how, but it works
          */
-        tableColumnName.setCellValueFactory(cellData -> cellData.getValue().fileNameProperty());
-        /*tableColumnName.setCellFactory(param -> new TableCell<FileType, FileType.FileObject>() {
+        tableColumnIcon.setCellValueFactory(cellData -> cellData.getValue().iconProperty());
+        tableColumnIcon.setCellFactory(param -> new TableCell<FileType, Image>() {
             ImageView imageView = new ImageView();
             @Override
-            protected void updateItem(FileType.FileObject item, boolean empty) {
-                setText(null);
+            protected void updateItem(Image item, boolean empty) {
+                setGraphic(null);
                 if (item != null) {
                     HBox box = new HBox();
                     box.setSpacing(12);
-                    VBox vbox = new VBox();
-                    Label label = new Label(item.getName());
-                    label.setAlignment(Pos.CENTER_LEFT);
-                    vbox.getChildren().add(label);
 
-                    imageView.setFitHeight(20);
                     imageView.setFitWidth(20);
-                    String imgName = "images/";
-                    imgName += item.isFolder() ? "folder.png" : "document-icon.png";
-                    imageView.setImage(
-                            new Image(Controller.class.getResource(imgName).toString())
-                    );
-                    box.getChildren().addAll(imageView, vbox);
+                    imageView.setFitHeight(20);
+                    imageView.setImage(item);
+                    box.getChildren().add(imageView);
                     setGraphic(box);
                 }
             }
-        });*/
+        });
+        tableColumnName.setCellValueFactory(cellData -> cellData.getValue().fileNameProperty());
         tableColumnType.setCellValueFactory(cellData -> cellData.getValue().fileTypeProperty());
         tableView.setItems(currentDirectory);
 
@@ -228,7 +218,7 @@ public class Controller implements Initializable {
                 String cellContent = column.getCellData(row).toString();
                 String fileType = currentDirectory.get(row).toString();
 
-                if (col == 0 && fileType.equals(CONDITION)){
+                if (col == 1 && fileType.equals(CONDITION)){
                     changeDirectory(cellContent);
                 }
 

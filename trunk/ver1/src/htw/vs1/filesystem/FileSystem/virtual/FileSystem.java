@@ -89,6 +89,11 @@ public class FileSystem implements FileSystemInterface {
         return workingFolder;
     }
 
+    @Override
+    public void createFSObject(String name, boolean isFolder) throws FSObjectException {
+        getWorkingDirectory().add(name, isFolder);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -144,8 +149,8 @@ public class FileSystem implements FileSystemInterface {
      * {@inheritDoc}
      */
     @Override
-    public String listDirectoryContent() throws FSObjectException {
-        return FSObject.printFSObjectList(workingFolder.getContent(), false);
+    public List<FSObject>  listDirectoryContent() throws FSObjectException {
+        return workingFolder.getContent();
     }
 
     /**
@@ -180,11 +185,7 @@ public class FileSystem implements FileSystemInterface {
     @Override
      public void rename(@NotNull String name, String newName) throws FSObjectException {
         FSObject toRename = workingFolder.getObject(name);
-        try {
-            toRename.setName(newName);
-        } catch (CouldNotRenameException couldNotRenameException) {
-            couldNotRenameException.printStackTrace();
-        }
+        toRename.setName(newName);
     }
 
     /**

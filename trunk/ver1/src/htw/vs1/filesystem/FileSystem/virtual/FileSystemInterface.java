@@ -46,11 +46,12 @@ public interface FileSystemInterface {
     void changeDirectory(@NotNull String path) throws FSObjectException;
 
     /**
-     * <p>Returns the content of the current directory as a String.</p>
+     * <p>Returns the content of the current directory as a
+     * {@link List} of {@link FSObject}'s.</p>
      *
      * @return content of the current directory.
      */
-    String listDirectoryContent() throws FSObjectException;
+    List<FSObject> listDirectoryContent() throws FSObjectException;
 
     /**
      * <p>Prints the current working directory in a String.</p>
@@ -68,6 +69,16 @@ public interface FileSystemInterface {
      * @return a {@link List} of {@link FSObject}s matching to the given name.
      */
     List<FSObject> search(String name);
+
+    /**
+     * Creates a new {@link FSObject} and adds it to the
+     * current working directory.
+     *
+     * @param name name of the new object.
+     * @param isFolder flag to create a isFolder or a file.
+     * @throws FSObjectException
+     */
+    void createFSObject(String name, boolean isFolder) throws FSObjectException;
 
     void rename(@NotNull String name,String newName)  throws FSObjectException;
 
