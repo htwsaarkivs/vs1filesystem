@@ -10,6 +10,8 @@ public abstract class ReplyCode {
     protected String message;
     protected Exception e;
 
+    private String additionalMessage;
+
     /**
      * Returns a textual, human-readable explanation of the issued reply
      * @return
@@ -40,9 +42,13 @@ public abstract class ReplyCode {
         this.message = reply.substring(4);
     }
 
+    public void setAdditionalMessage(String message) {
+        this.additionalMessage = message;
+    }
+
     @Override
     public String toString() {
-        return getCode() + " " + getMessage();
+        return getCode() + " " + getMessage() + " " + additionalMessage;
     }
 }
 

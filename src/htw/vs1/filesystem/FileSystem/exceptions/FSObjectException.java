@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.FileSystem.exceptions;
 import htw.vs1.filesystem.FileSystem.virtual.FSObject;
+import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
 
 /**
  * This class is part of the package htw.vs1.filesystem.FileSystem.exceptions and project ver1
@@ -7,7 +8,7 @@ import htw.vs1.filesystem.FileSystem.virtual.FSObject;
  * This class provides the following function(s): FSObjectException is the super class
  * in the Exeptionhirarchy of our filesystem
  */
-public class FSObjectException extends Exception {
+public abstract class FSObjectException extends Exception {
 
     public static final String OBJECTNOTFOUND = "The Object was not found";
     public static final String COULDNOTDELETE = "Could not delete the file/folder";
@@ -51,4 +52,6 @@ public class FSObjectException extends Exception {
     public FSObject getObject() {
         return object;
     }
+
+    public abstract ReplyCode getReplyCode();
 }
