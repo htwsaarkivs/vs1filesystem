@@ -46,7 +46,7 @@ public class SwingGUIPrinzipNoContainer  {
 
         panel2 = new JPanel();
         Border border2 = panel2.getBorder();
-        Border margin2 = new LineBorder(Color.gray,4);
+        Border margin2 = new LineBorder(Color.red,4);
         panel2.setBorder(new CompoundBorder(border2, margin2));
 
         JButton button2 = new JButton("Button2");
