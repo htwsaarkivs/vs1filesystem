@@ -15,9 +15,21 @@ public class ReplyCode401 extends ReplyCode {
     public static final String DESCRIPTION = "";
     public static final String STANDARD_MESSAGE = "ILLEGAL ARGUMENTS";
 
+    public ReplyCode401() {
+        this.message = STANDARD_MESSAGE;
+    }
+
 
     public ReplyCode401(String reason) {
         this.message = STANDARD_MESSAGE + ": "+reason;
+    }
+
+    @Override
+    public void setReplyString(String reply) {
+        super.setReplyString(reply);
+        if (additionalMessage != null && additionalMessage.length() > 1) {
+            this.additionalMessage = additionalMessage.substring(1);
+        }
     }
 
     @Override

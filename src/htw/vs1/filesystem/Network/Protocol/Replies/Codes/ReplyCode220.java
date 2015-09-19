@@ -18,7 +18,7 @@ public class ReplyCode220 extends ReplyCode {
     private String user;
 
     public ReplyCode220() {
-
+        this.message = "";
     }
 
     public ReplyCode220(String USER) {
@@ -28,6 +28,8 @@ public class ReplyCode220 extends ReplyCode {
     @Override
     public void setReplyString(String reply) {
         super.setReplyString(reply);
+
+        this.message = additionalMessage;
 
         user = message.substring(
                 STANDARD_MESSAGE1.length(),

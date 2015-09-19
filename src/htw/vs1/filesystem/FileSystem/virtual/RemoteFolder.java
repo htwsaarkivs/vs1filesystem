@@ -98,7 +98,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      * @return the content of this folder.
      */
     @Override
-    public List<FSObject> getContent() {
+    public List<FSObject> getContent() throws FSObjectException {
         List<String> result = tcpClient.listFolderContent();
 
         List<FSObject> fileList = new LinkedList<>();
@@ -135,7 +135,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      * @return {@code true}, iff a {@link FSObject} exists in this folder identified by the given name.
      */
     @Override
-    public boolean exists(String name) {
+    public boolean exists(String name) throws FSObjectException {
         List<FSObject> contents = getContent();
 
         for (FSObject object : contents) {
@@ -173,7 +173,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
         throw new NotImplementedException();
     }
 
-    public void changeDir() {
+    public void changeDir() throws FSObjectException {
         tcpClient.changeDirectory(remoteAbsolutePath);
     }
 }

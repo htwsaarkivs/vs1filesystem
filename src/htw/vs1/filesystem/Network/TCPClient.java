@@ -1,4 +1,6 @@
 package htw.vs1.filesystem.Network;
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.FSRemoteException;
 import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Commands.Command;
 import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
@@ -26,11 +28,11 @@ public class TCPClient {
 
     }
 
-    public TCPClient() {
+    public TCPClient() throws FSObjectException {
         this("localhost", TCPParallelServer.DEFAULT_PORT, TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
     }
 
-    public TCPClient(String ip, int port, String user, String pass) {
+    public TCPClient(String ip, int port, String user, String pass) throws FSObjectException {
         try {
             clientProtocol = new SimpleClientProtocol(new Socket(ip, port));
             clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
@@ -44,7 +46,7 @@ public class TCPClient {
         }
     }
 
-    private void authenticate(String user, String pass) {
+    private void authenticate(String user, String pass) throws FSObjectException {
         if (isAuthenticated) return;
 
         try {
@@ -60,9 +62,12 @@ public class TCPClient {
         }
     }
 
-    public List<String> listFolderContent() {
+    public List<String> listFolderContent() throws FSObjectException {
         try {
             ClientReply reply = Command.LS(clientProtocol);
+            if (!reply.success()) {
+                throw new FSRemoteException("Something went terribly wrong.");
+            }
             return reply.getData();
         } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
             simpleProtocolTerminateConnection.printStackTrace();
@@ -70,34 +75,45 @@ public class TCPClient {
         return null;
     }
 
-    public void changeDirectory(String remoteAbsolutePath) {
+    public void changeDirectory(String remoteAbsolutePath) throws FSObjectException {
         try {
             ClientReply reply = Command.CD(clientProtocol, remoteAbsolutePath);
+            if (!reply.success()) {
+                throw new FSRemoteException("Something went terribly wrong.");
+            }
         } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
             simpleProtocolTerminateConnection.printStackTrace();
         }
     }
 
-    public void mkdir(String name) {
+    public void mkdir(String name) throws FSObjectException {
         try {
             ClientReply reply = Command.MKDIR(clientProtocol, name);
+            if (!reply.success()) {
+                throw new FSRemoteException("Something went terribly wrong.");
+            }
         } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
             simpleProtocolTerminateConnection.printStackTrace();
         }
     }
 
-    public void touch(String name) {
+    public void touch(String name) throws FSObjectException {
         try {
             ClientReply reply = Command.TOUCH(clientProtocol, name);
+            if (!reply.success()) {
+                throw new FSRemoteException("Something went terribly wrong.");
+            }
         } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
             simpleProtocolTerminateConnection.printStackTrace();
         }
     }
 
-    public void delete(String name) {
+    public void delete(String name) throws FSObjectException {
         try {
             ClientReply reply = Command.DELETE(clientProtocol, name);
-            
+            if (!reply.success()) {
+                throw new FSRemoteException("Something went terribly wrong.");
+            }
         } catch(SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
             simpleProtocolTerminateConnection.printStackTrace();
         }

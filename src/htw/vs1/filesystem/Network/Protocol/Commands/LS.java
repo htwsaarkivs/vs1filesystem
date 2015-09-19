@@ -1,5 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.FSRemoteException;
 import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.FileSystem.virtual.Folder;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
@@ -33,7 +35,15 @@ public class LS extends AbstractCommand {
             return new SimpleServerProtocolReply(new ReplyCode406(), this);
 
 
-        List<FSObject> list = prot.getFileSystem().getWorkingDirectory().getContent();
+        List<FSObject> list;
+        try {
+            list = prot.getFileSystem().getWorkingDirectory().getContent();
+        } catch (FSObjectException e) {
+            return new SimpleServerProtocolReply(
+                    e.getReplyCode(),
+                    this
+            );
+        }
 
         StringBuilder buf = new StringBuilder();
 
@@ -60,32 +70,35 @@ public class LS extends AbstractCommand {
     }
 
     @Override
-    public ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection {
+    public ClientReply invoke(ClientProtocol prot, String... parameters)
+            throws SimpleProtocolTerminateConnection, FSObjectException
+    {
+        SimpleClientProtocolReply result = new SimpleClientProtocolReply();
+        result.setFailure();
+
         prot.putLine(COMMAND_STRING);
-        ReplyCode code = null;
+        ReplyCode code;
         try {
             code = prot.analyzeReply();
         } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-            simpleProtocolFatalError.printStackTrace();
+            throw new FSRemoteException(simpleProtocolFatalError.getMessage());
         }
         switch (code.getCode()) {
-            case ReplyCode406.CODE: {
-                // TODO: Exception...
-                throw new NotImplementedException();
-            }
             case ReplyCode210.CODE: // Beginn JSON
             {
-                return getReplyData(prot);
+                return getReplyData(prot, result);
             }
             default:
-                // TODO: Exception...
-                throw new NotImplementedException();
+                FSObjectException e = code.getException();
+                if (null != e) throw e;
         }
+
+        return result;
     }
 
-    private SimpleClientProtocolReply getReplyData(ClientProtocol prot) {
-        SimpleClientProtocolReply result = new SimpleClientProtocolReply();
+    private SimpleClientProtocolReply getReplyData(ClientProtocol prot, SimpleClientProtocolReply result) {
         boolean read = true;
+        result.setSuccess(); // assume no failure will happen, we set it to failure again iff any error happens.
         while(read) {
             try {
                 prot.readLine();
@@ -99,7 +112,7 @@ public class LS extends AbstractCommand {
                 }
 
             } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-                simpleProtocolFatalError.printStackTrace();
+                result.setFailure();
                 read = false;
             }
         }

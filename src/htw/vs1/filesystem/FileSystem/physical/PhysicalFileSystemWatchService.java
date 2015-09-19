@@ -111,21 +111,22 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
                     dir);
         }
 
-        if (fileSystem.getWorkingDirectory().exists(child.toFile().getName())){
-            // the file was created by our program. Although we have to add the new object
-            // to the watch list iff it is a folder.
-            try {
-                FSObject object = fileSystem.getWorkingDirectory().getObject(child.toFile().getName());
-                if (object instanceof  LocalFolder) {
-                    PhysicalFileSystemAdapter.getInstance().registerDirectoryToWatchService(child);
-                }
-            } catch (FSObjectException e) {
-                // this should never happen because we already checked if the object exists...
-                throw new IllegalStateException("Object doesn't exists even though #exists evaluates to true.", e);
-            } catch (IOException e) {
-                e.printStackTrace();
+
+        try {
+            if (fileSystem.getWorkingDirectory().exists(child.toFile().getName())){
+                // the file was created by our program. Although we have to add the new object
+                // to the watch list iff it is a folder.
+                    FSObject object = fileSystem.getWorkingDirectory().getObject(child.toFile().getName());
+                    if (object instanceof  LocalFolder) {
+                        PhysicalFileSystemAdapter.getInstance().registerDirectoryToWatchService(child);
+                    }
+                return;
             }
-            return;
+        } catch (FSObjectException e) {
+            // this should never happen because we already checked if the object exists...
+            throw new IllegalStateException("Object doesn't exists even though #exists evaluates to true.", e);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         try {

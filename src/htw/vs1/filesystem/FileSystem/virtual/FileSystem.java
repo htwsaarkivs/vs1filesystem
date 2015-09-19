@@ -144,7 +144,7 @@ public class FileSystem implements FileSystemInterface {
      * {@inheritDoc}
      */
     @Override
-    public String listDirectoryContent() {
+    public String listDirectoryContent() throws FSObjectException {
         return FSObject.printFSObjectList(workingFolder.getContent(), false);
     }
 

@@ -12,6 +12,9 @@ public class ReplyCode100 extends ReplyCode {
     public static final int CODE = 100;
     public static final String DESCRIPTION = "Informative reply, which supplies additional information to the end-user.";
 
+    public ReplyCode100() {
+        this.message = "";
+    }
 
     public ReplyCode100(String message) {
         this.message = message;

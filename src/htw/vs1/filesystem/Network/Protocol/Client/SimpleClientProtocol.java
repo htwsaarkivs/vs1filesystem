@@ -1,13 +1,9 @@
 package htw.vs1.filesystem.Network.Protocol.Client;
 
-import htw.vs1.filesystem.Network.Protocol.Commands.Command;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
-import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
-import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
 import htw.vs1.filesystem.Network.Protocol.Replies.ReplyAnalyzer;
-import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
 import htw.vs1.filesystem.Network.Protocol.SimpleProtocol;
 
 import java.net.Socket;
@@ -28,10 +24,6 @@ public class SimpleClientProtocol extends SimpleProtocol implements ClientProtoc
     public SimpleClientProtocol(Socket socket) throws SimpleProtocolInitializationErrorException {
         super(socket);
         this.analyzer = new ReplyAnalyzer();
-    }
-
-    public ClientReply executeCommand(Command command) throws SimpleProtocolTerminateConnection {
-        return command.invoke(this);
     }
 
     public ReplyCode analyzeReply() throws SimpleProtocolFatalError {

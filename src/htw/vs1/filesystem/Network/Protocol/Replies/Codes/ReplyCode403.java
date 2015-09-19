@@ -16,6 +16,10 @@ public class ReplyCode403 extends ReplyCode {
     public static final String DESCRIPTION = "";
     public static final String STANDARD_MESSAGE = "FILE OR FOLDER DOES NOT EXIST";
 
+    public  ReplyCode403() {
+        this.message = STANDARD_MESSAGE;
+    }
+
     @Override
     public int getCode() {
         return CODE;

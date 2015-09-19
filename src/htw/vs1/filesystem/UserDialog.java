@@ -202,19 +202,8 @@ public class UserDialog {
             boolean goon = true;
             try {
                 goon = executeCommand(command);
-            } catch (ObjectNotFoundException e) {
-                System.out.format("cd: %s: No such file or directory\n", e.getObjectName());
-            } catch (CouldNotCreateException e) {
-                System.out.println(FSObjectException.COULDNOTCREATE);
-            }catch (CouldNotDeleteException e) {
-                System.out.println(FSObjectException.COULDNOTDELETE);
-            }catch (CouldNotRenameException e) {
-                System.out.println(FSObjectException.COULDNOTRENAME);
-            }catch (InvalidFilenameException e) {
-                System.out.println(FSObjectException.INVALIDFILENAME);
             }catch (Exception e) {
-                // TODO: detect possible exception which could be caught
-                System.out.println(FSObjectException.UNKNOWNEXCEPTION);
+                System.out.println("Error: " + e.getMessage());
                 e.printStackTrace();
             }
 

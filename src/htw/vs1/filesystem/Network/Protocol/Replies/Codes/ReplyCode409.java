@@ -15,6 +15,9 @@ public class ReplyCode409 extends ReplyCode {
     public static final String DESCRIPTION = "";
     public static final String STANDARD_MESSAGE = "INVALIDFILENAME";
 
+    public ReplyCode409() {
+        this.message = STANDARD_MESSAGE;
+    }
 
 
     @Override

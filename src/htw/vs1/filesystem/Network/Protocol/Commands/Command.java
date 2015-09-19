@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
@@ -28,39 +29,53 @@ public interface Command {
      * @return
      * @throws SimpleProtocolTerminateConnection
      */
-    ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection;
+    ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection, FSObjectException;
 
-    static ClientReply SetUser(ClientProtocol prot, String user) throws SimpleProtocolTerminateConnection {
+    static ClientReply SetUser(ClientProtocol prot, String user)
+            throws SimpleProtocolTerminateConnection, FSObjectException
+    {
         Command cmd = new SETUSER();
         return cmd.invoke(prot, user);
     }
 
-    static ClientReply SetPass(SimpleClientProtocol prot, String pass) throws SimpleProtocolTerminateConnection {
+    static ClientReply SetPass(SimpleClientProtocol prot, String pass)
+            throws SimpleProtocolTerminateConnection, FSObjectException
+    {
         Command cmd = new SETPASS();
         return cmd.invoke(prot, pass);
     }
 
-    static ClientReply LS(SimpleClientProtocol prot)  throws SimpleProtocolTerminateConnection {
+    static ClientReply LS(SimpleClientProtocol prot)
+            throws SimpleProtocolTerminateConnection, FSObjectException
+    {
         Command cmd = new LS();
         return cmd.invoke(prot);
     }
 
-    static ClientReply CD(SimpleClientProtocol prot, String path) throws SimpleProtocolTerminateConnection {
+    static ClientReply CD(SimpleClientProtocol prot, String path)
+            throws SimpleProtocolTerminateConnection, FSObjectException
+    {
         Command cmd = new CD();
         return cmd.invoke(prot, path);
     }
 
-    static ClientReply MKDIR(SimpleClientProtocol prot, String name) throws SimpleProtocolTerminateConnection {
+    static ClientReply MKDIR(SimpleClientProtocol prot, String name)
+            throws SimpleProtocolTerminateConnection, FSObjectException
+    {
         Command cmd = new MKDIR();
         return cmd.invoke(prot, name);
     }
 
-    static ClientReply TOUCH(SimpleClientProtocol prot, String name) throws SimpleProtocolTerminateConnection {
+    static ClientReply TOUCH(SimpleClientProtocol prot, String name)
+            throws SimpleProtocolTerminateConnection, FSObjectException
+    {
         Command cmd = new TOUCH();
         return cmd.invoke(prot, name);
     }
 
-    static ClientReply DELETE(SimpleClientProtocol prot, String name) throws SimpleProtocolTerminateConnection {
+    static ClientReply DELETE(SimpleClientProtocol prot, String name)
+            throws SimpleProtocolTerminateConnection, FSObjectException
+    {
         Command cmd = new DELETE();
         return cmd.invoke(prot, name);
 

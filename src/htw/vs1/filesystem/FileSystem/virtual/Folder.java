@@ -48,7 +48,7 @@ public interface Folder extends FSObject {
      *
      * @return the content of this folder.
      */
-    List<FSObject> getContent();
+    List<FSObject> getContent() throws FSObjectException;
 
     /**
      * Checks whether a {@link FSObject} exists in this folder
@@ -57,7 +57,7 @@ public interface Folder extends FSObject {
      * @param name identifier for the {@link FSObject} to check.
      * @return {@code true}, iff a {@link FSObject} exists in this folder identified by the given name.
      */
-    boolean exists(String name);
+    boolean exists(String name) throws FSObjectException;
 
     /**
      * Gets the {@link FSObject} identified by the given name, iff this
