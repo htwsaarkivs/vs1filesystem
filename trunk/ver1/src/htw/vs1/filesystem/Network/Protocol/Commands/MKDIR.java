@@ -43,8 +43,7 @@ public class MKDIR extends AbstractCommand {
         try {
             prot.getFileSystem().getWorkingDirectory().add(new LocalFolder(name));
         } catch(FSObjectException e) {
-            // TODO: hier sollte kein 406 kommen, sonst weiß der Client nicht, dass die Datei schon existiert oder was halt passiert ist.
-            return new SimpleServerProtocolReply(new ReplyCode406(), this);
+            return new SimpleServerProtocolReply(e.getReplyCode(), this);
         }
 
 

@@ -31,9 +31,11 @@ public class RENAME extends AbstractCommand {
                     new ReplyCode401(COMMAND_STRING + " must have exactly two arguments"),
                     this);
         try {
-            prot.getFileSystem().rename(requestList.getCurrentElement().getArguments().get(0), requestList.getCurrentElement().getArguments().get(1));
-        } catch (Exception e) {
-
+            prot.getFileSystem().rename(
+                    requestList.getCurrentElement().getArguments().get(0),
+                    requestList.getCurrentElement().getArguments().get(1));
+        } catch (FSObjectException e) {
+            return new SimpleServerProtocolReply(e.getReplyCode(), this);
         }
 
 

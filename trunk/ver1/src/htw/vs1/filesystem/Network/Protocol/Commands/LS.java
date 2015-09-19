@@ -35,11 +35,10 @@ public class LS extends AbstractCommand {
 
         List<FSObject> list = prot.getFileSystem().getWorkingDirectory().getContent();
 
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
 
         for (FSObject obj: list) {
             boolean isFolder = obj instanceof Folder;
-            boolean isFile = !isFolder;
 
             buf.append(obj.getName());
             if (isFolder) {
