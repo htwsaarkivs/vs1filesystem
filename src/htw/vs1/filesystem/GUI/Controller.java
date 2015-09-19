@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.GUI;
 
+import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import htw.vs1.filesystem.FileSystem.virtual.*;
 import javafx.collections.FXCollections;
@@ -57,14 +58,16 @@ public class Controller implements Initializable {
             fileSystem.changeDirectory(directory);
         } catch (ObjectNotFoundException e) {
             e.printStackTrace();
+        } catch (FSObjectException e) {
+            e.printStackTrace();
         }
-        
+
         listDirectoryContent();
     }
 
     public void listDirectoryContent (){
         currentDirectory.clear();
-        currentDirectory.add(new FileType("..",true));
+        currentDirectory.add(new FileType("..", true));
         List<FSObject> list = fileSystem.getWorkingDirectory().getContent();
         for (FSObject fsObject : list) {
             currentDirectory.add(new FileType(fsObject.getName(), fsObject instanceof Folder));
