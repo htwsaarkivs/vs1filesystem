@@ -32,13 +32,13 @@ public class TCPParallelServer extends Thread implements ServerInterface {
 
     public static void main(String[] args) {
         //TODO: Maybe get rid of this altogether...
-        if (true) throw new RuntimeException("This seems to be broken :/");
+        //if (true) throw new RuntimeException("This seems to be broken :/");
         if (args.length != 1) {
             System.out.println("Usage: [path]");
             return;
         }
         path = args[0];
-        getInstance().startSingleServer = false;
+        getInstance().startSingleServer = true;
         getInstance().run();
 
     }
