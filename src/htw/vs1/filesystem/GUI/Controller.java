@@ -1,6 +1,5 @@
 package htw.vs1.filesystem.GUI;
 
-import com.sun.javafx.scene.control.skin.TableViewSkinBase;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import htw.vs1.filesystem.FileSystem.virtual.*;
@@ -10,12 +9,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,8 +22,6 @@ import java.util.ResourceBundle;
 
 
 public class Controller implements Initializable {
-
-    private static final String CONDITION = "Folder";
 
     @FXML
     private TableView<FileType> tableView;
@@ -81,7 +76,7 @@ public class Controller implements Initializable {
         }
 
 
-
+        this.textFieldDirectory.setText(fileSystem.printWorkingDirectory());
 
     }
 
@@ -121,19 +116,35 @@ public class Controller implements Initializable {
         });
     }
 
+    public void mount(ActionEvent actionEvent) {
+        // TODO: schöner custom dialog zur Eingabe von Ordername, remote Host und Port.
+
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Mount remote file system");
+        //dialog.setHeaderText("Look, a Text Input Dialog");
+        dialog.setContentText("foldername:host:port");
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(input -> {
+            String[] arr = input.split(":");
+            try {
+                fileSystem.mount(
+                        arr[0], arr[1], Integer.parseInt(arr[2]),
+                        TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
+            } catch (FSObjectException e) {
+                e.printStackTrace();
+            }
+            listDirectoryContent();
+        });
+    }
+
     public void close(ActionEvent actionEvent) { System.exit(0);
     }
 
     public void initiateFilesystem () throws IOException {
         LocalFolder.setRootDirectory("C:\\test");
         fileSystem = new FileSystem(true);
-
-        /*TCPParallelServer.getInstance().start();
-        try {
-            fileSystem.mount("mac", "192.168.10.45", 4322, "a", "b");
-        } catch (FSObjectException e) {
-            e.printStackTrace();
-        }*/
 
         listDirectoryContent();
 
@@ -144,7 +155,7 @@ public class Controller implements Initializable {
         // call searchfunction in filesystem
 
         searchResults.add(new SearchItem("FolderS1", "/root/test"));
-        searchResults.add(new SearchItem("FileS1","/root/test"));
+        searchResults.add(new SearchItem("FileS1", "/root/test"));
         tableViewSearch.setItems(searchResults);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Search for " + searchStr);
@@ -200,26 +211,15 @@ public class Controller implements Initializable {
         tableView.getSelectionModel().setCellSelectionEnabled(true);
         tableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
-                /*TablePosition position = tableView.getSelectionModel().getSelectedCells().get(0);
-
-                TableColumn<FileType, ?> col = tableView.getColumns().get(position.getRow());
-                Object object = col.getCellData(0);
-                if (position.getColumn() == 0 && object instanceof FileType.FileObject) {
-                    if (((FileType.FileObject) object).isFolder()) {
-                        changeDirectory(object.toString());
-                    }
-                }*/
-
 
                 TablePosition position = tableView.getSelectionModel().getSelectedCells().get(0);
                 int row = position.getRow();
-                int col = position.getColumn();
                 TableColumn column = position.getTableColumn();
-                String cellContent = column.getCellData(row).toString();
-                String fileType = currentDirectory.get(row).toString();
 
-                if (col == 1 && fileType.equals(CONDITION)){
-                    changeDirectory(cellContent);
+                Object cellValue = column.getCellObservableValue(row).getValue();
+
+                if (cellValue instanceof FileType.FileObject && ((FileType.FileObject) cellValue).isFolder()) {
+                    changeDirectory(cellValue.toString());
                 }
 
             }

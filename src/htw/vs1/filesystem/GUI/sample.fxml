@@ -19,7 +19,8 @@
         <menus>
             <Menu fx:id="MenuSystem" mnemonicParsing="false" text="System">
               <items>
-              <MenuItem fx:id="MenuItemClose" mnemonicParsing="false" onAction="#close" text="Close  " />
+                  <MenuItem fx:id="MenuItemMount" mnemonicParsing="false" onAction="#mount" text="Mount" />
+                  <MenuItem fx:id="MenuItemClose" mnemonicParsing="false" onAction="#close" text="Close" />
               </items>
             </Menu>
           <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
