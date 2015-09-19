@@ -1,6 +1,8 @@
 package htw.vs1.filesystem.FileSystem.exceptions;
 
 import htw.vs1.filesystem.FileSystem.virtual.FSObject;
+import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
+import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode402;
 
 /**
  * Exception indicating that the requested {@link FSObject}
@@ -12,6 +14,10 @@ import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 public class ObjectNotFoundException extends FSObjectException {
 
     private String objectName;
+
+    public ObjectNotFoundException(String msg) {
+        super(msg);
+    }
 
     /**
      * Costructor of a Exception with 2 Parameters
@@ -36,5 +42,12 @@ public class ObjectNotFoundException extends FSObjectException {
 
     public String getObjectName() {
         return objectName;
+    }
+
+    @Override
+    public ReplyCode getReplyCode() {
+        ReplyCode code = new ReplyCode402();
+        code.setAdditionalMessage(getMessage());
+        return code;
     }
 }
