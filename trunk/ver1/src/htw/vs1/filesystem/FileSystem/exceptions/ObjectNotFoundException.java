@@ -14,7 +14,7 @@ public class ObjectNotFoundException extends FSObjectException {
     private String objectName;
 
     /**
-     * Costructor of a Exeption with 2 Parameters
+     * Costructor of a Exception with 2 Parameters
      *
      * @param objectName name of the current Object the Exeption is regarding to
      * @param msg    Error message of the Expetion
@@ -25,7 +25,7 @@ public class ObjectNotFoundException extends FSObjectException {
     }
 
     /**
-     * Costructor of a Exeption with 2 Parameters
+     * Costructor of a Exception with 2 Parameters
      *
      * @param msg Error message of the Expetion
      * @param ex  Exeption object to deal wit
