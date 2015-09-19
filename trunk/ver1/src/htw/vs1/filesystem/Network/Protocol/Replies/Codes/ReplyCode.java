@@ -54,7 +54,12 @@ public abstract class ReplyCode {
 
     @Override
     public String toString() {
-        return getCode() + " " + getMessage() + " " + additionalMessage;
+        return getCode() + " " + getMessage() + " " + getAdditionalMessage();
+    }
+
+    public String getAdditionalMessage() {
+        if (null == additionalMessage) return "";
+        return additionalMessage;
     }
 }
 
