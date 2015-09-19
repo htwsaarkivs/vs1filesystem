@@ -231,7 +231,8 @@ public class UserDialog {
                 TCPParallelServer.getInstance().stopServer();
                 break;
             case LS:
-                String content = fileSystem.listDirectoryContent();
+                String content = FSObject.printFSObjectList(fileSystem.listDirectoryContent(), false);
+
                 System.out.print(content);
                 System.out.print(NEW_LINE);
                 break;
@@ -242,10 +243,10 @@ public class UserDialog {
                 } else {
                     // TODO: print usage
                     break;
-               }
-                LocalFolder folder = new LocalFolder(folderName);
-                fileSystem.getWorkingDirectory().add(folder);
-        
+                }
+
+                fileSystem.createFSObject(folderName, true);
+
                 break;
             case TOUCH:
                 String fileName;
@@ -257,8 +258,7 @@ public class UserDialog {
 
                 }
 
-                LocalFile file = new LocalFile(fileName);
-                fileSystem.getWorkingDirectory().add(file);
+                fileSystem.createFSObject(fileName, false);
                 break;
             case CD:
                 String cdParam;

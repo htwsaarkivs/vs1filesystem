@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -90,7 +92,7 @@ public class FileSystemInterfaceTest {
 
     @Test
     public void testListDirectoryContent() throws Exception {
-        String out = this.fs.listDirectoryContent();
+        List<FSObject> out = this.fs.listDirectoryContent();
         for(FSObject el: this.reference.getContent()) {
             if(!out.contains(el.getName())) fail("List Directory gibt nicht alle Dateinamen aus, die vorhanden sind.");
         }

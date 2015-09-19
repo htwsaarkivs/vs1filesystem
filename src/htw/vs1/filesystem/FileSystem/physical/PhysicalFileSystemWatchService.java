@@ -145,7 +145,10 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
                 PhysicalFileSystemAdapter.getInstance().registerDirectoryToWatchService(child);
                 PhysicalFileSystemAdapter.getInstance().loadFileSystemDirectories(child, (LocalFolder) toCreate);
             }
-        } catch (Exception e) {
+        } catch (FSObjectAlreadyExistsException e) {
+            // no problem, it look like the object was created by our file system ;-)
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
 

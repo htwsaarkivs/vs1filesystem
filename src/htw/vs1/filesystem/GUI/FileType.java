@@ -2,6 +2,7 @@ package htw.vs1.filesystem.GUI;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.image.Image;
 
 /**
  * This class is part of the package htw.vs1.filesystem.FileSystem.GUI and project ver1
@@ -33,6 +34,7 @@ public class FileType {
         }
     }
 
+    private final SimpleObjectProperty<Image> icon;
     private final SimpleObjectProperty<FileObject> fileName;
     private final SimpleStringProperty fileType;
 
@@ -41,6 +43,14 @@ public class FileType {
     public FileType (String fileName, boolean isFolder){
         this.fileName= new SimpleObjectProperty<>(new FileObject(fileName, isFolder));
         this.fileType= new SimpleStringProperty(isFolder ? "Folder" : "File");
+        /*  String imgName = "images/";
+                    imgName += item.isFolder() ? "folder.png" : "document-icon.png";
+                    imageView.setImage(
+                            new Image(Controller.class.getResource(imgName).toString())
+                    );*/
+        String imgName = "images/";
+        imgName += isFolder ? "folder.png" : "document-icon.png";
+        this.icon = new SimpleObjectProperty<>(new Image(FileType.class.getResource(imgName).toString()));
 
     }
 
@@ -54,6 +64,10 @@ public class FileType {
 
     public SimpleObjectProperty<FileObject> fileNameProperty() {
         return fileName;
+    }
+
+    public SimpleObjectProperty<Image> iconProperty() {
+        return icon;
     }
 
     public String getFileType() {
