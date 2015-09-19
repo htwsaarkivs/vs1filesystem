@@ -12,7 +12,7 @@ public class ReplyCode404 extends ReplyCode {
     public static final Type REPLY_TYPE = SimpleProtocolReplyType.ERROR;
     public static final int CODE = 404;
     public static final String DESCRIPTION = "";
-    public static final String STANDARD_MESSAGE = "DUPLICATE FILE/FOLDER EXISTS";
+    public static final String STANDARD_MESSAGE = "FSOBJECTALREADYEXISTS";
 
 
     public ReplyCode404() { this.message = STANDARD_MESSAGE; }

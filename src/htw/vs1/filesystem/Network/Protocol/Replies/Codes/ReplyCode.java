@@ -8,6 +8,7 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 public abstract class ReplyCode {
 
     protected String message;
+    protected Exception e;
 
     /**
      * Returns a textual, human-readable explanation of the issued reply
