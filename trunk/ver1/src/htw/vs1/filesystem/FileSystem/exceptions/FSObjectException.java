@@ -19,7 +19,6 @@ public abstract class FSObjectException extends Exception {
                                                   "administrator of confidence";
 
     private FSObject object;
-    private String msg;
 
     /**
      * Costructor of a Exeption with 3 Parameters
@@ -27,9 +26,9 @@ public abstract class FSObjectException extends Exception {
      * @param msg Error message of the Expetion
      * @param reason Exeption object to deal with
      */
-    public FSObjectException(FSObject object, String msg, Throwable reason){
+    public FSObjectException(FSObject object, String msg, Throwable reason) {
+        super(msg);
         this.object = object;
-        this.msg = msg;
         //TODO: Throwable!!!
     }
     /**
@@ -38,7 +37,7 @@ public abstract class FSObjectException extends Exception {
      * @param reason Exeption object to deal with
      */
     public FSObjectException(String msg,Throwable reason){
-        this.msg = msg;
+        super(msg);
         //TODO: Throwable!!!
     }
 
@@ -47,7 +46,7 @@ public abstract class FSObjectException extends Exception {
      * @param msg Error message of the Expetion
      */
     public FSObjectException (String msg){
-        this.msg = msg;
+        super(msg);
     }
 
     public FSObject getObject() {
