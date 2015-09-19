@@ -4,7 +4,7 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Type.SimpleProtocolReplyType;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
 /**
- * Created by Hendrik on 17.06.2015.
+ * Created by markus on 19.09.15.
  */
 public class ReplyCode403 extends ReplyCode {
 
@@ -12,11 +12,7 @@ public class ReplyCode403 extends ReplyCode {
     public static final Type REPLY_TYPE = SimpleProtocolReplyType.ERROR;
     public static final int CODE = 403;
     public static final String DESCRIPTION = "";
-    public static final String STANDARD_MESSAGE = "DIRECTORY OR PATH DOES NOT EXIST";
-
-
-    public ReplyCode403() { this.message = STANDARD_MESSAGE; }
-
+    public static final String STANDARD_MESSAGE = "FILE OR FOLDER DOES NOT EXIST";
 
     @Override
     public int getCode() {

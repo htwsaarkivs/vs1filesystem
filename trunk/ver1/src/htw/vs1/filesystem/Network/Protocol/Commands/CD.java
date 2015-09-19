@@ -42,7 +42,7 @@ public class CD extends AbstractCommand {
 
         } catch (ObjectNotFoundException e) {
             return new SimpleServerProtocolReply(
-                    new ReplyCode403(),
+                    new ReplyCode402(),
                     this);
         } catch (FSObjectException e) {
             return new SimpleServerProtocolReply(

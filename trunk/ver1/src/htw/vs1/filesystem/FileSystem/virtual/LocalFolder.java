@@ -180,29 +180,19 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * @throws FileAlreadyExistsException iff the file already exists.
      */
     public void add(FSObject object) throws FSObjectException {
-        try {
             Path pathOfFile = null;
             if (object instanceof LocalFSObject) {
                 pathOfFile = ((LocalFSObject) object).getPath();
             }
             add(object, pathOfFile);
-
-        } catch (CouldNotCreateException couldNotCreateException) {
-            couldNotCreateException.printStackTrace();
-        }
     }
 
     @Override
     public void add(String name, boolean isFolder) throws FSObjectException {
-        try {
             FSObject object = (isFolder)
                     ? new LocalFolder(name)
                     : new LocalFile(name);
             add(object);
-        } catch (CouldNotRenameException | InvalidFilenameException e) {
-            e.printStackTrace();
-            // TODO: Exception-Salat aufräumen
-        }
     }
 
     /**

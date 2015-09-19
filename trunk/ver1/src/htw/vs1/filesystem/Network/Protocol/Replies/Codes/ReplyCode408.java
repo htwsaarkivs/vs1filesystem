@@ -4,20 +4,14 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Type.SimpleProtocolReplyType;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
 /**
- * Created by markus on 21.06.15.
+ * Created by markus on 19.09.15.
  */
-
-public class ReplyCode407 extends ReplyCode {
+public class ReplyCode408 extends ReplyCode {
 
     public static final Type REPLY_TYPE = SimpleProtocolReplyType.ERROR;
-    public static final int CODE = 407;
+    public static final int CODE = 408;
     public static final String DESCRIPTION = "";
-    public static final String STANDARD_MESSAGE = "COULDNOTDELETE";
-
-
-    public ReplyCode407() {
-        this.message = STANDARD_MESSAGE;
-    }
+    public static final String STANDARD_MESSAGE = "COULDNOTCREATE";
 
 
     @Override
