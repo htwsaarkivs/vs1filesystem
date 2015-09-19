@@ -4,6 +4,7 @@ import com.sun.javafx.scene.control.skin.TableViewSkinBase;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import htw.vs1.filesystem.FileSystem.virtual.*;
+import htw.vs1.filesystem.Network.TCPParallelServer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -100,9 +102,26 @@ public class Controller implements Initializable {
     }
 
     public void createFile(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("createFile");
-        alert.showAndWait();
+        alert.showAndWait();*/
+
+
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Text Input Dialog");
+        dialog.setHeaderText("Look, a Text Input Dialog");
+        dialog.setContentText("Please enter a filename:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(name -> {
+            try {
+                fileSystem.getWorkingDirectory().add(new LocalFile(name));
+            } catch (FSObjectException e) {
+                e.printStackTrace();
+            }
+            listDirectoryContent();
+        });
     }
 
     public void close(ActionEvent actionEvent) { System.exit(0);
@@ -111,6 +130,14 @@ public class Controller implements Initializable {
     public void initiateFilesystem () throws IOException {
         LocalFolder.setRootDirectory("C:\\test");
         fileSystem = new FileSystem(true);
+
+        /*TCPParallelServer.getInstance().start();
+        try {
+            fileSystem.mount("mac", "192.168.10.45", 4322, "a", "b");
+        } catch (FSObjectException e) {
+            e.printStackTrace();
+        }*/
+
         listDirectoryContent();
 
     }
