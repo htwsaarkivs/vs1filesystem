@@ -33,6 +33,7 @@ public class CommandFactory {
         commands.put(COWBOY.COMMAND_STRING, new COWBOY());
         commands.put(EXIT.COMMAND_STRING, new EXIT());
         commands.put(DELETE.COMMAND_STRING, new DELETE());
+        commands.put(RENAME.COMMAND_STRING, new RENAME());
     }
 
     /**

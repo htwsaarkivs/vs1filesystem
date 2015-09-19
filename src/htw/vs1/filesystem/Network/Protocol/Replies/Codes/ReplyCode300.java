@@ -12,7 +12,7 @@ public class ReplyCode300 extends ReplyCode {
     public static final Type REPLY_TYPE = SimpleProtocolReplyType.PROMPT;
     public static final int CODE = 300;
     public static final String DESCRIPTION = "";
-    public static final String STANDARD_MESSAGE = "LOGIN REQUIRED FOR USER ";
+    public static final String STANDARD_MESSAGE = "PASSWORD REQUIRED FOR USER ";
 
     private String user;
 
