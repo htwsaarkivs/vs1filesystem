@@ -3,6 +3,7 @@ package htw.vs1.filesystem.Network;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 
 
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -71,7 +72,9 @@ public class TCPParallelServer extends Thread implements ServerInterface {
 
             while (true)
             {
-                System.out.println("Warten auf Verbindungen ...");
+                System.out.printf("Warten auf Verbindungen (IP: %s, Port: %s) ...\n",
+                        InetAddress.getLocalHost().getHostAddress(),
+                        String.valueOf(port));
                 Socket client = socket.accept();
 
 
