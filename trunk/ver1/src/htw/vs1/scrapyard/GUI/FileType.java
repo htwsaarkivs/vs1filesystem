@@ -1,5 +1,6 @@
 package htw.vs1.scrapyard.GUI;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -9,14 +10,49 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class FileType {
 
-    private final SimpleStringProperty fileName;
+    public class FileObject {
+        private String name;
+        private boolean isFolder;
+
+        public FileObject(String name, boolean isFolder) {
+            this.name = name;
+            this.isFolder = isFolder;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public boolean isFolder() {
+            return isFolder;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
+
+    private final SimpleObjectProperty<FileObject> fileName;
     private final SimpleStringProperty fileType;
 
-    public String getFileName() {
+    private boolean isFolder = false;
+
+    public FileType (String fileName, boolean isFolder){
+        this.fileName= new SimpleObjectProperty<>(new FileObject(fileName, isFolder));
+        this.fileType= new SimpleStringProperty(isFolder ? "Folder" : "File");
+
+    }
+
+    public boolean isFolder() {
+        return isFolder;
+    }
+
+    public FileObject getFileName() {
         return fileName.get();
     }
 
-    public SimpleStringProperty fileNameProperty() {
+    public SimpleObjectProperty<FileObject> fileNameProperty() {
         return fileName;
     }
 
@@ -29,12 +65,6 @@ public class FileType {
     }
 
 
-
-    public FileType (String fileName, String fileType){
-        this.fileName= new SimpleStringProperty(fileName);
-        this.fileType= new SimpleStringProperty(fileType);
-
-    }
 
     public String toString(){
         StringBuffer buffer = new StringBuffer();
