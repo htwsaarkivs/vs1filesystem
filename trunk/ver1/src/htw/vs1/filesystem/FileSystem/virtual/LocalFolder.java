@@ -225,23 +225,33 @@ public class LocalFolder extends LocalFSObject implements Folder {
 
         object.setParentFolder(this);
 
-        if (null == pathOfFile && null != getPath()) {
-            pathOfFile = Paths.get(getPath().toAbsolutePath().toString(), object.getName());
-            try {
-                if (object instanceof LocalFile) {
-                    Files.createFile(pathOfFile);
-                } else {
-                    Files.createDirectory(pathOfFile);
+        // we now at the file/folder to our content-list so it won't be added by the file system watch service.
+        // If any error happened by creating the "physical" file/folder we have to remove it again from the list.
+        contents.add(object);
+
+        try {
+            if (null == pathOfFile && null != getPath()) {
+                pathOfFile = Paths.get(getPath().toAbsolutePath().toString(), object.getName());
+                try {
+                    if (object instanceof LocalFile) {
+                        Files.createFile(pathOfFile);
+                    } else {
+                        Files.createDirectory(pathOfFile);
+                    }
+                } catch (UnsupportedOperationException | SecurityException | IOException e) {
+                    throw new CouldNotCreateException(FSObjectException.COULDNOTCREATE, e);
                 }
-            } catch (UnsupportedOperationException | SecurityException | IOException e) {
-                throw new CouldNotCreateException(FSObjectException.COULDNOTCREATE, e);
             }
-        }
-        if (object instanceof LocalFSObject) {
-            ((LocalFSObject) object).setPath(pathOfFile); // Type checked by #checkPrecondition(FSObject)
+            if (object instanceof LocalFSObject) {
+                ((LocalFSObject) object).setPath(pathOfFile); // Type checked by #checkPrecondition(FSObject)
+            }
+        } catch (Throwable e) {
+            // iff any error occurred we have to remove the object again from the list and pass the error on.
+            contents.remove(object);
+            throw e;
         }
 
-        contents.add(object);
+        //contents.add(object);
     }
 
     /**
