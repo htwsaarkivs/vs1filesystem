@@ -9,15 +9,15 @@ public class startGUI {
     public static void main(String[] args) {
 //        SwingGUIPrinzipNoContainer fenster = new SwingGUIPrinzipNoContainer();
 //        fenster.start();
-
+//
 //        JLabelGUI gui = new JLabelGUI();
 //        gui.start();
-
+//
 //        JFrameIconAnonym frameIcon = new JFrameIconAnonym();
 //        frameIcon.start();
-
-//        JFrameIconExtern frameIcon = new JFrameIconExtern();
-//        frameIcon.start();
+//
+//        JFrameIconExtern frameIcon2 = new JFrameIconExtern();
+ //       frameIcon2.start();
 
 //        Window window = new Window();
 //        window.start();
@@ -25,7 +25,7 @@ public class startGUI {
 //        JFrameIconSelfListener selfListener = new JFrameIconSelfListener();
 //        selfListener.start();
 
-        JTextfieldGUI jTextfieldGUI = new JTextfieldGUI();
-        jTextfieldGUI.start();
+//       JTextfieldGUI jTextfieldGUI = new JTextfieldGUI();
+//        jTextfieldGUI.start();
     }
 }
