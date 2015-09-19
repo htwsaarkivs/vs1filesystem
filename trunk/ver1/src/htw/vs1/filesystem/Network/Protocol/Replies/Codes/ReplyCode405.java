@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.Replies.Codes;
 
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
-import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
+import htw.vs1.filesystem.FileSystem.exceptions.FSRemoteException;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.SimpleProtocolReplyType;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
@@ -37,6 +37,6 @@ public class ReplyCode405 extends ReplyCode {
 
     @Override
     public FSObjectException getException() {
-        return new InvalidFilenameException(additionalMessage);
+        return new FSRemoteException(additionalMessage);
     }
 }
