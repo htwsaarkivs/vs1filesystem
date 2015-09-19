@@ -23,6 +23,8 @@ public class TCPParallelServer extends Thread implements ServerInterface {
     private int port = DEFAULT_PORT;
     private int timeout = DEFAULT_TIMEOUT;
 
+    private volatile boolean running = true;
+
     /**
      * Start the server without the user dialog.
      */
@@ -70,7 +72,7 @@ public class TCPParallelServer extends Thread implements ServerInterface {
             // Erzeugen der Socket/binden an Port/Wartestellung
             ServerSocket socket = new ServerSocket(port);
 
-            while (true)
+            while (running)
             {
                 System.out.printf("Warten auf Verbindungen (IP: %s, Port: %s) ...\n",
                         InetAddress.getLocalHost().getHostAddress(),
@@ -90,6 +92,9 @@ public class TCPParallelServer extends Thread implements ServerInterface {
 
     }
 
+    public void stopServer() {
+        this.running = false;
+    }
 
 
 

@@ -239,8 +239,7 @@ public class UserDialog {
                 TCPParallelServer.getInstance().start();
                 break;
             case STOP_SERVER:
-                //TODO: Stop is deprecated! while loop + catch on interrupt workaround is needed!
-                TCPParallelServer.getInstance().stop();
+                TCPParallelServer.getInstance().stopServer();
                 break;
             case LS:
                 String content = fileSystem.listDirectoryContent();
