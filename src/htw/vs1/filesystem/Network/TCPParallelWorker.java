@@ -18,7 +18,7 @@ public class TCPParallelWorker extends Thread {
     }
 
     /**
-     * Run - method of he Worker
+     * Run - method of the Worker
      */
     public void run() {
         System.out.println("Thread gestartet");

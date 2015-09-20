@@ -80,7 +80,7 @@ public class TCPParallelServer extends Thread implements ServerInterface {
 
                 Socket client = socket.accept();
                 System.out.println("Neuer Client verbunden: "+client.getInetAddress().toString());
-                        (new TCPParallelWorker(client)).start();
+                (new TCPParallelWorker(client)).start();
             }
 
         }

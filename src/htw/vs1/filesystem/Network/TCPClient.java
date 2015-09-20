@@ -23,11 +23,6 @@ public class TCPClient {
 
     private boolean isAuthenticated = false;
 
-    public static void main(String[] args) throws Exception {
-        TCPClient client = new TCPClient();
-
-    }
-
     public TCPClient() throws FSObjectException {
         this("localhost", TCPParallelServer.DEFAULT_PORT, TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
     }
