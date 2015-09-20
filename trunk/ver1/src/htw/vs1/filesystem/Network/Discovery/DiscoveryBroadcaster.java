@@ -2,53 +2,70 @@ package htw.vs1.filesystem.Network.Discovery;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.Enumeration;
 
 /**
  * Created by Felix on 20.09.2015.
  */
-public class DiscoveryBroadcaster extends Thread {
+public class DiscoveryBroadcaster extends DiscoveryThread {
 
     private static final long BROADCAST_INTERVAL = 5000;
 
-    private volatile boolean running = true;
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         DiscoveryBroadcaster broadcaster = new DiscoveryBroadcaster();
-        broadcaster.run();
+        DiscoveryListener listener = new DiscoveryListener();
+        broadcaster.start();
+        listener.start();
+
+        broadcaster.join();
+        listener.join();
     }
 
     @Override
-    public void run() {
-        while (running) {
-            try {
-                sendBroadcast();
-            } catch (SocketException e) {
-                e.printStackTrace();
+    protected void discovery(DatagramSocket socket) throws InterruptedException {
+        try {
+            sendBroadcastToAll(socket);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+
+        sleep(BROADCAST_INTERVAL);
+    }
+
+    @Override
+    protected DatagramSocket getDatagramSocket() throws SocketException {
+        return new DatagramSocket();
+    }
+
+    private void sendBroadcastToAll(DatagramSocket socket) throws SocketException {
+        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+        while (interfaces.hasMoreElements()) {
+            NetworkInterface networkInterface = interfaces.nextElement();
+            if (networkInterface.isLoopback() || !networkInterface.isUp()) {
+                continue;
             }
-            try {
-                sleep(BROADCAST_INTERVAL);
-            } catch (InterruptedException e) {
-                running = false;
+
+            for (InterfaceAddress address : networkInterface.getInterfaceAddresses()) {
+                if (address.getBroadcast() == null) continue;
+                sendBroadcast(address.getBroadcast(), socket);
             }
+
         }
     }
 
-    private void sendBroadcast() throws SocketException {
-        DatagramSocket socket = new DatagramSocket();
+    private void sendBroadcast(InetAddress address, DatagramSocket socket) throws SocketException {
         socket.setBroadcast(true);
 
         byte[] data = "Ich bin am Start!".getBytes();
 
         try {
-            DatagramPacket packet = new DatagramPacket(data, data.length, InetAddress.getByName("255.255.255.255"), 4322);
+            DatagramPacket packet = new DatagramPacket(data, data.length, address, 4322);
             socket.send(packet);
             System.out.println("Packet gesendet: " + data.toString());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            //socket.close();
         }
     }
 }
