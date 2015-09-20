@@ -80,4 +80,11 @@ public interface Command {
         return cmd.invoke(prot, name);
 
     }
+
+    static ClientReply RENAME(SimpleClientProtocol clientProtocol, String name, String newName)
+            throws SimpleProtocolTerminateConnection, FSObjectException
+    {
+        Command cmd = new RENAME();
+        return cmd.invoke(clientProtocol, name, newName);
+    }
 }

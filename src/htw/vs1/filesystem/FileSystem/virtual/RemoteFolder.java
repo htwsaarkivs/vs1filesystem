@@ -18,12 +18,11 @@ import java.util.Objects;
  */
 public class RemoteFolder extends RemoteFSObject implements Folder {
 
-    private TCPClient tcpClient;
+
     private String remoteAbsolutePath;
 
     public RemoteFolder(String name, String remoteIP, int remotePort, String user, String pass) throws FSObjectException {
-        super(name);
-        tcpClient = new TCPClient(remoteIP, remotePort, user, pass);
+        super(name, new TCPClient(remoteIP, remotePort, user, pass));
         remoteAbsolutePath = "/";
     }
 
@@ -35,9 +34,9 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      */
     public RemoteFolder(String name,  TCPClient tcpClient, Folder parentFolder) throws FSObjectException
     {
-        super(name);
-        this.tcpClient = tcpClient;
-        setParentFolder(parentFolder);
+        super(name, tcpClient, parentFolder);
+        //this.tcpClient = tcpClient;
+        //setParentFolder(parentFolder);
         if (parentFolder instanceof RemoteFolder) {
             String parentPath = ((RemoteFolder) parentFolder).remoteAbsolutePath;
             if (Objects.equals(parentPath, "/")) {
@@ -114,8 +113,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
                 if (Objects.equals(type, LS.FOLDER)) {
                     object = new RemoteFolder(name, tcpClient, this);
                 } else {
-                    object = new RemoteFile(name);
-                    object.setParentFolder(this);
+                    object = new RemoteFile(name, tcpClient, this);
                 }
                 fileList.add(object);
             } catch (FSObjectException e) {

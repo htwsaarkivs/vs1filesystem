@@ -1,10 +1,7 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameException;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
-import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
-
-import java.nio.file.FileAlreadyExistsException;
+import htw.vs1.filesystem.Network.TCPClient;
 
 /**
  * A RemoteFile represents a {@link File} located on a remote filesystem.
@@ -21,6 +18,11 @@ public class RemoteFile extends RemoteFSObject implements File {
      */
     public RemoteFile(String name) throws FSObjectException {
         super(name);
+    }
+
+    public RemoteFile(String name, TCPClient client, Folder parentFolder) throws FSObjectException
+    {
+        super(name, client, parentFolder);
     }
 
 }
