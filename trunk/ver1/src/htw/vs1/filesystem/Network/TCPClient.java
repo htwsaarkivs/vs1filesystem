@@ -116,4 +116,14 @@ public class TCPClient {
 
     }
 
+    public void rename(String name, String newName) throws FSObjectException{
+        try {
+            ClientReply reply = Command.RENAME(clientProtocol, name, newName);
+            if (!reply.success()) {
+                throw new FSRemoteException("Something went terribly wrong.");
+            }
+        } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
+            simpleProtocolTerminateConnection.printStackTrace();
+        }
+    }
 }
