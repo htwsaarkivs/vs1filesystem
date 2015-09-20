@@ -75,34 +75,61 @@ public class Controller implements Initializable {
             showErrorMessage(e);
         }
 
-
         this.textFieldDirectory.setText(fileSystem.printWorkingDirectory());
 
     }
 
     public void rename (){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("rename");
-        alert.showAndWait();
+        Object cellContent = getCellContenct();
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Rename File/Folder");
+        dialog.setHeaderText("Oh baby please give me a new name. Oh yeah, baby do it now");
+        dialog.setContentText("give it to me:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(name -> {
+            try {
+                fileSystem.rename(cellContent.toString(), result.toString());
+            } catch (FSObjectException e) {
+                showErrorMessage(e);
+            }
+            listDirectoryContent();
+        });
     }
 
     public void delete (){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("delete");
-        alert.showAndWait();
+        Object cellValue = getCellContenct();
+        try {
+            fileSystem.delete(cellValue.toString());
+        } catch (FSObjectException e) {
+            showErrorMessage(e);
+        }
+        listDirectoryContent();
     }
 
     public void createDir(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("createDir");
-        alert.showAndWait();
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Create Folder");
+        dialog.setHeaderText("Please enter a foldername");
+        dialog.setContentText("foldername:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(name -> {
+            try {
+                fileSystem.createFSObject(name, true);
+            } catch (FSObjectException e) {
+                showErrorMessage(e);
+            }
+            listDirectoryContent();
+        });
     }
 
     public void createFile(){
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Text Input Dialog");
-        dialog.setHeaderText("Look, a Text Input Dialog");
-        dialog.setContentText("Please enter a filename:");
+        dialog.setTitle("Create File");
+        dialog.setHeaderText("Please enter a filename");
+        dialog.setContentText("filename:");
 
         Optional<String> result = dialog.showAndWait();
 
@@ -133,7 +160,7 @@ public class Controller implements Initializable {
                         arr[0], arr[1], Integer.parseInt(arr[2]),
                         TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
             } catch (FSObjectException e) {
-                e.printStackTrace();
+                showErrorMessage(e);
             }
             listDirectoryContent();
         });
@@ -152,20 +179,32 @@ public class Controller implements Initializable {
     public void search(){
         String searchStr = textFieldSearch.getText();
         if (searchStr == null || searchStr.isEmpty()) return;
-        // call searchfunction in filesystem
 
-        searchResults.add(new SearchItem("FolderS1", "/root/test"));
-        searchResults.add(new SearchItem("FileS1", "/root/test"));
+        searchResults.clear();
+        List<FSObject> list;
+        try {
+            list = fileSystem.search(searchStr);
+            for (FSObject fsObject : list) {
+                searchResults.add(new SearchItem(fsObject.getName(), fsObject.getAbsolutePath()));
+            }
+        } catch (Throwable e) {
+            showErrorMessage(e);
+        }
         tableViewSearch.setItems(searchResults);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("Search for " + searchStr);
-        alert.showAndWait();
     }
 
     public void showErrorMessage(Throwable e){
         Alert alert  = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(e.getMessage());
         alert.showAndWait();
+    }
+
+    public Object getCellContenct (){
+        TablePosition position = tableView.getSelectionModel().getSelectedCells().get(0);
+        int row = position.getRow();
+        TableColumn column = position.getTableColumn();
+        Object cellValue = column.getCellObservableValue(row).getValue();
+        return cellValue;
     }
 
     @Override
@@ -176,15 +215,10 @@ public class Controller implements Initializable {
          */
         textFieldDirectory.setText("Current Path ....");
 
-        /**
-         * Fill in some dummydata in the list
-         */
-        currentDirectory.add(new FileType("Folder1", true));
-        currentDirectory.add(new FileType("File1", false));
         try {
             initiateFilesystem();
         } catch (IOException e) {
-            e.printStackTrace();
+            showErrorMessage(e);
         }
         /**
          * Don't know how, but it works
@@ -218,11 +252,7 @@ public class Controller implements Initializable {
         tableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
 
-                TablePosition position = tableView.getSelectionModel().getSelectedCells().get(0);
-                int row = position.getRow();
-                TableColumn column = position.getTableColumn();
-
-                Object cellValue = column.getCellObservableValue(row).getValue();
+                Object cellValue = getCellContenct();
 
                 if (cellValue instanceof FileType.FileObject && ((FileType.FileObject) cellValue).isFolder()) {
                     changeDirectory(cellValue.toString());
