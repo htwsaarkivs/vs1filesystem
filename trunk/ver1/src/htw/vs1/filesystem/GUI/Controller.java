@@ -89,7 +89,7 @@ public class Controller implements Initializable {
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(name -> {
             try {
-                fileSystem.rename(cellContent.toString(), result.toString());
+                fileSystem.rename(cellContent.toString(), name);
             } catch (FSObjectException e) {
                 showErrorMessage(e);
             }
