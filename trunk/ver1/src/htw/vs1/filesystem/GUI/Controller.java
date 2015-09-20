@@ -54,9 +54,9 @@ public class Controller implements Initializable {
         try {
             fileSystem.changeDirectory(directory);
         } catch (ObjectNotFoundException e) {
-            e.printStackTrace();
+            showErrorMessage(e);
         } catch (FSObjectException e) {
-            e.printStackTrace();
+            showErrorMessage(e);
         }
 
         listDirectoryContent();
@@ -72,7 +72,7 @@ public class Controller implements Initializable {
                 currentDirectory.add(new FileType(fsObject.getName(), fsObject instanceof Folder));
             }
         } catch (FSObjectException e) {
-            e.printStackTrace();
+            showErrorMessage(e);
         }
 
 
@@ -110,7 +110,7 @@ public class Controller implements Initializable {
             try {
                 fileSystem.createFSObject(name, false);
             } catch (FSObjectException e) {
-                e.printStackTrace();
+                showErrorMessage(e);
             }
             listDirectoryContent();
         });
@@ -159,6 +159,12 @@ public class Controller implements Initializable {
         tableViewSearch.setItems(searchResults);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Search for " + searchStr);
+        alert.showAndWait();
+    }
+
+    public void showErrorMessage(Throwable e){
+        Alert alert  = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(e.getMessage());
         alert.showAndWait();
     }
 
