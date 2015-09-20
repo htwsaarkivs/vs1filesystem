@@ -43,6 +43,10 @@ public class Controller implements Initializable {
     private TableColumn<SearchItem,String> tableColumnSearchName;
     @FXML
     private TableColumn<SearchItem,String> tableColumnSearchDirectory;
+    @FXML
+    private Tab tabSearch;
+    @FXML
+    private TabPane tabPane;
 
     private ObservableList<FileType> currentDirectory = FXCollections.observableArrayList();
     private ObservableList<SearchItem> searchResults = FXCollections.observableArrayList();
@@ -191,6 +195,9 @@ public class Controller implements Initializable {
             showErrorMessage(e);
         }
         tableViewSearch.setItems(searchResults);
+        tabPane.getSelectionModel().select(tabSearch);
+
+
     }
 
     public void showErrorMessage(Throwable e){
