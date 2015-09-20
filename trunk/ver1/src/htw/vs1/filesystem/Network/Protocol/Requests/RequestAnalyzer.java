@@ -29,7 +29,7 @@ public class RequestAnalyzer {
     private RequestLinkedList requestList = new RequestLinkedList();
 
     /**
-     * The RequestAnalyzer is initialized with a reference to a Co
+     * The RequestAnalyzer is initialized with a reference to a CommandFactory
      * @param factory {@link CommandFactory} to create the {@link Command}
      *                  by the given string representation.
      */
@@ -53,7 +53,7 @@ public class RequestAnalyzer {
         if (!(currCommand instanceof UnsupportedCommand)) {
             requestList.add(req);
         }
-        //Exceute command
+        //Execute command
         return currCommand.execute(proto, requestList);
 
     }

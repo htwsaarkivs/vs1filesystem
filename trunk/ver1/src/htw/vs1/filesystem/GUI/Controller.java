@@ -177,6 +177,8 @@ public class Controller implements Initializable {
         LocalFolder.setRootDirectory("C:\\test");
         fileSystem = new FileSystem(true);
 
+        TCPParallelServer.getInstance().start();
+
         listDirectoryContent();
 
     }
