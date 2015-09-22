@@ -8,6 +8,8 @@ import java.util.Set;
  */
 public class DiscoveryManager {
 
+    protected static final int DISCOVERY_PORT = 4322;
+
     private static DiscoveryManager mInstance = new DiscoveryManager();
 
     public static DiscoveryManager getInstance() {
@@ -17,5 +19,9 @@ public class DiscoveryManager {
     private Set<FileSystemServer> discoveredServerInstances = new HashSet<>();
 
     private DiscoveryManager() {
+    }
+
+    public void add(String host, int port) {
+        discoveredServerInstances.add(new FileSystemServer(host, port));
     }
 }

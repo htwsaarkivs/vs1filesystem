@@ -18,7 +18,7 @@ public class DiscoveryListener extends DiscoveryThread {
     @Override
     protected DatagramSocket getDatagramSocket() throws SocketException {
         try {
-            return new DatagramSocket(4322, InetAddress.getByName("0.0.0.0"));
+            return new DatagramSocket(DiscoveryManager.DISCOVERY_PORT, InetAddress.getByName("0.0.0.0"));
         } catch (UnknownHostException e) {
             e.printStackTrace();
             throw new SocketException();
@@ -36,20 +36,25 @@ public class DiscoveryListener extends DiscoveryThread {
             e.printStackTrace();
         }
 
-        //String message = new String(packet.getData()).trim();
+        String portStr = new String(packet.getData()).trim();
 
         try {
             if (!itsme(packet.getAddress())) {
+                int port = Integer.parseInt(portStr);
+
+                DiscoveryManager.getInstance().add(packet.getAddress().getHostAddress(), port);
+
                 System.out.printf(
                         "Ehh do han ich was von %s mit der IP %s\n",
                         packet.getAddress().getHostName(),
                         packet.getAddress().getHostAddress());
             }
-        } catch (SocketException e) {
+        } catch (NumberFormatException | SocketException e) {
             e.printStackTrace();
         }
     }
 
+    // Frage: bin ich es, wenn der Server einen anderen Port nutzt, aber auf meiner Adresse unterwegs ist?
     private boolean itsme(InetAddress remoteAddress) throws SocketException {
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
         while (interfaces.hasMoreElements()) {

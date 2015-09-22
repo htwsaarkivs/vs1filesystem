@@ -1,5 +1,7 @@
 package htw.vs1.filesystem.Network.Discovery;
 
+import htw.vs1.filesystem.Network.TCPParallelServer;
+
 import java.io.IOException;
 import java.net.*;
 import java.util.Enumeration;
@@ -56,10 +58,10 @@ public class DiscoveryBroadcaster extends DiscoveryThread {
     private void sendBroadcast(InetAddress address, DatagramSocket socket) throws SocketException {
         socket.setBroadcast(true);
 
-        byte[] data = "Ich bin am Start!".getBytes();
+        byte[] data = String.valueOf(TCPParallelServer.getInstance().getPort()).getBytes();
 
         try {
-            DatagramPacket packet = new DatagramPacket(data, data.length, address, 4322);
+            DatagramPacket packet = new DatagramPacket(data, data.length, address, DiscoveryManager.DISCOVERY_PORT);
             socket.send(packet);
             System.out.println("Packet gesendet: " + data.toString());
         } catch (UnknownHostException e) {

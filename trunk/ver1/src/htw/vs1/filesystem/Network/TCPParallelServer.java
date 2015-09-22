@@ -97,6 +97,15 @@ public class TCPParallelServer extends Thread implements ServerInterface {
     }
 
 
+    /**
+     * Gets the port the server is
+     * listening on.
+     *
+     * @return
+     */
+    public int getPort() {
+        return this.port;
+    }
 
 
 
