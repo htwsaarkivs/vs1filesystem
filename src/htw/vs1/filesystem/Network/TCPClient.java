@@ -21,6 +21,7 @@ public class TCPClient {
 
     private SimpleClientProtocol clientProtocol;
 
+    //TODO: über Client regeln
     private boolean isAuthenticated = false;
 
     public TCPClient() throws FSObjectException {

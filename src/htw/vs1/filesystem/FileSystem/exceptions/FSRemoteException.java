@@ -13,7 +13,7 @@ public class FSRemoteException extends FSObjectException {
 
     @Override
     public ReplyCode getReplyCode() {
-        // This method does not have any reply code because it is not cause by a file system error but
+        // This method does not have any reply code because it is not caused by a file system error but
         // by a protocol error.
         return null;
     }

@@ -18,7 +18,8 @@ import java.util.Scanner;
  *
  * Created by felix on 03.06.15.
  */
-public class UserDialog {
+public class
+        UserDialog {
 
     // FIXME: Error-Handling if the user is an idiot !!
 
