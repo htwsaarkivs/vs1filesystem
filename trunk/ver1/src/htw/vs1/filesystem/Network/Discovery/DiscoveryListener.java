@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class DiscoveryListener extends DiscoveryThread {
 
+    private static final String THREAD_NAME = "DiscoveryListenerThread";
+
     @Override
     protected DatagramSocket getDatagramSocket() throws SocketException {
         try {
@@ -18,6 +20,10 @@ public class DiscoveryListener extends DiscoveryThread {
             e.printStackTrace();
             throw new SocketException();
         }
+    }
+
+    public DiscoveryListener() {
+        setName(THREAD_NAME);
     }
 
     @Override

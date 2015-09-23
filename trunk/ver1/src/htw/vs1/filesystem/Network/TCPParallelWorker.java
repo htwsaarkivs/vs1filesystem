@@ -11,9 +11,11 @@ import java.net.Socket;
 public class TCPParallelWorker extends Thread {
 
 
+    private static final String THREAD_NAME = "WorkerThread";
     private Socket socket;
 
     public TCPParallelWorker(Socket socket) {
+        setName(THREAD_NAME);
         this.socket = socket;
     }
 

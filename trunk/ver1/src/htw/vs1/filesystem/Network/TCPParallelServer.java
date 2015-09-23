@@ -19,6 +19,8 @@ public class TCPParallelServer extends Thread implements ServerInterface {
     public static final String DEFAULT_USER = "A";
     public static final String DEFAULT_PASS = "B";
 
+    private static final String THREAD_NAME = "ServerThread";
+
     private static TCPParallelServer INSTANCE = null;
 
     private int port = DEFAULT_PORT;
@@ -55,8 +57,8 @@ public class TCPParallelServer extends Thread implements ServerInterface {
     }
 
     private TCPParallelServer(int port) {
+        setName(THREAD_NAME);
         this.port = port;
-        DiscoveryManager.getInstance().startAnnouncement(port);
     }
 
     /**
@@ -66,6 +68,7 @@ public class TCPParallelServer extends Thread implements ServerInterface {
         try
         {
 
+            DiscoveryManager.getInstance().startAnnouncement(port);
             if (startSingleServer) {
                 //Intialisierung des Filesystems
                 LocalFolder.setRootDirectory(path);
