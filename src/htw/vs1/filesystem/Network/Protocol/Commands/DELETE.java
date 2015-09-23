@@ -4,7 +4,6 @@ import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.exceptions.FSRemoteException;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
-import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.*;
 import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
@@ -43,7 +42,7 @@ public class DELETE extends AbstractCommand {
 
     @Override
     public ClientReply invoke(ClientProtocol prot, String... parameters)
-            throws SimpleProtocolTerminateConnection, FileSystemException
+            throws FileSystemException
     {
         ClientReply result = new SimpleClientProtocolReply();
         result.setFailure();

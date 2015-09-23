@@ -6,7 +6,6 @@ import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.FileSystem.virtual.Folder;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
-import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.*;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode210;
@@ -70,7 +69,7 @@ public class LS extends AbstractCommand {
 
     @Override
     public ClientReply invoke(ClientProtocol prot, String... parameters)
-            throws SimpleProtocolTerminateConnection, FileSystemException
+            throws FileSystemException
     {
         SimpleClientProtocolReply result = new SimpleClientProtocolReply();
         result.setFailure();
