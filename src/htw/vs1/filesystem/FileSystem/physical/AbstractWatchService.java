@@ -19,6 +19,7 @@ import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
  */
 public abstract class AbstractWatchService extends Thread {
 
+    private static final String THREAD_NAME = "WatchServiceThread";
     private boolean stop = false;
 
     private final WatchService watcher;
@@ -28,6 +29,7 @@ public abstract class AbstractWatchService extends Thread {
      * Creates a WatchService and registers the given directory
      */
     AbstractWatchService() throws IOException {
+        setName(THREAD_NAME);
         this.watcher = FileSystems.getDefault().newWatchService();
         this.keys = new HashMap<>();
     }

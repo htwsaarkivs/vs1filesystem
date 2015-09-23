@@ -10,6 +10,7 @@ import java.util.Enumeration;
 public class DiscoveryBroadcaster extends DiscoveryThread {
 
     protected static final long BROADCAST_INTERVAL = 5000;
+    private static final String THREAD_NAME = "BroadcasterThread";
 
     public static void main(String[] args) throws InterruptedException {
         DiscoveryBroadcaster broadcaster = new DiscoveryBroadcaster(4322);
@@ -24,6 +25,7 @@ public class DiscoveryBroadcaster extends DiscoveryThread {
     private int serverPort;
 
     public DiscoveryBroadcaster(int port) {
+        setName(THREAD_NAME);
         this.serverPort = port;
     }
 
