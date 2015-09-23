@@ -1,6 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.exceptions.FSRemoteException;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
@@ -17,8 +17,6 @@ import htw.vs1.filesystem.Network.Protocol.Replies.SimpleServerProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
-
-import java.nio.file.FileAlreadyExistsException;
 
 /**
  * Created by Hendrik on 21.06.2015.
@@ -44,7 +42,7 @@ public class MKDIR extends AbstractCommand {
 
         try {
             prot.getFileSystem().getWorkingDirectory().add(new LocalFolder(name));
-        } catch(FSObjectException e) {
+        } catch(FileSystemException e) {
             return new SimpleServerProtocolReply(e.getReplyCode(), this);
         }
 
@@ -55,7 +53,7 @@ public class MKDIR extends AbstractCommand {
 
     @Override
     public ClientReply invoke(ClientProtocol prot, String... parameters)
-            throws SimpleProtocolTerminateConnection, FSObjectException
+            throws SimpleProtocolTerminateConnection, FileSystemException
     {
         ClientReply result = new SimpleClientProtocolReply();
         result.setFailure();
@@ -67,7 +65,7 @@ public class MKDIR extends AbstractCommand {
             if (reply.getCode() == ReplyCode219.CODE) {
                 result.setSuccess();
             } else {
-                FSObjectException e = reply.getException();
+                FileSystemException e = reply.getException();
                 if (null != e) throw e;
             }
         } catch (SimpleProtocolFatalError simpleProtocolFatalError) {

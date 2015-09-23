@@ -3,7 +3,6 @@ package htw.vs1.filesystem.FileSystem.exceptions;
 import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode407;
-import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode408;
 
 /**
  * This class is part of the package htw.vs1.filesystem.FileSystem.exceptions and project ver1

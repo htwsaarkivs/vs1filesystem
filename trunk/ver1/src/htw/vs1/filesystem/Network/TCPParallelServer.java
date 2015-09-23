@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.Network;
 
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
+import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 
 
 import java.net.InetAddress;
@@ -55,6 +56,7 @@ public class TCPParallelServer extends Thread implements ServerInterface {
 
     private TCPParallelServer(int port) {
         this.port = port;
+        DiscoveryManager.getInstance().startAnnouncement(port);
     }
 
     /**
@@ -89,7 +91,8 @@ public class TCPParallelServer extends Thread implements ServerInterface {
             e.printStackTrace();
         }
 
-
+        // Server is stopped now, so we stop the discovery announcement, too.
+        DiscoveryManager.getInstance().startAnnouncement(port);
     }
 
     public void stopServer() {

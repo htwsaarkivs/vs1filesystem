@@ -55,6 +55,11 @@ public class FileSystemServer {
     }
 
     @Override
+    public String toString() {
+        return host + ":" + port;
+    }
+
+    @Override
     public int hashCode() {
         return (host + String.valueOf(port)).hashCode();
     }

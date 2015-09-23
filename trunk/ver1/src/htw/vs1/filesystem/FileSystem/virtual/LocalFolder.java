@@ -60,7 +60,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
                 } else {
                     rootFolder = new LocalFolder(ROOT_FOLDER_NAME, ROOT_FOLDER_PATH);
                 }
-            } catch (FSObjectException e) {
+            } catch (FileSystemException e) {
                 e.printStackTrace();
             }
         }
@@ -91,7 +91,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      *
      * @param name name of the new {@link Folder}.
      */
-    public LocalFolder(String name) throws FSObjectException {
+    public LocalFolder(String name) throws FileSystemException {
         super(name);
 
     }
@@ -102,7 +102,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      *
      * @param name name of the new {@link Folder}.
      */
-    public LocalFolder(String name, Path path) throws FSObjectException {
+    public LocalFolder(String name, Path path) throws FileSystemException {
         super(name,path);
     }
 
@@ -146,7 +146,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      *                                   {@link FSObject} identified by the given name as a direct child.
      */
     @Override
-    public FSObject getObject(String name) throws FSObjectException {
+    public FSObject getObject(String name) throws FileSystemException {
         for (FSObject object : contents) {
             if (object.getName().equals(name)) {
                 return object;
@@ -179,7 +179,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      *               {@link LocalFile} or a {@link LocalFolder}.
      * @throws FileAlreadyExistsException iff the file already exists.
      */
-    public void add(FSObject object) throws FSObjectException {
+    public void add(FSObject object) throws FileSystemException {
             Path pathOfFile = null;
             if (object instanceof LocalFSObject) {
                 pathOfFile = ((LocalFSObject) object).getPath();
@@ -188,7 +188,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
     }
 
     @Override
-    public void add(String name, boolean isFolder) throws FSObjectException {
+    public void add(String name, boolean isFolder) throws FileSystemException {
             FSObject object = (isFolder)
                     ? new LocalFolder(name)
                     : new LocalFile(name);
@@ -205,9 +205,9 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * @param pathOfFile can be a null value if the FSObject does
      *                   not exist, or will be not null for the
      *                   first run of loadFileSystemDirectory()
-     * @throws FSObjectException
+     * @throws FileSystemException
      */
-    public void add(FSObject object, @Nullable Path pathOfFile) throws FSObjectException {
+    public void add(FSObject object, @Nullable Path pathOfFile) throws FileSystemException {
         checkPrecondition(object);
 
         if (exists(object.getName())) {
@@ -252,7 +252,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * @throws ObjectNotFoundException iff the {@link FSObject} is not in this folder.
      */
     @Override
-    public void delete(FSObject object) throws FSObjectException {
+    public void delete(FSObject object) throws FileSystemException {
         checkPrecondition(object);
         if (object instanceof LocalFSObject) {
             LocalFSObject localFSObject = (LocalFSObject) object; // Type verified in #checkPrecondition(FSObject)
@@ -269,7 +269,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * Removes the file from the filetree and in the real Filesystem
      */
     @Override
-    public void delete() throws FSObjectException {
+    public void delete() throws FileSystemException {
         for (FSObject object : getContent()) {
             checkPrecondition(object);
             if (object instanceof LocalFSObject) {
@@ -299,7 +299,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * @throws ObjectNotFoundException iff there is no {@link FSObject} identified by this name.
      */
     @Override
-    public void delete(String name) throws FSObjectException {
+    public void delete(String name) throws FileSystemException {
         delete(getObject(name));
     }
 

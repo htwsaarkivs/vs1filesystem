@@ -1,6 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.exceptions.FSRemoteException;
 import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.FileSystem.virtual.Folder;
@@ -16,7 +16,6 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode406;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 import java.util.Objects;
@@ -38,7 +37,7 @@ public class LS extends AbstractCommand {
         List<FSObject> list;
         try {
             list = prot.getFileSystem().getWorkingDirectory().getContent();
-        } catch (FSObjectException e) {
+        } catch (FileSystemException e) {
             return new SimpleServerProtocolReply(
                     e.getReplyCode(),
                     this
@@ -71,7 +70,7 @@ public class LS extends AbstractCommand {
 
     @Override
     public ClientReply invoke(ClientProtocol prot, String... parameters)
-            throws SimpleProtocolTerminateConnection, FSObjectException
+            throws SimpleProtocolTerminateConnection, FileSystemException
     {
         SimpleClientProtocolReply result = new SimpleClientProtocolReply();
         result.setFailure();
@@ -89,7 +88,7 @@ public class LS extends AbstractCommand {
                 return getReplyData(prot, result);
             }
             default:
-                FSObjectException e = code.getException();
+                FileSystemException e = code.getException();
                 if (null != e) throw e;
         }
 

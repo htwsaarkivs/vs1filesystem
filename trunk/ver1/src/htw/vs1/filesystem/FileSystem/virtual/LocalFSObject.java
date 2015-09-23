@@ -32,7 +32,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
      * @param name name of the FSObject.
      * @param path path of the FSObject.
      */
-    public LocalFSObject(String name, Path path) throws FSObjectException {
+    public LocalFSObject(String name, Path path) throws FileSystemException {
         super(name);
         setPath(path);
     }
@@ -42,7 +42,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
      *
      * @param name name of the FSObject.
      */
-    public LocalFSObject(String name) throws FSObjectException {
+    public LocalFSObject(String name) throws FileSystemException {
         super(name);
     }
 
@@ -52,7 +52,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
      * @throws FileAlreadyExistsException
      */
     @Override
-    public void setName(String name) throws FSObjectException {
+    public void setName(String name) throws FileSystemException {
         if (getParentFolder() != null && getParentFolder().exists(name)) {
             throw new FSObjectAlreadyExistsException("The FSObject " + name + " already exists in this folder");
         }
@@ -121,7 +121,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
      * If this is a LocalFolder it deletes
      * the directory and its contents recursively.
      */
-    abstract void delete() throws FSObjectException;
+    abstract void delete() throws FileSystemException;
 
     /**
      * Checks the precondition that the given objects has to be a

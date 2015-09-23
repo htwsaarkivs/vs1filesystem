@@ -21,7 +21,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
 
     private String remoteAbsolutePath;
 
-    public RemoteFolder(String name, String remoteIP, int remotePort, String user, String pass) throws FSObjectException {
+    public RemoteFolder(String name, String remoteIP, int remotePort, String user, String pass) throws FileSystemException {
         super(name, new TCPClient(remoteIP, remotePort, user, pass));
         remoteAbsolutePath = "/";
     }
@@ -32,7 +32,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      *
      * @param name name of the new {@link Folder}.
      */
-    public RemoteFolder(String name,  TCPClient tcpClient, Folder parentFolder) throws FSObjectException
+    public RemoteFolder(String name,  TCPClient tcpClient, Folder parentFolder) throws FileSystemException
     {
         super(name, tcpClient, parentFolder);
         //this.tcpClient = tcpClient;
@@ -53,12 +53,12 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      * @throws FileAlreadyExistsException iff the file already exists.
      */
     @Override
-    public void add(FSObject object) throws FSObjectException {
+    public void add(FSObject object) throws FileSystemException {
         add(object.getName(), object instanceof Folder);
     }
 
     @Override
-    public void add(String name, boolean isFolder) throws FSObjectException {
+    public void add(String name, boolean isFolder) throws FileSystemException {
         if (isFolder) {
             tcpClient.mkdir(name);
         } else {
@@ -74,7 +74,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      * @throws ObjectNotFoundException iff the {@link FSObject} is not in this folder.
      */
     @Override
-    public void delete(FSObject object) throws FSObjectException {
+    public void delete(FSObject object) throws FileSystemException {
         throw new NotImplementedException();
     }
 
@@ -86,7 +86,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      * @throws ObjectNotFoundException iff there is no {@link FSObject} identified by this name.
      */
     @Override
-    public void delete(String name) throws FSObjectException {
+    public void delete(String name) throws FileSystemException {
         tcpClient.delete(name);
     }
 
@@ -97,7 +97,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      * @return the content of this folder.
      */
     @Override
-    public List<FSObject> getContent() throws FSObjectException {
+    public List<FSObject> getContent() throws FileSystemException {
         List<String> result = tcpClient.listFolderContent();
 
         List<FSObject> fileList = new LinkedList<>();
@@ -116,7 +116,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
                     object = new RemoteFile(name, tcpClient, this);
                 }
                 fileList.add(object);
-            } catch (FSObjectException e) {
+            } catch (FileSystemException e) {
                 e.printStackTrace();
             }
 
@@ -133,7 +133,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      * @return {@code true}, iff a {@link FSObject} exists in this folder identified by the given name.
      */
     @Override
-    public boolean exists(String name) throws FSObjectException {
+    public boolean exists(String name) throws FileSystemException {
         List<FSObject> contents = getContent();
 
         for (FSObject object : contents) {
@@ -155,7 +155,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      *                                   {@link FSObject} identified by the given name as a direct child.
      */
     @Override
-    public FSObject getObject(String name) throws FSObjectException {
+    public FSObject getObject(String name) throws FileSystemException {
         List<FSObject> contents = getContent();
         for (FSObject object : contents) {
             if (object.getName().equals(name)) {
@@ -171,7 +171,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
         throw new NotImplementedException();
     }
 
-    public void changeDir() throws FSObjectException {
+    public void changeDir() throws FileSystemException {
         tcpClient.changeDirectory(remoteAbsolutePath);
     }
 }

@@ -3,7 +3,6 @@ package htw.vs1.filesystem.FileSystem.virtual;
 import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
 
-import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 
 /**
@@ -17,6 +16,14 @@ import java.util.List;
  * Created by felix on 03.06.15.
  */
 public interface FileSystemInterface {
+
+    /**
+     * Starts the background task listening for
+     * other file system server.
+     *
+     * @param start {@code true}, to start the listener service.
+     */
+    void startDiscoveryListener(boolean start);
 
     /**
      * Sets the given {@link Folder} as the working
@@ -43,7 +50,7 @@ public interface FileSystemInterface {
      * @throws ObjectNotFoundException if the object identified
      *         by the given name is not available.
      */
-    void changeDirectory(@NotNull String path) throws FSObjectException;
+    void changeDirectory(@NotNull String path) throws FileSystemException;
 
     /**
      * <p>Returns the content of the current directory as a
@@ -51,7 +58,7 @@ public interface FileSystemInterface {
      *
      * @return content of the current directory.
      */
-    List<FSObject> listDirectoryContent() throws FSObjectException;
+    List<FSObject> listDirectoryContent() throws FileSystemException;
 
     /**
      * <p>Prints the current working directory in a String.</p>
@@ -76,13 +83,13 @@ public interface FileSystemInterface {
      *
      * @param name name of the new object.
      * @param isFolder flag to create a isFolder or a file.
-     * @throws FSObjectException
+     * @throws FileSystemException
      */
-    void createFSObject(String name, boolean isFolder) throws FSObjectException;
+    void createFSObject(String name, boolean isFolder) throws FileSystemException;
 
-    void rename(@NotNull String name,String newName)  throws FSObjectException;
+    void rename(@NotNull String name,String newName)  throws FileSystemException;
 
-    void delete(@NotNull String name) throws FSObjectException;
+    void delete(@NotNull String name) throws FileSystemException;
 
     /**
      * Mounts a {@link RemoteFolder} into our file system.
@@ -93,5 +100,5 @@ public interface FileSystemInterface {
      * @param user username
      * @param pass password
      */
-    void mount(String name, String remoteIP, int remotePort, String user, String pass) throws FSObjectException;
+    void mount(String name, String remoteIP, int remotePort, String user, String pass) throws FileSystemException;
 }

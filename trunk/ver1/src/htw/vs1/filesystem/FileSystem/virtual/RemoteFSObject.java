@@ -1,11 +1,8 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.Nullable;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
-import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
+import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.Network.TCPClient;
-
-import java.nio.file.FileAlreadyExistsException;
 
 /**
  * Represents a object of our file system tree which is located
@@ -23,18 +20,18 @@ public abstract class RemoteFSObject extends AbstractFSObject {
      *
      * @param name name of the FSObject.
      */
-    public RemoteFSObject(String name) throws FSObjectException {
+    public RemoteFSObject(String name) throws FileSystemException {
         super(name);
     }
 
-    protected RemoteFSObject(String name, TCPClient client) throws FSObjectException
+    protected RemoteFSObject(String name, TCPClient client) throws FileSystemException
     {
         super(name);
         this.tcpClient = client;
         setParentFolder(parentFolder);
     }
 
-    protected RemoteFSObject(String name, TCPClient client, Folder parentFolder) throws FSObjectException
+    protected RemoteFSObject(String name, TCPClient client, Folder parentFolder) throws FileSystemException
     {
         super(name);
         this.tcpClient = client;
@@ -42,7 +39,7 @@ public abstract class RemoteFSObject extends AbstractFSObject {
     }
 
     @Override
-    public void setName(String name) throws FSObjectException {
+    public void setName(String name) throws FileSystemException {
         if (null != tcpClient) {
             this.tcpClient.rename(this.getName(), name);
         } else {

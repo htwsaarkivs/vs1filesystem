@@ -1,6 +1,6 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,7 +19,7 @@ public class LocalFile extends LocalFSObject implements File {
      *
      * @param name name of the new {@link File}.
      */
-    public LocalFile(String name) throws FSObjectException {
+    public LocalFile(String name) throws FileSystemException {
         super(name);
     }
 
@@ -29,7 +29,7 @@ public class LocalFile extends LocalFSObject implements File {
      * @param name name of the LocalFile.
      * @param path path of the LocalFile.
      */
-    public LocalFile(String name, Path path) throws FSObjectException {
+    public LocalFile(String name, Path path) throws FileSystemException {
         super(name, path);
     }
 

@@ -1,6 +1,6 @@
 package htw.vs1.filesystem.GUI;
 
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import htw.vs1.filesystem.FileSystem.virtual.*;
 import htw.vs1.filesystem.Network.TCPParallelServer;
@@ -59,7 +59,7 @@ public class Controller implements Initializable {
             fileSystem.changeDirectory(directory);
         } catch (ObjectNotFoundException e) {
             showErrorMessage(e);
-        } catch (FSObjectException e) {
+        } catch (FileSystemException e) {
             showErrorMessage(e);
         }
 
@@ -75,7 +75,7 @@ public class Controller implements Initializable {
             for (FSObject fsObject : list) {
                 currentDirectory.add(new FileType(fsObject.getName(), fsObject instanceof Folder));
             }
-        } catch (FSObjectException e) {
+        } catch (FileSystemException e) {
             showErrorMessage(e);
         }
 
@@ -94,7 +94,7 @@ public class Controller implements Initializable {
         result.ifPresent(name -> {
             try {
                 fileSystem.rename(cellContent.toString(), name);
-            } catch (FSObjectException e) {
+            } catch (FileSystemException e) {
                 showErrorMessage(e);
             }
             listDirectoryContent();
@@ -105,7 +105,7 @@ public class Controller implements Initializable {
         Object cellValue = getCellContenct();
         try {
             fileSystem.delete(cellValue.toString());
-        } catch (FSObjectException e) {
+        } catch (FileSystemException e) {
             showErrorMessage(e);
         }
         listDirectoryContent();
@@ -122,7 +122,7 @@ public class Controller implements Initializable {
         result.ifPresent(name -> {
             try {
                 fileSystem.createFSObject(name, true);
-            } catch (FSObjectException e) {
+            } catch (FileSystemException e) {
                 showErrorMessage(e);
             }
             listDirectoryContent();
@@ -140,7 +140,7 @@ public class Controller implements Initializable {
         result.ifPresent(name -> {
             try {
                 fileSystem.createFSObject(name, false);
-            } catch (FSObjectException e) {
+            } catch (FileSystemException e) {
                 showErrorMessage(e);
             }
             listDirectoryContent();
@@ -163,7 +163,7 @@ public class Controller implements Initializable {
                 fileSystem.mount(
                         arr[0], arr[1], Integer.parseInt(arr[2]),
                         TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
-            } catch (FSObjectException e) {
+            } catch (FileSystemException e) {
                 showErrorMessage(e);
             }
             listDirectoryContent();

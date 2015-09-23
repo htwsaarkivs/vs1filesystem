@@ -1,6 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Replies.Codes;
 
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
 /**
@@ -44,7 +44,7 @@ public abstract class ReplyCode {
         }
     }
 
-    public FSObjectException getException() {
+    public FileSystemException getException() {
         return null;
     }
 

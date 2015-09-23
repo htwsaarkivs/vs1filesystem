@@ -38,4 +38,9 @@ public abstract class DiscoveryThread extends Thread {
             e.printStackTrace();
         }
     }
+
+    public void stopDiscoveryThread() {
+        running = false;
+        this.interrupt();
+    }
 }
