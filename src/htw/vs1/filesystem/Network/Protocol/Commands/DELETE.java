@@ -32,7 +32,7 @@ public class DELETE extends AbstractCommand {
 
         if (requestList.getCurrentElement().numOfArguments() != 1)
             return new SimpleServerProtocolReply(
-                    new ReplyCode401(COMMAND_STRING + " must have exactly aone argument"),
+                    new ReplyCode401(COMMAND_STRING + " must have exactly one argument"),
                     this);
         try {
             prot.getFileSystem().delete(requestList.getCurrentElement().getArguments().get(0));
