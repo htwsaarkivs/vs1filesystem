@@ -1,7 +1,5 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
@@ -30,7 +28,7 @@ public class SETUSER extends AbstractCommand {
 
 
     @Override
-    public ServerReply execute(ServerProtocol prot, RequestList requestList) throws SimpleProtocolTerminateConnection {
+    public ServerReply execute(ServerProtocol prot, RequestList requestList) {
 
 
         if (!isValid(requestList.getCurrentElement())) {

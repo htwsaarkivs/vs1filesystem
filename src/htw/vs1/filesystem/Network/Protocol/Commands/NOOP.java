@@ -14,7 +14,7 @@ import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
 public class NOOP extends AbstractCommand {
 
     @Override
-    public ServerReply execute(ServerProtocol prot, RequestList requestList) throws SimpleProtocolTerminateConnection {
+    public ServerReply execute(ServerProtocol prot, RequestList requestList) {
         return null;
     }
 

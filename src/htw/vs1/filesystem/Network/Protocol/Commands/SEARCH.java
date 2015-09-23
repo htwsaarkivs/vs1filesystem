@@ -21,7 +21,7 @@ public class SEARCH extends AbstractCommand {
     public static String COMMAND_STRING = "SEARCH";
 
     @Override
-    public ServerReply execute(ServerProtocol prot, RequestList requestList) throws SimpleProtocolTerminateConnection {
+    public ServerReply execute(ServerProtocol prot, RequestList requestList) {
         if (prot.getState() != SimpleProtocolState.AUTHENTICATED)
             return new SimpleServerProtocolReply(new ReplyCode406(), this);
 

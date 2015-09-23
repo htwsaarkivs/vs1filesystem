@@ -1,6 +1,5 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.exceptions.FSRemoteException;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
@@ -24,7 +23,7 @@ public class RENAME extends AbstractCommand {
     public static final String COMMAND_STRING = "RENAME";
 
     @Override
-    public ServerReply execute(ServerProtocol prot, RequestList requestList) throws SimpleProtocolTerminateConnection {
+    public ServerReply execute(ServerProtocol prot, RequestList requestList) {
         if (prot.getState() != SimpleProtocolState.AUTHENTICATED)
             return new SimpleServerProtocolReply(new ReplyCode406(), this);
 

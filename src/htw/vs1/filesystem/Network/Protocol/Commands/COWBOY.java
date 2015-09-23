@@ -17,7 +17,7 @@ public class COWBOY extends AbstractCommand {
     public static final String COMMAND_STRING = "COWBOY";
 
     @Override
-    public ServerReply execute(ServerProtocol prot, RequestList requestList) throws SimpleProtocolTerminateConnection {
+    public ServerReply execute(ServerProtocol prot, RequestList requestList) {
         String cowboy =
                 "            ___\n" +
                 "         __|___|__\n" +

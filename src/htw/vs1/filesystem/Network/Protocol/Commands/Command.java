@@ -21,7 +21,7 @@ public interface Command {
      * @return
      * @throws SimpleProtocolTerminateConnection
      */
-    ServerReply execute(ServerProtocol prot, RequestList requestList) throws SimpleProtocolTerminateConnection;
+    ServerReply execute(ServerProtocol prot, RequestList requestList);
 
     /**
      * Specifies the invocation directive for client-side use of commands.
