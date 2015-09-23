@@ -6,7 +6,6 @@ import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateCon
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode100;
-import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode230;
 import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.SimpleServerProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
@@ -19,7 +18,7 @@ public class EXIT extends AbstractCommand {
     public static final String COMMAND_STRING = "EXIT";
 
     @Override
-    public ServerReply execute(ServerProtocol prot, RequestList requestList) throws SimpleProtocolTerminateConnection {
+    public ServerReply execute(ServerProtocol prot, RequestList requestList) {
         return new SimpleServerProtocolReply(new ReplyCode100("GOODBYE"), this);
     }
 
