@@ -69,4 +69,12 @@ public class DiscoveryManager {
         listener.stopDiscoveryThread();
         listener = null;
     }
+
+    public void deleteOutdatedEntries() {
+        for (FileSystemServer server : discoveredServerInstances) {
+            if (server.isOutdated()) {
+                discoveredServerInstances.remove(server);
+            }
+        }
+    }
 }

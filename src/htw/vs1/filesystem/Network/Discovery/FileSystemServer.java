@@ -18,6 +18,8 @@ import java.util.Objects;
  */
 public class FileSystemServer {
 
+    // Livetime is 4 times the broadcast interval
+    private static final long MAX_LIVE_TIME_MILLIS = DiscoveryBroadcaster.BROADCAST_INTERVAL * 4;
     /**
      * The IP-Address of the file system
      * server.
@@ -57,6 +59,14 @@ public class FileSystemServer {
     @Override
     public String toString() {
         return host + ":" + port;
+    }
+
+    public boolean isOutdated() {
+        long currentTimeMillis = System.currentTimeMillis();
+        long discoverMillis = discoveryTime.getTime();
+        long diff = currentTimeMillis - discoverMillis;
+
+        return (diff > MAX_LIVE_TIME_MILLIS);
     }
 
     @Override

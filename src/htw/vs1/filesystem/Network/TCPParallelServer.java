@@ -92,7 +92,7 @@ public class TCPParallelServer extends Thread implements ServerInterface {
         }
 
         // Server is stopped now, so we stop the discovery announcement, too.
-        DiscoveryManager.getInstance().startAnnouncement(port);
+        DiscoveryManager.getInstance().stopAnnouncement(port);
     }
 
     public void stopServer() {

@@ -40,10 +40,10 @@ public class DiscoveryListener extends DiscoveryThread {
 
                 DiscoveryManager.getInstance().add(packet.getAddress().getHostAddress(), port);
 
-                System.out.printf(
+                /*System.out.printf(
                         "Ehh do han ich was von %s mit der IP %s\n",
                         packet.getAddress().getHostName(),
-                        packet.getAddress().getHostAddress());
+                        packet.getAddress().getHostAddress());*/
             }
         } catch (NumberFormatException | SocketException e) {
             e.printStackTrace();
