@@ -13,7 +13,7 @@ import java.net.Socket;
  */
 public class TCPParallelServer extends Thread implements ServerInterface {
 
-    public static final int DEFAULT_PORT = 4322;
+    public static final int DEFAULT_PORT = 4711;
     private static final int DEFAULT_TIMEOUT = 10000;
 
     public static final String DEFAULT_USER = "A";
@@ -97,6 +97,7 @@ public class TCPParallelServer extends Thread implements ServerInterface {
 
     public void stopServer() {
         this.running = false;
+        interrupt();
     }
 
 

@@ -1,5 +1,7 @@
 package htw.vs1.filesystem.Network.Discovery;
 
+import htw.vs1.filesystem.Network.TCPParallelServer;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +11,7 @@ import java.util.Set;
  */
 public class DiscoveryManager {
 
-    protected static final int DISCOVERY_PORT = 4322;
+    protected static final int DISCOVERY_PORT = TCPParallelServer.DEFAULT_PORT;
 
     private static DiscoveryManager mInstance = new DiscoveryManager();
 
@@ -40,6 +42,7 @@ public class DiscoveryManager {
         }
 
         broadcaster = new DiscoveryBroadcaster(serverPort);
+        broadcaster.start();
     }
 
     public void stopAnnouncement(int serverPort) {
@@ -56,6 +59,7 @@ public class DiscoveryManager {
         }
 
         listener = new DiscoveryListener();
+        listener.start();
     }
 
     public void stopListener() {

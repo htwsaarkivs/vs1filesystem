@@ -67,7 +67,7 @@ public class DiscoveryBroadcaster extends DiscoveryThread {
         try {
             DatagramPacket packet = new DatagramPacket(data, data.length, address, DiscoveryManager.DISCOVERY_PORT);
             socket.send(packet);
-            System.out.println("Packet gesendet: " + data.toString());
+            //System.out.println("Packet gesendet: " + data.toString());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {

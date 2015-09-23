@@ -200,6 +200,7 @@ public class
     }
 
     public void showDialog() {
+        fileSystem.startDiscoveryListener(true);
         while (true) {
             Command command = promptForCommand();
 
@@ -216,6 +217,7 @@ public class
             }
         }
 
+        fileSystem.startDiscoveryListener(false);
         PhysicalFileSystemAdapter.getInstance().stopWatchService();
     }
 
