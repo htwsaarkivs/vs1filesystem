@@ -29,7 +29,7 @@ public interface Command {
      * @return
      * @throws SimpleProtocolTerminateConnection
      */
-    ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection, FileSystemException;
+    ClientReply invoke(ClientProtocol prot, String... parameters) throws FileSystemException;
 
     static ClientReply SetUser(ClientProtocol prot, String user)
             throws SimpleProtocolTerminateConnection, FileSystemException
