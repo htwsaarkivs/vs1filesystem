@@ -33,6 +33,7 @@ public class DiscoveryListener extends DiscoveryThread {
 
         String portStr = new String(packet.getData()).trim();
 
+
         try {
             if (!itsme(packet.getAddress())) {
                 int port = Integer.parseInt(portStr);
