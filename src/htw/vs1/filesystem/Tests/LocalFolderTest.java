@@ -35,7 +35,7 @@ public class LocalFolderTest {
             inst.add(new LocalFolder(sameName));
             fail("add(Folder) should throw FileAlreadyExistsException, when trying to add a " +
                     "File with a duplicate Name in the current directory.");
-        } catch (FSObjectException e) {
+        } catch (FileSystemException e) {
             // fine, expected exception thrown by method.
         }
 
@@ -44,7 +44,7 @@ public class LocalFolderTest {
             inst.add(new LocalFile(sameName));
             fail("add(File) should throw FileAlreadyExistsException, when trying to add a " +
                     "Folder with a duplicate Name in the current directory.");
-        } catch (FSObjectException e) {
+        } catch (FileSystemException e) {
             // fine, expected exception thrown by method.
         }
     }
@@ -61,7 +61,7 @@ public class LocalFolderTest {
             // Fine, expected exception thrown by method.
         } catch (CouldNotCreateException e) {
             fail("couldNotCreateException should not been thrown.");
-        } catch (FSObjectException e) {
+        } catch (FileSystemException e) {
             e.printStackTrace();
         }
 

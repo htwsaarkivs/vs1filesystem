@@ -5,12 +5,8 @@ import htw.vs1.filesystem.FileSystem.exceptions.*;
 import htw.vs1.filesystem.FileSystem.physical.PhysicalFileSystemAdapter;
 import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
-import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
-import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
-import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
 import htw.vs1.filesystem.Network.TCPParallelServer;
 
-import java.nio.file.FileAlreadyExistsException;
 import java.util.Scanner;
 
 /**
@@ -223,7 +219,7 @@ public class
      * be executed.
      * @return {@code false}, iff the user wants to exit this dialog.
      */
-    private boolean executeCommand(Command command) throws FSObjectException {
+    private boolean executeCommand(Command command) throws FileSystemException {
         switch (command) {
             case START_SERVER:
                 TCPParallelServer.getInstance().start();

@@ -1,7 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
-import com.sun.deploy.util.SessionState;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.exceptions.FSRemoteException;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
@@ -40,7 +39,7 @@ public class TOUCH extends AbstractCommand {
 
         try {
             prot.getFileSystem().getWorkingDirectory().add(new LocalFile(name));
-        } catch(FSObjectException e) {
+        } catch(FileSystemException e) {
             return new SimpleServerProtocolReply(e.getReplyCode(), this);
         }
 
@@ -51,7 +50,7 @@ public class TOUCH extends AbstractCommand {
 
     @Override
     public ClientReply invoke(ClientProtocol prot, String... parameters)
-            throws SimpleProtocolTerminateConnection, FSObjectException
+            throws SimpleProtocolTerminateConnection, FileSystemException
     {
         ClientReply result = new SimpleClientProtocolReply();
         result.setFailure();
@@ -63,7 +62,7 @@ public class TOUCH extends AbstractCommand {
             if (reply.getCode() == ReplyCode219.CODE) {
                 result.setSuccess();
             } else {
-                FSObjectException e = reply.getException();
+                FileSystemException e = reply.getException();
                 if (null != e) throw e;
             }
         } catch (SimpleProtocolFatalError simpleProtocolFatalError) {

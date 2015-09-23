@@ -1,14 +1,12 @@
 package htw.vs1.filesystem.Network;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.exceptions.FSRemoteException;
 import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Commands.Command;
-import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.*;
 import java.net.Socket;
@@ -24,11 +22,11 @@ public class TCPClient {
     //TODO: über Client regeln
     private boolean isAuthenticated = false;
 
-    public TCPClient() throws FSObjectException {
+    public TCPClient() throws FileSystemException {
         this("localhost", TCPParallelServer.DEFAULT_PORT, TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
     }
 
-    public TCPClient(String ip, int port, String user, String pass) throws FSObjectException {
+    public TCPClient(String ip, int port, String user, String pass) throws FileSystemException {
         try {
             clientProtocol = new SimpleClientProtocol(new Socket(ip, port));
             clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
@@ -38,7 +36,7 @@ public class TCPClient {
         }
     }
 
-    private void authenticate(String user, String pass) throws FSObjectException {
+    private void authenticate(String user, String pass) throws FileSystemException {
         if (isAuthenticated) return;
 
         try {
@@ -54,7 +52,7 @@ public class TCPClient {
         }
     }
 
-    public List<String> listFolderContent() throws FSObjectException {
+    public List<String> listFolderContent() throws FileSystemException {
         try {
             ClientReply reply = Command.LS(clientProtocol);
             if (!reply.success()) {
@@ -67,7 +65,7 @@ public class TCPClient {
         return null;
     }
 
-    public void changeDirectory(String remoteAbsolutePath) throws FSObjectException {
+    public void changeDirectory(String remoteAbsolutePath) throws FileSystemException {
         try {
             ClientReply reply = Command.CD(clientProtocol, remoteAbsolutePath);
             if (!reply.success()) {
@@ -78,7 +76,7 @@ public class TCPClient {
         }
     }
 
-    public void mkdir(String name) throws FSObjectException {
+    public void mkdir(String name) throws FileSystemException {
         try {
             ClientReply reply = Command.MKDIR(clientProtocol, name);
             if (!reply.success()) {
@@ -89,7 +87,7 @@ public class TCPClient {
         }
     }
 
-    public void touch(String name) throws FSObjectException {
+    public void touch(String name) throws FileSystemException {
         try {
             ClientReply reply = Command.TOUCH(clientProtocol, name);
             if (!reply.success()) {
@@ -100,7 +98,7 @@ public class TCPClient {
         }
     }
 
-    public void delete(String name) throws FSObjectException {
+    public void delete(String name) throws FileSystemException {
         try {
             ClientReply reply = Command.DELETE(clientProtocol, name);
             if (!reply.success()) {
@@ -112,7 +110,7 @@ public class TCPClient {
 
     }
 
-    public void rename(String name, String newName) throws FSObjectException{
+    public void rename(String name, String newName) throws FileSystemException {
         try {
             ClientReply reply = Command.RENAME(clientProtocol, name, newName);
             if (!reply.success()) {

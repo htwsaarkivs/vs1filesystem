@@ -10,11 +10,6 @@ import java.util.List;
  */
 public class DiscoveryListener extends DiscoveryThread {
 
-    public static void main(String[] args) {
-        DiscoveryListener listener = new DiscoveryListener();
-        listener.run();
-    }
-
     @Override
     protected DatagramSocket getDatagramSocket() throws SocketException {
         try {

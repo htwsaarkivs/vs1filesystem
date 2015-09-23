@@ -3,7 +3,6 @@ package htw.vs1.filesystem.FileSystem.virtual;
 import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
 
-import java.nio.file.FileAlreadyExistsException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -62,7 +61,7 @@ public class FileSystem implements FileSystemInterface {
                 rootFolder = new LocalFolder("");
                 rootFolder.add(workingFolder);
                 this.workingFolder = rootFolder;
-            } catch (FSObjectException e) {
+            } catch (FileSystemException e) {
                 e.printStackTrace();
             }
         } else {
@@ -70,6 +69,11 @@ public class FileSystem implements FileSystemInterface {
             this.rootFolder = workingFolder;
         }
         this.mountAllowed = mountAllowed;
+    }
+
+    @Override
+    public void startDiscoveryListener(boolean start) {
+        // TODO:
     }
 
     /**
@@ -90,7 +94,7 @@ public class FileSystem implements FileSystemInterface {
     }
 
     @Override
-    public void createFSObject(String name, boolean isFolder) throws FSObjectException {
+    public void createFSObject(String name, boolean isFolder) throws FileSystemException {
         getWorkingDirectory().add(name, isFolder);
     }
 
@@ -98,7 +102,7 @@ public class FileSystem implements FileSystemInterface {
      * {@inheritDoc}
      */
     @Override
-    public void changeDirectory(@NotNull String path) throws FSObjectException {
+    public void changeDirectory(@NotNull String path) throws FileSystemException {
         path = path.replace("\\", "/");
         if (!path.isEmpty() && path.substring(0,1).equals("/")) {
             // path is an absolute path
@@ -114,7 +118,7 @@ public class FileSystem implements FileSystemInterface {
         }
     }
 
-    private void changeDirectoryToSubFolder(@NotNull String name) throws FSObjectException {
+    private void changeDirectoryToSubFolder(@NotNull String name) throws FileSystemException {
         FSObject o;
         switch (name) {
             case UP:
@@ -149,7 +153,7 @@ public class FileSystem implements FileSystemInterface {
      * {@inheritDoc}
      */
     @Override
-    public List<FSObject>  listDirectoryContent() throws FSObjectException {
+    public List<FSObject>  listDirectoryContent() throws FileSystemException {
         return workingFolder.getContent();
     }
 
@@ -183,7 +187,7 @@ public class FileSystem implements FileSystemInterface {
      * {@inheritDoc}
      */
     @Override
-     public void rename(@NotNull String name, String newName) throws FSObjectException {
+     public void rename(@NotNull String name, String newName) throws FileSystemException {
         FSObject toRename = workingFolder.getObject(name);
         toRename.setName(newName);
     }
@@ -192,7 +196,7 @@ public class FileSystem implements FileSystemInterface {
      * {@inheritDoc}
      */
     @Override
-    public void delete(@NotNull String name) throws FSObjectException {
+    public void delete(@NotNull String name) throws FileSystemException {
         workingFolder.delete(name);
     }
 
@@ -206,7 +210,7 @@ public class FileSystem implements FileSystemInterface {
      * @param pass       password
      */
     @Override
-    public void mount(String name, String remoteIP, int remotePort, String user, String pass) throws FSObjectException {
+    public void mount(String name, String remoteIP, int remotePort, String user, String pass) throws FileSystemException {
         if (!mountAllowed) {
             return;
         }

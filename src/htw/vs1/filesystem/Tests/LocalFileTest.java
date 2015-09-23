@@ -1,13 +1,8 @@
 package htw.vs1.filesystem.Tests;
 
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteException;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
-import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static org.junit.Assert.*;
 

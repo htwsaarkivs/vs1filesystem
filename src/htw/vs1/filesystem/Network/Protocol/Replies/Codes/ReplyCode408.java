@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.Replies.Codes;
 
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotCreateException;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
+import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.SimpleProtocolReplyType;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
@@ -35,7 +35,7 @@ public class ReplyCode408 extends ReplyCode {
     }
 
     @Override
-    public FSObjectException getException() {
+    public FileSystemException getException() {
         return new CouldNotCreateException(additionalMessage);
     }
 }

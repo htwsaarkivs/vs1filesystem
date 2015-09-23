@@ -1,7 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
-import htw.vs1.filesystem.FileSystem.virtual.AbstractFSObject;
+import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
@@ -20,7 +19,7 @@ public class NOOP extends AbstractCommand {
     }
 
     @Override
-    public ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection, FSObjectException {
+    public ClientReply invoke(ClientProtocol prot, String... parameters) throws SimpleProtocolTerminateConnection, FileSystemException {
         return null;
     }
 }

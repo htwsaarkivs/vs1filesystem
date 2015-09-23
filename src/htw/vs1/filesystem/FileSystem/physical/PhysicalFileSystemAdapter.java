@@ -1,8 +1,6 @@
 package htw.vs1.filesystem.FileSystem.physical;
 
-import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameException;
-import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
-import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
+import htw.vs1.filesystem.FileSystem.exceptions.*;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 
@@ -133,7 +131,7 @@ public class PhysicalFileSystemAdapter {
      * @throws InvalidFilenameException
      * @throws CouldNotRenameException
      */
-    private void loadFileSystemObject(Path dir, LocalFolder parentFolder) throws IOException, FSObjectException {
+    private void loadFileSystemObject(Path dir, LocalFolder parentFolder) throws IOException, htw.vs1.filesystem.FileSystem.exceptions.FileSystemException {
         String filename = dir.toFile().getName();
 
         if (dir.toFile().isDirectory()) {

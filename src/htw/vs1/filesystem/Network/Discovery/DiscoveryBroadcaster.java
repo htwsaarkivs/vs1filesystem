@@ -1,7 +1,5 @@
 package htw.vs1.filesystem.Network.Discovery;
 
-import htw.vs1.filesystem.Network.TCPParallelServer;
-
 import java.io.IOException;
 import java.net.*;
 import java.util.Enumeration;
@@ -14,13 +12,19 @@ public class DiscoveryBroadcaster extends DiscoveryThread {
     private static final long BROADCAST_INTERVAL = 5000;
 
     public static void main(String[] args) throws InterruptedException {
-        DiscoveryBroadcaster broadcaster = new DiscoveryBroadcaster();
+        DiscoveryBroadcaster broadcaster = new DiscoveryBroadcaster(4322);
         DiscoveryListener listener = new DiscoveryListener();
         broadcaster.start();
         listener.start();
 
         broadcaster.join();
         listener.join();
+    }
+
+    private int serverPort;
+
+    public DiscoveryBroadcaster(int port) {
+        this.serverPort = port;
     }
 
     @Override
@@ -58,7 +62,7 @@ public class DiscoveryBroadcaster extends DiscoveryThread {
     private void sendBroadcast(InetAddress address, DatagramSocket socket) throws SocketException {
         socket.setBroadcast(true);
 
-        byte[] data = String.valueOf(TCPParallelServer.getInstance().getPort()).getBytes();
+        byte[] data = String.valueOf(serverPort).getBytes();
 
         try {
             DatagramPacket packet = new DatagramPacket(data, data.length, address, DiscoveryManager.DISCOVERY_PORT);
