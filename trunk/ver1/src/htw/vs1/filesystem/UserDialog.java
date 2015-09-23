@@ -5,8 +5,10 @@ import htw.vs1.filesystem.FileSystem.exceptions.*;
 import htw.vs1.filesystem.FileSystem.physical.PhysicalFileSystemAdapter;
 import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
+import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
 import htw.vs1.filesystem.Network.TCPParallelServer;
 
+import java.util.Collection;
 import java.util.Scanner;
 
 /**
@@ -34,6 +36,7 @@ public class
 
         START_SERVER("start_server"),
         STOP_SERVER("stop_server"),
+        LIST_SERVERS("list_servers"),
         LS("ls"),
         CD("cd"),
         PWD("pwd"),
@@ -48,6 +51,7 @@ public class
 
         private static final String VAL_START_SERVER = "start_server";
         private static final String VAL_STOP_SERVER = "stop_server";
+        private static final String VAL_LIST_SERVERS = "list_servers";
         private static final String VAL_LS = "ls";
         private static final String VAL_CD = "cd";
         private static final String VAL_PWD = "pwd";
@@ -99,6 +103,9 @@ public class
                     break;
                 case VAL_STOP_SERVER:
                     cmd = Command.STOP_SERVER;
+                    break;
+                case VAL_LIST_SERVERS:
+                    cmd = Command.LIST_SERVERS;
                     break;
                 case VAL_LS:
                     cmd = Command.LS;
@@ -226,6 +233,15 @@ public class
                 break;
             case STOP_SERVER:
                 TCPParallelServer.getInstance().stopServer();
+                break;
+            case LIST_SERVERS:
+                Collection<FileSystemServer> servers = fileSystem.listAvailableFileSystemServers();
+                if (servers.isEmpty()) {
+                    System.out.println("No file system servers available.");
+                } else {
+                    servers.forEach(System.out::println);
+                }
+                System.out.print(NEW_LINE);
                 break;
             case LS:
                 String content = FSObject.printFSObjectList(fileSystem.listDirectoryContent(), false);
