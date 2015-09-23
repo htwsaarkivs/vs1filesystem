@@ -2,7 +2,9 @@ package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
+import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -24,6 +26,12 @@ public interface FileSystemInterface {
      * @param start {@code true}, to start the listener service.
      */
     void startDiscoveryListener(boolean start);
+
+    /**
+     * Lists all discovered {@link FileSystemServer}s.
+     * @return
+     */
+    Collection<FileSystemServer> listAvailableFileSystemServers();
 
     /**
      * Sets the given {@link Folder} as the working
