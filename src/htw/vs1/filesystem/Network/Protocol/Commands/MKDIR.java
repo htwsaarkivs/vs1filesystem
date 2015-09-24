@@ -54,24 +54,14 @@ public class MKDIR extends AbstractCommand {
     public ClientReply invoke(ClientProtocol prot, String... parameters)
             throws FileSystemException
     {
-        ClientReply result = new SimpleClientProtocolReply();
-        result.setFailure();
-
         prot.putLine(getCommandString(COMMAND_STRING, parameters));
+        ReplyCode reply = prot.analyzeReply();
 
-        try {
-            ReplyCode reply = prot.analyzeReply();
-            if (reply.getCode() == ReplyCode219.CODE) {
-                result.setSuccess();
-            } else {
-                FileSystemException e = reply.getException();
-                if (null != e) throw e;
-            }
-        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-            throw new FSRemoteException(simpleProtocolFatalError.getMessage());
+        if (reply.getException() instanceof FileSystemException) {
+            throw reply.getException();
         }
 
-        return result;
+        return null;
     }
 
 }

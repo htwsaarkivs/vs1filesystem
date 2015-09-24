@@ -44,15 +44,15 @@ public class SETUSER extends AbstractCommand {
 
     @Override
     public ClientReply invoke(ClientProtocol prot, String... parameters) throws FileSystemException {
-        try {
             prot.putLine(getCommandString(COMMAND_STRING, parameters));
+
+            //Antwort anlaysieren
             ReplyCode reply = prot.analyzeReply();
-            if (reply.getCode() != ReplyCode300.CODE) {
-                // TODO: was sollen wir hier machen ?
+
+            if(reply.getException() instanceof FileSystemException) {
+                throw reply.getException();
             }
-        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-            throw new SimpleProtocolTerminateConnection();
-        }
-        return null;
+
+            return null;
     }
 }

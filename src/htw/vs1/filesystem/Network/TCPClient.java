@@ -7,6 +7,8 @@ import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
+import htw.vs1.filesystem.Network.Protocol.SimpleProtocol;
+import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 
 import java.io.*;
 import java.net.Socket;
@@ -19,6 +21,10 @@ public class TCPClient {
 
     private SimpleClientProtocol clientProtocol;
 
+
+    private String user;
+    private String pass;
+
     //TODO: über Client regeln
     private boolean isAuthenticated = false;
 
@@ -28,96 +34,67 @@ public class TCPClient {
 
     public TCPClient(String ip, int port, String user, String pass) throws FileSystemException {
         try {
+            this.user = user;
+            this.pass = pass;
             clientProtocol = new SimpleClientProtocol(new Socket(ip, port));
             clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
-            authenticate(user, pass);
+            clientProtocol.setState(SimpleProtocolState.READY);
+
         } catch (SimpleProtocolInitializationErrorException | IOException | SimpleProtocolFatalError e) {
             throw new FSRemoteException("Connection error.");
         }
     }
 
     private void authenticate(String user, String pass) throws FileSystemException {
-        if (isAuthenticated) return;
-
-        try {
             ClientReply reply;
             reply = Command.SetUser(clientProtocol, user);
-            // TODO: reply auswerten, ggf. Exception werfen
-
             reply = Command.SetPass(clientProtocol, pass);
 
-            isAuthenticated = true;
-        } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
-            simpleProtocolTerminateConnection.printStackTrace();
+            //At the moment any combination of User/PW is correct.
+            //Therefore it is safe to assume...
+            clientProtocol.setState(SimpleProtocolState.AUTHENTICATED);
+    }
+
+    private void checkAuthStatusTryToLoginIfNecessary() throws FileSystemException {
+        if (clientProtocol.getState() != SimpleProtocolState.AUTHENTICATED) {
+            authenticate(this.user, this.pass);
         }
+        return;
     }
 
     public List<String> listFolderContent() throws FileSystemException {
-        try {
-            ClientReply reply = Command.LS(clientProtocol);
-            if (!reply.success()) {
-                throw new FSRemoteException("Something went terribly wrong.");
-            }
-            return reply.getData();
-        } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
-            simpleProtocolTerminateConnection.printStackTrace();
-        }
-        return null;
+        checkAuthStatusTryToLoginIfNecessary();
+        ClientReply reply = Command.LS(clientProtocol);
+        return reply.getData();
     }
 
     public void changeDirectory(String remoteAbsolutePath) throws FileSystemException {
-        try {
-            ClientReply reply = Command.CD(clientProtocol, remoteAbsolutePath);
-            if (!reply.success()) {
-                throw new FSRemoteException("Something went terribly wrong.");
-            }
-        } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
-            simpleProtocolTerminateConnection.printStackTrace();
-        }
+        checkAuthStatusTryToLoginIfNecessary();
+        ClientReply reply = Command.CD(clientProtocol, remoteAbsolutePath);
+        return;
     }
 
     public void mkdir(String name) throws FileSystemException {
-        try {
-            ClientReply reply = Command.MKDIR(clientProtocol, name);
-            if (!reply.success()) {
-                throw new FSRemoteException("Something went terribly wrong.");
-            }
-        } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
-            simpleProtocolTerminateConnection.printStackTrace();
-        }
+        checkAuthStatusTryToLoginIfNecessary();
+        ClientReply reply = Command.MKDIR(clientProtocol, name);
+        return;
     }
 
     public void touch(String name) throws FileSystemException {
-        try {
-            ClientReply reply = Command.TOUCH(clientProtocol, name);
-            if (!reply.success()) {
-                throw new FSRemoteException("Something went terribly wrong.");
-            }
-        } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
-            simpleProtocolTerminateConnection.printStackTrace();
-        }
+        checkAuthStatusTryToLoginIfNecessary();
+        ClientReply reply = Command.TOUCH(clientProtocol, name);
+        return;
     }
 
     public void delete(String name) throws FileSystemException {
-        try {
-            ClientReply reply = Command.DELETE(clientProtocol, name);
-            if (!reply.success()) {
-                throw new FSRemoteException("Something went terribly wrong.");
-            }
-        } catch(SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
-            simpleProtocolTerminateConnection.printStackTrace();
-        }
-
+        checkAuthStatusTryToLoginIfNecessary();
+        ClientReply reply = Command.DELETE(clientProtocol, name);
+        return;
     }
 
     public void rename(String name, String newName) throws FileSystemException {
-        try {
-            ClientReply reply = Command.RENAME(clientProtocol, name, newName);
-            if (!reply.success()) {
-                throw new FSRemoteException("Something went terribly wrong.");
-            }
-        } catch (SimpleProtocolTerminateConnection simpleProtocolTerminateConnection) {
-            simpleProtocolTerminateConnection.printStackTrace();
-        }
+        checkAuthStatusTryToLoginIfNecessary();
+        ClientReply reply = Command.RENAME(clientProtocol, name, newName);
+        return;
     }
 }

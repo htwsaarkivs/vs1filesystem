@@ -9,10 +9,4 @@ public interface ClientReply {
 
     List<String> getData();
 
-    void setSuccess();
-
-    void setFailure();
-
-    boolean success();
-
 }

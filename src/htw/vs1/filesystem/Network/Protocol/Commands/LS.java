@@ -6,6 +6,7 @@ import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.FileSystem.virtual.Folder;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolUnexpectedServerBehaviour;
 import htw.vs1.filesystem.Network.Protocol.Replies.*;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode210;
@@ -71,34 +72,30 @@ public class LS extends AbstractCommand {
     public ClientReply invoke(ClientProtocol prot, String... parameters)
             throws FileSystemException
     {
-        SimpleClientProtocolReply result = new SimpleClientProtocolReply();
-        result.setFailure();
-
         prot.putLine(COMMAND_STRING);
-        ReplyCode code;
-        try {
-            code = prot.analyzeReply();
-        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-            throw new FSRemoteException(simpleProtocolFatalError.getMessage());
-        }
-        switch (code.getCode()) {
-            case ReplyCode210.CODE: // Beginn JSON
-            {
-                return getReplyData(prot, result);
-            }
-            default:
-                FileSystemException e = code.getException();
-                if (null != e) throw e;
+        ReplyCode reply = prot.analyzeReply();
+
+
+        //Antwort analysieren. Nein IntelliJ ich will hier checken, ob es sich um eine korrekte Excpetion handelt.
+        if (reply.getException() instanceof FileSystemException) {
+            throw reply.getException();
         }
 
-        return result;
+        //Start-Zeichen wird nicht empfangen
+        if(reply.getCode() != ReplyCode210.CODE) {
+            //Irgendetwas stimmt nicht... -> Abbruch
+            throw new SimpleProtocolUnexpectedServerBehaviour();
+        }
+
+        SimpleClientProtocolReply result = new SimpleClientProtocolReply();
+        return getReplyData(prot, result);
     }
 
-    private SimpleClientProtocolReply getReplyData(ClientProtocol prot, SimpleClientProtocolReply result) {
+    private SimpleClientProtocolReply getReplyData(ClientProtocol prot, SimpleClientProtocolReply result) throws SimpleProtocolFatalError {
+
         boolean read = true;
-        result.setSuccess(); // assume no failure will happen, we set it to failure again iff any error happens.
+
         while(read) {
-            try {
                 prot.readLine();
                 String currentLine = prot.getCurrentLine();
                 if (currentLine != null && currentLine.length() >= 3
@@ -108,11 +105,6 @@ public class LS extends AbstractCommand {
                 } else {
                     result.feedLine(currentLine);
                 }
-
-            } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-                result.setFailure();
-                read = false;
-            }
         }
         return result;
     }

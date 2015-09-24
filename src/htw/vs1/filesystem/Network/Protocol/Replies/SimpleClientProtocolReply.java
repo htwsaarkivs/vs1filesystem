@@ -25,19 +25,6 @@ public class SimpleClientProtocolReply implements ClientReply {
         return data;
     }
 
-    @Override
-    public boolean success() {
-        return this.success;
-    }
-
-    public void setSuccess() {
-        this.success = true;
-    }
-
-    @Override
-    public void setFailure() {
-        this.success = false;
-    }
 
     @Override
     public String toString() {
