@@ -25,8 +25,7 @@ public abstract class DiscoveryThread extends Thread {
                 try {
                     discovery(socket);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    running = false;
+                    // the thread may be interrupted by closing the socket.
                 }
             }
 
@@ -41,6 +40,8 @@ public abstract class DiscoveryThread extends Thread {
 
     public void stopDiscoveryThread() {
         running = false;
-        this.interrupt();
+        if (null != socket && !socket.isClosed()) {
+            socket.close();
+        }
     }
 }
