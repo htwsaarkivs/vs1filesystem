@@ -44,7 +44,8 @@ public class DiscoveryListener extends DiscoveryThread {
             if (!itsme(packet.getAddress())) {
                 int port = Integer.parseInt(portStr);
 
-                DiscoveryManager.getInstance().add(packet.getAddress().getHostAddress(), port);
+                DiscoveryManager.getInstance().add(
+                        packet.getAddress().getHostAddress(), port, packet.getAddress().getHostName());
 
                 /*System.out.printf(
                         "Ehh do han ich was von %s mit der IP %s\n",

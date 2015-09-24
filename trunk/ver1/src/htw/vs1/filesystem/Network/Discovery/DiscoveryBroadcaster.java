@@ -9,7 +9,7 @@ import java.util.Enumeration;
  */
 public class DiscoveryBroadcaster extends DiscoveryThread {
 
-    protected static final long BROADCAST_INTERVAL = 5000;
+    protected static final long BROADCAST_INTERVAL = 5000; // 5 seconds
     private static final String THREAD_NAME = "BroadcasterThread";
 
     public static void main(String[] args) throws InterruptedException {
