@@ -20,6 +20,8 @@ public class DiscoveryManager {
 
     private Set<FileSystemServer> discoveredServerInstances = new HashSet<>();
 
+    private int currentSetHash = 0;
+
     private DiscoveryBroadcaster broadcaster;
 
     private DiscoveryListener listener;
@@ -27,11 +29,6 @@ public class DiscoveryManager {
     private List<DiscoveredServersObserver> observers = new LinkedList<>();
 
     private DiscoveryManager() {
-    }
-
-    public void add(@NotNull String host, int port, @NotNull String hostName) {
-        notifyDataSetChanged();
-        discoveredServerInstances.add(new FileSystemServer(host, port, hostName));
     }
 
     public Collection<FileSystemServer> getDiscoveredServers() {
@@ -72,16 +69,35 @@ public class DiscoveryManager {
         listener = null;
     }
 
+    public void add(@NotNull String host, int port, @NotNull String hostName) {
+        saveCurrentSetState();
+        discoveredServerInstances.add(new FileSystemServer(host, port, hostName));
+        notifyDataSetChanged();
+    }
+
     public void deleteOutdatedEntries() {
         for (FileSystemServer server : discoveredServerInstances) {
             if (server.isOutdated()) {
-                notifyDataSetChanged();
+                saveCurrentSetState();
                 discoveredServerInstances.remove(server);
+                notifyDataSetChanged();
             }
         }
     }
 
-    protected void notifyDataSetChanged() {
+    private void saveCurrentSetState() {
+        currentSetHash = 0;
+        for (FileSystemServer instance : discoveredServerInstances) {
+            currentSetHash += instance.hashCode();
+        }
+    }
+
+    private void notifyDataSetChanged() {
+        if (currentSetHash == discoveredServerInstances.hashCode()) {
+            // hat sich nichts verändert, so muss auch niemand benachrichtigt werden.
+            return;
+        }
+
         for (DiscoveredServersObserver observer : observers) {
             observer.discoveredServersUpdated();
         }

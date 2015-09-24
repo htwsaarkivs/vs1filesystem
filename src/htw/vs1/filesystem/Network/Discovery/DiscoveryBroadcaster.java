@@ -9,7 +9,7 @@ import java.util.Enumeration;
  */
 public class DiscoveryBroadcaster extends DiscoveryThread {
 
-    protected static final long BROADCAST_INTERVAL = 5000; // 5 seconds
+    protected static final long BROADCAST_INTERVAL = 10000; // 10 seconds
     private static final String THREAD_NAME = "BroadcasterThread";
 
     public static void main(String[] args) throws InterruptedException {
@@ -32,10 +32,9 @@ public class DiscoveryBroadcaster extends DiscoveryThread {
     @Override
     protected void discovery(DatagramSocket socket) throws InterruptedException {
         try {
-            sendBroadcastToAll(socket);
-
             // delete outdates servers from list
             DiscoveryManager.getInstance().deleteOutdatedEntries();
+            sendBroadcastToAll(socket);
         } catch (SocketException e) {
             e.printStackTrace();
         }
