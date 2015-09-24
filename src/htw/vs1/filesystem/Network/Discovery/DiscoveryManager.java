@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.Network.Discovery;
 
+import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.Network.TCPParallelServer;
 
 import java.util.Collection;
@@ -28,8 +29,8 @@ public class DiscoveryManager {
     private DiscoveryManager() {
     }
 
-    public void add(String host, int port) {
-        discoveredServerInstances.add(new FileSystemServer(host, port));
+    public void add(@NotNull String host, int port, @NotNull String hostName) {
+        discoveredServerInstances.add(new FileSystemServer(host, port, hostName));
     }
 
     public Collection<FileSystemServer> getDiscoveredServers() {

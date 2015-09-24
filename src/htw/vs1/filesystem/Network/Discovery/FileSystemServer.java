@@ -11,7 +11,7 @@ import java.util.Objects;
  * This class contains all necessary information
  *  to connect with this server.
  *
- *  Host and Port is unique for a FileSystemServer
+ *  Host and Port together is unique for a FileSystemServer
  *  instance.
  *
  * Created by Felix on 22.09.2015.
@@ -20,6 +20,9 @@ public class FileSystemServer {
 
     // Livetime is 4 times the broadcast interval
     private static final long MAX_LIVE_TIME_MILLIS = DiscoveryBroadcaster.BROADCAST_INTERVAL * 4;
+
+    private String hostName;
+
     /**
      * The IP-Address of the file system
      * server.
@@ -38,7 +41,7 @@ public class FileSystemServer {
      */
     private Date discoveryTime;
 
-    public FileSystemServer(@NotNull String host, int port) {
+    public FileSystemServer(@NotNull String host, int port, @NotNull String hostName) {
         this.host = host;
         this.port = port;
         this.discoveryTime = new Date();
@@ -50,6 +53,10 @@ public class FileSystemServer {
 
     public @NotNull String getHost() {
         return host;
+    }
+
+    public @NotNull String getHostName() {
+        return hostName;
     }
 
     public Date getDiscoveryTime() {
