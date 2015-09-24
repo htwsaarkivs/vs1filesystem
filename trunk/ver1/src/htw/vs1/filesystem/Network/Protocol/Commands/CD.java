@@ -56,22 +56,14 @@ public class CD extends AbstractCommand {
     public ClientReply invoke(ClientProtocol prot, String... parameters)
             throws FileSystemException
     {
-        ClientReply result = new SimpleClientProtocolReply();
-        result.setFailure();
-
         prot.putLine(getCommandString(COMMAND_STRING, parameters));
-        try {
-            ReplyCode reply = prot.analyzeReply();
-            if (reply.getCode() == ReplyCode230.CODE) {
-                result.setSuccess();
-            } else {
-                FileSystemException e = reply.getException();
-                if (null != e) throw e;
-            }
-        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-            throw new FSRemoteException(simpleProtocolFatalError.getMessage());
+
+        ReplyCode reply = prot.analyzeReply();
+
+        if (reply.getException() instanceof FileSystemException) {
+            throw reply.getException();
         }
 
-        return result;
+        return null;
     }
 }

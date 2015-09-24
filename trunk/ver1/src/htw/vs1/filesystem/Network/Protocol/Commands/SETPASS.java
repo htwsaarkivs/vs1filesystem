@@ -56,13 +56,13 @@ public class SETPASS extends AbstractCommand {
 
     @Override
     public ClientReply invoke(ClientProtocol prot, String... parameters) throws FileSystemException {
-        try {
             prot.putLine(getCommandString(COMMAND_STRING, parameters));
-            prot.readLine();
-            prot.getCurrentLine();
-        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-            simpleProtocolFatalError.printStackTrace();
-        }
+            ReplyCode reply = prot.analyzeReply();
+
+            if (reply.getException() instanceof FileSystemException) {
+                throw reply.getException();
+            }
+
         return null;
     }
 }

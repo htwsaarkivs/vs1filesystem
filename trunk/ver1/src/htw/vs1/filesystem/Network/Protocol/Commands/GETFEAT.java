@@ -39,14 +39,6 @@ public class GETFEAT extends AbstractCommand {
 
     @Override
     public ClientReply invoke(ClientProtocol prot, String... parameters) throws FileSystemException {
-        try {
-            prot.putLine(COMMAND_STRING);
-            prot.readLine();
-            prot.getCurrentLine();
-            return null;
-        } catch(Exception e) {
-
-        }
         return null;
 
 
