@@ -3,9 +3,7 @@ package htw.vs1.filesystem.Network.Discovery;
 import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.Network.TCPParallelServer;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Felix on 22.09.2015.
@@ -26,10 +24,13 @@ public class DiscoveryManager {
 
     private DiscoveryListener listener;
 
+    private List<DiscoveredServersObserver> observers = new LinkedList<>();
+
     private DiscoveryManager() {
     }
 
     public void add(@NotNull String host, int port, @NotNull String hostName) {
+        notifyDataSetChanged();
         discoveredServerInstances.add(new FileSystemServer(host, port, hostName));
     }
 
@@ -74,8 +75,23 @@ public class DiscoveryManager {
     public void deleteOutdatedEntries() {
         for (FileSystemServer server : discoveredServerInstances) {
             if (server.isOutdated()) {
+                notifyDataSetChanged();
                 discoveredServerInstances.remove(server);
             }
         }
+    }
+
+    protected void notifyDataSetChanged() {
+        for (DiscoveredServersObserver observer : observers) {
+            observer.discoveredServersUpdated();
+        }
+    }
+
+    public void attachObserver(DiscoveredServersObserver observer) {
+        observers.add(observer);
+    }
+
+    public void detachObserver(DiscoveredServersObserver observer) {
+        observers.remove(observer);
     }
 }
