@@ -44,6 +44,7 @@ public class FileSystemServer {
     public FileSystemServer(@NotNull String host, int port, @NotNull String hostName) {
         this.host = host;
         this.port = port;
+        this.hostName = hostName;
         this.discoveryTime = new Date();
     }
 
