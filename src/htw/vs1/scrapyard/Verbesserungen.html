@@ -1,0 +1,45 @@
+Mögliche Fehlerfälle:
+
+
+Problem: Remote- Ordner bei Rechner B gelöscht, während Rechner A drauf zugreift
+
+Lösung: Springe in Root- Ordner
+
+
+Problem: Remote- Ordner bei Rechner B gelöscht, während Rechner A sich darin oder in einem Unterordner befindet
+
+Lösung: Springe in Root- Ordner
+
+
+Problem: Jemand löscht den Root Ordner
+
+Lösung: Root darf sich nicht löschen lassen
+
+
+Problem: User B sperrt Rechte von einem Ordner oder Oberordner, in dem sich User A befindet
+
+Lösung: A springt in den Root- Ordner zurück
+
+
+Problem: User A möchte ein change directory in einen durch B gesperrten Ordner ausführen
+
+Lösung: Ausgabe von "Access Denied"
+
+
+Problem: User A führt ein ls bei User B aus, der aber zum Lesen gesperrte Ordner besitzt
+
+Lösung: Diese Ordner werden nicht angezeigt
+
+
+Problem: B stoppt Server, während A noch darauf zugreift
+
+Lösung: A kommt wieder in den Root- Ordner
+
+
+Problem: Es wird 2- mal versucht einen Server zu starten
+
+Lösung: Ist der Server schon gestartet, so geschieht nichts
+
+Problem: Der Server ist noch nicht gestartet und ein Stop- Kommando wird ausgeführt
+
+Lösung: Es passiert nichts
