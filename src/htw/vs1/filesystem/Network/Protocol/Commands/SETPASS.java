@@ -3,12 +3,14 @@ package htw.vs1.filesystem.Network.Protocol.Commands;
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolUnexpectedServerBehaviour;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.*;
 import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.SimpleServerProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
+import htw.vs1.filesystem.Network.Protocol.SimpleProtocol;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 
 /**
@@ -59,9 +61,16 @@ public class SETPASS extends AbstractCommand {
             prot.putLine(getCommandString(COMMAND_STRING, parameters));
             ReplyCode reply = prot.analyzeReply();
 
-            if (reply.getException() instanceof FileSystemException) {
+            if (reply.getException() != null) {
                 throw reply.getException();
             }
+
+            if (reply.getCode() != ReplyCode220.CODE) {
+                throw new SimpleProtocolUnexpectedServerBehaviour();
+            }
+
+            //Ab hier eingeloggt
+            prot.setState(SimpleProtocolState.AUTHENTICATED);
 
         return null;
     }

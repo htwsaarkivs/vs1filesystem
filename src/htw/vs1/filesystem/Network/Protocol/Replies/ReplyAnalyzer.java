@@ -9,6 +9,13 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Codes.*;
  */
 public class ReplyAnalyzer {
 
+
+    /**
+     * Issues readLine()  !!
+     * @param proto
+     * @return
+     * @throws SimpleProtocolFatalError
+     */
     public ReplyCode parseServerReply(ClientProtocol proto) throws SimpleProtocolFatalError {
         proto.readLine();
         String currentLine = proto.getCurrentLine();

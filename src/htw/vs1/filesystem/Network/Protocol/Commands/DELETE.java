@@ -47,7 +47,7 @@ public class DELETE extends AbstractCommand {
         prot.putLine(getCommandString(COMMAND_STRING, parameters));
         ReplyCode reply = prot.analyzeReply();
 
-        if (reply.getException() instanceof FileSystemException) {
+        if (reply.getException() != null) {
             throw reply.getException();
         }
 

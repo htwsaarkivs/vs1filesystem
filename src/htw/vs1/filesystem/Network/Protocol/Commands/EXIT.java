@@ -3,9 +3,11 @@ package htw.vs1.filesystem.Network.Protocol.Commands;
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode100;
+import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode510;
 import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.SimpleServerProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
@@ -19,19 +21,23 @@ public class EXIT extends AbstractCommand {
 
     @Override
     public ServerReply execute(ServerProtocol prot, RequestList requestList) {
-        return new SimpleServerProtocolReply(new ReplyCode100("GOODBYE"), this);
+        new SimpleServerProtocolReply(new ReplyCode100("GOODBYE"), this).putReply(prot);
+        return new SimpleServerProtocolReply(new ReplyCode510(), this);
     }
 
     @Override
     public ClientReply invoke(ClientProtocol prot, String... parameters) throws FileSystemException {
         prot.putLine(getCommandString(COMMAND_STRING, parameters));
-        try {
-            ReplyCode reply = prot.analyzeReply();
-            if (reply.getCode() == ReplyCode100.CODE) {
-                // TODO: YOO alles cool, sonst halt fehler...
-            }
-        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-            simpleProtocolFatalError.printStackTrace();
+        ReplyCode reply = prot.analyzeReply();
+
+        if (reply.getException() != null) {
+            throw reply.getException();
+        }
+
+        reply = prot.analyzeReply();
+
+        if (reply.getException() != null) {
+            throw reply.getException();
         }
 
         return null;
