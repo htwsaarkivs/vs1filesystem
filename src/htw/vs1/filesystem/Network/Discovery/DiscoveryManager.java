@@ -18,7 +18,7 @@ public class DiscoveryManager {
         return mInstance;
     }
 
-    private Set<FileSystemServer> discoveredServerInstances = new HashSet<>();
+    private HashSet<FileSystemServer> discoveredServerInstances = new HashSet<>();
 
     private int currentSetHash = 0;
 
@@ -71,7 +71,15 @@ public class DiscoveryManager {
 
     public void add(@NotNull String host, int port, @NotNull String hostName) {
         saveCurrentSetState();
+
+        // TODO: ist nicht wirklich effizient. bessere methode ??
+
+        FileSystemServer newObject = new FileSystemServer(host, port, hostName);
+        if (discoveredServerInstances.contains(newObject)) {
+            discoveredServerInstances.remove(newObject);
+        }
         discoveredServerInstances.add(new FileSystemServer(host, port, hostName));
+
         notifyDataSetChanged();
     }
 
