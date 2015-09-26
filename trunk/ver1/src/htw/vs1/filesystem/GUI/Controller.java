@@ -293,7 +293,7 @@ public class Controller implements Initializable {
         listViewTabServer.setCellFactory(new Callback<ListView<FileSystemServer>, ListCell<FileSystemServer>>() {
             @Override
             public ListCell<FileSystemServer> call(ListView<FileSystemServer> param) {
-                ListCell<FileSystemServer> cell = new ListCell<FileSystemServer>() {
+                return new ListCell<FileSystemServer>() {
                     @Override
                     protected void updateItem(FileSystemServer item, boolean empty) {
                         super.updateItem(item, empty);
@@ -304,7 +304,6 @@ public class Controller implements Initializable {
                         }
                     }
                 };
-                return cell;
             }
         });
         tabPane.getSelectionModel().select(tabServer);

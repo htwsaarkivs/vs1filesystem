@@ -48,7 +48,7 @@ public class SEARCH extends AbstractCommand {
 
     @Override
     public ClientReply invoke(ClientProtocol prot, String... parameters) throws FileSystemException {
-        prot.putLine(COMMAND_STRING);
+        prot.putLine(getCommandString(COMMAND_STRING, parameters));
         ReplyCode reply = prot.analyzeReply();
 
         if (reply.getException() != null) {
