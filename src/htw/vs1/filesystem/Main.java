@@ -30,7 +30,7 @@ public class Main {
     /**
      * Prints the programme usage.
      */
-    private static void usage() {
+    public static void usage() {
         System.out.println("Usage:");
         System.out.println("Main <path to working folder>");
         System.exit(1);

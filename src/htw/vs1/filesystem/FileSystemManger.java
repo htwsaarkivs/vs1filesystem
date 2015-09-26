@@ -1,5 +1,6 @@
 package htw.vs1.filesystem;
 
+import htw.vs1.filesystem.FileSystem.physical.PhysicalFileSystemAdapter;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 import htw.vs1.filesystem.Network.Discovery.DiscoveredServersObserver;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
@@ -49,6 +50,7 @@ public class FileSystemManger {
 
     public void stopFileSystemServer() {
         TCPParallelServer.getInstance(serverPort).stopServer();
+        PhysicalFileSystemAdapter.getInstance().stopWatchService();
     }
 
     public void loadFileSystem(String pathToLocalFolder) {
