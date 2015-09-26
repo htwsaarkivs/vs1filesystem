@@ -157,7 +157,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
     }
 
     @Override
-    public LinkedList<FSObject> search(LinkedList<FSObject> list, String name) {
+    public List<FSObject> search(List<FSObject> list, String name) throws FileSystemException {
         for (FSObject object : getContent()) {
             if (object.getName().equals(name)) {
                 list.add(object);

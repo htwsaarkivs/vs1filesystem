@@ -99,26 +99,30 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
     @Override
     public List<FSObject> getContent() throws FileSystemException {
         List<String> result = tcpClient.listFolderContent();
+        return toFSObjects(result);
+    }
 
+    /**
+     * Converts a textual File-List representation into a list of File System Objects
+     * @param list
+     * @return
+     */
+    private List<FSObject> toFSObjects(List<String> list) throws FileSystemException {
         List<FSObject> fileList = new LinkedList<>();
 
-        for (String line : result) {
+        for (String line : list) {
             String[] lineArr = line.split("\t");
             if (lineArr.length < 2) continue;
             String name = lineArr[0];
             String type = lineArr[1];
             FSObject object;
 
-            try {
-                if (Objects.equals(type, LS.FOLDER)) {
-                    object = new RemoteFolder(name, tcpClient, this);
-                } else {
-                    object = new RemoteFile(name, tcpClient, this);
-                }
-                fileList.add(object);
-            } catch (FileSystemException e) {
-                e.printStackTrace();
+            if (Objects.equals(type, LS.FOLDER)) {
+                object = new RemoteFolder(name, tcpClient, this);
+            } else {
+                object = new RemoteFile(name, tcpClient, this);
             }
+            fileList.add(object);
 
         }
 
@@ -167,9 +171,11 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
     }
 
     @Override
-    public LinkedList<FSObject> search(LinkedList<FSObject> list, String name) {
-        throw new NotImplementedException();
+    public List<FSObject> search(List<FSObject> list, String name) throws FileSystemException{
+        List<String> result = tcpClient.search(name);
+        return toFSObjects(result);
     }
+
 
     public void changeDir() throws FileSystemException {
         tcpClient.changeDirectory(remoteAbsolutePath);

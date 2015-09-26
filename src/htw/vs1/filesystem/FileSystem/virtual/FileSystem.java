@@ -189,7 +189,7 @@ public class FileSystem implements FileSystemInterface {
      * @return a {@link List} of {@link FSObject}s matching to the given name.
      */
     @Override
-    public List<FSObject> search(String name) {
+    public List<FSObject> search(String name) throws FileSystemException{
         LinkedList<FSObject> result = new LinkedList<>();
         workingFolder.search(result, name);
         return result;

@@ -87,4 +87,9 @@ public interface Command {
         Command cmd = new RENAME();
         return cmd.invoke(clientProtocol, name, newName);
     }
+
+    static ClientReply SEARCH(SimpleClientProtocol clientProtocol, String name) throws FileSystemException {
+        Command cmd = new SEARCH();
+        return cmd.invoke(clientProtocol, name);
+    }
 }
