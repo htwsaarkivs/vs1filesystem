@@ -34,13 +34,14 @@ public class PWD extends AbstractCommand {
     @Override
     public ClientReply invoke(ClientProtocol prot, String... parameters) throws FileSystemException {
         prot.putLine(getCommandString(COMMAND_STRING, parameters));
-        try {
-            ReplyCode reply = prot.analyzeReply();
-            if (reply.getCode() == ReplyCode219.CODE) {
-                // TODO: Rückgabe und Fehler...
-            }
-        } catch (SimpleProtocolFatalError simpleProtocolFatalError) {
-            simpleProtocolFatalError.printStackTrace();
+        ReplyCode reply = prot.analyzeReply();
+
+        if (reply.getException() instanceof FileSystemException) {
+            throw reply.getException();
+        }
+
+        if (reply.getCode() != ReplyCode210.CODE) {
+
         }
         return null;
     }
