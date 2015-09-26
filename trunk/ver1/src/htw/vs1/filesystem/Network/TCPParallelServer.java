@@ -46,14 +46,14 @@ public class TCPParallelServer extends Thread implements ServerInterface {
             return;
         }
         path = args[0];
-        getInstance().startSingleServer = true;
-        getInstance().run();
+        getInstance(DEFAULT_PORT).startSingleServer = true;
+        getInstance(DEFAULT_PORT).run();
 
     }
 
-    public static TCPParallelServer getInstance() {
+    public static TCPParallelServer getInstance(int port) {
         if (INSTANCE == null) {
-            INSTANCE = new TCPParallelServer(DEFAULT_PORT);
+            INSTANCE = new TCPParallelServer(port);
         }
         return  INSTANCE;
     }

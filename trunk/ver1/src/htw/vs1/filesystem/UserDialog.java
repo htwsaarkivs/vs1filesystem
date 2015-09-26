@@ -5,6 +5,7 @@ import htw.vs1.filesystem.FileSystem.exceptions.*;
 import htw.vs1.filesystem.FileSystem.physical.PhysicalFileSystemAdapter;
 import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
+import htw.vs1.filesystem.Network.Discovery.DiscoveredServersObserver;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
 import htw.vs1.filesystem.Network.TCPParallelServer;
 
@@ -200,7 +201,21 @@ public class
     }
 
     public void showDialog() {
-        fileSystem.startDiscoveryListener(true);
+        FileSystemManger.getInstance().startDiscoveryListener(true);
+
+        FileSystemManger.getInstance().attachDiscoveredServersObserver(new DiscoveredServersObserver() {
+            @Override
+            public void discoveredServersUpdated() {
+                Collection<FileSystemServer> servers = FileSystemManger.getInstance().listAvailableFileSystemServers();
+                if (servers.isEmpty()) {
+                    System.out.println("No file system servers available.");
+                } else {
+                    servers.forEach(System.out::println);
+                }
+                System.out.print(NEW_LINE);
+            }
+        }, true);
+
         while (true) {
             Command command = promptForCommand();
 
@@ -217,7 +232,7 @@ public class
             }
         }
 
-        fileSystem.startDiscoveryListener(false);
+        FileSystemManger.getInstance().startDiscoveryListener(false);
         PhysicalFileSystemAdapter.getInstance().stopWatchService();
     }
 
@@ -231,13 +246,21 @@ public class
     private boolean executeCommand(Command command) throws FileSystemException {
         switch (command) {
             case START_SERVER:
-                TCPParallelServer.getInstance().start();
+                int port = TCPParallelServer.DEFAULT_PORT;
+                if (command.hasParams() && command.getParams().length == 1) {
+                    try {
+                        port = Integer.parseInt(command.getParams()[0]);
+                    } catch (NumberFormatException e) {
+                        // dann nimm default port...
+                    }
+                }
+                FileSystemManger.getInstance().startFileSystemServer(port);
                 break;
             case STOP_SERVER:
-                TCPParallelServer.getInstance().stopServer();
+                FileSystemManger.getInstance().stopFileSystemServer();
                 break;
             case LIST_SERVERS:
-                Collection<FileSystemServer> servers = fileSystem.listAvailableFileSystemServers();
+                Collection<FileSystemServer> servers = FileSystemManger.getInstance().listAvailableFileSystemServers();
                 if (servers.isEmpty()) {
                     System.out.println("No file system servers available.");
                 } else {

@@ -50,7 +50,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      * Add a FSObject to the folder.
      *
      * @param object {@link FSObject} to add to this folder.
-     * @throws FileAlreadyExistsException iff the file already exists.
+     * @throws FileSystemException iff the file already exists.
      */
     @Override
     public void add(FSObject object) throws FileSystemException {
