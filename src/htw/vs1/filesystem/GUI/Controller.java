@@ -189,7 +189,6 @@ public class Controller implements Initializable {
     }
 
     public void initiateFilesystem () throws IOException {
-     //   LocalFolder.setRootDirectory("C:\\test");
         fileSystem = new FileSystem(true);
 
         listDirectoryContent();
@@ -299,7 +298,7 @@ public class Controller implements Initializable {
                     protected void updateItem(FileSystemServer item, boolean empty) {
                         super.updateItem(item, empty);
                         if (item != null) {
-                            setText(item.toString());
+                            setText(item.getHostName() + " (" + item.toString() + ")");
                         } else {
                             setText("");
                         }
