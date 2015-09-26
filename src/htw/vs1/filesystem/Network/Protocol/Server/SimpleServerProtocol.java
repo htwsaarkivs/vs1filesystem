@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Server;
 
+import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
 import htw.vs1.filesystem.Main;
 import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
@@ -54,7 +55,7 @@ public class SimpleServerProtocol extends SimpleProtocol implements ServerProtoc
                 ServerReply reply = analyzer.parseCommand(this);
                 reply.putReply(this);
                 if (reply.terminatesConnection()) throw new SimpleProtocolTerminateConnection();
-            } catch (Exception e) {
+            } catch (FileSystemException e) {
                 putLine("Connection terminated: " + e.toString());
                 e.printStackTrace();
                 break;

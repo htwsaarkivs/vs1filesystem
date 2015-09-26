@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Replies.Codes;
 
+import htw.vs1.filesystem.Network.Protocol.Replies.Type.SimpleProtocolReplyType;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
 /**
@@ -7,6 +8,8 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
  */
 public class ReplyCode410 extends ReplyCode {
 
+
+    public static final Type REPLY_TYPE = SimpleProtocolReplyType.ERROR;
     public ReplyCode410() {
         this.message = "LOGIN FAILED";
     }

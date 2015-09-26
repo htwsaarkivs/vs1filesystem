@@ -4,6 +4,7 @@ import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolUnexpectedServerBehaviour;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode100;
@@ -36,8 +37,8 @@ public class EXIT extends AbstractCommand {
 
         reply = prot.analyzeReply();
 
-        if (reply.getException() != null) {
-            throw reply.getException();
+        if (reply.getCode() != ReplyCode510.CODE) {
+            throw new SimpleProtocolUnexpectedServerBehaviour();
         }
 
         return null;
