@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
+import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolUnexpectedServerBehaviour;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
@@ -11,6 +12,8 @@ import htw.vs1.filesystem.Network.Protocol.Replies.SimpleServerProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
+
+import java.util.List;
 
 /**
  * Created by markus on 06.09.15.
@@ -30,16 +33,24 @@ public class SEARCH extends AbstractCommand {
                     new ReplyCode401(COMMAND_STRING + " must have exactly one arguments"),
                     this);
 
+        //Beginn der Liste
+        new SimpleServerProtocolReply(new ReplyCode210(), this).putReply(prot);
+
         try {
-            prot.getFileSystem().search(
+            List<FSObject> list = prot.getFileSystem().search(
                     requestList
                             .getCurrentElement()
                             .getArguments()
                             .get(0)
             );
+
+            String ret = LS.toProtString(list);
+            prot.putLine(ret);
+
         } catch (FileSystemException e) {
             return new SimpleServerProtocolReply(e.getReplyCode(), this);
         }
+
 
 
         return new SimpleServerProtocolReply(new ReplyCode219(), this);

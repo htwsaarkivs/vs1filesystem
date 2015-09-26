@@ -44,6 +44,16 @@ public class LS extends AbstractCommand {
             );
         }
 
+        String ret = toProtString(list);
+
+
+        new SimpleServerProtocolReply(new ReplyCode210(), this).putReply(prot);
+        prot.putLine(ret);
+
+        return new SimpleServerProtocolReply(new ReplyCode219(), this);
+    }
+
+    static public String toProtString(List<FSObject> list) {
         StringBuilder buf = new StringBuilder();
 
         for (FSObject obj: list) {
@@ -60,12 +70,7 @@ public class LS extends AbstractCommand {
             }
             buf.append("\n");
         }
-
-
-        new SimpleServerProtocolReply(new ReplyCode210(), this).putReply(prot);
-        prot.putLine(buf.toString());
-
-        return new SimpleServerProtocolReply(new ReplyCode219(), this);
+        return buf.toString();
     }
 
     @Override
