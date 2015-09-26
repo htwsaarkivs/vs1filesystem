@@ -2,17 +2,26 @@ package htw.vs1.filesystem.GUI;
 
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
-import htw.vs1.filesystem.FileSystem.virtual.*;
+import htw.vs1.filesystem.FileSystem.virtual.FSObject;
+import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
+import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
+import htw.vs1.filesystem.FileSystem.virtual.Folder;
+import htw.vs1.filesystem.Network.Discovery.DiscoveredServersObserver;
+import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
+import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
 import htw.vs1.filesystem.Network.TCPParallelServer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -46,11 +55,16 @@ public class Controller implements Initializable {
     @FXML
     private Tab tabSearch;
     @FXML
+    private Tab tabServer;
+    @FXML
     private TabPane tabPane;
+    @FXML
+    private ListView<FileSystemServer> listViewTabServer;
 
     private ObservableList<FileType> currentDirectory = FXCollections.observableArrayList();
     private ObservableList<SearchItem> searchResults = FXCollections.observableArrayList();
     private ObservableList<String> logEntry;
+    private ObservableList<FileSystemServer> serverEntrys = FXCollections.observableArrayList();
 
     private FileSystemInterface fileSystem;
 
@@ -174,9 +188,9 @@ public class Controller implements Initializable {
     }
 
     public void initiateFilesystem () throws IOException {
-        LocalFolder.setRootDirectory("C:\\test");
+     //   LocalFolder.setRootDirectory("C:\\test");
         fileSystem = new FileSystem(true);
-
+        fileSystem.startDiscoveryListener(true);
         TCPParallelServer.getInstance().start();
 
         listDirectoryContent();
@@ -274,5 +288,59 @@ public class Controller implements Initializable {
          */
         tableColumnSearchName.setCellValueFactory(cellData -> cellData.getValue().fileNameProperty());
         tableColumnSearchDirectory.setCellValueFactory(cellData -> cellData.getValue().pathProperty());
+
+
+        refreshServerList();
+        listViewTabServer.setItems(serverEntrys);
+        listViewTabServer.setCellFactory(new Callback<ListView<FileSystemServer>, ListCell<FileSystemServer>>() {
+            @Override
+            public ListCell<FileSystemServer> call(ListView<FileSystemServer> param) {
+                ListCell<FileSystemServer> cell = new ListCell<FileSystemServer>() {
+                    @Override
+                    protected void updateItem(FileSystemServer item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            setText(item.toString());
+                        } else {
+                            setText("");
+                        }
+                    }
+                };
+                return cell;
+            }
+        });
+        tabPane.getSelectionModel().select(tabServer);
+        DiscoveryManager.getInstance().attachObserver(new DiscoveredServersObserver() {
+            @Override
+            public void discoveredServersUpdated() {
+                refreshServerList();
+            }
+        });
+
+       listViewTabServer.setOnMouseClicked(new EventHandler<MouseEvent>() {
+           @Override
+           public void handle(MouseEvent event) {
+               if (event.getClickCount() == 2){
+                   FileSystemServer currentItem = listViewTabServer.getSelectionModel().getSelectedItem();
+                   try {
+                       fileSystem.mount(
+                               currentItem.getHostName(), currentItem.getHost(), currentItem.getPort(),
+                               TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
+                   } catch (FileSystemException e) {
+                       showErrorMessage(e);
+                   }
+                   refreshServerList();
+               }
+           }
+       });
+
+
     }
+
+    private void refreshServerList() {
+        serverEntrys.clear();
+        serverEntrys.addAll(fileSystem.listAvailableFileSystemServers());
+    }
+
+
 }
