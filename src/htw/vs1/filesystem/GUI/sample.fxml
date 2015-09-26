@@ -59,6 +59,11 @@
                   <Tooltip fx:id="TooltipHomeBtn" text="Home" textAlignment="CENTER" />
                </tooltip>
             </Button>
+            <Button fx:id="mountBtn" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0">
+               <tooltip>
+                  <Tooltip fx:id="tooltipMount" text="Mount" textAlignment="CENTER" />
+               </tooltip>
+            </Button>
             <Button fx:id="createDirBtn" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#createDir" prefHeight="37.0" prefWidth="37.0">
                <font>
                   <Font size="10.0" />
