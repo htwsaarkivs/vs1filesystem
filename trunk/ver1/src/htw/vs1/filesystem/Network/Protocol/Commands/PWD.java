@@ -2,17 +2,21 @@ package htw.vs1.filesystem.Network.Protocol.Commands;
 
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
+import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolUnexpectedServerBehaviour;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode210;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode219;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode406;
 import htw.vs1.filesystem.Network.Protocol.Replies.ServerReply;
+import htw.vs1.filesystem.Network.Protocol.Replies.SimpleClientProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.SimpleServerProtocolReply;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 /**
  * Created by Hendrik on 18.06.2015.
@@ -33,16 +37,39 @@ public class PWD extends AbstractCommand {
 
     @Override
     public ClientReply invoke(ClientProtocol prot, String... parameters) throws FileSystemException {
+
+        String currentPath;
+
         prot.putLine(getCommandString(COMMAND_STRING, parameters));
+        //Anfang LISTE
         ReplyCode reply = prot.analyzeReply();
 
-        if (reply.getException() instanceof FileSystemException) {
+        if (reply.getException() != null) {
             throw reply.getException();
         }
 
         if (reply.getCode() != ReplyCode210.CODE) {
-
+            throw new SimpleProtocolUnexpectedServerBehaviour();
         }
-        return null;
+
+        //INHALT
+        prot.readLine();
+        currentPath = prot.getCurrentLine();
+
+        //ENDE LISTE
+        reply = prot.analyzeReply();
+
+        if (reply.getException() != null) {
+            throw reply.getException();
+        }
+
+        if (reply.getCode() != ReplyCode219.CODE) {
+            throw new SimpleProtocolUnexpectedServerBehaviour();
+        }
+
+        SimpleClientProtocolReply clientReply = new SimpleClientProtocolReply();
+        clientReply.feedLine(currentPath);
+
+        return clientReply;
     }
 }

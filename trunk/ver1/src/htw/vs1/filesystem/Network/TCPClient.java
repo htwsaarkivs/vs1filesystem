@@ -33,26 +33,21 @@ public class TCPClient {
     }
 
     public TCPClient(String ip, int port, String user, String pass) throws FileSystemException {
-        try {
-            this.user = user;
-            this.pass = pass;
-            clientProtocol = new SimpleClientProtocol(new Socket(ip, port));
-            clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
-            clientProtocol.setState(SimpleProtocolState.READY);
-
-        } catch (SimpleProtocolInitializationErrorException | IOException | SimpleProtocolFatalError e) {
-            throw new FSRemoteException("Connection error.");
-        }
+            try {
+                this.user = user;
+                this.pass = pass;
+                clientProtocol = new SimpleClientProtocol(new Socket(ip, port));
+                clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
+                clientProtocol.setState(SimpleProtocolState.READY);
+            } catch (IOException e) {
+                throw new SimpleProtocolInitializationErrorException();
+            }
     }
 
     private void authenticate(String user, String pass) throws FileSystemException {
             ClientReply reply;
             reply = Command.SetUser(clientProtocol, user);
             reply = Command.SetPass(clientProtocol, pass);
-
-            //At the moment any combination of User/PW is correct.
-            //Therefore it is safe to assume...
-            clientProtocol.setState(SimpleProtocolState.AUTHENTICATED);
     }
 
     private void checkAuthStatusTryToLoginIfNecessary() throws FileSystemException {

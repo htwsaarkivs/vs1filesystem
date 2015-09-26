@@ -77,7 +77,7 @@ public class LS extends AbstractCommand {
 
 
         //Antwort analysieren. Nein IntelliJ ich will hier checken, ob es sich um eine korrekte Excpetion handelt.
-        if (reply.getException() instanceof FileSystemException) {
+        if (reply.getException() != null) {
             throw reply.getException();
         }
 
@@ -91,8 +91,7 @@ public class LS extends AbstractCommand {
         return getReplyData(prot, result);
     }
 
-    private SimpleClientProtocolReply getReplyData(ClientProtocol prot, SimpleClientProtocolReply result) throws SimpleProtocolFatalError {
-
+    public static SimpleClientProtocolReply getReplyData(ClientProtocol prot, SimpleClientProtocolReply result) throws SimpleProtocolFatalError {
         boolean read = true;
 
         while(read) {

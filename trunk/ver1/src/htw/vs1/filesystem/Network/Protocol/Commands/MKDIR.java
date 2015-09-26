@@ -5,6 +5,7 @@ import htw.vs1.filesystem.FileSystem.exceptions.FSRemoteException;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolUnexpectedServerBehaviour;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode219;
@@ -57,8 +58,12 @@ public class MKDIR extends AbstractCommand {
         prot.putLine(getCommandString(COMMAND_STRING, parameters));
         ReplyCode reply = prot.analyzeReply();
 
-        if (reply.getException() instanceof FileSystemException) {
+        if (reply.getException() != null) {
             throw reply.getException();
+        }
+
+        if (reply.getCode() != ReplyCode219.CODE) {
+            throw new SimpleProtocolUnexpectedServerBehaviour();
         }
 
         return null;

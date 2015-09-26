@@ -4,6 +4,7 @@ import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.Network.Protocol.Client.ClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolUnexpectedServerBehaviour;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode300;
@@ -49,8 +50,12 @@ public class SETUSER extends AbstractCommand {
             //Antwort anlaysieren
             ReplyCode reply = prot.analyzeReply();
 
-            if(reply.getException() instanceof FileSystemException) {
+            if(reply.getException() != null) {
                 throw reply.getException();
+            }
+
+            if (reply.getCode() != ReplyCode300.CODE) {
+                throw new SimpleProtocolUnexpectedServerBehaviour();
             }
 
             return null;
