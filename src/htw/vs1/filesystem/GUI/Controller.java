@@ -216,7 +216,7 @@ public class Controller implements Initializable {
 
     public void showErrorMessage(Throwable e){
         Alert alert  = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(e.getMessage());
+        alert.setContentText(e.getClass().getSimpleName() + ": " + e.getMessage());
         alert.showAndWait();
     }
 
