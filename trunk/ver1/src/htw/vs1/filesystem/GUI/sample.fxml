@@ -51,7 +51,7 @@
       </MenuBar>
       <ToolBar fx:id="toolBarButtons" VBox.vgrow="ALWAYS">
         <items>
-          <Button fx:id="homeBtn" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0">
+          <Button fx:id="homeBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0">
                <font>
                   <Font size="10.0" />
                </font>
@@ -59,12 +59,12 @@
                   <Tooltip fx:id="TooltipHomeBtn" text="Home" textAlignment="CENTER" />
                </tooltip>
             </Button>
-            <Button fx:id="mountBtn" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0">
+            <Button fx:id="mountBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0">
                <tooltip>
                   <Tooltip fx:id="tooltipMount" text="Mount" textAlignment="CENTER" />
                </tooltip>
             </Button>
-            <Button fx:id="createDirBtn" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#createDir" prefHeight="37.0" prefWidth="37.0">
+            <Button fx:id="createDirBtn" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#createDir" prefHeight="30.0" prefWidth="30.0">
                <font>
                   <Font size="10.0" />
                </font>
@@ -72,7 +72,7 @@
                   <Tooltip fx:id="TooltipCreateDirectory" text="Create new Directory" textAlignment="CENTER" />
                </tooltip>
             </Button>
-            <Button fx:id="createFileBtn" layoutX="57.0" layoutY="14.0" mnemonicParsing="false" onAction="#createFile" prefHeight="37.0" prefWidth="37.0">
+            <Button fx:id="createFileBtn" layoutX="57.0" layoutY="14.0" mnemonicParsing="false" onAction="#createFile" prefHeight="30.0" prefWidth="30.0">
                <font>
                   <Font size="10.0" />
                </font>
@@ -80,7 +80,7 @@
                   <Tooltip fx:id="TooltipCreateFile" text="Create new File" textAlignment="CENTER" />
                </tooltip>
             </Button>
-            <Button fx:id="renameBtn" layoutX="147.0" layoutY="14.0" mnemonicParsing="false" onAction="#rename" prefHeight="37.0" prefWidth="37.0">
+            <Button fx:id="renameBtn" layoutX="147.0" layoutY="14.0" mnemonicParsing="false" onAction="#rename" prefHeight="30.0" prefWidth="30.0">
                <font>
                   <Font size="10.0" />
                </font>
@@ -88,7 +88,7 @@
                   <Tooltip fx:id="TooltipRename" text="Rename" textAlignment="CENTER" />
                </tooltip>
             </Button>
-            <Button fx:id="deleteBtn" layoutX="212.0" layoutY="14.0" mnemonicParsing="false" onAction="#delete" prefHeight="37.0" prefWidth="37.0">
+            <Button fx:id="deleteBtn" layoutX="212.0" layoutY="14.0" mnemonicParsing="false" onAction="#delete" prefHeight="30.0" prefWidth="30.0">
                <font>
                   <Font size="10.0" />
                </font>
@@ -100,10 +100,7 @@
       </ToolBar>
       <HBox>
          <children>
-            <Label fx:id="labelDirectory" minWidth="50.0" prefWidth="50.0" text="Directory:">
-               <font>
-                  <Font size="10.0" />
-               </font>
+            <Label fx:id="labelDirectory" minWidth="50.0" prefHeight="21.0" prefWidth="67.0" text="Directory:">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -111,15 +108,8 @@
                   <Insets bottom="2.0" left="5.0" top="2.0" />
                </padding>
             </Label>
-            <TextField fx:id="textFieldDirectory" layoutX="43.0" maxHeight="20.0" minHeight="20.0" minWidth="200.0" prefHeight="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </TextField>
+            <TextField fx:id="textFieldDirectory" layoutX="43.0" maxHeight="20.0" minHeight="20.0" minWidth="200.0" prefHeight="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS" />
             <TextField fx:id="textFieldSearch" layoutX="653.0" maxHeight="20.0" minHeight="20.0" minWidth="150.0" onAction="#search" prefHeight="20.0" promptText="Search">
-               <font>
-                  <Font size="10.0" />
-               </font>
                <HBox.margin>
                   <Insets left="2.0" right="2.0" />
                </HBox.margin>
