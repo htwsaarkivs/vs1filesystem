@@ -83,7 +83,7 @@ public interface FileSystemInterface {
      * @param name name of the {@link FSObject} to search for.
      * @return a {@link List} of {@link FSObject}s matching to the given name.
      */
-    List<FSObject> search(String name);
+    List<FSObject> search(String name) throws FileSystemException;
 
     /**
      * Creates a new {@link FSObject} and adds it to the

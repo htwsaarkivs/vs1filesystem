@@ -30,12 +30,16 @@ public class SEARCH extends AbstractCommand {
                     new ReplyCode401(COMMAND_STRING + " must have exactly one arguments"),
                     this);
 
-        prot.getFileSystem().search(
-                requestList
-                        .getCurrentElement()
-                        .getArguments()
-                        .get(0)
-        );
+        try {
+            prot.getFileSystem().search(
+                    requestList
+                            .getCurrentElement()
+                            .getArguments()
+                            .get(0)
+            );
+        } catch (FileSystemException e) {
+            return new SimpleServerProtocolReply(e.getReplyCode(), this);
+        }
 
 
         return new SimpleServerProtocolReply(new ReplyCode219(), this);

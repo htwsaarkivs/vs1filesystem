@@ -1,4 +1,5 @@
 package htw.vs1.filesystem.Network;
+import com.sun.deploy.util.SessionState;
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.exceptions.FSRemoteException;
 import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
@@ -91,5 +92,11 @@ public class TCPClient {
         checkAuthStatusTryToLoginIfNecessary();
         ClientReply reply = Command.RENAME(clientProtocol, name, newName);
         return;
+    }
+
+    public List<String> search(String name) throws FileSystemException{
+        checkAuthStatusTryToLoginIfNecessary();
+        ClientReply reply = Command.SEARCH(clientProtocol, name);
+        return reply.getData();
     }
 }

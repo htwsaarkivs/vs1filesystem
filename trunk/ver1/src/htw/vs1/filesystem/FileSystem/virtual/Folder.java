@@ -71,6 +71,6 @@ public interface Folder extends FSObject {
      */
     FSObject getObject(String name) throws FileSystemException;
 
-    LinkedList<FSObject> search(LinkedList<FSObject> list, String name);
+    List<FSObject> search(List<FSObject> list, String name) throws FileSystemException;
 
 }
