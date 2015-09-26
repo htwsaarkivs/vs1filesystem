@@ -1,6 +1,6 @@
 package htw.vs1.scrapyard;
 
-public class LogEntry{
+/*public class LogEntry{
 
     private string logMessage;
 
@@ -38,3 +38,4 @@ public class Log{
         list.add(E e);
     }
 }
+*/
