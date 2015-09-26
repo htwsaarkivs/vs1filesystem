@@ -20,20 +20,6 @@ import java.util.List;
 public interface FileSystemInterface {
 
     /**
-     * Starts the background task listening for
-     * other file system server.
-     *
-     * @param start {@code true}, to start the listener service.
-     */
-    void startDiscoveryListener(boolean start);
-
-    /**
-     * Lists all discovered {@link FileSystemServer}s.
-     * @return
-     */
-    Collection<FileSystemServer> listAvailableFileSystemServers();
-
-    /**
      * Sets the given {@link Folder} as the working
      * directory.
      *

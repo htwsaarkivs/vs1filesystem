@@ -2,10 +2,7 @@ package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
-import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
-import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -72,20 +69,6 @@ public class FileSystem implements FileSystemInterface {
             this.rootFolder = workingFolder;
         }
         this.mountAllowed = mountAllowed;
-    }
-
-    @Override
-    public void startDiscoveryListener(boolean start) {
-        if (start) {
-            DiscoveryManager.getInstance().startListener();
-        } else {
-            DiscoveryManager.getInstance().stopListener();
-        }
-    }
-
-    @Override
-    public Collection<FileSystemServer> listAvailableFileSystemServers() {
-        return DiscoveryManager.getInstance().getDiscoveredServers();
     }
 
     /**

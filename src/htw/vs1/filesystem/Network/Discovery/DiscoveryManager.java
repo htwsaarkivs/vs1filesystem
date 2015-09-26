@@ -84,13 +84,13 @@ public class DiscoveryManager {
     }
 
     public void deleteOutdatedEntries() {
+        saveCurrentSetState();
         for (FileSystemServer server : discoveredServerInstances) {
             if (server.isOutdated()) {
-                saveCurrentSetState();
                 discoveredServerInstances.remove(server);
-                notifyDataSetChanged();
             }
         }
+        notifyDataSetChanged();
     }
 
     private void saveCurrentSetState() {

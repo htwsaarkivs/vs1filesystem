@@ -6,6 +6,7 @@ import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
 import htw.vs1.filesystem.FileSystem.virtual.Folder;
+import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Discovery.DiscoveredServersObserver;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
@@ -190,8 +191,6 @@ public class Controller implements Initializable {
     public void initiateFilesystem () throws IOException {
      //   LocalFolder.setRootDirectory("C:\\test");
         fileSystem = new FileSystem(true);
-        fileSystem.startDiscoveryListener(true);
-        TCPParallelServer.getInstance().start();
 
         listDirectoryContent();
 
@@ -339,7 +338,7 @@ public class Controller implements Initializable {
 
     private void refreshServerList() {
         serverEntrys.clear();
-        serverEntrys.addAll(fileSystem.listAvailableFileSystemServers());
+        serverEntrys.addAll(FileSystemManger.getInstance().listAvailableFileSystemServers());
     }
 
 
