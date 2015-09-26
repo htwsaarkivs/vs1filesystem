@@ -100,7 +100,7 @@
       </ToolBar>
       <HBox>
          <children>
-            <Label fx:id="labelDirectory" minWidth="50.0" prefHeight="21.0" prefWidth="67.0" text="Directory:">
+            <Label fx:id="labelDirectory" minWidth="50.0" prefHeight="21.0" prefWidth="59.0" text="Directory:">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
