@@ -2,6 +2,7 @@ package htw.vs1.filesystem.Network;
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Commands.Command;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 
@@ -21,21 +22,23 @@ public class TCPClient {
     private String user;
     private String pass;
 
+    private Socket socket;
+
     public TCPClient(String ip, int port, String user, String pass) throws FileSystemException {
             this.user = user;
             this.pass = pass;
             this.ip = ip;
             this.port = port;
-            connect();
     }
 
     private void connect() throws FileSystemException {
         try {
-            clientProtocol = new SimpleClientProtocol(new Socket(ip, port));
+            socket = new Socket(ip, port);
+            clientProtocol = new SimpleClientProtocol(socket);
             clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
             clientProtocol.setState(SimpleProtocolState.READY);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new SimpleProtocolInitializationErrorException();
         }
 
     }
@@ -46,6 +49,10 @@ public class TCPClient {
     }
 
     private void checkAuthStatusTryToLoginIfNecessary() throws FileSystemException {
+        if (null == clientProtocol || clientProtocol.getState().equals(SimpleProtocolState.IDLE)) {
+            connect();
+        }
+
         if (clientProtocol.getState() != SimpleProtocolState.AUTHENTICATED) {
             authenticate(this.user, this.pass);
         }

@@ -93,6 +93,7 @@ public abstract class SimpleProtocol implements Protocol {
             this.currentLine = bufferedReader.readLine();
 
         } catch (IOException e) {
+            setState(SimpleProtocolState.IDLE);
             throw new SimpleProtocolFatalError();
         }
     }
