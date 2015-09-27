@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -51,9 +52,9 @@
                   <Tooltip fx:id="TooltipHomeBtn" text="Home" textAlignment="CENTER" />
                </tooltip>
             </Button>
-            <Button fx:id="mountBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" onAction="#mount">
+            <Button fx:id="mountBtn" mnemonicParsing="false" onAction="#mount" prefHeight="30.0" prefWidth="30.0">
                <tooltip>
-                  <Tooltip fx:id="tooltipMount" text="Mount" textAlignment="CENTER" />
+                  <Tooltip fx:id="tooltipMount" text="Mount all" textAlignment="CENTER" />
                </tooltip>
             </Button>
             <Button fx:id="createDirBtn" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#createDir" prefHeight="30.0" prefWidth="30.0">
