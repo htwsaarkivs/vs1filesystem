@@ -6,6 +6,10 @@ import java.util.Enumeration;
 import java.util.List;
 
 /**
+ * The DiscoveryListener is a simple server listening on the
+ * udp broadcasting port keeping the list of nearby servers up
+ * to date.
+ *
  * Created by Felix on 20.09.2015.
  */
 public class DiscoveryListener extends DiscoveryThread {
