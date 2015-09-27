@@ -1,4 +1,4 @@
-#HomeBtn {
+#homeBtn {
 	-fx-background-image: url('images/Home/Home_024.png');
 	-fx-background-repeat: no-repeat;
 	-fx-background-position: center;
@@ -10,25 +10,25 @@
 	-fx-background-position: center;
 }
 
-#CreateDirBtn {
+#createDirBtn {
 	-fx-background-image: url('images/Folder_Add/Folder_Add_024.png');
 	-fx-background-repeat: no-repeat;
 	-fx-background-position: center;
 }
 
-#CreateFileBtn {
+#createFileBtn {
 	-fx-background-image: url('images/File_Add/File_Add_024.png');
 	-fx-background-repeat: no-repeat;
 	-fx-background-position: center;
 }
 
-#RenameBtn {
+#renameBtn {
 	-fx-background-image: url('images/Rename_blue/Rename_blue_024.png');
 	-fx-background-repeat: no-repeat;
 	-fx-background-position: center;
 }
 
-#DeleteBtn {
+#deleteBtn {
 	-fx-background-image: url('images/Delete/Delete_024.png');
 	-fx-background-repeat: no-repeat;
 	-fx-background-position: center;
