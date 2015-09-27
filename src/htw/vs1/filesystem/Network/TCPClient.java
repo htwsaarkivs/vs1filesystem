@@ -1,14 +1,8 @@
 package htw.vs1.filesystem.Network;
-import com.sun.deploy.util.SessionState;
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
-import htw.vs1.filesystem.FileSystem.exceptions.FSRemoteException;
 import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Commands.Command;
-import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
-import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
-import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolTerminateConnection;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
-import htw.vs1.filesystem.Network.Protocol.SimpleProtocol;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
 
 import java.io.*;
@@ -22,40 +16,39 @@ public class TCPClient {
 
     private SimpleClientProtocol clientProtocol;
 
-
+    private String ip;
+    private int port;
     private String user;
     private String pass;
 
-    //TODO: über Client regeln
-    private boolean isAuthenticated = false;
-
-    public TCPClient() throws FileSystemException {
-        this("localhost", TCPParallelServer.DEFAULT_PORT, TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
+    public TCPClient(String ip, int port, String user, String pass) throws FileSystemException {
+            this.user = user;
+            this.pass = pass;
+            this.ip = ip;
+            this.port = port;
+            connect();
     }
 
-    public TCPClient(String ip, int port, String user, String pass) throws FileSystemException {
-            try {
-                this.user = user;
-                this.pass = pass;
-                clientProtocol = new SimpleClientProtocol(new Socket(ip, port));
-                clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
-                clientProtocol.setState(SimpleProtocolState.READY);
-            } catch (IOException e) {
-                throw new SimpleProtocolInitializationErrorException();
-            }
+    private void connect() throws FileSystemException {
+        try {
+            clientProtocol = new SimpleClientProtocol(new Socket(ip, port));
+            clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
+            clientProtocol.setState(SimpleProtocolState.READY);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void authenticate(String user, String pass) throws FileSystemException {
-            ClientReply reply;
-            reply = Command.SetUser(clientProtocol, user);
-            reply = Command.SetPass(clientProtocol, pass);
+            Command.SetUser(clientProtocol, user);
+            Command.SetPass(clientProtocol, pass);
     }
 
     private void checkAuthStatusTryToLoginIfNecessary() throws FileSystemException {
         if (clientProtocol.getState() != SimpleProtocolState.AUTHENTICATED) {
             authenticate(this.user, this.pass);
         }
-        return;
     }
 
     public List<String> listFolderContent() throws FileSystemException {
@@ -66,32 +59,27 @@ public class TCPClient {
 
     public void changeDirectory(String remoteAbsolutePath) throws FileSystemException {
         checkAuthStatusTryToLoginIfNecessary();
-        ClientReply reply = Command.CD(clientProtocol, remoteAbsolutePath);
-        return;
+        Command.CD(clientProtocol, remoteAbsolutePath);
     }
 
     public void mkdir(String name) throws FileSystemException {
         checkAuthStatusTryToLoginIfNecessary();
-        ClientReply reply = Command.MKDIR(clientProtocol, name);
-        return;
+        Command.MKDIR(clientProtocol, name);
     }
 
     public void touch(String name) throws FileSystemException {
         checkAuthStatusTryToLoginIfNecessary();
-        ClientReply reply = Command.TOUCH(clientProtocol, name);
-        return;
+        Command.TOUCH(clientProtocol, name);
     }
 
     public void delete(String name) throws FileSystemException {
         checkAuthStatusTryToLoginIfNecessary();
-        ClientReply reply = Command.DELETE(clientProtocol, name);
-        return;
+        Command.DELETE(clientProtocol, name);
     }
 
     public void rename(String name, String newName) throws FileSystemException {
         checkAuthStatusTryToLoginIfNecessary();
-        ClientReply reply = Command.RENAME(clientProtocol, name, newName);
-        return;
+        Command.RENAME(clientProtocol, name, newName);
     }
 
     public List<String> search(String name) throws FileSystemException{
