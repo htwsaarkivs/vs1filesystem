@@ -5,11 +5,12 @@ import java.net.*;
 import java.util.Enumeration;
 
 /**
+ * The DiscoveryBroadcaster is responsible for announcing
+ * that there is a server running on the given port.
+ *
  * Created by Felix on 20.09.2015.
  */
 public class DiscoveryBroadcaster {
-
-    protected static final long BROADCAST_INTERVAL = 10000; // 10 seconds
 
     private int serverPort;
 
@@ -63,11 +64,9 @@ public class DiscoveryBroadcaster {
         try {
             DatagramPacket packet = new DatagramPacket(data, data.length, address, DiscoveryManager.DISCOVERY_PORT);
             socket.send(packet);
-            //System.out.println("Packet gesendet: " + data.toString());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            // we don't care, maybe it works the next time.
+            //e.printStackTrace();
         }
     }
 }
