@@ -34,7 +34,7 @@ public class DiscoveryListener extends DiscoveryThread {
         try {
             socket.receive(packet);
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         String portStr = new String(packet.getData()).trim();
@@ -46,14 +46,9 @@ public class DiscoveryListener extends DiscoveryThread {
 
                 DiscoveryManager.getInstance().add(
                         packet.getAddress().getHostAddress(), port, packet.getAddress().getHostName());
-
-                /*System.out.printf(
-                        "Ehh do han ich was von %s mit der IP %s\n",
-                        packet.getAddress().getHostName(),
-                        packet.getAddress().getHostAddress());*/
             }
         } catch (NumberFormatException | SocketException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
         }
     }
 
