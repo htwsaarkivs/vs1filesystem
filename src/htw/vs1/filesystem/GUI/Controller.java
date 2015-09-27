@@ -11,6 +11,7 @@ import htw.vs1.filesystem.Network.Discovery.DiscoveredServersObserver;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
 import htw.vs1.filesystem.Network.TCPParallelServer;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -224,8 +225,7 @@ public class Controller implements Initializable {
         TablePosition position = tableView.getSelectionModel().getSelectedCells().get(0);
         int row = position.getRow();
         TableColumn column = position.getTableColumn();
-        Object cellValue = column.getCellObservableValue(row).getValue();
-        return cellValue;
+        return column.getCellObservableValue(row).getValue();
     }
 
     @Override
@@ -307,27 +307,26 @@ public class Controller implements Initializable {
             }
         });
         tabPane.getSelectionModel().select(tabServer);
-        DiscoveryManager.getInstance().attachObserver(new DiscoveredServersObserver() {
-            @Override
-            public void discoveredServersUpdated() {
-                refreshServerList();
-            }
+        DiscoveryManager.getInstance().attachObserver(() -> {
+            /*
+            With the Platform.runLater()-call it will be granted that the
+            refreshServerList()-call will be executed from the javaFX-Thread.
+             */
+            Platform.runLater(Controller.this::refreshServerList);
+
         });
 
-       listViewTabServer.setOnMouseClicked(new EventHandler<MouseEvent>() {
-           @Override
-           public void handle(MouseEvent event) {
-               if (event.getClickCount() == 2){
-                   FileSystemServer currentItem = listViewTabServer.getSelectionModel().getSelectedItem();
-                   try {
-                       fileSystem.mount(
-                               currentItem.getHostName(), currentItem.getHost(), currentItem.getPort(),
-                               TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
-                   } catch (FileSystemException e) {
-                       showErrorMessage(e);
-                   }
-                   refreshServerList();
+       listViewTabServer.setOnMouseClicked(event -> {
+           if (event.getClickCount() == 2){
+               FileSystemServer currentItem = listViewTabServer.getSelectionModel().getSelectedItem();
+               try {
+                   fileSystem.mount(
+                           currentItem.getHostName(), currentItem.getHost(), currentItem.getPort(),
+                           TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
+               } catch (FileSystemException e) {
+                   showErrorMessage(e);
                }
+               refreshServerList();
            }
        });
 
