@@ -22,8 +22,6 @@ public class DiscoveryManager {
 
     private int currentSetHash = 0;
 
-    private DiscoveryBroadcaster broadcaster;
-
     private DiscoveryListener listener;
 
     private List<DiscoveredServersObserver> observers = new LinkedList<>();
@@ -36,20 +34,11 @@ public class DiscoveryManager {
     }
 
     public void startAnnouncement(int serverPort) {
-        if (broadcaster != null) {
-            throw new IllegalStateException("DiscoveryBroadcaster already running");
-        }
-
-        broadcaster = new DiscoveryBroadcaster(serverPort);
-        broadcaster.start();
+        TimerThread.getInstance().startBroadcaster(serverPort);
     }
 
-    public void stopAnnouncement(int serverPort) {
-        if (broadcaster == null) {
-            return;
-        }
-        broadcaster.stopDiscoveryThread();
-        broadcaster = null;
+    public void stopAnnouncement() {
+        TimerThread.getInstance().stopBroadcaster();
     }
 
     public void startListener() {
@@ -59,12 +48,17 @@ public class DiscoveryManager {
 
         listener = new DiscoveryListener();
         listener.start();
+        // Is the listener active the cleanUp service should be active, too.
+        TimerThread.getInstance().startDiscoveredServerListCleanUp(true);
     }
 
     public void stopListener() {
         if (listener == null) {
             return;
         }
+
+        // Is the listener inactive the cleanUp service should be inactive, too.
+        TimerThread.getInstance().startDiscoveredServerListCleanUp(false);
         listener.stopDiscoveryThread();
         listener = null;
     }

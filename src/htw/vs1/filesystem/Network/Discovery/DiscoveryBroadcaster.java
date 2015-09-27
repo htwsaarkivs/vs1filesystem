@@ -7,44 +7,36 @@ import java.util.Enumeration;
 /**
  * Created by Felix on 20.09.2015.
  */
-public class DiscoveryBroadcaster extends DiscoveryThread {
+public class DiscoveryBroadcaster {
 
     protected static final long BROADCAST_INTERVAL = 10000; // 10 seconds
-    private static final String THREAD_NAME = "BroadcasterThread";
-
-    public static void main(String[] args) throws InterruptedException {
-        DiscoveryBroadcaster broadcaster = new DiscoveryBroadcaster(4322);
-        DiscoveryListener listener = new DiscoveryListener();
-        broadcaster.start();
-        listener.start();
-
-        broadcaster.join();
-        listener.join();
-    }
 
     private int serverPort;
 
+    private DatagramSocket socket;
+
     public DiscoveryBroadcaster(int port) {
-        setName(THREAD_NAME);
         this.serverPort = port;
     }
 
-    @Override
-    protected void discovery(DatagramSocket socket) throws InterruptedException {
+    public void discovery() throws InterruptedException {
         try {
-            // delete outdates servers from list
-            DiscoveryManager.getInstance().deleteOutdatedEntries();
-            sendBroadcastToAll(socket);
+            sendBroadcastToAll(getDatagramSocket());
         } catch (SocketException e) {
             e.printStackTrace();
         }
-
-        sleep(BROADCAST_INTERVAL);
     }
 
-    @Override
+    public void stop() {
+        socket.close();
+        socket = null;
+    }
+
     protected DatagramSocket getDatagramSocket() throws SocketException {
-        return new DatagramSocket();
+        if (socket == null) {
+            socket = new DatagramSocket();
+        }
+        return socket;
     }
 
     private void sendBroadcastToAll(DatagramSocket socket) throws SocketException {
