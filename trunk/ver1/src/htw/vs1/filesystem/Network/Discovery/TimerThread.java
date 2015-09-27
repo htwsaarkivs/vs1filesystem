@@ -17,7 +17,7 @@ public class TimerThread extends Thread {
 
     private static TimerThread INSTANCE = null;
 
-    private boolean isRunning = false;
+    private boolean isStarted = false;
 
     private volatile boolean doBroadcast = false;
 
@@ -51,7 +51,7 @@ public class TimerThread extends Thread {
         broadcaster = new DiscoveryBroadcaster(port);
         doBroadcast = true;
         runningServices++;
-        if (!isRunning) {
+        if (!isStarted) {
             start();
         }
     }
@@ -71,7 +71,7 @@ public class TimerThread extends Thread {
         doCleanUp = start;
         if (start) {
             runningServices++;
-            if (!isRunning) {
+            if (!isStarted) {
                 start();
             }
         } else {
@@ -88,9 +88,13 @@ public class TimerThread extends Thread {
     }
 
     @Override
-    public void run() {
-        isRunning = true;
+    public synchronized void start() {
+        isStarted = true;
+        super.start();
+    }
 
+    @Override
+    public void run() {
         while (doBroadcast || doCleanUp) {
             if (doBroadcast) {
                 triggerBroadcast();
