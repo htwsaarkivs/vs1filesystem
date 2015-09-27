@@ -1,13 +1,11 @@
 package htw.vs1.filesystem.GUI;
 
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
-import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import htw.vs1.filesystem.FileSystem.virtual.FSObject;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
 import htw.vs1.filesystem.FileSystem.virtual.Folder;
 import htw.vs1.filesystem.FileSystemManger;
-import htw.vs1.filesystem.Network.Discovery.DiscoveredServersObserver;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
 import htw.vs1.filesystem.Network.TCPParallelServer;
@@ -21,12 +19,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -73,13 +71,10 @@ public class Controller implements Initializable {
     public void changeDirectory (String directory){
         try {
             fileSystem.changeDirectory(directory);
-        } catch (ObjectNotFoundException e) {
-            showErrorMessage(e);
+            listDirectoryContent();
         } catch (FileSystemException e) {
             showErrorMessage(e);
         }
-
-        listDirectoryContent();
     }
 
     public void listDirectoryContent (){
@@ -91,11 +86,12 @@ public class Controller implements Initializable {
             for (FSObject fsObject : list) {
                 currentDirectory.add(new FileType(fsObject.getName(), fsObject instanceof Folder));
             }
+            this.textFieldDirectory.setText(fileSystem.printWorkingDirectory());
+            tableView.sort();
         } catch (FileSystemException e) {
             showErrorMessage(e);
         }
 
-        this.textFieldDirectory.setText(fileSystem.printWorkingDirectory());
 
     }
 
@@ -110,10 +106,10 @@ public class Controller implements Initializable {
         result.ifPresent(name -> {
             try {
                 fileSystem.rename(cellContent.toString(), name);
+                listDirectoryContent();
             } catch (FileSystemException e) {
                 showErrorMessage(e);
             }
-            listDirectoryContent();
         });
     }
 
@@ -121,10 +117,10 @@ public class Controller implements Initializable {
         Object cellValue = getCellContenct();
         try {
             fileSystem.delete(cellValue.toString());
+            listDirectoryContent();
         } catch (FileSystemException e) {
             showErrorMessage(e);
         }
-        listDirectoryContent();
     }
 
     public void createDir(){
@@ -138,10 +134,10 @@ public class Controller implements Initializable {
         result.ifPresent(name -> {
             try {
                 fileSystem.createFSObject(name, true);
+                listDirectoryContent();
             } catch (FileSystemException e) {
                 showErrorMessage(e);
             }
-            listDirectoryContent();
         });
     }
 
@@ -156,10 +152,10 @@ public class Controller implements Initializable {
         result.ifPresent(name -> {
             try {
                 fileSystem.createFSObject(name, false);
+                listDirectoryContent();
             } catch (FileSystemException e) {
                 showErrorMessage(e);
             }
-            listDirectoryContent();
         });
     }
 
@@ -175,18 +171,23 @@ public class Controller implements Initializable {
 
         result.ifPresent(input -> {
             String[] arr = input.split(":");
-            try {
-                fileSystem.mount(
-                        arr[0], arr[1], Integer.parseInt(arr[2]),
-                        TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
-            } catch (FileSystemException e) {
-                showErrorMessage(e);
-            }
-            listDirectoryContent();
+            mount(arr[0], arr[1], Integer.parseInt(arr[2]));
         });
     }
 
-    public void close(ActionEvent actionEvent) { System.exit(0);
+    public void mount(String folderName, String ip, int port) {
+        try {
+            fileSystem.mount(
+                    folderName, ip, port,
+                    TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
+            listDirectoryContent();
+        } catch (FileSystemException e) {
+            showErrorMessage(e);
+        }
+    }
+
+    public void close(ActionEvent actionEvent) {
+        System.exit(0);
     }
 
     public void initiateFilesystem () throws IOException {
@@ -319,14 +320,7 @@ public class Controller implements Initializable {
        listViewTabServer.setOnMouseClicked(event -> {
            if (event.getClickCount() == 2){
                FileSystemServer currentItem = listViewTabServer.getSelectionModel().getSelectedItem();
-               try {
-                   fileSystem.mount(
-                           currentItem.getHostName(), currentItem.getHost(), currentItem.getPort(),
-                           TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
-               } catch (FileSystemException e) {
-                   showErrorMessage(e);
-               }
-               refreshServerList();
+               mount(currentItem.getHostName(), currentItem.getHost(), currentItem.getPort());
            }
        });
 
