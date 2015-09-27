@@ -91,7 +91,9 @@ public abstract class SimpleProtocol implements Protocol {
     public void readLine() throws SimpleProtocolFatalError {
         try {
             this.currentLine = bufferedReader.readLine();
-
+            if (currentLine == null) {
+                throw  new IOException();
+            }
         } catch (IOException e) {
             setState(SimpleProtocolState.IDLE);
             throw new SimpleProtocolFatalError();
