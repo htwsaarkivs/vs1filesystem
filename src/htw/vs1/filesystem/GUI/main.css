@@ -5,14 +5,12 @@
 }
 
 #mountBtn {
-
 	-fx-background-image: url('images/Mount/Mount_024.png');
 	-fx-background-repeat: no-repeat;
 	-fx-background-position: center;
 }
 
 #CreateDirBtn {
-
 	-fx-background-image: url('images/Folder_Add/Folder_Add_024.png');
 	-fx-background-repeat: no-repeat;
 	-fx-background-position: center;
@@ -25,14 +23,12 @@
 }
 
 #RenameBtn {
-
 	-fx-background-image: url('images/Rename_blue/Rename_blue_024.png');
 	-fx-background-repeat: no-repeat;
 	-fx-background-position: center;
 }
 
 #DeleteBtn {
-
 	-fx-background-image: url('images/Delete/Delete_024.png');
 	-fx-background-repeat: no-repeat;
 	-fx-background-position: center;
