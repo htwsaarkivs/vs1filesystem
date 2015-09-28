@@ -54,6 +54,11 @@ public class DiscoveryBroadcaster {
             }
 
         }
+        try {
+            sendBroadcast(InetAddress.getByName("224.0.0.1"), socket);
+        } catch (UnknownHostException e) {
+            throw new SocketException("Should not occur :/");
+        }
     }
 
     private void sendBroadcast(InetAddress address, DatagramSocket socket) throws SocketException {
