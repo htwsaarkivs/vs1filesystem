@@ -170,7 +170,9 @@ public class LocalFolder extends LocalFSObject implements Folder {
     @Override
     public List<FSObject> search(List<FSObject> list, String name) throws FileSystemException {
         if (!getPermissions().isSearchAllowed()) {
-            throw new PermissionDeniedException(this);
+            // if search is not allowed, we don't throw any exception but we
+            // simply skip the folder.
+            return list;
         }
 
         for (FSObject object : getContent()) {
