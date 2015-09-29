@@ -21,10 +21,10 @@ public abstract class FSObjectException extends FileSystemException {
     private FSObject object;
 
     /**
-     * Costructor of a Exeption with 3 Parameters
-     * @param object current Object the Exeption is regarding to
-     * @param msg Error message of the Expetion
-     * @param reason Exeption object to deal with
+     * Constructor of a Exception with 3 Parameters
+     * @param object current Object the Exception is regarding to
+     * @param msg Error message of the Exception
+     * @param reason Exception object to deal with
      */
     public FSObjectException(FSObject object, String msg, Throwable reason) {
         super(msg, reason);
@@ -32,9 +32,9 @@ public abstract class FSObjectException extends FileSystemException {
         //TODO: Throwable!!!
     }
     /**
-     * Costructor of a Exeption with 2 Parameters
-     * @param msg Error message of the Expetion
-     * @param reason Exeption object to deal with
+     * Constructor of a Exception with 2 Parameters
+     * @param msg Error message of the Exception
+     * @param reason Exception object to deal with
      */
     public FSObjectException(String msg, Throwable reason){
         super(msg, reason);
@@ -42,8 +42,8 @@ public abstract class FSObjectException extends FileSystemException {
     }
 
     /**
-     * Costructor of a Exeption with 1 Parameter
-     * @param msg Error message of the Expetion
+     * Constructor of a Exception with 1 Parameter
+     * @param msg Error message of the Exception
      */
     public FSObjectException(String msg){
         super(msg);
