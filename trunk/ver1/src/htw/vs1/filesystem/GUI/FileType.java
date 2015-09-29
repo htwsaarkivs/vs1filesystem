@@ -49,7 +49,7 @@ public class FileType {
                             new Image(Controller.class.getResource(imgName).toString())
                     );*/
         String imgName = "images/";
-        imgName += isFolder ? "folder.png" : "document-icon.png";
+        imgName += isFolder ? "Folder_032.png" : "File_032.png";
         this.icon = new SimpleObjectProperty<>(new Image(FileType.class.getResource(imgName).toString()));
 
     }
