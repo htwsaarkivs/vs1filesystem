@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.Network;
 
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
+import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 
 
@@ -91,6 +92,9 @@ public class TCPParallelServer extends Thread implements ServerInterface {
                     (new TCPParallelWorker(client)).start();
                 } catch (IOException e) {
                     // Thread may be interrupted
+                    if (FileSystemManger.DEBUG_MODE) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
@@ -98,7 +102,9 @@ public class TCPParallelServer extends Thread implements ServerInterface {
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            if (FileSystemManger.DEBUG_MODE) {
+                e.printStackTrace();
+            }
         }
 
         // Server is stopped now, so we stop the discovery announcement, too.
@@ -114,7 +120,9 @@ public class TCPParallelServer extends Thread implements ServerInterface {
         try {
             socket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            if (FileSystemManger.DEBUG_MODE) {
+                e.printStackTrace();
+            }
         }
     }
 
