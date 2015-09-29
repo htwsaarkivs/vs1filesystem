@@ -127,7 +127,7 @@ public class Controller implements Initializable {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Create Folder");
         dialog.setHeaderText("Please enter a foldername");
-        dialog.setContentText("foldername:");
+        dialog.setContentText("Foldername:");
 
         Optional<String> result = dialog.showAndWait();
 
@@ -145,7 +145,7 @@ public class Controller implements Initializable {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Create File");
         dialog.setHeaderText("Please enter a filename");
-        dialog.setContentText("filename:");
+        dialog.setContentText("Filename:");
 
         Optional<String> result = dialog.showAndWait();
 
@@ -283,7 +283,7 @@ public class Controller implements Initializable {
             }
         });
         /**
-         * Initiate the colums of the tableViewSearch
+         * Initiate the columns of the tableViewSearch
          */
         tableColumnSearchName.setCellValueFactory(cellData -> cellData.getValue().fileNameProperty());
         tableColumnSearchDirectory.setCellValueFactory(cellData -> cellData.getValue().pathProperty());
