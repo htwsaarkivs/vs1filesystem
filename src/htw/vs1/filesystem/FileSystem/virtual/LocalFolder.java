@@ -270,7 +270,10 @@ public class LocalFolder extends LocalFSObject implements Folder {
      */
     @Override
     public void delete() throws FileSystemException {
-        for (FSObject object : getContent()) {
+        if(!getContent().isEmpty()){
+            throw new CouldNotDeleteException("The folder is not empty.");
+        }
+        /*for (FSObject object : getContent()) {
             checkPrecondition(object);
             if (object instanceof LocalFSObject) {
                 LocalFSObject localFSObject = (LocalFSObject) object;
@@ -285,7 +288,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
                 e.printStackTrace();
                 throw new CouldNotDeleteException(this, FSObjectException.COULDNOTDELETE, e);
             }
-        }
+        }*/
         setParentFolder(null);
 
     }
