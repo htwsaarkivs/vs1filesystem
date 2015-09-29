@@ -65,7 +65,7 @@
                   <Insets left="3.0" />
                </padding>
             </Separator>
-            <Button fx:id="lockBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0">
+            <Button fx:id="lockBtn" mnemonicParsing="false" onAction="#toggleLock" prefHeight="30.0" prefWidth="30.0">
                <tooltip>
                   <Tooltip fx:id="tooltipLockFolder" text="Lock Folder" />
                </tooltip></Button>

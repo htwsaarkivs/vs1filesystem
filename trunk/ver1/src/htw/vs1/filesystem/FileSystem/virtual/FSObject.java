@@ -76,4 +76,8 @@ public interface FSObject {
      */
     String getAbsolutePath();
 
+    Permissions getPermissions();
+
+    void toggleLock() throws FileSystemException;
+
 }

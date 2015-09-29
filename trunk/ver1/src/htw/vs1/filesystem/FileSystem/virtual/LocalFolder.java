@@ -113,7 +113,10 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * @return the content of this folder.
      */
     @Override
-    public List<FSObject> getContent() {
+    public List<FSObject> getContent() throws FileSystemException{
+        if (!getPermissions().isGetContentAllowed()) {
+            throw new PermissionDeniedException(this);
+        }
 
         return contents;
     }
@@ -126,7 +129,11 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * @return {@code true}, iff a {@link FSObject} exists in this folder identified by the given name.
      */
     @Override
-    public boolean exists(String name) {
+    public boolean exists(String name) throws PermissionDeniedException {
+        if (!getPermissions().isGetContentAllowed()) {
+            throw new PermissionDeniedException(this);
+        }
+
         for (FSObject object : contents) {
             if (object.getName().equals(name)) {
                 return true;
@@ -147,6 +154,10 @@ public class LocalFolder extends LocalFSObject implements Folder {
      */
     @Override
     public FSObject getObject(String name) throws FileSystemException {
+        if (!getPermissions().isGetContentAllowed()) {
+            throw new PermissionDeniedException(this);
+        }
+
         for (FSObject object : contents) {
             if (object.getName().equals(name)) {
                 return object;
@@ -158,6 +169,10 @@ public class LocalFolder extends LocalFSObject implements Folder {
 
     @Override
     public List<FSObject> search(List<FSObject> list, String name) throws FileSystemException {
+        if (!getPermissions().isSearchAllowed()) {
+            throw new PermissionDeniedException(this);
+        }
+
         for (FSObject object : getContent()) {
             if (object.getName().equals(name)) {
                 list.add(object);
@@ -208,6 +223,10 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * @throws FileSystemException
      */
     public void add(FSObject object, @Nullable Path pathOfFile) throws FileSystemException {
+        if (!getPermissions().isAddAllowed()) {
+            throw new PermissionDeniedException(this);
+        }
+
         checkPrecondition(object);
 
         if (exists(object.getName())) {
@@ -270,6 +289,10 @@ public class LocalFolder extends LocalFSObject implements Folder {
      */
     @Override
     public void delete() throws FileSystemException {
+        if (!getPermissions().isDeleteAllowed()) {
+            throw new PermissionDeniedException(this);
+        }
+
         if(!getContent().isEmpty()){
             throw new CouldNotDeleteException("The folder is not empty.");
         }
@@ -311,11 +334,9 @@ public class LocalFolder extends LocalFSObject implements Folder {
         super.setPath(path);
 
         if (null == path) {
-            for (FSObject object : contents) {
-                if (object instanceof LocalFSObject) {
-                    ((LocalFSObject) object).setPath(null);
-                }
-            }
+            contents.stream().filter(
+                    object -> object instanceof LocalFSObject).forEach(
+                        object -> ((LocalFSObject) object).setPath(null));
         }
     }
 }

@@ -122,6 +122,15 @@ public class Controller implements Initializable {
             showErrorMessage(e);
         }
     }
+    public void toggleLock(ActionEvent actionEvent) {
+        Object cellValue = getCellContenct();
+        try {
+            fileSystem.toggleLock(cellValue.toString());
+            listDirectoryContent();
+        } catch (FileSystemException e) {
+            showErrorMessage(e);
+        }
+    }
 
     public void createDir(){
         TextInputDialog dialog = new TextInputDialog();
@@ -331,6 +340,5 @@ public class Controller implements Initializable {
         serverEntrys.clear();
         serverEntrys.addAll(FileSystemManger.getInstance().listAvailableFileSystemServers());
     }
-
 
 }

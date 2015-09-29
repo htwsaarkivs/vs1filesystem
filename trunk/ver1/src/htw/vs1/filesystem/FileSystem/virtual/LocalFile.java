@@ -1,6 +1,8 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
+import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteException;
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
+import htw.vs1.filesystem.FileSystem.exceptions.PermissionDeniedException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -39,14 +41,16 @@ public class LocalFile extends LocalFSObject implements File {
      *
      */
     @Override
-    public void delete() {
-        //TODO Fehlerbehandlung
+    public void delete() throws FileSystemException {
+        if (!getPermissions().isDeleteAllowed()) {
+            throw new PermissionDeniedException(this);
+        }
         Path path = getPath();
         if (path != null){
             try {
                 Files.delete(path);
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new CouldNotDeleteException(this, "", e);
             }
         }
     }

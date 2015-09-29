@@ -2,6 +2,7 @@ package htw.vs1.filesystem.Network.Protocol.Replies.Codes;
 
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.exceptions.FSRemoteException;
+import htw.vs1.filesystem.FileSystem.exceptions.PermissionDeniedException;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.SimpleProtocolReplyType;
 import htw.vs1.filesystem.Network.Protocol.Replies.Type.Type;
 
@@ -37,6 +38,6 @@ public class ReplyCode405 extends ReplyCode {
 
     @Override
     public FileSystemException getException() {
-        return new FSRemoteException(additionalMessage);
+        return new PermissionDeniedException(additionalMessage);
     }
 }

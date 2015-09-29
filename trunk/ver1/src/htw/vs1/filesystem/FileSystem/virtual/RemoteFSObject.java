@@ -2,6 +2,7 @@ package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
+import htw.vs1.filesystem.FileSystem.exceptions.PermissionDeniedException;
 import htw.vs1.filesystem.Network.TCPClient;
 
 /**
@@ -14,6 +15,7 @@ public abstract class RemoteFSObject extends AbstractFSObject {
 
     private Folder parentFolder;
     protected TCPClient tcpClient;
+    private Permissions permissions = new Permissions(false);
 
     /**
      * Creates a new FSObject.
@@ -39,12 +41,22 @@ public abstract class RemoteFSObject extends AbstractFSObject {
     }
 
     @Override
+    public Permissions getPermissions() {
+        return permissions;
+    }
+
+    @Override
     public void setName(String name) throws FileSystemException {
         if (null != tcpClient) {
             this.tcpClient.rename(this.getName(), name);
         } else {
             super.setName(name);
         }
+    }
+
+    @Override
+    public void toggleLock() throws PermissionDeniedException {
+        throw new PermissionDeniedException(this);
     }
 
     /**
