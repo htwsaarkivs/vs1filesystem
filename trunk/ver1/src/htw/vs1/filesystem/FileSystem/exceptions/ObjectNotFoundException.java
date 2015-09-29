@@ -20,10 +20,10 @@ public class ObjectNotFoundException extends FSObjectException {
     }
 
     /**
-     * Costructor of a Exception with 2 Parameters
+     * Constructor of a Exception with 2 Parameters
      *
-     * @param objectName name of the current Object the Exeption is regarding to
-     * @param msg    Error message of the Expetion
+     * @param objectName name of the current Object the Exception is regarding to
+     * @param msg    Error message of the Exception
      */
     public ObjectNotFoundException(String objectName, String msg) {
         super(msg);
@@ -31,10 +31,10 @@ public class ObjectNotFoundException extends FSObjectException {
     }
 
     /**
-     * Costructor of a Exception with 2 Parameters
+     * Constructor of a Exception with 2 Parameters
      *
-     * @param msg Error message of the Expetion
-     * @param ex  Exeption object to deal wit
+     * @param msg Error message of the Exception
+     * @param ex  Exception object to deal wit
      */
     public ObjectNotFoundException(String msg, Throwable ex) {
         super(msg, ex);
