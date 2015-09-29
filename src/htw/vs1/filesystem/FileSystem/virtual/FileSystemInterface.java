@@ -63,7 +63,7 @@ public interface FileSystemInterface {
     String printWorkingDirectory();
 
     /**
-     * Searchs recursively through the current working directory
+     * Search recursively through the current working directory
      * all {@link FSObject} with the given name.
      *
      * @param name name of the {@link FSObject} to search for.
@@ -88,11 +88,11 @@ public interface FileSystemInterface {
     /**
      * Mounts a {@link RemoteFolder} into our file system.
      *
-     * @param name Name of the new remote foler
-     * @param remoteIP IP-Adress of the remote file system
+     * @param name       Name of the new remote folder
+     * @param remoteIP   IP-Address of the remote file system
      * @param remotePort Port of the remote file system
-     * @param user username
-     * @param pass password
+     * @param user       username
+     * @param pass       password
      */
     void mount(String name, String remoteIP, int remotePort, String user, String pass) throws FileSystemException;
 }
