@@ -72,6 +72,11 @@
                <tooltip>
                   <Tooltip fx:id="tooltipLockFolder" text="Lock Folder" />
                </tooltip></Button>
+            <Separator orientation="VERTICAL" prefHeight="20.0">
+               <padding>
+                  <Insets left="3.0" />
+               </padding>
+            </Separator>
             <Button fx:id="createDirBtn" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#createDir" prefHeight="30.0" prefWidth="30.0">
                <font>
                   <Font size="10.0" />
