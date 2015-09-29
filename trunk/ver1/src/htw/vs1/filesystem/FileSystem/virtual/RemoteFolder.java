@@ -171,10 +171,17 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
     }
 
     @Override
-    public List<FSObject> search(List<FSObject> list, String name) throws FileSystemException{
-        //List<String> result = tcpClient.search(name);
-        //return toFSObjects(result);
-        for (FSObject object : getContent()) {
+    public List<FSObject> search(List<FSObject> list, String name) throws FileSystemException {
+        List<FSObject> content;
+        try {
+            content = getContent();
+        } catch (FileSystemException e) {
+            // if search is not allowed, we don't throw any exception but we
+            // simply skip the folder.
+            return list;
+        }
+
+        for (FSObject object : content) {
             if (object.getName().equals(name)) {
                 list.add(object);
             }
