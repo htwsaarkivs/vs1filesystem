@@ -26,6 +26,12 @@ public abstract class LocalFSObject extends AbstractFSObject {
      * May be {@link null}, iff this is the root folder.
      */
     private Folder parent = null;
+
+    /**
+     * The Permissions of this LocalFSObject.
+     */
+    private Permissions permissions = new Permissions(true);
+
     /**
      * Creates a new FSObject.
      *
@@ -46,6 +52,10 @@ public abstract class LocalFSObject extends AbstractFSObject {
         super(name);
     }
 
+    public Permissions getPermissions() {
+        return permissions;
+    }
+
     /**
      * Set the new name of a FSObject and modifies its path
      * @param name new name of this object.
@@ -53,6 +63,10 @@ public abstract class LocalFSObject extends AbstractFSObject {
      */
     @Override
     public void setName(String name) throws FileSystemException {
+        if (permissions != null && !getPermissions().isRenameAllowed()) {
+            throw new PermissionDeniedException(this);
+        }
+
         if (getParentFolder() != null && getParentFolder().exists(name)) {
             throw new FSObjectAlreadyExistsException("The FSObject " + name + " already exists in this folder");
         }
@@ -118,10 +132,15 @@ public abstract class LocalFSObject extends AbstractFSObject {
 
     /**
      * Deletes the LocalFSObject itself.
-     * If this is a LocalFolder it deletes
-     * the directory and its contents recursively.
+     * If this is a LocalFolder which is not empty
+     * it cannot be deleted.
      */
     abstract void delete() throws FileSystemException;
+
+    @Override
+    public void toggleLock() {
+        permissions.toggleLock();
+    }
 
     /**
      * Checks the precondition that the given objects has to be a

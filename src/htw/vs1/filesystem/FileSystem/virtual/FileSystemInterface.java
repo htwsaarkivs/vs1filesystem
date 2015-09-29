@@ -85,6 +85,8 @@ public interface FileSystemInterface {
 
     void delete(@NotNull String name) throws FileSystemException;
 
+    void toggleLock(@NotNull String name) throws FileSystemException;
+
     /**
      * Mounts a {@link RemoteFolder} into our file system.
      *

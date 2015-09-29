@@ -138,6 +138,9 @@ public class FileSystem implements FileSystemInterface {
         }
 
         if (o instanceof Folder) {
+            if (!o.getPermissions().isCDAllowed()) {
+                throw new PermissionDeniedException(o);
+            }
             workingFolder = (Folder) o;
         } else {
             throw new ObjectNotFoundException(name, FSObjectException.OBJECTNOTFOUND);
@@ -193,6 +196,11 @@ public class FileSystem implements FileSystemInterface {
     @Override
     public void delete(@NotNull String name) throws FileSystemException {
         workingFolder.delete(name);
+    }
+
+    @Override
+    public void toggleLock(@NotNull String name) throws FileSystemException {
+        workingFolder.getObject(name).toggleLock();
     }
 
     /**
