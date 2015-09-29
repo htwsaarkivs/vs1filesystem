@@ -11,7 +11,7 @@ import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode403;
  */
 public class CouldNotRenameException extends FSObjectException {
     /**
-     * Costructor of a Exception with 3 Parameters
+     * Constructor of a Exception with 3 Parameters
      *
      * @param object current Object the Exception is regarding to
      * @param msg    Error message of the Exception
@@ -22,17 +22,17 @@ public class CouldNotRenameException extends FSObjectException {
     }
 
     /**
-     * Costructor of a Exeption with 2 Parameters
+     * Constructor of a Exception with 2 Parameters
      *
-     * @param msg Error message of the Excpetion
-     * @param ex  Exeption object to deal wit
+     * @param msg Error message of the Exception
+     * @param ex  Exception object to deal wit
      */
     public CouldNotRenameException(String msg, Throwable ex) {
         super(msg, ex);
     }
 
     /**
-     * Costructor of a Exception with 1 Parameter
+     * Constructor of a Exception with 1 Parameter
      *
      * @param msg Error message of the Exception
      */
