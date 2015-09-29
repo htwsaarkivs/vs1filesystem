@@ -265,8 +265,8 @@ public class LocalFolder extends LocalFSObject implements Folder {
     }
 
     /**
-     * Iterates recursivly through the filetree and calls delete()
-     * Removes the file from the filetree and in the real Filesystem
+     * Iterates recursively through the file tree and calls delete()
+     * Removes the file from the file tree and in the real Filesystem
      */
     @Override
     public void delete() throws FileSystemException {
