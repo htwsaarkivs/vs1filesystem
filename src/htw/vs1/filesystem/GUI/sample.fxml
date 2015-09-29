@@ -46,9 +46,6 @@
       <ToolBar fx:id="toolBarButtons" VBox.vgrow="ALWAYS">
         <items>
           <Button fx:id="homeBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0">
-               <font>
-                  <Font size="10.0" />
-               </font>
                <tooltip>
                   <Tooltip fx:id="TooltipHomeBtn" text="Home" textAlignment="CENTER" />
                </tooltip>
@@ -78,17 +75,11 @@
                </padding>
             </Separator>
             <Button fx:id="createDirBtn" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#createDir" prefHeight="30.0" prefWidth="30.0">
-               <font>
-                  <Font size="10.0" />
-               </font>
                <tooltip>
                   <Tooltip fx:id="TooltipCreateDirectory" text="Create new Directory" textAlignment="CENTER" />
                </tooltip>
             </Button>
             <Button fx:id="createFileBtn" layoutX="57.0" layoutY="14.0" mnemonicParsing="false" onAction="#createFile" prefHeight="30.0" prefWidth="30.0">
-               <font>
-                  <Font size="10.0" />
-               </font>
                <tooltip>
                   <Tooltip fx:id="TooltipCreateFile" text="Create new File" textAlignment="CENTER" />
                </tooltip>
@@ -99,17 +90,11 @@
                </padding>
             </Separator>
             <Button fx:id="renameBtn" layoutX="147.0" layoutY="14.0" mnemonicParsing="false" onAction="#rename" prefHeight="30.0" prefWidth="30.0">
-               <font>
-                  <Font size="10.0" />
-               </font>
                <tooltip>
                   <Tooltip fx:id="TooltipRename" text="Rename" textAlignment="CENTER" />
                </tooltip>
             </Button>
             <Button fx:id="deleteBtn" layoutX="212.0" layoutY="14.0" mnemonicParsing="false" onAction="#delete" prefHeight="30.0" prefWidth="30.0">
-               <font>
-                  <Font size="10.0" />
-               </font>
                <tooltip>
                   <Tooltip fx:id="TooltipDelete" text="Delete" textAlignment="CENTER" />
                </tooltip>
