@@ -53,11 +53,25 @@
                   <Tooltip fx:id="TooltipHomeBtn" text="Home" textAlignment="CENTER" />
                </tooltip>
             </Button>
+            <Separator orientation="VERTICAL" prefHeight="20.0">
+               <padding>
+                  <Insets left="3.0" />
+               </padding>
+            </Separator>
             <Button fx:id="mountBtn" mnemonicParsing="false" onAction="#mount" prefHeight="30.0" prefWidth="30.0">
                <tooltip>
                   <Tooltip fx:id="tooltipMount" text="Mount" textAlignment="CENTER" />
                </tooltip>
             </Button>
+            <Separator orientation="VERTICAL" prefHeight="20.0">
+               <padding>
+                  <Insets left="3.0" />
+               </padding>
+            </Separator>
+            <Button fx:id="lockBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0">
+               <tooltip>
+                  <Tooltip fx:id="tooltipLockFolder" text="Lock Folder" />
+               </tooltip></Button>
             <Button fx:id="createDirBtn" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#createDir" prefHeight="30.0" prefWidth="30.0">
                <font>
                   <Font size="10.0" />
@@ -74,6 +88,11 @@
                   <Tooltip fx:id="TooltipCreateFile" text="Create new File" textAlignment="CENTER" />
                </tooltip>
             </Button>
+            <Separator orientation="VERTICAL" prefHeight="20.0">
+               <padding>
+                  <Insets left="3.0" />
+               </padding>
+            </Separator>
             <Button fx:id="renameBtn" layoutX="147.0" layoutY="14.0" mnemonicParsing="false" onAction="#rename" prefHeight="30.0" prefWidth="30.0">
                <font>
                   <Font size="10.0" />
