@@ -72,7 +72,7 @@ public class TCPParallelServer extends Thread implements ServerInterface {
 
             DiscoveryManager.getInstance().startAnnouncement(port);
             if (startSingleServer) {
-                //Intialisierung des Filesystems
+                //Initialisierung des Filesystems
                 LocalFolder.setRootDirectory(path);
             }
 
