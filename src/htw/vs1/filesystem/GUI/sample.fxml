@@ -55,7 +55,7 @@
             </Button>
             <Button fx:id="mountBtn" mnemonicParsing="false" onAction="#mount" prefHeight="30.0" prefWidth="30.0">
                <tooltip>
-                  <Tooltip fx:id="tooltipMount" text="Mount all" textAlignment="CENTER" />
+                  <Tooltip fx:id="tooltipMount" text="Mount" textAlignment="CENTER" />
                </tooltip>
             </Button>
             <Button fx:id="createDirBtn" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#createDir" prefHeight="30.0" prefWidth="30.0">
@@ -165,24 +165,33 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="800.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="800.0">
          <children>
             <Button fx:id="clearLogBtn" mnemonicParsing="false" prefHeight="22.0" prefWidth="22.0">
                <HBox.margin>
                   <Insets left="4.0" />
                </HBox.margin>
+               <tooltip>
+                  <Tooltip fx:id="tooltipClearLog" text="Clear Log" />
+               </tooltip>
             </Button>
             <Button fx:id="clearSearchBtn" mnemonicParsing="false" prefHeight="22.0" prefWidth="22.0">
                <HBox.margin>
                   <Insets left="4.0" />
                </HBox.margin>
+               <tooltip>
+                  <Tooltip fx:id="tooltipClearSearch" text="Clear Search" />
+               </tooltip>
             </Button>
             <Button fx:id="autoMountBtn" mnemonicParsing="false" prefHeight="22.0" prefWidth="22.0">
                <HBox.margin>
                   <Insets left="4.0" />
                </HBox.margin>
+               <tooltip>
+                  <Tooltip fx:id="tooltipAutoMount" text="Mount all Server" />
+               </tooltip>
             </Button>
-            <Region fx:id="region" prefHeight="13.0" prefWidth="617.0" HBox.hgrow="ALWAYS" />
+            <Region fx:id="region" prefHeight="30.0" prefWidth="617.0" HBox.hgrow="ALWAYS" />
             <Label fx:id="serverRunnigLabel" text="Server running:" />
             <ImageView fx:id="imageView" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
