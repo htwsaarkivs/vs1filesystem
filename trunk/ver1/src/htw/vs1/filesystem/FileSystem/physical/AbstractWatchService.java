@@ -78,7 +78,7 @@ public abstract class AbstractWatchService extends Thread {
                 // in case of kind=(create,delete,modify) the context is the relative path between
                 // the directory that is registered and the entry which is created/deleted/modified.
                 Path name = pathWatchEvent.context();
-                // the child is the entry whic is created/deleted/modified.
+                // the child is the entry which is created/deleted/modified.
                 Path child = dir.resolve(name);
 
                 if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
