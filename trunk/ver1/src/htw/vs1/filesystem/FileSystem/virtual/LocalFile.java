@@ -35,7 +35,7 @@ public class LocalFile extends LocalFSObject implements File {
 
     /**
      * Deletes the LocalFSObject itself from
-     * the filetree and in the real Filesystem
+     * the file tree and in the real Filesystem
      *
      */
     @Override
