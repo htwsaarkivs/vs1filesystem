@@ -231,10 +231,6 @@ public class LocalFolder extends LocalFSObject implements Folder {
 
         checkPrecondition(object);
 
-        if (exists(object.getName())) {
-            throw new FSObjectAlreadyExistsException(object, "FSObject already exists", null);
-        }
-
         // we now at the file/folder to our content-list so it won't be added by the file system watch service.
         // If any error happened by creating the "physical" file/folder we have to remove it again from the list.
         addObjectToContent(object);
@@ -253,7 +249,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
                 }
             }
             if (object instanceof LocalFSObject) {
-                ((LocalFSObject) object).setPath(pathOfFile); // Type checked by #checkPrecondition(FSObject)
+                ((LocalFSObject) object).setPath(pathOfFile);
             }
         } catch (Throwable e) {
             // iff any error occurred we have to remove the object again from the list and pass the error on.
@@ -272,6 +268,10 @@ public class LocalFolder extends LocalFSObject implements Folder {
      * @throws FileSystemException
      */
     protected void addObjectToContent(FSObject object) throws FileSystemException {
+        if (exists(object.getName())) {
+            throw new FSObjectAlreadyExistsException(object, "FSObject already exists", null);
+        }
+
         object.setParentFolder(this);
         contents.add(object);
     }
