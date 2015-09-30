@@ -5,6 +5,13 @@
 	-fx-background-size: 24 24;
 }
 
+#refreshBtn {
+	-fx-background-image: url('images/Refresh/Refresh_048.png');
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
+	-fx-background-size: 24 24;
+}
+
 #mountBtn {
 	-fx-background-image: url('images/Mount/Mount_048.png');
 	-fx-background-repeat: no-repeat;
