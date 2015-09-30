@@ -77,6 +77,10 @@ public class Controller implements Initializable {
         }
     }
 
+    public void home(ActionEvent actionEvent) {
+        changeDirectory("/");
+    }
+
     public void refresh(ActionEvent actionEvent) {
         listDirectoryContent();
     }
@@ -210,6 +214,14 @@ public class Controller implements Initializable {
         listDirectoryContent();
 
     }
+
+    public void changeDirectoryManually(ActionEvent actionEvent) {
+        String dirStr = textFieldDirectory.getText();
+        if (dirStr == null || dirStr.isEmpty()) return;
+        changeDirectory(dirStr);
+    }
+
+
     public void search(){
         String searchStr = textFieldSearch.getText();
         if (searchStr == null || searchStr.isEmpty()) return;
