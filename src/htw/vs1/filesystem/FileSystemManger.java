@@ -63,6 +63,10 @@ public class FileSystemManger {
         PhysicalFileSystemAdapter.getInstance().stopWatchService();
     }
 
+    public boolean fileSystemServerRunning() {
+        return TCPParallelServer.getInstance(serverPort).isRunning();
+    }
+
     public void loadFileSystem(String pathToLocalFolder) {
         try {
             LocalFolder.setRootDirectory(pathToLocalFolder);
