@@ -5,6 +5,8 @@ import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 import htw.vs1.filesystem.Network.Discovery.DiscoveredServersObserver;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
+import htw.vs1.filesystem.Network.Protocol.ServerStatus;
+import htw.vs1.filesystem.Network.ServerStatusObserver;
 import htw.vs1.filesystem.Network.TCPParallelServer;
 
 import java.io.IOException;
@@ -104,6 +106,18 @@ public class FileSystemManger {
         } else {
             DiscoveryManager.getInstance().detachObserver(o);
         }
+    }
+
+    public void attachServerStatusObserver(ServerStatusObserver o) {
+        TCPParallelServer.getInstance(serverPort).attachServerStatusObserver(o);
+    }
+
+    public void detachServerStatusObserver(ServerStatusObserver o) {
+        TCPParallelServer.getInstance(serverPort).detachServerStatusObserver(o);
+    }
+
+    public ServerStatus getServerStatus() {
+        return TCPParallelServer.getInstance(serverPort).getServerStatus();
     }
 
 

@@ -8,12 +8,13 @@ import htw.vs1.filesystem.FileSystem.virtual.Folder;
 import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
+import htw.vs1.filesystem.Network.Protocol.ServerStatus;
+import htw.vs1.filesystem.Network.ServerStatusObserver;
 import htw.vs1.filesystem.Network.TCPParallelServer;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -24,7 +25,6 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -32,6 +32,8 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
+    @FXML
+    public ImageView imageViewServerIndicator;
     @FXML
     private TableView<FileType> tableView;
     @FXML
@@ -351,6 +353,30 @@ public class Controller implements Initializable {
        });
 
 
+        setServerStatusIndicator(FileSystemManger.getInstance().getServerStatus());
+        FileSystemManger.getInstance().attachServerStatusObserver(new ServerStatusObserver() {
+
+            @Override
+            public void serverStatusChanged(ServerStatus newStatus) {
+                setServerStatusIndicator(newStatus);
+            }
+        });
+
+    }
+
+    private void setServerStatusIndicator(ServerStatus status) {
+        switch (status) {
+            case RUNNING:
+                imageViewServerIndicator.setImage(Resources.server_status_indicator_green);
+                break;
+
+            case STOPPED:
+                imageViewServerIndicator.setImage(Resources.server_status_indicator_red);
+                break;
+
+            default:
+                break;
+        }
     }
 
     private void refreshServerList() {

@@ -1,14 +1,16 @@
 package htw.vs1.filesystem.Network;
 
-import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
+import htw.vs1.filesystem.Network.Protocol.ServerStatus;
 
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by markus on 05.06.15.
@@ -30,27 +32,11 @@ public class TCPParallelServer extends Thread implements ServerInterface {
 
     private volatile boolean running = false;
 
-    /**
-     * Start the server without the user dialog.
-     */
-    private boolean startSingleServer = false;
-
-    public static String path = "/Users/markus/Documents/HTW/test-fs";
     private ServerSocket socket;
 
+    private ServerStatus serverStatus = ServerStatus.STOPPED;
 
-    public static void main(String[] args) {
-        //TODO: Maybe get rid of this altogether...
-        //if (true) throw new RuntimeException("This seems to be broken :/");
-        if (args.length != 1) {
-            System.out.println("Usage: [path]");
-            return;
-        }
-        path = args[0];
-        getInstance(DEFAULT_PORT).startSingleServer = true;
-        getInstance(DEFAULT_PORT).run();
-
-    }
+    private List<ServerStatusObserver> serverStatusObservers = new LinkedList<>();
 
     public static TCPParallelServer getInstance(int port) {
         if (INSTANCE == null) {
@@ -72,10 +58,6 @@ public class TCPParallelServer extends Thread implements ServerInterface {
         {
 
             DiscoveryManager.getInstance().startAnnouncement(port);
-            if (startSingleServer) {
-                //Initialisierung des Filesystems
-                LocalFolder.setRootDirectory(path);
-            }
 
             // Erzeugen der Socket/binden an Port/Wartestellung
             socket = new ServerSocket(port);
@@ -84,6 +66,7 @@ public class TCPParallelServer extends Thread implements ServerInterface {
                     String.valueOf(port));
 
             running = true;
+            changeServerStatus(ServerStatus.RUNNING);
             while (running)
             {
                 try {
@@ -102,11 +85,13 @@ public class TCPParallelServer extends Thread implements ServerInterface {
         }
         catch (Exception e)
         {
+            changeServerStatus(ServerStatus.ERROR);
             if (FileSystemManger.DEBUG_MODE) {
                 e.printStackTrace();
             }
         }
 
+        changeServerStatus(ServerStatus.STOPPED);
         // Server is stopped now, so we stop the discovery announcement, too.
         DiscoveryManager.getInstance().stopAnnouncement();
         INSTANCE = null;
@@ -141,6 +126,23 @@ public class TCPParallelServer extends Thread implements ServerInterface {
         return this.port;
     }
 
+    public void attachServerStatusObserver(ServerStatusObserver o) {
+        serverStatusObservers.add(o);
+    }
+
+    public void detachServerStatusObserver(ServerStatusObserver o) {
+        serverStatusObservers.remove(o);
+    }
+
+    private void changeServerStatus(ServerStatus newStatus) {
+        this.serverStatus = newStatus;
+        for (ServerStatusObserver observer : serverStatusObservers) {
+            observer.serverStatusChanged(newStatus);
+        }
+    }
 
 
+    public ServerStatus getServerStatus() {
+        return serverStatus;
+    }
 }
