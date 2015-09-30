@@ -206,7 +206,7 @@
             </Button>
             <Region fx:id="region" prefHeight="30.0" prefWidth="617.0" HBox.hgrow="ALWAYS" />
             <Label fx:id="serverRunnigLabel" prefHeight="17.0" prefWidth="87.0" text="Server running:" />
-            <ImageView fx:id="imageView" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageViewServerIndicator" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/Button_Red/Button_Red_032.png" />
                </image>
