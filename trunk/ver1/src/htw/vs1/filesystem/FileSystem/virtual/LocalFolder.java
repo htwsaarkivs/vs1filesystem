@@ -314,7 +314,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
                 LocalFSObject localFSObject = (LocalFSObject) object;
                 localFSObject.delete();
             }
-        }
+        }*/
 
         if (null != getPath()) {
             try {
@@ -323,7 +323,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
                 e.printStackTrace();
                 throw new CouldNotDeleteException(this, FSObjectException.COULDNOTDELETE, e);
             }
-        }*/
+        }
         setParentFolder(null);
 
     }
