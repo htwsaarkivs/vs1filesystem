@@ -77,6 +77,10 @@ public class Controller implements Initializable {
         }
     }
 
+    public void refresh(ActionEvent actionEvent) {
+        listDirectoryContent();
+    }
+
     public void listDirectoryContent () {
         List<FSObject> list;
         try {
@@ -341,5 +345,4 @@ public class Controller implements Initializable {
         serverEntrys.clear();
         serverEntrys.addAll(FileSystemManger.getInstance().listAvailableFileSystemServers());
     }
-
 }
