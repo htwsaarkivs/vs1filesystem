@@ -45,7 +45,7 @@
       </MenuBar>
       <ToolBar fx:id="toolBarButtons" VBox.vgrow="ALWAYS">
         <items>
-          <Button fx:id="homeBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0">
+          <Button fx:id="homeBtn" mnemonicParsing="false" prefHeight="30.0" onAction="#home" prefWidth="30.0">
                <tooltip>
                   <Tooltip fx:id="TooltipHomeBtn" text="Home" textAlignment="CENTER" />
                </tooltip>
@@ -115,7 +115,7 @@
                   <Insets bottom="2.0" left="5.0" top="2.0" />
                </padding>
             </Label>
-            <TextField fx:id="textFieldDirectory" layoutX="43.0" maxHeight="20.0" minHeight="20.0" minWidth="200.0" prefHeight="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS" />
+            <TextField fx:id="textFieldDirectory" layoutX="43.0" maxHeight="20.0" minHeight="20.0" minWidth="200.0" onAction="#changeDirectoryManually" prefHeight="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" HBox.hgrow="ALWAYS" />
             <TextField fx:id="textFieldSearch" layoutX="653.0" maxHeight="20.0" minHeight="20.0" minWidth="150.0" onAction="#search" prefHeight="20.0" promptText="Search">
                <HBox.margin>
                   <Insets left="2.0" right="2.0" />
