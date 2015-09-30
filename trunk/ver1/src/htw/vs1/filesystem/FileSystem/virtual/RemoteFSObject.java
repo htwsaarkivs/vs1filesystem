@@ -47,7 +47,7 @@ public abstract class RemoteFSObject extends AbstractFSObject {
 
     @Override
     public void setName(String name) throws FileSystemException {
-        if (null != tcpClient) {
+        if (null != tcpClient && !( getParentFolder() instanceof MountPointFolder) ) {
             this.tcpClient.rename(this.getName(), name);
         } else {
             super.setName(name);

@@ -28,6 +28,8 @@ public class FileSystem implements FileSystemInterface {
 
     private static final String THIS_FOLDER = ".";
 
+    private static final String ROOT_FOLDER = "/";
+
     private final boolean mountAllowed;
 
     /**
@@ -58,8 +60,8 @@ public class FileSystem implements FileSystemInterface {
     public FileSystem(Folder workingFolder, boolean mountAllowed) {
         if (mountAllowed) {
             try {
-                rootFolder = new LocalFolder("");
-                rootFolder.add(workingFolder);
+                rootFolder = new MountPointFolder("");
+                ((MountPointFolder) rootFolder).addMountPoint(workingFolder);
                 this.workingFolder = rootFolder;
             } catch (FileSystemException e) {
                 e.printStackTrace();
@@ -99,7 +101,7 @@ public class FileSystem implements FileSystemInterface {
     @Override
     public void changeDirectory(@NotNull String path) throws FileSystemException {
         path = path.replace("\\", "/");
-        if (!path.isEmpty() && path.substring(0,1).equals("/")) {
+        if (!path.isEmpty() && path.substring(0,1).equals(ROOT_FOLDER)) {
             // path is an absolute path
             setWorkingDirectory(rootFolder);
         }
@@ -117,6 +119,10 @@ public class FileSystem implements FileSystemInterface {
         FSObject o;
         switch (name) {
             case UP:
+                if (!mountAllowed && (workingFolder.getParentFolder() instanceof MountPointFolder) ) {
+                    return;
+                }
+
                 o = workingFolder.getParentFolder();
                 break;
             case THIS_FOLDER:
@@ -161,9 +167,18 @@ public class FileSystem implements FileSystemInterface {
     @Override
     public String printWorkingDirectory() {
         String pwd = workingFolder.getAbsolutePath();
-        if (!pwd.equals("/")) {
+        if (!pwd.equals("/")) { // remove ending slash
             pwd = pwd.substring(0, pwd.length()-1);
         }
+
+        if (!mountAllowed) {
+            if (pwd.length() > 7) {
+                pwd = pwd.substring(6);
+            } else {
+                pwd = ROOT_FOLDER;
+            }
+        }
+
         return pwd;
     }
 
@@ -214,10 +229,10 @@ public class FileSystem implements FileSystemInterface {
      */
     @Override
     public void mount(String name, String remoteIP, int remotePort, String user, String pass) throws FileSystemException {
-        if (!mountAllowed) {
+        if (!mountAllowed || !(rootFolder instanceof MountPointFolder)) {
             return;
         }
 
-        rootFolder.add(new RemoteFolder(name, remoteIP, remotePort, user, pass));
+        ((MountPointFolder) rootFolder).addMountPoint(new RemoteFolder(name, remoteIP, remotePort, user, pass));
     }
 }
