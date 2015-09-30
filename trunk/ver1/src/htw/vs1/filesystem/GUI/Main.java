@@ -30,17 +30,19 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        if (args.length == 0 || args.length > 2) {
+        if (args.length > 2) {
             htw.vs1.filesystem.Main.usage();
         }
-        String mode = "default";
+        String mode = "client";
         if (args.length > 1) {
-            if (args[1].equals("c")) {
-                mode = "client";
-            }
+            // second parameter equals "s"
             if (args[1].equals("s")) {
                 mode = "server";
             }
+        }
+        else if (args.length == 1) {
+            // only one parameter -> default
+            mode = "default";
         }
 
         switch (mode) {
