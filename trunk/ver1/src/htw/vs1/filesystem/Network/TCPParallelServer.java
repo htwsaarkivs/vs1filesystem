@@ -112,6 +112,10 @@ public class TCPParallelServer extends Thread implements ServerInterface {
         INSTANCE = null;
     }
 
+    public boolean isRunning() {
+        return running;
+    }
+
     public void stopServer() {
         if (!running) {
             return;

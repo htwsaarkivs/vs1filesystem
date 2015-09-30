@@ -1,5 +1,7 @@
 package htw.vs1.filesystem.Network.Discovery;
 
+import htw.vs1.filesystem.FileSystemManger;
+
 import java.io.IOException;
 import java.net.*;
 import java.util.Enumeration;
@@ -56,8 +58,12 @@ public class DiscoveryListener extends DiscoveryThread {
         }
     }
 
-    // Frage: bin ich es, wenn der Server einen anderen Port nutzt, aber auf meiner Adresse unterwegs ist?
     private boolean itsme(InetAddress remoteAddress) throws SocketException {
+        if (!FileSystemManger.getInstance().fileSystemServerRunning()) {
+            // If I do not have a file system server running the address cannot be mine.
+            return false;
+        }
+
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
         while (interfaces.hasMoreElements()) {
             NetworkInterface networkInterface = interfaces.nextElement();
