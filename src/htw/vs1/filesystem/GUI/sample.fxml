@@ -126,8 +126,8 @@
                   <TableView fx:id="tableView" layoutX="144.0" layoutY="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                         <TableColumn fx:id="tableColumnIcon" minWidth="30.0" prefWidth="30.0" text="" />
-                      <TableColumn fx:id="tableColumnName" minWidth="700.0" prefWidth="700.0" text="Name" />
-                      <TableColumn fx:id="tableColumnType" minWidth="50.0" prefWidth="50.0" text="Type" />
+                      <TableColumn fx:id="tableColumnName" minWidth="650.0" prefWidth="650.0" text="Name" />
+                      <TableColumn fx:id="tableColumnType" minWidth="100.0" prefWidth="100.0" text="Type" />
                     </columns>
                   </TableView>
                </children>
