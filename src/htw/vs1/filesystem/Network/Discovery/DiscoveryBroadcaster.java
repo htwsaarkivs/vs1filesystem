@@ -29,6 +29,10 @@ public class DiscoveryBroadcaster {
     }
 
     public void stop() {
+        if (socket == null) {
+            return;
+        }
+
         socket.close();
         socket = null;
     }

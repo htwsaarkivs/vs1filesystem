@@ -30,9 +30,17 @@ public class FileSystemManger {
     }
 
     public void init(String pathToLocalFolder, int serverPort) {
+        initServerOnlyMode(pathToLocalFolder, serverPort);
+        startDiscoveryListener(true);
+    }
+
+    public void initClientOnlyMode() {
+        startDiscoveryListener(true);
+    }
+
+    public void initServerOnlyMode(String pathToLocalFolder, int serverPort) {
         loadFileSystem(pathToLocalFolder);
         startFileSystemServer(serverPort);
-        startDiscoveryListener(true);
     }
 
     public void close() {
