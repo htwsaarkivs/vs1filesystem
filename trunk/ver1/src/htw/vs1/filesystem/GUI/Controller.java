@@ -354,13 +354,7 @@ public class Controller implements Initializable {
 
 
         setServerStatusIndicator(FileSystemManger.getInstance().getServerStatus());
-        FileSystemManger.getInstance().attachServerStatusObserver(new ServerStatusObserver() {
-
-            @Override
-            public void serverStatusChanged(ServerStatus newStatus) {
-                setServerStatusIndicator(newStatus);
-            }
-        });
+        FileSystemManger.getInstance().attachServerStatusObserver(this::setServerStatusIndicator);
 
     }
 
