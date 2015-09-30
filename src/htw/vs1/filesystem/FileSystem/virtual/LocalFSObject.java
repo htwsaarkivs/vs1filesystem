@@ -71,7 +71,10 @@ public abstract class LocalFSObject extends AbstractFSObject {
             throw new FSObjectAlreadyExistsException("The FSObject " + name + " already exists in this folder");
         }
 
-        if (null != getPath()) {
+        // the root of the local folder is always called "local" by default and not
+        // the correct name of the physical folder so it doesn't make sense to rename
+        // the physical one.
+        if (null != getPath() && !( getParentFolder() instanceof MountPointFolder)) {
             try {
                 Path newPath = getPath().resolveSibling(name);
                 Files.move(getPath(), newPath);

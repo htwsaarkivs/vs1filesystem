@@ -235,11 +235,9 @@ public class LocalFolder extends LocalFSObject implements Folder {
             throw new FSObjectAlreadyExistsException(object, "FSObject already exists", null);
         }
 
-        object.setParentFolder(this);
-
         // we now at the file/folder to our content-list so it won't be added by the file system watch service.
         // If any error happened by creating the "physical" file/folder we have to remove it again from the list.
-        contents.add(object);
+        addObjectToContent(object);
 
         try {
             if (null == pathOfFile && null != getPath()) {
@@ -264,6 +262,18 @@ public class LocalFolder extends LocalFSObject implements Folder {
         }
 
         //contents.add(object);
+    }
+
+    /**
+     * Add a given object to the content list.
+     * Caution: The permission won't be checked.
+     *
+     * @param object
+     * @throws FileSystemException
+     */
+    protected void addObjectToContent(FSObject object) throws FileSystemException {
+        object.setParentFolder(this);
+        contents.add(object);
     }
 
     /**

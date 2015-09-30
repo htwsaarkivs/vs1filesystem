@@ -10,6 +10,8 @@ public class Permissions {
 
     private boolean locked = false;
 
+    private boolean mountable = false;
+
     private final boolean lockingAllowed;
 
     public Permissions(final boolean lockingAllowed) {
@@ -25,7 +27,7 @@ public class Permissions {
     }
 
     public boolean isDeleteAllowed() {
-        return !locked;
+        return !locked && !mountable;
     }
 
     public boolean isGetContentAllowed() {
@@ -37,11 +39,11 @@ public class Permissions {
     }
 
     public boolean isRenameAllowed() {
-        return !locked;
+        return !locked && !mountable;
     }
 
     public boolean isAddAllowed() {
-        return !locked;
+        return !locked && !mountable;
     }
 
     public boolean isSearchAllowed() {
@@ -49,7 +51,15 @@ public class Permissions {
     }
 
     public boolean isLockingAllowed() {
-        return lockingAllowed;
+        return lockingAllowed && !mountable;
+    }
+
+    public boolean isMountable() {
+        return mountable;
+    }
+
+    protected void setMountable() {
+        this.mountable = true;
     }
 
 }
