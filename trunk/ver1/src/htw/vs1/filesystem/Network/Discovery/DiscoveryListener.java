@@ -41,29 +41,28 @@ public class DiscoveryListener extends DiscoveryThread {
 
         try {
             socket.receive(packet);
+
+            String portStr = new String(packet.getData()).trim();
+
+
+            try {
+                if (!itsme(packet.getAddress())) {
+                    int port = Integer.parseInt(portStr);
+
+                    DiscoveryManager.getInstance().add(
+                            packet.getAddress().getHostAddress(), port, packet.getAddress().getHostName());
+                }
+            } catch (NumberFormatException | SocketException e) {
+                if (FileSystemManger.DEBUG) {
+                    e.printStackTrace();
+                }
+            }
         } catch (IOException e) {
             if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
-            //e.printStackTrace();
         }
 
-        String portStr = new String(packet.getData()).trim();
-
-
-        try {
-            if (!itsme(packet.getAddress())) {
-                int port = Integer.parseInt(portStr);
-
-                DiscoveryManager.getInstance().add(
-                        packet.getAddress().getHostAddress(), port, packet.getAddress().getHostName());
-            }
-        } catch (NumberFormatException | SocketException e) {
-            if (FileSystemManger.DEBUG) {
-                e.printStackTrace();
-            }
-           // e.printStackTrace();
-        }
     }
 
     private boolean itsme(InetAddress remoteAddress) throws SocketException {
