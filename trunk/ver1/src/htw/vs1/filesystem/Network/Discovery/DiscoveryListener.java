@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.Network.Discovery;
 
 import htw.vs1.filesystem.FileSystemManger;
+import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 import java.io.IOException;
 import java.net.*;

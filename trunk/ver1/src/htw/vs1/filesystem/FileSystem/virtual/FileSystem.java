@@ -2,6 +2,7 @@ package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
+import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -8,6 +8,7 @@ import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
 import htw.vs1.filesystem.Network.Discovery.DiscoveredServersObserver;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
 import htw.vs1.filesystem.Network.TCPParallelServer;
+import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 import java.util.Collection;
 import java.util.Scanner;

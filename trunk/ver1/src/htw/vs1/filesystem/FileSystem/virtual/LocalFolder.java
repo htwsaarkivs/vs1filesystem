@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
 import htw.vs1.filesystem.FileSystem.physical.PhysicalFileSystemAdapter;
+import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;

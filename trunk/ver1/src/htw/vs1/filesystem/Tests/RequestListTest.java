@@ -4,6 +4,7 @@ import htw.vs1.filesystem.Network.Protocol.Requests.Request;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestLinkedList;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 import htw.vs1.filesystem.Network.Protocol.Requests.SimpleProtocolRequest;
+import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

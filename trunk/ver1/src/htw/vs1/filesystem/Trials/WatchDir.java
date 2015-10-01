@@ -33,6 +33,7 @@ package htw.vs1.filesystem.Trials;
 
 
 import com.sun.nio.file.SensitivityWatchEventModifier;
+import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 import java.nio.file.*;
 import static java.nio.file.StandardWatchEventKinds.*;
