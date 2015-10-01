@@ -8,6 +8,7 @@ import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
 import htw.vs1.filesystem.Network.Protocol.ServerStatus;
 import htw.vs1.filesystem.Network.ServerStatusObserver;
 import htw.vs1.filesystem.Network.TCPParallelServer;
+import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 import java.io.IOException;
 import java.util.Collection;
