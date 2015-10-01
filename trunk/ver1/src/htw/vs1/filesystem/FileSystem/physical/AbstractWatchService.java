@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.FileSystem.physical;
 
 import com.sun.nio.file.SensitivityWatchEventModifier;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -57,7 +57,7 @@ public abstract class AbstractWatchService extends Thread {
             try {
                 key = watcher.take();
             } catch (InterruptedException x) {
-                if (FileSystemManager.DEBUG) {
+                if (FileSystemManger.DEBUG) {
                     x.printStackTrace();
                 }
                 continue;

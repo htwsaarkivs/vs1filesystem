@@ -1,7 +1,6 @@
 package htw.vs1.filesystem.Network.Discovery;
 
 import htw.vs1.filesystem.FileSystemManger;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 import java.io.IOException;
 import java.net.*;
@@ -24,7 +23,7 @@ public class DiscoveryListener extends DiscoveryThread {
         try {
             return new DatagramSocket(DiscoveryManager.DISCOVERY_PORT, InetAddress.getByName("0.0.0.0"));
         } catch (UnknownHostException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             throw new SocketException();
@@ -43,7 +42,7 @@ public class DiscoveryListener extends DiscoveryThread {
         try {
             socket.receive(packet);
         } catch (IOException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             //e.printStackTrace();
@@ -60,7 +59,7 @@ public class DiscoveryListener extends DiscoveryThread {
                         packet.getAddress().getHostAddress(), port, packet.getAddress().getHostName());
             }
         } catch (NumberFormatException | SocketException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
            // e.printStackTrace();

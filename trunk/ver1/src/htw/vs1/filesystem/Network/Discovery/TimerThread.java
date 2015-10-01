@@ -1,6 +1,6 @@
 package htw.vs1.filesystem.Network.Discovery;
 
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 
 /**
  * The TimerThread is responsible for triggering
@@ -108,7 +108,7 @@ public class TimerThread extends Thread {
             try {
                 sleep(TIMER_INTERVAL);
             } catch (InterruptedException e) {
-                if (FileSystemManager.DEBUG) {
+                if (FileSystemManger.DEBUG) {
                     e.printStackTrace();
                 }
                 // stopping all services will interrupt and stops the timer thread.
@@ -128,7 +128,7 @@ public class TimerThread extends Thread {
             broadcaster.discovery();
         } catch (InterruptedException e) {
             // Oh broadcasting didn't work, maybe next time...
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
         }

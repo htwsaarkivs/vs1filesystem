@@ -3,7 +3,7 @@ package htw.vs1.filesystem.FileSystem.physical;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -70,7 +70,7 @@ public class PhysicalFileSystemAdapter {
             watchThread = new PhysicalFileSystemWatchService();
             watchThread.start();
         } catch (IOException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
         }
@@ -119,7 +119,7 @@ public class PhysicalFileSystemAdapter {
             try {
                 loadFileSystemObject(dir, parentFolder);
             }  catch (Exception e) {
-                if (FileSystemManager.DEBUG) {
+                if (FileSystemManger.DEBUG) {
                     e.printStackTrace();
                 }
             }

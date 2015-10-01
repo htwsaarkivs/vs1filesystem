@@ -2,7 +2,7 @@ package htw.vs1.filesystem.Tests;
 
 import htw.vs1.filesystem.FileSystem.exceptions.*;
 import htw.vs1.filesystem.FileSystem.virtual.*;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 import org.junit.Test;
 
 import java.nio.file.FileAlreadyExistsException;
@@ -37,7 +37,7 @@ public class LocalFolderTest {
             fail("add(Folder) should throw FileAlreadyExistsException, when trying to add a " +
                     "File with a duplicate Name in the current directory.");
         } catch (FileSystemException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             // fine, expected exception thrown by method.
@@ -49,7 +49,7 @@ public class LocalFolderTest {
             fail("add(File) should throw FileAlreadyExistsException, when trying to add a " +
                     "Folder with a duplicate Name in the current directory.");
         } catch (FileSystemException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             // fine, expected exception thrown by method.
@@ -65,17 +65,17 @@ public class LocalFolderTest {
             root.add(new RemoteFile("remoteFile"));
             fail("Method add(FSObject) does not check precondition. It should not be allowed to add a RemoteFile.");
         } catch (IllegalArgumentException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             // Fine, expected exception thrown by method.
         } catch (CouldNotCreateException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             fail("couldNotCreateException should not been thrown.");
         } catch (FileSystemException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
         }
@@ -134,7 +134,7 @@ public class LocalFolderTest {
             inst.getObject("a");
             fail("FSObjectNotFound Exception wurde nicht geworfen.");
         } catch(ObjectNotFoundException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             //Alles hat geklappt

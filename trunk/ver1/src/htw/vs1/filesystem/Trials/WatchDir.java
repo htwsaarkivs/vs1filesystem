@@ -33,7 +33,7 @@ package htw.vs1.filesystem.Trials;
 
 
 import com.sun.nio.file.SensitivityWatchEventModifier;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 
 import java.nio.file.*;
 import static java.nio.file.StandardWatchEventKinds.*;
@@ -126,7 +126,7 @@ public class WatchDir {
             try {
                 key = watcher.take();
             } catch (InterruptedException x) {
-                if (FileSystemManager.DEBUG) {
+                if (FileSystemManger.DEBUG) {
                     x.printStackTrace();
                 }
                 return;
@@ -162,7 +162,7 @@ public class WatchDir {
                             registerAll(child);
                         }
                     } catch (IOException x) {
-                        if (FileSystemManager.DEBUG) {
+                        if (FileSystemManger.DEBUG) {
                             x.printStackTrace();
                         }
                         // ignore to keep sample readbale

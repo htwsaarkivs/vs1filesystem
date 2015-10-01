@@ -2,7 +2,7 @@ package htw.vs1.filesystem.FileSystem.physical;
 
 import htw.vs1.filesystem.FileSystem.exceptions.*;
 import htw.vs1.filesystem.FileSystem.virtual.*;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -69,7 +69,7 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
             // get the object represented by the name
             affected = fileSystem.getWorkingDirectory().getObject(pathToObject.toFile().getName());
         } catch (ObjectNotFoundException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             return null;
@@ -98,7 +98,7 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
             }
 
         } catch (Exception e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
         }
@@ -129,13 +129,13 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
                 return;
             }
         } catch (FileSystemException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             // this should never happen because we already checked if the object exists...
             throw new IllegalStateException("Object doesn't exists even though #exists evaluates to true.", e);
         } catch (IOException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
         }
@@ -157,13 +157,13 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
                 PhysicalFileSystemAdapter.getInstance().loadFileSystemDirectories(child, (LocalFolder) toCreate);
             }
         } catch (FSObjectAlreadyExistsException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             // no problem, it look like the object was created by our file system ;-)
         }
         catch (Exception e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
         }

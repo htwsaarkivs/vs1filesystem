@@ -1,7 +1,7 @@
 package htw.vs1.filesystem.Tests;
 
 import htw.vs1.filesystem.CommandParser;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class CommandParserTest {
             assertEquals("getCommand should return empty String",test.getCommand(), "");
             assertEquals("getArgs should return empty String Array",test.getArgs().length, 0);
         } catch(Exception e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             fail("Empty String should not throw an exception");

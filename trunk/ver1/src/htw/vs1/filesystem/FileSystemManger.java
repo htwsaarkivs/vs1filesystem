@@ -8,7 +8,6 @@ import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
 import htw.vs1.filesystem.Network.Protocol.ServerStatus;
 import htw.vs1.filesystem.Network.ServerStatusObserver;
 import htw.vs1.filesystem.Network.TCPParallelServer;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -18,7 +17,7 @@ import java.util.Collection;
  */
 public class FileSystemManger {
 
-    public static final boolean DEBUG_MODE = false;
+    public static final boolean DEBUG = false;
 
     private static FileSystemManger INSTANCE = new FileSystemManger();
 
@@ -74,7 +73,7 @@ public class FileSystemManger {
         try {
             LocalFolder.setRootDirectory(pathToLocalFolder);
         } catch (IOException e) {
-            if (FileSystemManager.DEBUG) {
+            if (DEBUG) {
                 e.printStackTrace();
             }
             throw new RuntimeException("There was an error loading the file system.", e);

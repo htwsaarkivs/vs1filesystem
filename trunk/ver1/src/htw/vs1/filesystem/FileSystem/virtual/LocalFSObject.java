@@ -2,7 +2,7 @@ package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
@@ -81,7 +81,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
                 Files.move(getPath(), newPath);
                 setPath(newPath);
             } catch (IOException e) {
-                if (FileSystemManager.DEBUG) {
+                if (FileSystemManger.DEBUG) {
                     e.printStackTrace();
                 }
                 throw new CouldNotRenameException(this, FSObjectException.COULDNOTRENAME, e);

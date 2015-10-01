@@ -1,11 +1,11 @@
 package htw.vs1.filesystem.Network;
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
+import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Commands.Command;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 import java.io.*;
 import java.net.Socket;
@@ -39,7 +39,7 @@ public class TCPClient {
             clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
             clientProtocol.setState(SimpleProtocolState.READY);
         } catch (IOException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             throw new SimpleProtocolInitializationErrorException();

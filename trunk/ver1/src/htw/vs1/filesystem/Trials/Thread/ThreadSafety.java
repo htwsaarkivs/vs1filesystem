@@ -1,6 +1,8 @@
 package htw.vs1.filesystem.Trials.Thread;
 
 
+import htw.vs1.filesystem.FileSystemManger;
+
 /**
  * Created by Felix on 16.06.2015.
  */
@@ -25,7 +27,7 @@ public class ThreadSafety {
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
-                    if (FileSystemManager.DEBUG) {
+                    if (FileSystemManger.DEBUG) {
                         e.printStackTrace();
                     }
                 }

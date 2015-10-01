@@ -5,7 +5,7 @@ import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameException;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,7 +29,7 @@ public abstract class AbstractFSObject implements FSObject {
             setName(name);
         } catch (CouldNotRenameException couldNotRenameException) {
             // This should not happen by the creation of this object.
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 couldNotRenameException.printStackTrace();
             }
         }

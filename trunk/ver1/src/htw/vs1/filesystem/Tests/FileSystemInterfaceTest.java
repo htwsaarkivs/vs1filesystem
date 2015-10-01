@@ -2,7 +2,7 @@ package htw.vs1.filesystem.Tests;
 
 import htw.vs1.filesystem.FileSystem.exceptions.ObjectNotFoundException;
 import htw.vs1.filesystem.FileSystem.virtual.*;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -71,7 +71,7 @@ public class FileSystemInterfaceTest {
             this.fs.changeDirectory("does-not-exist");
             fail("Ordner exisitiert nicht. Erwartete Exception ObjectNotFoundException wurde nicht geworfen.");
         } catch (ObjectNotFoundException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             //Alles in Ordnung
@@ -83,7 +83,7 @@ public class FileSystemInterfaceTest {
             this.fs.changeDirectory("datei1");
             fail("�bergebener Name geh�rt zu einer Datei. Erwartete Exception ObjectNotFoundException wurde nicht geworfen.");
         } catch (ObjectNotFoundException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             //.. Alles in Ordnung

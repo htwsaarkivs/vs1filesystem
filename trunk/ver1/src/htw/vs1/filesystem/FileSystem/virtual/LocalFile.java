@@ -3,7 +3,7 @@ package htw.vs1.filesystem.FileSystem.virtual;
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteException;
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.exceptions.PermissionDeniedException;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -51,7 +51,7 @@ public class LocalFile extends LocalFSObject implements File {
             try {
                 Files.delete(path);
             } catch (IOException e) {
-                if (FileSystemManager.DEBUG) {
+                if (FileSystemManger.DEBUG) {
                     e.printStackTrace();
                 }
                 throw new CouldNotDeleteException(this, "", e);

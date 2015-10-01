@@ -4,7 +4,7 @@ import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
 import htw.vs1.filesystem.FileSystem.physical.PhysicalFileSystemAdapter;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
@@ -62,7 +62,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
                     rootFolder = new LocalFolder(ROOT_FOLDER_NAME, ROOT_FOLDER_PATH);
                 }
             } catch (FileSystemException e) {
-                if (FileSystemManager.DEBUG) {
+                if (FileSystemManger.DEBUG) {
                     e.printStackTrace();
                 }
             }
@@ -248,7 +248,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
                         Files.createDirectory(pathOfFile);
                     }
                 } catch (UnsupportedOperationException | SecurityException | IOException e) {
-                    if (FileSystemManager.DEBUG) {
+                    if (FileSystemManger.DEBUG) {
                         e.printStackTrace();
                     }
                     throw new CouldNotCreateException(FSObjectException.COULDNOTCREATE, e);
@@ -258,7 +258,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
                 ((LocalFSObject) object).setPath(pathOfFile);
             }
         } catch (Throwable e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             // iff any error occurred we have to remove the object again from the list and pass the error on.
@@ -329,7 +329,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
             try {
                 Files.delete(getPath());
             } catch (IOException e) {
-                if (FileSystemManager.DEBUG) {
+                if (FileSystemManger.DEBUG) {
                     e.printStackTrace();
                 }
                 throw new CouldNotDeleteException(this, FSObjectException.COULDNOTDELETE, e);
