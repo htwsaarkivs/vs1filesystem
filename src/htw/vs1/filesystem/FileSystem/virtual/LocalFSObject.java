@@ -80,6 +80,9 @@ public abstract class LocalFSObject extends AbstractFSObject {
                 Files.move(getPath(), newPath);
                 setPath(newPath);
             } catch (IOException e) {
+                if (FileSystemManager.DEBUG) {
+                    e.printStackTrace();
+                }
                 throw new CouldNotRenameException(this, FSObjectException.COULDNOTRENAME, e);
             }
         }

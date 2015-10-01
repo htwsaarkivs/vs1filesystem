@@ -25,6 +25,9 @@ public class LocalFileTest {
             fail("delete(File) should throw CouldNotDeleteException, when trying to delete a " +
                     "File that not exists.");
         } catch (Exception e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             // Alles OK
         }
     }
@@ -40,6 +43,9 @@ public class LocalFileTest {
             fail("delete(File) should throw InvalidFilenameException, when trying to setname of a " +
                     "File that already exists.");
         } catch (InvalidFilenameException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             // Alles OK
         }
     }

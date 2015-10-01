@@ -28,7 +28,9 @@ public abstract class AbstractFSObject implements FSObject {
             setName(name);
         } catch (CouldNotRenameException couldNotRenameException) {
             // This should not happen by the creation of this object.
-            couldNotRenameException.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                couldNotRenameException.printStackTrace();
+            }
         }
     }
 

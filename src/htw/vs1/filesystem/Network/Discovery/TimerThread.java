@@ -106,6 +106,9 @@ public class TimerThread extends Thread {
             try {
                 sleep(TIMER_INTERVAL);
             } catch (InterruptedException e) {
+                if (FileSystemManager.DEBUG) {
+                    e.printStackTrace();
+                }
                 // stopping all services will interrupt and stops the timer thread.
                 //e.printStackTrace();
             }
@@ -123,7 +126,9 @@ public class TimerThread extends Thread {
             broadcaster.discovery();
         } catch (InterruptedException e) {
             // Oh broadcasting didn't work, maybe next time...
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
         }
     }
 

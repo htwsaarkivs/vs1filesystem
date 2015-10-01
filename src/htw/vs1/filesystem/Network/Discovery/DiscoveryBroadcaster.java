@@ -24,7 +24,9 @@ public class DiscoveryBroadcaster {
         try {
             sendBroadcastToAll(getDatagramSocket());
         } catch (SocketException e) {
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -61,6 +63,9 @@ public class DiscoveryBroadcaster {
         try {
             sendBroadcast(InetAddress.getByName("224.0.0.1"), socket);
         } catch (UnknownHostException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             throw new SocketException("Should not occur :/");
         }
     }
@@ -74,6 +79,9 @@ public class DiscoveryBroadcaster {
             DatagramPacket packet = new DatagramPacket(data, data.length, address, DiscoveryManager.DISCOVERY_PORT);
             socket.send(packet);
         } catch (IOException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             // we don't care, maybe it works the next time.
             //e.printStackTrace();
         }

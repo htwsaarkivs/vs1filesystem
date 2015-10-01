@@ -224,7 +224,9 @@ public class
                 goon = executeCommand(command);
             }catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
-                e.printStackTrace();
+                if (FileSystemManager.DEBUG) {
+                    e.printStackTrace();
+                }
             }
 
             if (!goon) {
@@ -251,6 +253,9 @@ public class
                     try {
                         port = Integer.parseInt(command.getParams()[0]);
                     } catch (NumberFormatException e) {
+                        if (FileSystemManager.DEBUG) {
+                            e.printStackTrace();
+                        }
                         // dann nimm default port...
                     }
                 }
@@ -365,6 +370,9 @@ public class
                             remotePort = Integer.parseInt(remotePortStr);
                             printUsage = false;
                         } catch (NumberFormatException e) {
+                            if (FileSystemManager.DEBUG) {
+                                e.printStackTrace();
+                            }
                             printUsage = true;
                         }
                     }

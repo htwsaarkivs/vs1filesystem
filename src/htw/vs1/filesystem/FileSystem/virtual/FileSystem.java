@@ -64,7 +64,9 @@ public class FileSystem implements FileSystemInterface {
                 ((MountPointFolder) rootFolder).addMountPoint(workingFolder);
                 this.workingFolder = rootFolder;
             } catch (FileSystemException e) {
-                e.printStackTrace();
+                if (FileSystemManager.DEBUG) {
+                    e.printStackTrace();
+                }
             }
         } else {
             this.workingFolder = workingFolder;

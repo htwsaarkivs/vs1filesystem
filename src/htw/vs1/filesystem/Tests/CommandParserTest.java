@@ -25,6 +25,9 @@ public class CommandParserTest {
             assertEquals("getCommand should return empty String",test.getCommand(), "");
             assertEquals("getArgs should return empty String Array",test.getArgs().length, 0);
         } catch(Exception e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             fail("Empty String should not throw an exception");
         }
     }

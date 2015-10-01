@@ -23,7 +23,9 @@ public class DiscoveryListener extends DiscoveryThread {
         try {
             return new DatagramSocket(DiscoveryManager.DISCOVERY_PORT, InetAddress.getByName("0.0.0.0"));
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             throw new SocketException();
         }
     }
@@ -40,6 +42,9 @@ public class DiscoveryListener extends DiscoveryThread {
         try {
             socket.receive(packet);
         } catch (IOException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             //e.printStackTrace();
         }
 
@@ -54,6 +59,9 @@ public class DiscoveryListener extends DiscoveryThread {
                         packet.getAddress().getHostAddress(), port, packet.getAddress().getHostName());
             }
         } catch (NumberFormatException | SocketException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
            // e.printStackTrace();
         }
     }

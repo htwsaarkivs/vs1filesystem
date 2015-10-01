@@ -38,6 +38,9 @@ public class TCPClient {
             clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
             clientProtocol.setState(SimpleProtocolState.READY);
         } catch (IOException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             throw new SimpleProtocolInitializationErrorException();
         }
 

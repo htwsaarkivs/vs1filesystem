@@ -50,6 +50,9 @@ public class LocalFile extends LocalFSObject implements File {
             try {
                 Files.delete(path);
             } catch (IOException e) {
+                if (FileSystemManager.DEBUG) {
+                    e.printStackTrace();
+                }
                 throw new CouldNotDeleteException(this, "", e);
             }
         }

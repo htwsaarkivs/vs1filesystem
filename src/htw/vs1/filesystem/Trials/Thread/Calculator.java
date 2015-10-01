@@ -16,7 +16,9 @@ public class Calculator {
         try {
             Thread.sleep(5000); // sleeps 5 seconds
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
         }
         result = temp + value;
     }

@@ -36,6 +36,9 @@ public class LocalFolderTest {
             fail("add(Folder) should throw FileAlreadyExistsException, when trying to add a " +
                     "File with a duplicate Name in the current directory.");
         } catch (FileSystemException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             // fine, expected exception thrown by method.
         }
 
@@ -45,6 +48,9 @@ public class LocalFolderTest {
             fail("add(File) should throw FileAlreadyExistsException, when trying to add a " +
                     "Folder with a duplicate Name in the current directory.");
         } catch (FileSystemException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             // fine, expected exception thrown by method.
         }
     }
@@ -58,11 +64,19 @@ public class LocalFolderTest {
             root.add(new RemoteFile("remoteFile"));
             fail("Method add(FSObject) does not check precondition. It should not be allowed to add a RemoteFile.");
         } catch (IllegalArgumentException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             // Fine, expected exception thrown by method.
         } catch (CouldNotCreateException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             fail("couldNotCreateException should not been thrown.");
         } catch (FileSystemException e) {
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -70,10 +84,18 @@ public class LocalFolderTest {
             root.add(new RemoteFolder("remoteFolder"));
             fail("Method add(FSObject) does not check precondition. It should not be allowed to add a RemoteFile.");
         } catch (IllegalArgumentException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             // Fine, expected exception thrown by method.
         } catch (FileAlreadyExistsException e) {
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
         } catch (CouldNotCreateException e) {
+            if (FileSystemManager.DEBUG) {
+            e.printStackTrace();
+           }
             fail("CouldNotCreateException should not been thrown.");
         }*/
     }
@@ -111,6 +133,9 @@ public class LocalFolderTest {
             inst.getObject("a");
             fail("FSObjectNotFound Exception wurde nicht geworfen.");
         } catch(ObjectNotFoundException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             //Alles hat geklappt
         }
 
