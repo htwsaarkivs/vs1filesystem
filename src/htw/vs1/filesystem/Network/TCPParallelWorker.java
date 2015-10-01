@@ -1,8 +1,8 @@
 package htw.vs1.filesystem.Network;
 
 import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
+import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Protocol.Server.SimpleServerProtocol;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 import java.net.Socket;
 
@@ -31,7 +31,7 @@ public class TCPParallelWorker extends Thread {
             socket.close();
 
         } catch (Exception e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
         }

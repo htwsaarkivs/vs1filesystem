@@ -3,7 +3,6 @@ package htw.vs1.filesystem.Network;
 import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Protocol.ServerStatus;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 
 import java.io.IOException;
@@ -75,7 +74,7 @@ public class TCPParallelServer extends Thread implements ServerInterface {
                     System.out.println("Neuer Client verbunden: "+client.getInetAddress().toString());
                     (new TCPParallelWorker(client)).start();
                 } catch (IOException e) {
-                    if (FileSystemManager.DEBUG) {
+                    if (FileSystemManger.DEBUG) {
                         e.printStackTrace();
                     }
                     // Thread may be interrupted
@@ -90,7 +89,7 @@ public class TCPParallelServer extends Thread implements ServerInterface {
         catch (Exception e)
         {
             changeServerStatus(ServerStatus.ERROR);
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             /*if (FileSystemManger.DEBUG_MODE) {
@@ -116,7 +115,7 @@ public class TCPParallelServer extends Thread implements ServerInterface {
         try {
             socket.close();
         } catch (IOException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             /*if (FileSystemManger.DEBUG_MODE) {

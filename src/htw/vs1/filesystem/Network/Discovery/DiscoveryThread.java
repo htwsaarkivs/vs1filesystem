@@ -1,6 +1,6 @@
 package htw.vs1.filesystem.Network.Discovery;
 
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 
 import java.net.DatagramSocket;
 import java.net.SocketException;
@@ -27,7 +27,7 @@ public abstract class DiscoveryThread extends Thread {
                 try {
                     discovery(socket);
                 } catch (InterruptedException e) {
-                    if (FileSystemManager.DEBUG) {
+                    if (FileSystemManger.DEBUG) {
                         e.printStackTrace();
                     }
                     // the thread may be interrupted by closing the socket.
@@ -39,7 +39,7 @@ public abstract class DiscoveryThread extends Thread {
             }
 
         } catch (SocketException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
         }

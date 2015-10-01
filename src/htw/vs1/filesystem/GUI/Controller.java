@@ -9,9 +9,7 @@ import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
 import htw.vs1.filesystem.Network.Protocol.ServerStatus;
-import htw.vs1.filesystem.Network.ServerStatusObserver;
 import htw.vs1.filesystem.Network.TCPParallelServer;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -76,7 +74,7 @@ public class Controller implements Initializable {
             fileSystem.changeDirectory(directory);
             listDirectoryContent();
         } catch (FileSystemException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             showErrorMessage(e);
@@ -104,7 +102,7 @@ public class Controller implements Initializable {
             this.textFieldDirectory.setText(fileSystem.printWorkingDirectory());
             tableView.sort();
         } catch (FileSystemException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             showErrorMessage(e);
@@ -126,7 +124,7 @@ public class Controller implements Initializable {
                 fileSystem.rename(cellContent.toString(), name);
                 listDirectoryContent();
             } catch (FileSystemException e) {
-                if (FileSystemManager.DEBUG) {
+                if (FileSystemManger.DEBUG) {
                     e.printStackTrace();
                 }
                 showErrorMessage(e);
@@ -140,7 +138,7 @@ public class Controller implements Initializable {
             fileSystem.delete(cellValue.toString());
             listDirectoryContent();
         } catch (FileSystemException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             showErrorMessage(e);
@@ -152,7 +150,7 @@ public class Controller implements Initializable {
             fileSystem.toggleLock(cellValue.toString());
             listDirectoryContent();
         } catch (FileSystemException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             showErrorMessage(e);
@@ -172,7 +170,7 @@ public class Controller implements Initializable {
                 fileSystem.createFSObject(name, true);
                 listDirectoryContent();
             } catch (FileSystemException e) {
-                if (FileSystemManager.DEBUG) {
+                if (FileSystemManger.DEBUG) {
                     e.printStackTrace();
                 }
                 showErrorMessage(e);
@@ -193,7 +191,7 @@ public class Controller implements Initializable {
                 fileSystem.createFSObject(name, false);
                 listDirectoryContent();
             } catch (FileSystemException e) {
-                if (FileSystemManager.DEBUG) {
+                if (FileSystemManger.DEBUG) {
                     e.printStackTrace();
                 }
                 showErrorMessage(e);
@@ -224,7 +222,7 @@ public class Controller implements Initializable {
                     TCPParallelServer.DEFAULT_USER, TCPParallelServer.DEFAULT_PASS);
             listDirectoryContent();
         } catch (FileSystemException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             showErrorMessage(e);
@@ -261,7 +259,7 @@ public class Controller implements Initializable {
                 searchResults.add(new SearchItem(fsObject.getName(), fsObject.getAbsolutePath()));
             }
         } catch (Throwable e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             showErrorMessage(e);
@@ -296,7 +294,7 @@ public class Controller implements Initializable {
         try {
             initiateFilesystem();
         } catch (IOException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             showErrorMessage(e);

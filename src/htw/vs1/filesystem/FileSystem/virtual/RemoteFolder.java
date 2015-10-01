@@ -1,12 +1,11 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
 import htw.vs1.filesystem.FileSystem.exceptions.*;
+import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Protocol.Commands.LS;
 import htw.vs1.filesystem.Network.TCPClient;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.nio.file.FileAlreadyExistsException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -177,7 +176,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
         try {
             content = getContent();
         } catch (FileSystemException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             // if search is not allowed, we don't throw any exception but we

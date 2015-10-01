@@ -1,10 +1,9 @@
 package htw.vs1.filesystem.Tests;
 
-import htw.vs1.filesystem.Network.Protocol.Requests.Request;
+import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestLinkedList;
 import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 import htw.vs1.filesystem.Network.Protocol.Requests.SimpleProtocolRequest;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,7 +56,7 @@ public class RequestListTest {
             list.getNthElementFromEnd(-1);
             fail("Expected IndexOutOfBoundsException for illegal n");
         } catch (IndexOutOfBoundsException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             //Alles okay
@@ -67,7 +66,7 @@ public class RequestListTest {
             list.getNthElementFromEnd(42);
             fail("Expected IndexOutOfBoundsException for invalid n");
         } catch (IndexOutOfBoundsException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             //Alles okay

@@ -2,7 +2,7 @@ package htw.vs1.filesystem.Tests;
 
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -26,7 +26,7 @@ public class LocalFileTest {
             fail("delete(File) should throw CouldNotDeleteException, when trying to delete a " +
                     "File that not exists.");
         } catch (Exception e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             // Alles OK
@@ -44,7 +44,7 @@ public class LocalFileTest {
             fail("delete(File) should throw InvalidFilenameException, when trying to setname of a " +
                     "File that already exists.");
         } catch (InvalidFilenameException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             // Alles OK

@@ -2,7 +2,7 @@ package htw.vs1.filesystem.FileSystem.virtual;
 
 import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -65,7 +65,7 @@ public class FileSystem implements FileSystemInterface {
                 ((MountPointFolder) rootFolder).addMountPoint(workingFolder);
                 this.workingFolder = rootFolder;
             } catch (FileSystemException e) {
-                if (FileSystemManager.DEBUG) {
+                if (FileSystemManger.DEBUG) {
                     e.printStackTrace();
                 }
             }

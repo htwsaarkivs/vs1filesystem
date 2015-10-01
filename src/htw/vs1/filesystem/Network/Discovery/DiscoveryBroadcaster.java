@@ -1,6 +1,6 @@
 package htw.vs1.filesystem.Network.Discovery;
 
-import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+import htw.vs1.filesystem.FileSystemManger;
 
 import java.io.IOException;
 import java.net.*;
@@ -26,7 +26,7 @@ public class DiscoveryBroadcaster {
         try {
             sendBroadcastToAll(getDatagramSocket());
         } catch (SocketException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
         }
@@ -65,7 +65,7 @@ public class DiscoveryBroadcaster {
         try {
             sendBroadcast(InetAddress.getByName("224.0.0.1"), socket);
         } catch (UnknownHostException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             throw new SocketException("Should not occur :/");
@@ -81,7 +81,7 @@ public class DiscoveryBroadcaster {
             DatagramPacket packet = new DatagramPacket(data, data.length, address, DiscoveryManager.DISCOVERY_PORT);
             socket.send(packet);
         } catch (IOException e) {
-            if (FileSystemManager.DEBUG) {
+            if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             // we don't care, maybe it works the next time.
