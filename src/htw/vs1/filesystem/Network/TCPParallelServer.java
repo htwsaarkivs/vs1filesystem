@@ -3,6 +3,7 @@ package htw.vs1.filesystem.Network;
 import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Protocol.ServerStatus;
+import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 
 import java.io.IOException;

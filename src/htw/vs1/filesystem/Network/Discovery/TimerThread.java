@@ -1,5 +1,7 @@
 package htw.vs1.filesystem.Network.Discovery;
 
+import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
+
 /**
  * The TimerThread is responsible for triggering
  * periodical tasks, e.g. the broadcaster or the

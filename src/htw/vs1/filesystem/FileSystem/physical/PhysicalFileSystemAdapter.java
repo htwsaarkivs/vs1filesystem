@@ -3,6 +3,7 @@ package htw.vs1.filesystem.FileSystem.physical;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
+import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 import java.io.IOException;
 import java.nio.file.*;

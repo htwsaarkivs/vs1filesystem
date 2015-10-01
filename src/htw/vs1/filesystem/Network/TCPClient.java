@@ -5,6 +5,7 @@ import htw.vs1.filesystem.Network.Protocol.Commands.Command;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
+import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 import java.io.*;
 import java.net.Socket;

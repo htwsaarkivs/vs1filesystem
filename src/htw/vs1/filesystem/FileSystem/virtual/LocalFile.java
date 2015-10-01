@@ -3,6 +3,7 @@ package htw.vs1.filesystem.FileSystem.virtual;
 import htw.vs1.filesystem.FileSystem.exceptions.CouldNotDeleteException;
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.exceptions.PermissionDeniedException;
+import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 import java.io.IOException;
 import java.nio.file.Files;

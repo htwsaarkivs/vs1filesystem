@@ -5,6 +5,7 @@ import htw.vs1.filesystem.FileSystem.exceptions.CouldNotRenameException;
 import htw.vs1.filesystem.FileSystem.exceptions.FSObjectException;
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
+import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

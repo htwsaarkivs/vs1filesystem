@@ -2,6 +2,7 @@ package htw.vs1.filesystem.Tests;
 
 import htw.vs1.filesystem.FileSystem.exceptions.InvalidFilenameException;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFile;
+import htw.vs1.filesystem.Trials.Thread.FileSystemManager;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
