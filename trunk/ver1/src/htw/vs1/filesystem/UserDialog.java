@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class
         UserDialog {
 
-    // FIXME: Error-Handling if the user is an idiot !!
+    // FƒIXME: Error-Handling if the user is an idiot !!
 
     /**
      * Line seperator depending on the os.

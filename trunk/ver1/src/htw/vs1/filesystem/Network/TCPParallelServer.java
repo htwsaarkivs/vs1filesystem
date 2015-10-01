@@ -3,6 +3,7 @@ package htw.vs1.filesystem.Network;
 import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Protocol.ServerStatus;
+import sun.awt.image.ImageWatched;
 
 
 import java.io.IOException;
@@ -11,20 +12,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by markus on 05.06.15.
  */
 public class TCPParallelServer extends Thread implements ServerInterface {
 
+    public static final int MAX_NUM_THREADS = 200;
     public static final int DEFAULT_PORT = 4322;
     private static final int DEFAULT_TIMEOUT = 10000;
-
     public static final String DEFAULT_USER = "A";
     public static final String DEFAULT_PASS = "B";
-
     private static final String THREAD_NAME = "ServerThread";
-
     private static TCPParallelServer INSTANCE = null;
 
     private int port = DEFAULT_PORT;
@@ -33,10 +34,11 @@ public class TCPParallelServer extends Thread implements ServerInterface {
     private volatile boolean running = false;
 
     private ServerSocket socket;
-
     private ServerStatus serverStatus = ServerStatus.STOPPED;
-
     private List<ServerStatusObserver> serverStatusObservers = new LinkedList<>();
+
+    protected ExecutorService workerPool = Executors.newFixedThreadPool(MAX_NUM_THREADS);
+    protected List<TCPParallelWorker> workerList = new LinkedList<TCPParallelWorker>();
 
     public static TCPParallelServer getInstance(int port) {
         if (INSTANCE == null) {
@@ -71,8 +73,12 @@ public class TCPParallelServer extends Thread implements ServerInterface {
             {
                 try {
                     Socket client = socket.accept();
-                    System.out.println("Neuer Client verbunden: "+client.getInetAddress().toString());
-                    (new TCPParallelWorker(client)).start();
+                    //Connection Timeout
+                    client.setSoTimeout(600000);
+                    System.out.println("Neuer Client verbunden: " + client.getInetAddress().toString());
+                    TCPParallelWorker worker = new TCPParallelWorker(client);
+                    workerList.add(worker);
+                    workerPool.execute(worker);
                 } catch (IOException e) {
                     if (FileSystemManger.DEBUG) {
                         e.printStackTrace();
@@ -108,19 +114,15 @@ public class TCPParallelServer extends Thread implements ServerInterface {
     }
 
     public void stopServer() {
-        if (!running) {
-            return;
+        workerPool.shutdown();
+        for(TCPParallelWorker worker : workerList) {
+            worker.stopWorker();
         }
-        this.running = false;
+
         try {
             socket.close();
         } catch (IOException e) {
-            if (FileSystemManger.DEBUG) {
-                e.printStackTrace();
-            }
-            /*if (FileSystemManger.DEBUG_MODE) {
-                e.printStackTrace();
-            }*/
+            e.printStackTrace();
         }
     }
 
