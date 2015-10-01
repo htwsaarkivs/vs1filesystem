@@ -25,6 +25,9 @@ public abstract class DiscoveryThread extends Thread {
                 try {
                     discovery(socket);
                 } catch (InterruptedException e) {
+                    if (FileSystemManager.DEBUG) {
+                        e.printStackTrace();
+                    }
                     // the thread may be interrupted by closing the socket.
                 }
             }
@@ -34,7 +37,9 @@ public abstract class DiscoveryThread extends Thread {
             }
 
         } catch (SocketException e) {
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
         }
     }
 

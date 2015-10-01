@@ -69,7 +69,9 @@ public class PhysicalFileSystemAdapter {
             watchThread = new PhysicalFileSystemWatchService();
             watchThread.start();
         } catch (IOException e) {
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -116,7 +118,9 @@ public class PhysicalFileSystemAdapter {
             try {
                 loadFileSystemObject(dir, parentFolder);
             }  catch (Exception e) {
-                e.printStackTrace();
+                if (FileSystemManager.DEBUG) {
+                    e.printStackTrace();
+                }
             }
         }
     }

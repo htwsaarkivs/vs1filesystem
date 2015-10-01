@@ -56,6 +56,9 @@ public class RequestListTest {
             list.getNthElementFromEnd(-1);
             fail("Expected IndexOutOfBoundsException for illegal n");
         } catch (IndexOutOfBoundsException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             //Alles okay
         }
 
@@ -63,6 +66,9 @@ public class RequestListTest {
             list.getNthElementFromEnd(42);
             fail("Expected IndexOutOfBoundsException for invalid n");
         } catch (IndexOutOfBoundsException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             //Alles okay
         }
 

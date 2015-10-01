@@ -30,7 +30,9 @@ public class TCPParallelWorker extends Thread {
             socket.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
         }
 
     }

@@ -25,7 +25,9 @@ public class ThreadSafety {
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    if (FileSystemManager.DEBUG) {
+                        e.printStackTrace();
+                    }
                 }
                 calculator.addThreadSafe(7, threadSafe);
             }

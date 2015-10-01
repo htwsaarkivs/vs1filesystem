@@ -67,10 +67,14 @@ public class Main {
         }
         catch (ClassNotFoundException | InstantiationException e)
         {
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
         } catch (IllegalAccessException e)
         {
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
         }
         System.exit(1);
 

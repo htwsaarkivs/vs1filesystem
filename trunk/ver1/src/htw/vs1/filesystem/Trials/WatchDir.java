@@ -125,6 +125,9 @@ public class WatchDir {
             try {
                 key = watcher.take();
             } catch (InterruptedException x) {
+                if (FileSystemManager.DEBUG) {
+                    x.printStackTrace();
+                }
                 return;
             }
 
@@ -158,6 +161,9 @@ public class WatchDir {
                             registerAll(child);
                         }
                     } catch (IOException x) {
+                        if (FileSystemManager.DEBUG) {
+                            x.printStackTrace();
+                        }
                         // ignore to keep sample readbale
                     }
                 }

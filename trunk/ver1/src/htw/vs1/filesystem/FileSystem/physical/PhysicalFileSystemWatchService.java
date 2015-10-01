@@ -68,6 +68,9 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
             // get the object represented by the name
             affected = fileSystem.getWorkingDirectory().getObject(pathToObject.toFile().getName());
         } catch (ObjectNotFoundException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             return null;
         }
 
@@ -94,7 +97,9 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
         }
 
         // reset the working directory to the root folder.
@@ -123,10 +128,15 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
                 return;
             }
         } catch (FileSystemException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             // this should never happen because we already checked if the object exists...
             throw new IllegalStateException("Object doesn't exists even though #exists evaluates to true.", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
         }
 
         try {
@@ -146,10 +156,15 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
                 PhysicalFileSystemAdapter.getInstance().loadFileSystemDirectories(child, (LocalFolder) toCreate);
             }
         } catch (FSObjectAlreadyExistsException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             // no problem, it look like the object was created by our file system ;-)
         }
         catch (Exception e) {
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
         }
 
         resetWorkingDirectory();

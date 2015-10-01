@@ -61,7 +61,9 @@ public class LocalFolder extends LocalFSObject implements Folder {
                     rootFolder = new LocalFolder(ROOT_FOLDER_NAME, ROOT_FOLDER_PATH);
                 }
             } catch (FileSystemException e) {
-                e.printStackTrace();
+                if (FileSystemManager.DEBUG) {
+                    e.printStackTrace();
+                }
             }
         }
         return rootFolder;
@@ -245,6 +247,9 @@ public class LocalFolder extends LocalFSObject implements Folder {
                         Files.createDirectory(pathOfFile);
                     }
                 } catch (UnsupportedOperationException | SecurityException | IOException e) {
+                    if (FileSystemManager.DEBUG) {
+                        e.printStackTrace();
+                    }
                     throw new CouldNotCreateException(FSObjectException.COULDNOTCREATE, e);
                 }
             }
@@ -252,6 +257,9 @@ public class LocalFolder extends LocalFSObject implements Folder {
                 ((LocalFSObject) object).setPath(pathOfFile);
             }
         } catch (Throwable e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             // iff any error occurred we have to remove the object again from the list and pass the error on.
             contents.remove(object);
             throw e;
@@ -320,7 +328,9 @@ public class LocalFolder extends LocalFSObject implements Folder {
             try {
                 Files.delete(getPath());
             } catch (IOException e) {
-                e.printStackTrace();
+                if (FileSystemManager.DEBUG) {
+                    e.printStackTrace();
+                }
                 throw new CouldNotDeleteException(this, FSObjectException.COULDNOTDELETE, e);
             }
         }

@@ -74,10 +74,13 @@ public class TCPParallelServer extends Thread implements ServerInterface {
                     System.out.println("Neuer Client verbunden: "+client.getInetAddress().toString());
                     (new TCPParallelWorker(client)).start();
                 } catch (IOException e) {
-                    // Thread may be interrupted
-                    if (FileSystemManger.DEBUG_MODE) {
+                    if (FileSystemManager.DEBUG) {
                         e.printStackTrace();
                     }
+                    // Thread may be interrupted
+                    /*if (FileSystemManger.DEBUG_MODE) {
+                        e.printStackTrace();
+                    }*/
                 }
 
             }
@@ -86,9 +89,12 @@ public class TCPParallelServer extends Thread implements ServerInterface {
         catch (Exception e)
         {
             changeServerStatus(ServerStatus.ERROR);
-            if (FileSystemManger.DEBUG_MODE) {
+            if (FileSystemManager.DEBUG) {
                 e.printStackTrace();
             }
+            /*if (FileSystemManger.DEBUG_MODE) {
+                e.printStackTrace();
+            }*/
         }
 
         changeServerStatus(ServerStatus.STOPPED);
@@ -109,9 +115,12 @@ public class TCPParallelServer extends Thread implements ServerInterface {
         try {
             socket.close();
         } catch (IOException e) {
-            if (FileSystemManger.DEBUG_MODE) {
+            if (FileSystemManager.DEBUG) {
                 e.printStackTrace();
             }
+            /*if (FileSystemManger.DEBUG_MODE) {
+                e.printStackTrace();
+            }*/
         }
     }
 

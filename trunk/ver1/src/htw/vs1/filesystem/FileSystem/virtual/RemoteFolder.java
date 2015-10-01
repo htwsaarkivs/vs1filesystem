@@ -176,6 +176,9 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
         try {
             content = getContent();
         } catch (FileSystemException e) {
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             // if search is not allowed, we don't throw any exception but we
             // simply skip the folder.
             return list;

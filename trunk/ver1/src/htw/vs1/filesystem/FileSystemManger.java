@@ -73,7 +73,9 @@ public class FileSystemManger {
         try {
             LocalFolder.setRootDirectory(pathToLocalFolder);
         } catch (IOException e) {
-            e.printStackTrace();
+            if (FileSystemManager.DEBUG) {
+                e.printStackTrace();
+            }
             throw new RuntimeException("There was an error loading the file system.", e);
         }
     }

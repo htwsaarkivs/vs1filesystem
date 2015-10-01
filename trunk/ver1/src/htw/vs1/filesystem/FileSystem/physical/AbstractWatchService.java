@@ -56,6 +56,9 @@ public abstract class AbstractWatchService extends Thread {
             try {
                 key = watcher.take();
             } catch (InterruptedException x) {
+                if (FileSystemManager.DEBUG) {
+                    x.printStackTrace();
+                }
                 continue;
             }
 
