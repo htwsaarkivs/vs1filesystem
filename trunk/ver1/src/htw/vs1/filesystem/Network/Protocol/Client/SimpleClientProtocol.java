@@ -1,5 +1,7 @@
 package htw.vs1.filesystem.Network.Protocol.Client;
 
+import htw.vs1.filesystem.FileSystemManger;
+import htw.vs1.filesystem.Network.Log.LogType;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
@@ -31,9 +33,22 @@ public class SimpleClientProtocol extends SimpleProtocol implements ClientProtoc
     }
 
     @Override
+    public void putLine(String line) {
+        FileSystemManger.getInstance().putNetworkLog(
+                line,
+                LogType.SERVER_LOG
+        );
+
+        super.putLine(line);
+    }
+
+    @Override
     public void readLine() throws SimpleProtocolFatalError {
         super.readLine();
 
-        System.out.println("DEBUG: " + getCurrentLine());
+        FileSystemManger.getInstance().putNetworkLog(
+                getCurrentLine(),
+                LogType.CLIENT_LOG
+        );
     }
 }
