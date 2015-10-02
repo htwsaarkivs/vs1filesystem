@@ -114,6 +114,10 @@ public class TCPParallelServer extends Thread implements ServerInterface {
     }
 
     public void stopServer() {
+        if (!running) {
+            return;
+        }
+
         running = false;
         workerPool.shutdown();
         for(TCPParallelWorker worker : workerList) {
