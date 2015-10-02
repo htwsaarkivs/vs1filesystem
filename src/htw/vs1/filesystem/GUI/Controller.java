@@ -64,7 +64,7 @@ public class Controller implements Initializable {
 
     private ObservableList<FileType> currentDirectory = FXCollections.observableArrayList();
     private ObservableList<SearchItem> searchResults = FXCollections.observableArrayList();
-    private ObservableList<String> logEntry;
+    private ObservableList<String> logEntries = FXCollections.observableArrayList();
     private ObservableList<FileSystemServer> serverEntrys = FXCollections.observableArrayList();
 
     private FileSystemInterface fileSystem;
@@ -299,6 +299,13 @@ public class Controller implements Initializable {
             }
             showErrorMessage(e);
         }
+
+        listViewTabLog.setItems(logEntries);
+
+        FileSystemManger.getInstance().addNetworkLogSubscriber(
+                log -> Platform.runLater(() -> logEntries.add(log.getLog()))
+        );
+
         /**
          * Don't know how, but it works
          */

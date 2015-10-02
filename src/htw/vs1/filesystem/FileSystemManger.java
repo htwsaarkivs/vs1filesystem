@@ -5,6 +5,10 @@ import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 import htw.vs1.filesystem.Network.Discovery.DiscoveredServersObserver;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
+import htw.vs1.filesystem.Network.Log.LogEntry;
+import htw.vs1.filesystem.Network.Log.LogSubscriber;
+import htw.vs1.filesystem.Network.Log.LogType;
+import htw.vs1.filesystem.Network.Log.NetworkLog;
 import htw.vs1.filesystem.Network.Protocol.ServerStatus;
 import htw.vs1.filesystem.Network.ServerStatusObserver;
 import htw.vs1.filesystem.Network.TCPParallelServer;
@@ -25,10 +29,12 @@ public class FileSystemManger {
         return INSTANCE;
     }
 
+    private NetworkLog networkLog;
+
     private int serverPort = 0;
 
     private FileSystemManger() {
-
+        networkLog = new NetworkLog();
     }
 
     public void init(String pathToLocalFolder, int serverPort) {
@@ -120,6 +126,14 @@ public class FileSystemManger {
 
     public ServerStatus getServerStatus() {
         return TCPParallelServer.getInstance(serverPort).getServerStatus();
+    }
+
+    public void addNetworkLogSubscriber(LogSubscriber subscriber) {
+        networkLog.addSubscriber(subscriber);
+    }
+
+    public void putNetworkLog(String log, LogType type) {
+        networkLog.log(new LogEntry(log, type));
     }
 
 
