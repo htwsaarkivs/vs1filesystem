@@ -1,5 +1,6 @@
 package htw.vs1.filesystem.GUI;
 
+import htw.vs1.filesystem.FileSystem.virtual.Permissions;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.Image;
@@ -38,28 +39,11 @@ public class FileType {
     private final SimpleObjectProperty<FileObject> fileName;
     private final SimpleStringProperty fileType;
 
-    private boolean isFolder = false;
-
-    public FileType (String fileName, boolean isFolder){
+    public FileType (String fileName, boolean isFolder, Permissions permissions) {
         this.fileName= new SimpleObjectProperty<>(new FileObject(fileName, isFolder));
         this.fileType= new SimpleStringProperty(isFolder ? "Folder" : "File");
-        /*  String imgName = "images/";
-                    imgName += item.isFolder() ? "folder.png" : "document-icon.png";
-                    imageView.setImage(
-                            new Image(Controller.class.getResource(imgName).toString())
-                    );*/
-        String imgName = "images/";
-        imgName += isFolder ? "Folder_032.png" : "File_032.png";
-        this.icon = new SimpleObjectProperty<>(new Image(FileType.class.getResource(imgName).toString()));
+        this.icon = new SimpleObjectProperty<>(Resources.fsObjectIcon(isFolder, permissions));
 
-    }
-
-    public boolean isFolder() {
-        return isFolder;
-    }
-
-    public FileObject getFileName() {
-        return fileName.get();
     }
 
     public SimpleObjectProperty<FileObject> fileNameProperty() {
