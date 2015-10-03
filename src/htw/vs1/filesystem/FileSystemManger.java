@@ -30,9 +30,7 @@ public class FileSystemManger {
     }
 
     private NetworkLog networkLog;
-
     private int serverPort = 0;
-
     private FileSystemManger() {
         networkLog = new NetworkLog();
     }
