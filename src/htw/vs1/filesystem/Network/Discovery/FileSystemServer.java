@@ -19,7 +19,7 @@ import java.util.Objects;
 public class FileSystemServer {
 
     // Lifetime is 4 times the broadcast interval
-    private static final long MAX_LIVE_TIME_MILLIS = TimerThread.TIMER_INTERVAL * 2;
+    private static final long MAX_LIVE_TIME_MILLIS = 8243;
 
     private String hostName;
 
@@ -39,13 +39,13 @@ public class FileSystemServer {
      * The time when the server was
      * discovered.
      */
-    private Date discoveryTime;
+    private long discoveryTime;
 
     public FileSystemServer(@NotNull String host, int port, @NotNull String hostName) {
         this.host = host;
         this.port = port;
         this.hostName = hostName;
-        this.discoveryTime = new Date();
+        this.discoveryTime = System.currentTimeMillis();
     }
 
     public int getPort() {
@@ -60,9 +60,9 @@ public class FileSystemServer {
         return hostName;
     }
 
-    public Date getDiscoveryTime() {
+    /*public Date getDiscoveryTime() {
         return discoveryTime;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -71,7 +71,7 @@ public class FileSystemServer {
 
     public boolean isOutdated() {
         long currentTimeMillis = System.currentTimeMillis();
-        long discoverMillis = discoveryTime.getTime();
+        long discoverMillis = discoveryTime;
         long diff = currentTimeMillis - discoverMillis;
 
         return (diff > MAX_LIVE_TIME_MILLIS);

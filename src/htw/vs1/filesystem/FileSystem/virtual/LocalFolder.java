@@ -179,7 +179,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
         }
 
         for (FSObject object : getContent()) {
-            if (object.getName().equals(name)) {
+            if (object.getName().contains(name)) {
                 list.add(object);
             }
             if (object instanceof Folder) {

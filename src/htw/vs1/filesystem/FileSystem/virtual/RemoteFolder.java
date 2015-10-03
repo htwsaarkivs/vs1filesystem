@@ -185,7 +185,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
         }
 
         for (FSObject object : content) {
-            if (object.getName().equals(name)) {
+            if (object.getName().contains(name)) {
                 list.add(object);
             }
             if (object instanceof Folder) {
