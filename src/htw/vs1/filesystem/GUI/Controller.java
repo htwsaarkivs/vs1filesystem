@@ -70,13 +70,13 @@ public class Controller implements Initializable {
     public void changeDirectory (String directory){
         try {
             fileSystem.changeDirectory(directory);
-            listDirectoryContent();
         } catch (FileSystemException e) {
             if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             showErrorMessage(e);
         }
+        listDirectoryContent();
     }
 
     public void home(ActionEvent actionEvent) {
