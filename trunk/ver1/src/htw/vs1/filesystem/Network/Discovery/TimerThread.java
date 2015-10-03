@@ -15,7 +15,7 @@ public class TimerThread extends Thread {
 
     private static final String THREAD_NAME = "TimerThread";
 
-    protected static final long TIMER_INTERVAL = 5000; // 5 seconds
+    protected static final long TIMER_INTERVAL = 1000; // 1 seconds
 
     private static TimerThread INSTANCE = null;
 

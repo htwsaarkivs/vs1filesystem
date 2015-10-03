@@ -38,12 +38,10 @@ public class DiscoveryListener extends DiscoveryThread {
     protected void discovery(DatagramSocket socket) throws InterruptedException {
         byte[] receiveBuffer = new byte[15000];
         DatagramPacket packet = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-
         try {
             socket.receive(packet);
 
             String portStr = new String(packet.getData()).trim();
-
 
             try {
                 if (!itsme(packet.getAddress())) {
@@ -70,7 +68,7 @@ public class DiscoveryListener extends DiscoveryThread {
             // If I do not have a file system server running the address cannot be mine.
             return false;
         }
-
+        long start = System.currentTimeMillis();
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
         while (interfaces.hasMoreElements()) {
             NetworkInterface networkInterface = interfaces.nextElement();
@@ -82,7 +80,9 @@ public class DiscoveryListener extends DiscoveryThread {
                 }
             }
         }
-
+        long stop = System.currentTimeMillis();
+        long diff = stop-start;
+        System.out.println(diff);
         return false;
     }
 }
