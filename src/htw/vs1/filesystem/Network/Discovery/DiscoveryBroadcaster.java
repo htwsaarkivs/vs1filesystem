@@ -62,14 +62,14 @@ public class DiscoveryBroadcaster {
             }
 
         }
-        try {
+        /*try {
             sendBroadcast(InetAddress.getByName("224.0.0.1"), socket);
         } catch (UnknownHostException e) {
             if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             throw new SocketException("Should not occur :/");
-        }
+        }*/
     }
 
     private void sendBroadcast(InetAddress address, DatagramSocket socket) throws SocketException {
