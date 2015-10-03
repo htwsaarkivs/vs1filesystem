@@ -1,10 +1,7 @@
 package htw.vs1.filesystem.GUI;
 
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
-import htw.vs1.filesystem.FileSystem.virtual.FSObject;
-import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
-import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
-import htw.vs1.filesystem.FileSystem.virtual.Folder;
+import htw.vs1.filesystem.FileSystem.virtual.*;
 import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
@@ -31,6 +28,7 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
+    private static final String BACK_FOLDER_NAME = "..";
     @FXML
     public ImageView imageViewServerIndicator;
     @FXML
@@ -95,9 +93,10 @@ public class Controller implements Initializable {
             list = fileSystem.getWorkingDirectory().getContent();
 
             currentDirectory.clear();
-            currentDirectory.add(new FileType("..", true));
+            currentDirectory.add(new FileType(BACK_FOLDER_NAME, true, new BackFolderPermissions()));
             for (FSObject fsObject : list) {
-                currentDirectory.add(new FileType(fsObject.getName(), fsObject instanceof Folder));
+                currentDirectory.add(
+                        new FileType(fsObject.getName(), fsObject instanceof Folder, fsObject.getPermissions()));
             }
             this.textFieldDirectory.setText(fileSystem.printWorkingDirectory());
             tableView.sort();

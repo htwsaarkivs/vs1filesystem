@@ -19,6 +19,8 @@ public class Permissions {
     }
 
     public void toggleLock() {
+        if (!lockingAllowed) return;
+
         locked = !locked;
     }
 
