@@ -18,7 +18,7 @@ import java.util.Objects;
  */
 public class FileSystemServer {
 
-    // Livetime is 4 times the broadcast interval
+    // Lifetime is 4 times the broadcast interval
     private static final long MAX_LIVE_TIME_MILLIS = TimerThread.TIMER_INTERVAL * 2;
 
     private String hostName;

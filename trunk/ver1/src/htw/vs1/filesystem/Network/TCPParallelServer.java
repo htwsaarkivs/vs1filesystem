@@ -31,8 +31,6 @@ public class TCPParallelServer extends Thread implements ServerInterface {
     private int port = DEFAULT_PORT;
     private int timeout = DEFAULT_TIMEOUT;
 
-    private volatile boolean running = false;
-
     private ServerSocket socket;
     private ServerStatus serverStatus = ServerStatus.STOPPED;
     private List<ServerStatusObserver> serverStatusObservers = new LinkedList<>();
@@ -67,14 +65,14 @@ public class TCPParallelServer extends Thread implements ServerInterface {
                     InetAddress.getLocalHost().getHostAddress(),
                     String.valueOf(port));
 
-            running = true;
             changeServerStatus(ServerStatus.RUNNING);
-            while (running)
+
+            while (!isInterrupted())
             {
                 try {
                     Socket client = socket.accept();
                     //Connection Timeout
-                    client.setSoTimeout(600000);
+                    client.setSoTimeout(120000);
                     System.out.println("Neuer Client verbunden: " + client.getInetAddress().toString());
                     TCPParallelWorker worker = new TCPParallelWorker(client);
                     workerList.add(worker);
@@ -83,10 +81,6 @@ public class TCPParallelServer extends Thread implements ServerInterface {
                     if (FileSystemManger.DEBUG) {
                         e.printStackTrace();
                     }
-                    // Thread may be interrupted
-                    /*if (FileSystemManger.DEBUG_MODE) {
-                        e.printStackTrace();
-                    }*/
                 }
 
             }
@@ -110,25 +104,22 @@ public class TCPParallelServer extends Thread implements ServerInterface {
     }
 
     public boolean isRunning() {
-        return running;
+        return !isInterrupted();
     }
 
     public void stopServer() {
-        if (!running) {
-            return;
+        interrupt();
+        workerPool.shutdown();
+        try {
+            socket.close();
+        } catch (IOException e) {
         }
 
-        running = false;
-        workerPool.shutdown();
         for(TCPParallelWorker worker : workerList) {
             worker.stopWorker();
         }
 
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
 
