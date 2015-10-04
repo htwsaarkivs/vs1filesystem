@@ -98,25 +98,33 @@ public class TimerThread extends Thread {
     @Override
     public void run() {
         while (doBroadcast || doCleanUp) {
-            if (doBroadcast) {
-                long start = System.currentTimeMillis();
-                triggerBroadcast();
-                long stop = System.currentTimeMillis();
-                long diff = stop - start;
-                System.out.println("\tDauer Broadcast: " + diff + " ms");
-            }
-            if (doCleanUp) {
-                triggerCleanUp();
-            }
 
             try {
-                sleep(TIMER_INTERVAL);
-            } catch (InterruptedException e) {
-                if (FileSystemManger.DEBUG) {
-                    e.printStackTrace();
+
+                if (doBroadcast) {
+                    long start = System.currentTimeMillis();
+                    triggerBroadcast();
+                    long stop = System.currentTimeMillis();
+                    long diff = stop - start;
+                    System.out.println("\tDauer Broadcast: " + diff + " ms");
                 }
-                // stopping all services will interrupt and stops the timer thread.
-                //e.printStackTrace();
+                if (doCleanUp) {
+                    triggerCleanUp();
+                }
+
+                try {
+                    sleep(TIMER_INTERVAL);
+                } catch (InterruptedException e) {
+                    if (FileSystemManger.DEBUG) {
+                        e.printStackTrace();
+                    }
+                    // stopping all services will interrupt and stops the timer thread.
+                    //e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                // catch all exceptions so the timer thread will not be killed.
+                e.printStackTrace();
             }
         }
 
