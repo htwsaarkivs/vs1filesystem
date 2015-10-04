@@ -5,6 +5,8 @@ import htw.vs1.filesystem.FileSystemManger;
 import java.io.IOException;
 import java.net.*;
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The DiscoveryBroadcaster is responsible for announcing
@@ -15,8 +17,10 @@ import java.util.Enumeration;
 public class DiscoveryBroadcaster {
 
     private int serverPort;
+    private List<InetAddress> broadcastAddresses = new LinkedList<InetAddress>();
 
     private DatagramSocket socket;
+
 
     public DiscoveryBroadcaster(int port) {
         this.serverPort = port;
@@ -48,6 +52,32 @@ public class DiscoveryBroadcaster {
             socket.setBroadcast(true);
         }
         return socket;
+    }
+
+
+    private void initBroadcastAddressList() throws UnknownHostException, SocketException {
+
+        //Universal Broadcast Address
+        broadcastAddresses.add(InetAddress.getByName("255.255.255.255"));
+        //Multicast in local subnet
+        broadcastAddresses.add(InetAddress.getByName("224.0.0.1"));
+
+        //Specific Network's BC address
+        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+        while (interfaces.hasMoreElements()) {
+            NetworkInterface networkInterface = interfaces.nextElement();
+            if (networkInterface.isLoopback() || !networkInterface.isUp()) {
+                continue;
+            }
+
+            for (InterfaceAddress address : networkInterface.getInterfaceAddresses()) {
+                if (address.getBroadcast() == null) continue;
+                broadcastAddresses.add(address.getBroadcast());
+            }
+
+        }
+
+
     }
 
     private void sendBroadcastToAll(DatagramSocket socket) throws SocketException {
