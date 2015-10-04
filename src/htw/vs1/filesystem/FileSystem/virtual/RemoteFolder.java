@@ -189,13 +189,24 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
                 list.add(object);
             }
             if (object instanceof Folder) {
-                if (object instanceof RemoteFolder) {
-                    ((RemoteFolder)object).changeDir();
+
+                try {
+                    if (object instanceof RemoteFolder) {
+                        ((RemoteFolder) object).changeDir();
+                    }
+                    ((Folder) object).search(list, name);
+                    if (object instanceof RemoteFolder) {
+                        changeDir();
+                    }
+                } catch (FileSystemException e) {
+                    if (FileSystemManger.DEBUG) {
+                        e.printStackTrace();
+                    }
+                    // if search is not allowed, we don't throw any exception but we
+                    // simply skip the folder.
                 }
-                ((Folder) object).search(list, name);
-                if (object instanceof RemoteFolder) {
-                    changeDir();
-                }
+
+
             }
         }
 
