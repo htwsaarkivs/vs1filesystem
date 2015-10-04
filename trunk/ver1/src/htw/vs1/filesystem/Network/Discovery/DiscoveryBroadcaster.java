@@ -75,7 +75,9 @@ public class DiscoveryBroadcaster {
     private void sendBroadcast(InetAddress address, DatagramSocket socket) throws SocketException {
         socket.setBroadcast(true);
 
-        byte[] data = String.valueOf(serverPort).getBytes();
+        BroadcastPacket broadcastPacket = new BroadcastPacket(serverPort);
+
+        byte[] data = broadcastPacket.getByteValue();
 
         try {
             DatagramPacket packet = new DatagramPacket(data, data.length, address, DiscoveryManager.DISCOVERY_PORT);
