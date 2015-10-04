@@ -24,7 +24,11 @@ public class DiscoveryBroadcaster {
 
     public DiscoveryBroadcaster(int port) {
         this.serverPort = port;
-
+        try {
+            initBroadcastAddressList();
+        } catch (Exception e) {
+            throw new IllegalStateException("Fatal Error while trying to read your NIC properties...");
+        }
     }
 
     public void discovery() throws InterruptedException {
@@ -66,6 +70,7 @@ public class DiscoveryBroadcaster {
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
         while (interfaces.hasMoreElements()) {
             NetworkInterface networkInterface = interfaces.nextElement();
+            //Kein Loopback und verbunden...
             if (networkInterface.isLoopback() || !networkInterface.isUp()) {
                 continue;
             }
@@ -81,29 +86,12 @@ public class DiscoveryBroadcaster {
     }
 
     private void sendBroadcastToAll(DatagramSocket socket) throws SocketException {
-        //Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-        /*
-        while (interfaces.hasMoreElements()) {
-            NetworkInterface networkInterface = interfaces.nextElement();
-            if (networkInterface.isLoopback() || !networkInterface.isUp()) {
-                continue;
-            }
 
-            for (InterfaceAddress address : networkInterface.getInterfaceAddresses()) {
-                if (address.getBroadcast() == null) continue;
-                sendBroadcast(address.getBroadcast(), socket);
-            }
+        for(InetAddress addr : broadcastAddresses) {
+            sendBroadcast(addr, socket);
+        }
 
-        }
-        */
-        try {
-            sendBroadcast(InetAddress.getByName("255.255.255.255"), socket);
-        } catch (UnknownHostException e) {
-            if (FileSystemManger.DEBUG) {
-                e.printStackTrace();
-            }
-            throw new SocketException("Should not occur :/");
-        }
+
     }
 
     private void sendBroadcast(InetAddress address, DatagramSocket socket) throws SocketException {
