@@ -41,20 +41,23 @@ public class DiscoveryListener extends DiscoveryThread {
         try {
             socket.receive(packet);
 
-            String portStr = new String(packet.getData()).trim();
+            long start = System.currentTimeMillis();
 
-            try {
-                if (!itsme(packet.getAddress())) {
-                    int port = Integer.parseInt(portStr);
+            //String portStr = new String(packet.getData()).trim();
+            BroadcastPacket recPacket = new BroadcastPacket(packet.getData());
 
-                    DiscoveryManager.getInstance().add(
-                            packet.getAddress().getHostAddress(), port, packet.getAddress().getHostName());
-                }
-            } catch (NumberFormatException | SocketException e) {
-                if (FileSystemManger.DEBUG) {
-                    e.printStackTrace();
-                }
+
+            if (recPacket.isValidAndNotFromMe()) {
+                int port = recPacket.getPort(); //Integer.parseInt(portStr);
+
+                DiscoveryManager.getInstance().add(
+                        packet.getAddress().getHostAddress(), port, packet.getAddress().getHostName());
             }
+
+            long stop = System.currentTimeMillis();
+            long diff = stop-start;
+            System.out.println("Dauer Verarbeitung receive: " + diff + " ms");
+
         } catch (IOException e) {
             if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
@@ -82,7 +85,7 @@ public class DiscoveryListener extends DiscoveryThread {
         }
         long stop = System.currentTimeMillis();
         long diff = stop-start;
-        System.out.println(diff);
+        System.out.println("Dauer check it's me: " + diff + " ms");
         return false;
     }
 }
