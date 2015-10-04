@@ -20,6 +20,7 @@ public class DiscoveryBroadcaster {
 
     public DiscoveryBroadcaster(int port) {
         this.serverPort = port;
+
     }
 
     public void discovery() throws InterruptedException {
@@ -44,12 +45,14 @@ public class DiscoveryBroadcaster {
     protected DatagramSocket getDatagramSocket() throws SocketException {
         if (socket == null) {
             socket = new DatagramSocket();
+            socket.setBroadcast(true);
         }
         return socket;
     }
 
     private void sendBroadcastToAll(DatagramSocket socket) throws SocketException {
-        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+        //Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+        /*
         while (interfaces.hasMoreElements()) {
             NetworkInterface networkInterface = interfaces.nextElement();
             if (networkInterface.isLoopback() || !networkInterface.isUp()) {
@@ -62,18 +65,18 @@ public class DiscoveryBroadcaster {
             }
 
         }
-        /*try {
-            sendBroadcast(InetAddress.getByName("224.0.0.1"), socket);
+        */
+        try {
+            sendBroadcast(InetAddress.getByName("255.255.255.255"), socket);
         } catch (UnknownHostException e) {
             if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             throw new SocketException("Should not occur :/");
-        }*/
+        }
     }
 
     private void sendBroadcast(InetAddress address, DatagramSocket socket) throws SocketException {
-        socket.setBroadcast(true);
 
         BroadcastPacket broadcastPacket = new BroadcastPacket(serverPort);
 
