@@ -111,7 +111,9 @@ public class TCPParallelServer extends Thread implements ServerInterface {
         interrupt();
         workerPool.shutdown();
         try {
-            socket.close();
+            if (socket != null) {
+                socket.close();
+            }
         } catch (IOException e) {
         }
 
