@@ -255,7 +255,8 @@ public class Controller implements Initializable {
         try {
             list = fileSystem.search(searchStr);
             for (FSObject fsObject : list) {
-                searchResults.add(new SearchItem(fsObject.getName(), fsObject.getAbsolutePath()));
+
+                searchResults.add(new SearchItem(fsObject.getName(), fsObject.getParentFolder().getAbsolutePath()));
             }
         } catch (Throwable e) {
             if (FileSystemManger.DEBUG) {
