@@ -8,6 +8,7 @@ import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
 import htw.vs1.filesystem.Network.Discovery.DiscoveredServersObserver;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
 import htw.vs1.filesystem.Network.TCPParallelServer;
+import org.omg.CORBA.UNKNOWN;
 
 import java.util.Collection;
 import java.util.Scanner;
@@ -48,6 +49,7 @@ public class
         SEARCH("search"),
         MOUNT("mount"),
         EXIT("exit"),
+        USAGE("?"),
         UNKNOWN("unknown");
 
         private static final String VAL_START_SERVER = "start_server";
@@ -62,6 +64,7 @@ public class
         private static final String VAL_TOUCH = "touch";
         private static final String VAL_SEARCH = "search";
         private static final String VAL_MOUNT = "mount";
+        private static final String VAL_USAGE = "?";
         private static final String VAL_EXIT = "exit";
         
         /**
@@ -138,12 +141,30 @@ public class
                 case VAL_MOUNT:
                     cmd = Command.MOUNT;
                     break;
+                case VAL_USAGE:
+                    cmd = Command.USAGE;
+                    break;
                 default:
                     cmd = UNKNOWN;
             }
 
             cmd.setParams(params);
             return cmd;
+        }
+
+        public String getInfo() {
+            switch (this) {
+                case START_SERVER:
+                    return toString() + " <port>:\t\tstarts a server on the given port.";
+                case STOP_SERVER:
+                    return toString() + ":\t\tstops a running server.";
+                case LIST_SERVERS:
+                    return toString() + ":\t\tlists all available file system servers in this broadcast domain.";
+                case LS:
+                    return toString() + ":\t\tlists the content of the current directory";
+                default:
+                    return "";
+            }
         }
 
         /**
@@ -223,7 +244,7 @@ public class
             try {
                 goon = executeCommand(command);
             }catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Error: " + e.getClass().getSimpleName() + ": " + e.getMessage());
                 if (FileSystemManger.DEBUG) {
                     e.printStackTrace();
                 }
@@ -390,9 +411,15 @@ public class
 
                 break;
             }
+            case USAGE: {
+                for (Command cmd : Command.values()) {
+                    System.out.println(cmd.getInfo());
+                }
+                break;
+            }
             case UNKNOWN:
                 // TODO: print usage
-                throw new UnsupportedOperationException("Error message for unknown parameter not implemented");
+                throw new UnsupportedOperationException("Unknown operation.");
         }
 
         return true;
