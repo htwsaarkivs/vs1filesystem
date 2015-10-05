@@ -18,10 +18,7 @@ import java.util.Scanner;
  *
  * Created by felix on 03.06.15.
  */
-public class
-        UserDialog {
-
-    // FƒIXME: Error-Handling if the user is an idiot !!
+public class UserDialog {
 
     /**
      * Line seperator depending on the os.
@@ -39,17 +36,18 @@ public class
         START_SERVER("start_server"),
         STOP_SERVER("stop_server"),
         LIST_SERVERS("list_servers"),
+        MOUNT("mount"),
+        PWD("pwd"),
         LS("ls"),
         CD("cd"),
-        PWD("pwd"),
         MKDIR("mkdir"),
+        TOUCH("touch"),
         RENAME("rename"),
         DELETE("delete"),
-        TOUCH("touch"),
+        LOCK("lock"),
         SEARCH("search"),
-        MOUNT("mount"),
-        EXIT("exit"),
         USAGE("?"),
+        EXIT("exit"),
         UNKNOWN("unknown");
 
         private static final String VAL_START_SERVER = "start_server";
@@ -62,6 +60,7 @@ public class
         private static final String VAL_DELETE = "delete";
         private static final String VAL_MKDIR = "mkdir";
         private static final String VAL_TOUCH = "touch";
+        private static final String VAL_LOCK = "lock";
         private static final String VAL_SEARCH = "search";
         private static final String VAL_MOUNT = "mount";
         private static final String VAL_USAGE = "?";
@@ -144,6 +143,9 @@ public class
                 case VAL_USAGE:
                     cmd = Command.USAGE;
                     break;
+                case VAL_LOCK:
+                    cmd = Command.LOCK;
+                    break;
                 default:
                     cmd = UNKNOWN;
             }
@@ -155,15 +157,56 @@ public class
         public String getInfo() {
             switch (this) {
                 case START_SERVER:
-                    return toString() + " <port>:\t\tstarts a server on the given port.";
+                    return toString() + " [<port>]:\n" +
+                            "\tstarts a server on the given port or on the default port.";
                 case STOP_SERVER:
-                    return toString() + ":\t\tstops a running server.";
+                    return toString() + ":\n" +
+                            "\tstops a running server.";
                 case LIST_SERVERS:
-                    return toString() + ":\t\tlists all available file system servers in this broadcast domain.";
+                    return toString() + ":\n" +
+                            "\tlists all available file system servers in this broadcast domain.";
+                case MOUNT:
+                    return toString() + " <name> <host> <port> [<user>] [<pass>]:\n" +
+                            "\tmount a server identified " +
+                            "by its host and port. The remote folder will appear in the root directory with the " +
+                            "given name.";
                 case LS:
-                    return toString() + ":\t\tlists the content of the current directory";
-                default:
+                    return toString() + ":\n" +
+                            "\tlists the content of the current directory";
+                case CD:
+                    return toString() + " <subfolder>:\n" +
+                            "\tchange current working directory to subfolder or absolute path.";
+                case PWD:
+                    return toString() + ":\n" +
+                            "\tprint working directory.";
+                case MKDIR:
+                    return toString() + " <name>:\n" +
+                            "\tcreate a new folder with the given name.";
+                case TOUCH:
+                    return toString() + " <name>:\n" +
+                            "\tcreate a new file with the given name.";
+                case SEARCH:
+                    return toString() + " <search_pattern>:\n" +
+                            "\tlists all objects with the name containing the " +
+                            "given search pattern in the current folder and all its subfolder.";
+                case RENAME:
+                    return toString() + " <file/folder> <new_name>:\n" +
+                            "\trename an existing object.";
+                case LOCK:
+                    return toString() + " <name>:\n" +
+                            "\tlocks or unlocks the file/folder identified by the given name";
+                case DELETE:
+                    return toString() + " <name> :\n" +
+                            "\tdeletes a object identified by the given name.";
+                case USAGE:
+                    return toString() + ":\n" +
+                            "\tprints the usage.";
+                case EXIT:
+                    return toString() + ":\n\tclose the application.";
+                case UNKNOWN:
                     return "";
+                default:
+                    throw new IllegalStateException("Usage not implemented for the command: " + toString());
             }
         }
 
@@ -305,7 +348,7 @@ public class
                 if (command.hasParams() && command.getParams().length == 1) {
                     folderName = command.getParams()[0];
                 } else {
-                    // TODO: print usage
+                    printUsage(command);
                     break;
                 }
 
@@ -317,7 +360,7 @@ public class
                 if (command.hasParams() && command.getParams().length == 1) {
                     fileName = command.getParams()[0];
                 } else {
-                    // TODO: print usage
+                    printUsage(command);
                     break;
 
                 }
@@ -329,7 +372,7 @@ public class
                 if (command.hasParams() && command.getParams().length == 1) {
                     cdParam = command.getParams()[0];
                 } else {
-                    // TODO: print usage
+                    printUsage(command);
                     break;
                 }
                 fileSystem.changeDirectory(cdParam);
@@ -340,12 +383,21 @@ public class
                 System.out.print(workingDirectory);
                 System.out.print(NEW_LINE);
                 break;
+            case LOCK:
+                if (command.hasParams() && command.getParams().length == 1) {
+                    fileSystem.toggleLock(command.getParams()[0]);
+                } else {
+                    printUsage(command);
+                    break;
+                }
+
+                break;
             case SEARCH:
                 String searchObject;
                  if (command.hasParams() && command.getParams().length == 1) {
                     searchObject = command.getParams()[0];
                 } else {
-                    // TODO: print usage
+                     printUsage(command);
                     break;
                 }
 
@@ -363,9 +415,9 @@ public class
                     newName = command.getParams()[1];
                     fileSystem.rename(oldName, newName);
                 }
-                else{
-                 //TODO: print usage
-                    }
+                else {
+                    printUsage(command);
+                }
                 break;
             case DELETE: {
                 String name;
@@ -403,7 +455,7 @@ public class
                     }
                 }
                 if (printUsage) {
-                    // TODO: print usage;
+                    printUsage(command);
                     break;
                 }
 
@@ -418,11 +470,15 @@ public class
                 break;
             }
             case UNKNOWN:
-                // TODO: print usage
+                System.out.println("Use command \"?\" to print the usage.");
                 throw new UnsupportedOperationException("Unknown operation.");
         }
 
         return true;
+    }
+
+    private void printUsage(Command cmd) {
+        System.out.println("usage: " + cmd.getInfo());
     }
 
     /**
