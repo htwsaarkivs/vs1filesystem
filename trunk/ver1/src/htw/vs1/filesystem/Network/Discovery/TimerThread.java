@@ -102,11 +102,7 @@ public class TimerThread extends Thread {
             try {
 
                 if (doBroadcast) {
-                    long start = System.currentTimeMillis();
                     triggerBroadcast();
-                    long stop = System.currentTimeMillis();
-                    long diff = stop - start;
-                    System.out.println("\tDauer Broadcast: " + diff + " ms");
                 }
                 if (doCleanUp) {
                     triggerCleanUp();

@@ -41,9 +41,6 @@ public class DiscoveryListener extends DiscoveryThread {
         try {
             socket.receive(packet);
 
-            long start = System.currentTimeMillis();
-
-            //String portStr = new String(packet.getData()).trim();
             BroadcastPacket recPacket = new BroadcastPacket(packet.getData());
 
 
@@ -54,38 +51,11 @@ public class DiscoveryListener extends DiscoveryThread {
                         packet.getAddress().getHostAddress(), port, packet.getAddress().getHostName());
             }
 
-            long stop = System.currentTimeMillis();
-            long diff = stop-start;
-            System.out.println("Dauer Verarbeitung receive: " + diff + " ms");
-
         } catch (IOException e) {
             if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
         }
 
-    }
-
-    private boolean itsme(InetAddress remoteAddress) throws SocketException {
-        if (!FileSystemManger.getInstance().fileSystemServerRunning()) {
-            // If I do not have a file system server running the address cannot be mine.
-            return false;
-        }
-        long start = System.currentTimeMillis();
-        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-        while (interfaces.hasMoreElements()) {
-            NetworkInterface networkInterface = interfaces.nextElement();
-
-            List<InterfaceAddress> addresses = networkInterface.getInterfaceAddresses();
-            for (InterfaceAddress address : addresses) {
-                if (address.getAddress().equals(remoteAddress)) {
-                    return true;
-                }
-            }
-        }
-        long stop = System.currentTimeMillis();
-        long diff = stop-start;
-        System.out.println("Dauer check it's me: " + diff + " ms");
-        return false;
     }
 }
