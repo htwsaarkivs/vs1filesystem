@@ -1,12 +1,10 @@
-package htw.vs1.filesystem.Trials;
+package htw.vs1.scrapyard.Trials;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by felix on 09.06.15.

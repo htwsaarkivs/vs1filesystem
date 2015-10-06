@@ -1,4 +1,4 @@
-package htw.vs1.filesystem.Trials.Thread;
+package htw.vs1.scrapyard.Trials.Thread;
 
 import htw.vs1.filesystem.FileSystemManger;
 
