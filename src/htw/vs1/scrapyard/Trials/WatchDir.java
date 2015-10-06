@@ -1,4 +1,4 @@
-package htw.vs1.filesystem.Trials;
+package htw.vs1.scrapyard.Trials;
 
 /*
  * Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
