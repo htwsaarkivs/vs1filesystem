@@ -92,4 +92,9 @@ public interface Command {
         Command cmd = new SEARCH();
         return cmd.invoke(clientProtocol, name);
     }
+
+    static ClientReply EXIT(SimpleClientProtocol clientProtocol) throws FileSystemException {
+        Command cmd = new EXIT();
+        return cmd.invoke(clientProtocol);
+    }
 }

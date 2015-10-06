@@ -137,13 +137,6 @@ public abstract class LocalFSObject extends AbstractFSObject {
         this.path = path;
     }
 
-    /**
-     * Deletes the LocalFSObject itself.
-     * If this is a LocalFolder which is not empty
-     * it cannot be deleted.
-     */
-    abstract void delete() throws FileSystemException;
-
     @Override
     public void toggleLock() {
         permissions.toggleLock();

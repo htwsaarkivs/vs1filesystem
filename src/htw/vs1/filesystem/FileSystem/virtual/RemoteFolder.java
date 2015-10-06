@@ -75,7 +75,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
      */
     @Override
     public void delete(FSObject object) throws FileSystemException {
-        throw new NotImplementedException();
+        delete(object.getName());
     }
 
     /**

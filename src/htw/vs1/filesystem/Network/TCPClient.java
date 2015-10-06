@@ -52,8 +52,12 @@ public class TCPClient {
             Command.SetPass(clientProtocol, pass);
     }
 
+    private boolean isConnected() throws FileSystemException {
+        return !(null == clientProtocol || clientProtocol.getState().equals(SimpleProtocolState.IDLE));
+    }
+
     private void checkAuthStatusTryToLoginIfNecessary() throws FileSystemException {
-        if (null == clientProtocol || clientProtocol.getState().equals(SimpleProtocolState.IDLE)) {
+        if (!isConnected()) {
             connect();
         }
 
@@ -97,5 +101,18 @@ public class TCPClient {
         checkAuthStatusTryToLoginIfNecessary();
         ClientReply reply = Command.SEARCH(clientProtocol, name);
         return reply.getData();
+    }
+
+    public void closeConnection(){
+        try {
+            if (!isConnected()) return;
+            Command.EXIT(clientProtocol);
+        } catch (FileSystemException e) {
+            // if we cannot close the connection it is maybe already closed.
+            if (FileSystemManger.DEBUG) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

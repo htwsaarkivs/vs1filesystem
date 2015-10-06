@@ -55,6 +55,14 @@ public abstract class RemoteFSObject extends AbstractFSObject {
     }
 
     @Override
+    protected void delete() throws FileSystemException {
+        // this method will only be called if this object is part
+        // of a LocalFolder. Then the connection to the server
+        // should be closed.
+        tcpClient.closeConnection();
+    }
+
+    @Override
     public void toggleLock() throws PermissionDeniedException {
         throw new PermissionDeniedException(this);
     }
