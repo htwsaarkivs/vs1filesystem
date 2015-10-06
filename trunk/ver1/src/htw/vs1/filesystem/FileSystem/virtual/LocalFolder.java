@@ -294,11 +294,13 @@ public class LocalFolder extends LocalFSObject implements Folder {
     @Override
     public void delete(FSObject object) throws FileSystemException {
         checkPrecondition(object);
-        if (object instanceof LocalFSObject) {
-            LocalFSObject localFSObject = (LocalFSObject) object; // Type verified in #checkPrecondition(FSObject)
-            // First we have to ensure that the file is deleted on the real file system
-            localFSObject.delete();
+        if (object instanceof AbstractFSObject) {
+            AbstractFSObject abstractFSObject = (AbstractFSObject) object;
+            // First we have to ensure that the file is deleted on the real file system or the
+            // file will be deleted on the remote system.
+            abstractFSObject.delete();
         }
+
 
         // then we can remove it from our list.
         contents.remove(object);

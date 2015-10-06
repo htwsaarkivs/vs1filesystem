@@ -92,4 +92,13 @@ public abstract class AbstractFSObject implements FSObject {
     public String toString() {
         return getName();
     }
+
+    /**
+     * Deletes the object itself. If this method is implemented by a
+     * LocalFSObject this will take care to remove its associated
+     * physical object.
+     *
+     * @throws FileSystemException
+     */
+    protected abstract void delete() throws FileSystemException;
 }
