@@ -45,6 +45,8 @@ public class FileSystemManger {
 
     private LocalFolder rootFolder;
 
+    private MountPointFolder mountPointFolder = null;
+
     private NetworkLog networkLog;
 
     private int serverPort = 0;
@@ -57,8 +59,10 @@ public class FileSystemManger {
         Folder fsRoot = getRootFolder();
         if (mountAllowed) {
             try {
-                Folder mountPointFolder = new MountPointFolder("");
-                ((MountPointFolder) mountPointFolder).addMountPoint(fsRoot);
+                if (null == mountPointFolder) {
+                    mountPointFolder = new MountPointFolder("");
+                    mountPointFolder.addMountPoint(fsRoot);
+                }
                 fsRoot = mountPointFolder;
             } catch (FileSystemException e) {
                 if (FileSystemManger.DEBUG) {
@@ -151,6 +155,7 @@ public class FileSystemManger {
     public void close() {
         startDiscoveryListener(false);
         stopFileSystemServer();
+        PhysicalFileSystemAdapter.getInstance().stopWatchService();
     }
 
     public void startFileSystemServer(int port) {
@@ -160,11 +165,16 @@ public class FileSystemManger {
     }
 
     public void stopFileSystemServer() {
+        if (serverPort == 0) {
+            return;
+        }
         TCPParallelServer.getInstance(serverPort).stopServer();
-        PhysicalFileSystemAdapter.getInstance().stopWatchService();
     }
 
     public boolean fileSystemServerRunning() {
+        if (serverPort == 0) {
+            return false;
+        }
         return TCPParallelServer.getInstance(serverPort).isRunning();
     }
 
