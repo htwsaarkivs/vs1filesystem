@@ -7,6 +7,13 @@ import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
  */
 public abstract class ProtocolException extends FileSystemException {
 
+    public ProtocolException() {
+
+    }
+
+    public ProtocolException(String message) {
+        super(message);
+    }
 
 
 }
