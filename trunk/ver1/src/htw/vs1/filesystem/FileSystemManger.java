@@ -1,6 +1,10 @@
 package htw.vs1.filesystem;
 
+import com.sun.istack.internal.NotNull;
+import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.physical.PhysicalFileSystemAdapter;
+import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
+import htw.vs1.filesystem.FileSystem.virtual.Folder;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
 import htw.vs1.filesystem.Network.Discovery.DiscoveredServersObserver;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
@@ -14,12 +18,19 @@ import htw.vs1.filesystem.Network.ServerStatusObserver;
 import htw.vs1.filesystem.Network.TCPParallelServer;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 
 /**
  * Created by Felix on 26.09.2015.
  */
 public class FileSystemManger {
+
+    /**
+     * Name of our single root folder instance.
+     */
+    private static final String ROOT_FOLDER_NAME = "local";
 
     public static final boolean DEBUG = false;
 
@@ -29,21 +40,95 @@ public class FileSystemManger {
         return INSTANCE;
     }
 
+    private Path rootFolderPath;
+
+    private LocalFolder rootFolder;
+
     private NetworkLog networkLog;
+
     private int serverPort = 0;
+
     private FileSystemManger() {
         networkLog = new NetworkLog();
     }
 
+    public FileSystem getFileSystem(boolean mountAllowed) {
+        return new FileSystem(getRootFolder(), mountAllowed);
+    }
+
+    public LocalFolder getRootFolder() {
+        if (null == rootFolder) {
+            if (null == rootFolderPath) {
+                System.out.println("Root folder is not connected to the physical file system.");
+            }
+
+            try {
+                if (null == rootFolderPath) {
+                    rootFolder = new LocalFolder(ROOT_FOLDER_NAME);
+                } else {
+                    rootFolder = new LocalFolder(ROOT_FOLDER_NAME, rootFolderPath);
+                }
+            } catch (FileSystemException e) {
+                if (FileSystemManger.DEBUG) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return rootFolder;
+    }
+
+    public void setRootDirectory(@NotNull String rootPath) throws IOException {
+        if (null != rootFolderPath) {
+            PhysicalFileSystemAdapter.getInstance().stopWatchService();
+        }
+
+        this.rootFolderPath = Paths.get(rootPath);
+
+        PhysicalFileSystemAdapter adapter = PhysicalFileSystemAdapter.getInstance();
+        System.out.println("Importing directory...");
+        String path = adapter.loadFileSystemTree();
+        System.out.println("Directory" + ((path.isEmpty()) ? " not" : ": ") + path + " imported.");
+
+        rootFolder = getRootFolder();
+    }
+
+    /**
+     * Initializes the file system and starts the discovery listener
+     * without starting the server.
+     *
+     * @param pathToLocalFolder path to the connected local folder
+     */
+    public void init(String pathToLocalFolder) {
+        loadFileSystem(pathToLocalFolder);
+        startDiscoveryListener(true);
+    }
+
+    /**
+     * Initializes the file system, starts the server on the given port
+     * and starts the discovery listener.
+     *
+     * @param pathToLocalFolder path to the connected local folder
+     * @param serverPort port
+     */
     public void init(String pathToLocalFolder, int serverPort) {
         initServerOnlyMode(pathToLocalFolder, serverPort);
         startDiscoveryListener(true);
     }
 
+    /**
+     * Starts only the discovery listener.
+     */
     public void initClientOnlyMode() {
         startDiscoveryListener(true);
     }
 
+    /**
+     * Starts the server and initializes the file system without the
+     * discovery listener.
+     *
+     * @param pathToLocalFolder
+     * @param serverPort
+     */
     public void initServerOnlyMode(String pathToLocalFolder, int serverPort) {
         loadFileSystem(pathToLocalFolder);
         startFileSystemServer(serverPort);
@@ -52,10 +137,6 @@ public class FileSystemManger {
     public void close() {
         startDiscoveryListener(false);
         stopFileSystemServer();
-    }
-
-    public void getFileSystem() {
-
     }
 
     public void startFileSystemServer(int port) {
@@ -75,7 +156,7 @@ public class FileSystemManger {
 
     public void loadFileSystem(String pathToLocalFolder) {
         try {
-            LocalFolder.setRootDirectory(pathToLocalFolder);
+            setRootDirectory(pathToLocalFolder);
         } catch (IOException e) {
             if (DEBUG) {
                 e.printStackTrace();

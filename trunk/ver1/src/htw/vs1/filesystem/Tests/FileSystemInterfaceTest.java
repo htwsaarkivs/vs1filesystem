@@ -25,7 +25,8 @@ public class FileSystemInterfaceTest {
 
         //Hier die eigene Implementierung vermerken!
 
-        this.fs = new FileSystem();
+        this.fs = FileSystemManger.getInstance().getFileSystem(true);
+        this.fs.changeDirectory("local");
 
         Folder root = new LocalFolder("root");
         root.add(new LocalFile("datei1"));
@@ -37,14 +38,16 @@ public class FileSystemInterfaceTest {
         subFolder.add(new LocalFile("datei2"));
 
         root.add(subFolder);
-        this.reference = root;
+        this.reference = this.fs.getWorkingDirectory();
 
-        this.fs.setWorkingDirectory(root);
+        this.reference.add(root);
 
+        this.fs.changeDirectory("root");
     }
 
     @After
     public void tearDown() throws Exception {
+
         this.fs = null;
     }
 
@@ -79,9 +82,9 @@ public class FileSystemInterfaceTest {
 
 
         try {
-            //�bergebener Name ist eine Datei
+            //übergebener Name ist eine Datei
             this.fs.changeDirectory("datei1");
-            fail("�bergebener Name geh�rt zu einer Datei. Erwartete Exception ObjectNotFoundException wurde nicht geworfen.");
+            fail("übergebener Name gehört zu einer Datei. Erwartete Exception ObjectNotFoundException wurde nicht geworfen.");
         } catch (ObjectNotFoundException e) {
             if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
@@ -100,8 +103,9 @@ public class FileSystemInterfaceTest {
     @Test
     public void testListDirectoryContent() throws Exception {
         List<FSObject> out = this.fs.listDirectoryContent();
+        String allElements = FSObject.printFSObjectList(out, false);
         for(FSObject el: this.reference.getContent()) {
-            if(!out.contains(el.getName())) fail("List Directory gibt nicht alle Dateinamen aus, die vorhanden sind.");
+            if(!allElements.contains(el.getName())) fail("List Directory gibt nicht alle Dateinamen aus, die vorhanden sind.");
         }
     }
 
@@ -111,7 +115,7 @@ public class FileSystemInterfaceTest {
         this.fs.changeDirectory("subsub");
         String out = this.fs.printWorkingDirectory();
 
-        assertEquals("/root/sub/subsub", out);
+        assertEquals("/local/root/sub/subsub", out);
 
     }
 }

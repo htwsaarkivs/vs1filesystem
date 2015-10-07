@@ -39,7 +39,7 @@ public class TCPParallelWorker implements Runnable {
         System.out.println("Thread gestartet");
         try {
 
-            new SimpleServerProtocol(socket, new FileSystem()).run();
+            new SimpleServerProtocol(socket, FileSystemManger.getInstance().getFileSystem(false)).run();
             socket.close();
 
         } catch (Exception e) {
