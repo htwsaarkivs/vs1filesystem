@@ -265,21 +265,6 @@ public class UserDialog {
     }
 
     public void showDialog() {
-        FileSystemManger.getInstance().startDiscoveryListener(true);
-
-        FileSystemManger.getInstance().attachDiscoveredServersObserver(new DiscoveredServersObserver() {
-            @Override
-            public void discoveredServersUpdated() {
-                Collection<FileSystemServer> servers = FileSystemManger.getInstance().listAvailableFileSystemServers();
-                if (servers.isEmpty()) {
-                    System.out.println("No file system servers available.");
-                } else {
-                    servers.forEach(System.out::println);
-                }
-                System.out.print(NEW_LINE);
-            }
-        }, true);
-
         while (true) {
             Command command = promptForCommand();
 
@@ -297,9 +282,6 @@ public class UserDialog {
                 break;
             }
         }
-
-        FileSystemManger.getInstance().startDiscoveryListener(false);
-        PhysicalFileSystemAdapter.getInstance().stopWatchService();
     }
 
     /**

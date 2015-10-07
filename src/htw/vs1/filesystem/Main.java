@@ -3,6 +3,7 @@ package htw.vs1.filesystem;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
+import htw.vs1.filesystem.Network.TCPParallelServer;
 
 public class Main {
 
@@ -19,12 +20,14 @@ public class Main {
            usage();
        }
 
-        LocalFolder.setRootDirectory(args[0]);
+        FileSystemManger.getInstance().init(args[0]);
 
-        FileSystemInterface fileSystem = new FileSystem(true);
+        FileSystemInterface fileSystem = FileSystemManger.getInstance().getFileSystem(true);
         UserDialog dialog = new UserDialog(fileSystem);
 
         dialog.showDialog();
+
+        FileSystemManger.getInstance().close();
     }
 
     /**

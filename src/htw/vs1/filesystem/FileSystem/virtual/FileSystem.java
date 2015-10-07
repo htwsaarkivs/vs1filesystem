@@ -45,14 +45,6 @@ public class FileSystem implements FileSystemInterface {
      */
     private Folder workingFolder;
 
-    public FileSystem() {
-        this(false);
-    }
-
-    public FileSystem(boolean mountAllowed) {
-        this(LocalFolder.getRootFolder(), mountAllowed);
-    }
-
     /**
      * Creates a new FileSystem with the given {@link Folder}
      * as working directory.

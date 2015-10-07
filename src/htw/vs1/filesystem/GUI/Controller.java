@@ -248,7 +248,7 @@ public class Controller implements Initializable {
     }
 
     public void initiateFilesystem () throws IOException {
-        fileSystem = new FileSystem(true);
+        fileSystem = FileSystemManger.getInstance().getFileSystem(true);
 
         listDirectoryContent();
 

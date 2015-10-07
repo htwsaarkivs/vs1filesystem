@@ -25,65 +25,6 @@ import java.util.List;
 public class LocalFolder extends LocalFSObject implements Folder {
 
     /**
-     * Name of our single root folder instance.
-     */
-    private static final String ROOT_FOLDER_NAME = "local";
-
-    /**
-     * Path to the local folder
-     * on our os of the local machine the
-     * program is running on.
-     */
-    private static Path ROOT_FOLDER_PATH = null;
-
-    /**
-     * Single instance of our local root folder.
-     */
-    private static LocalFolder rootFolder = null;
-
-    /**
-     * Gets the single instance of our local root
-     * folder located on the machine this program
-     * is running on.
-     *
-     * @return root {@link LocalFolder}.
-     */
-    public static @NotNull LocalFolder getRootFolder() {
-        if (null == rootFolder) {
-            if (null == ROOT_FOLDER_PATH) {
-                //throw new IllegalStateException("Root folder path must be set before calling method getRootFolder().");
-                System.out.println("Root folder is not connected to the physical file system.");
-            }
-
-            try {
-                if (null == ROOT_FOLDER_PATH) {
-                    rootFolder = new LocalFolder(ROOT_FOLDER_NAME);
-                } else {
-                    rootFolder = new LocalFolder(ROOT_FOLDER_NAME, ROOT_FOLDER_PATH);
-                }
-            } catch (FileSystemException e) {
-                if (FileSystemManger.DEBUG) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return rootFolder;
-    }
-
-    public static void setRootDirectory(@NotNull String rootPath) throws IOException {
-        if (null != ROOT_FOLDER_PATH) {
-            throw new IllegalStateException("Root folder path already set.");
-        }
-
-        ROOT_FOLDER_PATH = Paths.get(rootPath);
-
-        PhysicalFileSystemAdapter adapter = PhysicalFileSystemAdapter.getInstance();
-        System.out.println("Importing directory...");
-        String path = adapter.loadFileSystemTree();
-        System.out.println("Directory" + ((path.isEmpty()) ? " not" : ": ") + path + " imported.");
-    }
-
-    /**
      * List containing the content of this {@link LocalFolder}, this
      * can be either a {@link LocalFolder} or a {@link LocalFile}.
      */

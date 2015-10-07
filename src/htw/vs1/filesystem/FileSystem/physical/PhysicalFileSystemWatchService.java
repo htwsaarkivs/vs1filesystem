@@ -26,7 +26,7 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
      * Creates a WatchService and registers the given directory
      */
     PhysicalFileSystemWatchService() throws IOException {
-        fileSystem = new FileSystem();
+        fileSystem = FileSystemManger.getInstance().getFileSystem(false);
         resetWorkingDirectory();
     }
 
@@ -35,7 +35,7 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
      */
     private void resetWorkingDirectory() {
         try {
-            fileSystem.setWorkingDirectory(LocalFolder.getRootFolder());
+            fileSystem.setWorkingDirectory(FileSystemManger.getInstance().getRootFolder());
         } catch (FileSystemException e) {
             e.printStackTrace();
         }
@@ -49,7 +49,7 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
      * @throws ObjectNotFoundException iff the path could not be resolved.
      */
     private void changeWorkingDirectory(Path pathToWorkingDir) throws FileSystemException {
-        String relativePathString = LocalFolder.getRootFolder().getPath().relativize(pathToWorkingDir).toString();
+        String relativePathString = FileSystemManger.getInstance().getRootFolder().getPath().relativize(pathToWorkingDir).toString();
         if (!relativePathString.isEmpty()){
             fileSystem.changeDirectory(relativePathString);
         }
@@ -90,7 +90,8 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
     protected void onEntryDelete(Path child, Path dir) {
         if (DEBUG_MODE) {
             System.out.format("Deleted file/folder %s in directory %s\n", child.toFile().getName(), dir);
-            System.out.format("Relative path from local-root: %s\n", LocalFolder.getRootFolder().getPath().relativize(dir));
+            System.out.format("Relative path from local-root: %s\n",
+                    FileSystemManger.getInstance().getRootFolder().getPath().relativize(dir));
         }
 
         try {

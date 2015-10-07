@@ -62,7 +62,7 @@ public class PhysicalFileSystemAdapter {
             return;
         }
 
-        Path localFolderPath = LocalFolder.getRootFolder().getPath();
+        Path localFolderPath = FileSystemManger.getInstance().getRootFolder().getPath();
         if (null == localFolderPath) {
             return;
         }
@@ -82,6 +82,7 @@ public class PhysicalFileSystemAdapter {
     public void stopWatchService() {
         if (null != watchThread) {
             watchThread.requestStop();
+            INSTANCE = null;
         }
     }
 
@@ -94,12 +95,12 @@ public class PhysicalFileSystemAdapter {
      * @return absolute path of the loaded file system tree.
      */
     public String loadFileSystemTree() throws IOException {
-        Path localFolderPath = LocalFolder.getRootFolder().getPath();
+        Path localFolderPath = FileSystemManger.getInstance().getRootFolder().getPath(); //LocalFolder.getRootFolder().getPath();
         if (null == localFolderPath) {
             return "";
         }
         watchThread.register(localFolderPath);
-        loadFileSystemDirectories(localFolderPath, LocalFolder.getRootFolder());
+        loadFileSystemDirectories(localFolderPath,FileSystemManger.getInstance().getRootFolder());
 
         return localFolderPath.toAbsolutePath().toString();
     }
