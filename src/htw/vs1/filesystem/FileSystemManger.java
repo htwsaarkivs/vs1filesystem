@@ -6,6 +6,7 @@ import htw.vs1.filesystem.FileSystem.physical.PhysicalFileSystemAdapter;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
 import htw.vs1.filesystem.FileSystem.virtual.Folder;
 import htw.vs1.filesystem.FileSystem.virtual.LocalFolder;
+import htw.vs1.filesystem.FileSystem.virtual.MountPointFolder;
 import htw.vs1.filesystem.Network.Discovery.DiscoveredServersObserver;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
@@ -53,7 +54,20 @@ public class FileSystemManger {
     }
 
     public FileSystem getFileSystem(boolean mountAllowed) {
-        return new FileSystem(getRootFolder(), mountAllowed);
+        Folder fsRoot = getRootFolder();
+        if (mountAllowed) {
+            try {
+                Folder mountPointFolder = new MountPointFolder("");
+                ((MountPointFolder) mountPointFolder).addMountPoint(fsRoot);
+                fsRoot = mountPointFolder;
+            } catch (FileSystemException e) {
+                if (FileSystemManger.DEBUG) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return new FileSystem(fsRoot, mountAllowed);
     }
 
     public LocalFolder getRootFolder() {

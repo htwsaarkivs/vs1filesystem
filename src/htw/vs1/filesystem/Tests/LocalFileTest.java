@@ -12,26 +12,7 @@ import static org.junit.Assert.*;
  */
 public class LocalFileTest {
 
-    /**
-     * Creates a file, delete it (so that the file does not exists) and then to delete a non-existing file.
-     * (Nachfragen welche Exception geworfen wird)
-     */
-    @Test
-    public void testDelete() throws Exception {
-        LocalFile file = new LocalFile("Test.txt");
-        file.delete();
 
-        try {
-            file.delete();
-            fail("delete(File) should throw CouldNotDeleteException, when trying to delete a " +
-                    "File that not exists.");
-        } catch (Exception e) {
-            if (FileSystemManger.DEBUG) {
-                e.printStackTrace();
-            }
-            // Alles OK
-        }
-    }
     /**
      * Tests to rename a file with an invalid filename.
      */
