@@ -26,7 +26,7 @@ public class FileSystem implements FileSystemInterface {
      * String-Definition to change current working
      * directory to the parent folder.
      */
-    private static final String UP = "..";
+    public static final String UP = "..";
 
     private static final String THIS_FOLDER = ".";
 
