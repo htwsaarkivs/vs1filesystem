@@ -52,12 +52,18 @@ public class TCPClient {
             Command.SetPass(clientProtocol, pass);
     }
 
-    private boolean isConnected() throws FileSystemException {
+    /**
+     * Checks whether the protocol is in the connection state.
+     *
+     * @return {@code true}, iff the protocol is in the connection state.
+     * @throws FileSystemException
+     */
+    private boolean isProtocolConnectedState() throws FileSystemException {
         return !(null == clientProtocol || clientProtocol.getState().equals(SimpleProtocolState.IDLE));
     }
 
     private void checkAuthStatusTryToLoginIfNecessary() throws FileSystemException {
-        if (!isConnected()) {
+        if (!isProtocolConnectedState()) {
             connect();
         }
 
@@ -105,7 +111,7 @@ public class TCPClient {
 
     public void closeConnection(){
         try {
-            if (!isConnected()) return;
+            if (!isProtocolConnectedState()) return;
             Command.EXIT(clientProtocol);
         } catch (FileSystemException e) {
             // if we cannot close the connection it is maybe already closed.
