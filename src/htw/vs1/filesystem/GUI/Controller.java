@@ -69,16 +69,23 @@ public class Controller implements Initializable {
 
     private FileSystemInterface fileSystem;
 
-    public void changeDirectory (String directory){
+    public void changeDirectory (String directory) {
+        boolean error = false;
         try {
             fileSystem.changeDirectory(directory);
-            listDirectoryContent();
         } catch (FileSystemException e) {
             if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             showErrorMessage(e);
+            error = true;
         }
+
+        // in case directory is an absolute path the working directory
+        // could have changed. So we fetch the content and update the view
+        // but we do not show an error if updating the view failed,
+        // because the error was already shown by changing the directory.
+        listDirectoryContent(error);
     }
 
     public void home(ActionEvent actionEvent) {
@@ -90,6 +97,10 @@ public class Controller implements Initializable {
     }
 
     public void listDirectoryContent () {
+        listDirectoryContent(true);
+    }
+
+    public void listDirectoryContent (boolean showErrorMessage) {
         List<FSObject> list;
         try {
             list = fileSystem.getWorkingDirectory().getContent();
@@ -106,7 +117,9 @@ public class Controller implements Initializable {
             if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
-            showErrorMessage(e);
+            if (showErrorMessage) {
+                showErrorMessage(e);
+            }
         }
 
 
