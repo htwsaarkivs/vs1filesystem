@@ -25,7 +25,7 @@ public interface FileSystemInterface {
      *
      * @param workingFolder new working directory.
      */
-    void setWorkingDirectory(@NotNull Folder workingFolder);
+    void setWorkingDirectory(@NotNull Folder workingFolder) throws FileSystemException;
 
     /**
      * Gets the current working directory.
