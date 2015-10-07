@@ -25,10 +25,8 @@ public class FileSystemInterfaceTest {
 
         //Hier die eigene Implementierung vermerken!
 
-        this.fs = FileSystemManger.getInstance().getFileSystem(true);
-        this.fs.changeDirectory("local");
 
-        Folder root = new LocalFolder("root");
+        Folder root = new LocalFolder("root"); // the name of the root folder will always be skipped -> abs.Path=/
         root.add(new LocalFile("datei1"));
         root.add(new LocalFile("datei2"));
 
@@ -38,16 +36,13 @@ public class FileSystemInterfaceTest {
         subFolder.add(new LocalFile("datei2"));
 
         root.add(subFolder);
-        this.reference = this.fs.getWorkingDirectory();
+        this.reference = root;
 
-        this.reference.add(root);
-
-        this.fs.changeDirectory("root");
+        this.fs = new FileSystem(root, true);
     }
 
     @After
     public void tearDown() throws Exception {
-
         this.fs = null;
     }
 
@@ -115,7 +110,7 @@ public class FileSystemInterfaceTest {
         this.fs.changeDirectory("subsub");
         String out = this.fs.printWorkingDirectory();
 
-        assertEquals("/local/root/sub/subsub", out);
+        assertEquals("/sub/subsub", out);
 
     }
 }

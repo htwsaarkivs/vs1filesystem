@@ -56,51 +56,6 @@ public class LocalFolderTest {
         }
     }
 
-    @Test
-    public void testAddCheckPrecondition() throws InvalidFilenameException, FileAlreadyExistsException, CouldNotRenameException {
-
-
-        try {
-            Folder root = new LocalFolder("Test");
-            root.add(new RemoteFile("remoteFile"));
-            fail("Method add(FSObject) does not check precondition. It should not be allowed to add a RemoteFile.");
-        } catch (IllegalArgumentException e) {
-            if (FileSystemManger.DEBUG) {
-                e.printStackTrace();
-            }
-            // Fine, expected exception thrown by method.
-        } catch (CouldNotCreateException e) {
-            if (FileSystemManger.DEBUG) {
-                e.printStackTrace();
-            }
-            fail("couldNotCreateException should not been thrown.");
-        } catch (FileSystemException e) {
-            if (FileSystemManger.DEBUG) {
-                e.printStackTrace();
-            }
-        }
-
-
-        /*try {
-            root.add(new RemoteFolder("remoteFolder"));
-            fail("Method add(FSObject) does not check precondition. It should not be allowed to add a RemoteFile.");
-        } catch (IllegalArgumentException e) {
-            if (FileSystemManager.DEBUG) {
-                e.printStackTrace();
-            }
-            // Fine, expected exception thrown by method.
-        } catch (FileAlreadyExistsException e) {
-            if (FileSystemManager.DEBUG) {
-                e.printStackTrace();
-            }
-        } catch (CouldNotCreateException e) {
-            if (FileSystemManager.DEBUG) {
-            e.printStackTrace();
-           }
-            fail("CouldNotCreateException should not been thrown.");
-        }*/
-    }
-
 
     @Test
     public void testGetParentFolder() throws Exception {

@@ -52,7 +52,7 @@ public class FileSystem implements FileSystemInterface {
      * @param workingFolder {@link Folder} to work on.
      */
     public FileSystem(Folder workingFolder, boolean mountAllowed) {
-        if (mountAllowed) {
+        /*if (mountAllowed) {
             try {
                 rootFolder = new MountPointFolder("");
                 ((MountPointFolder) rootFolder).addMountPoint(workingFolder);
@@ -65,7 +65,9 @@ public class FileSystem implements FileSystemInterface {
         } else {
             this.workingFolder = workingFolder;
             this.rootFolder = workingFolder;
-        }
+        }*/
+        this.workingFolder = workingFolder;
+        this.rootFolder = workingFolder;
         this.mountAllowed = mountAllowed;
     }
 
