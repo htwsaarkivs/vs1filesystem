@@ -36,12 +36,13 @@ public class TCPParallelServer extends Thread implements ServerInterface {
     private List<ServerStatusObserver> serverStatusObservers = new LinkedList<>();
 
     protected ExecutorService workerPool = Executors.newFixedThreadPool(MAX_NUM_THREADS);
-    protected List<TCPParallelWorker> workerList = new LinkedList<TCPParallelWorker>();
+    protected List<TCPParallelWorker> workerList = new LinkedList<>();
 
     public static TCPParallelServer getInstance(int port) {
         if (INSTANCE == null) {
             INSTANCE = new TCPParallelServer(port);
         }
+        INSTANCE.port = port;
         return  INSTANCE;
     }
 

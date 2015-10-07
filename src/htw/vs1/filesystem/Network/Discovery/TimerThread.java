@@ -63,7 +63,9 @@ public class TimerThread extends Thread {
      */
     public void stopBroadcaster() {
         doBroadcast = false;
-        broadcaster.stop();
+        if (broadcaster != null) {
+            broadcaster.stop();
+        }
         broadcaster = null;
         runningServices--;
         interrupt();
