@@ -75,10 +75,13 @@ public class LocalFolderTest {
         Folder inst = new LocalFolder("Test");
         List<FSObject> ret = inst.getContent();
 
-        ret.add(new LocalFile("malicious-file"));
-
+        try {
+            ret.add(new LocalFile("malicious-file"));
+        } catch (Exception e) {
+            // ok, this operation was not allowed.
+        }
         //Zugriff auf private-Attribut möglich?
-        assertNotEquals(ret, inst.getContent());
+        assertEquals(ret, inst.getContent());
 
     }
 
