@@ -11,6 +11,7 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class LocalFolder extends LocalFSObject implements Folder {
             throw new PermissionDeniedException(this);
         }
 
-        return contents;
+        return Collections.unmodifiableList(contents);
     }
 
     /**

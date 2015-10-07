@@ -6,6 +6,7 @@ import htw.vs1.filesystem.Network.Protocol.Commands.LS;
 import htw.vs1.filesystem.Network.TCPClient;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -99,7 +100,7 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
     @Override
     public List<FSObject> getContent() throws FileSystemException {
         List<String> result = tcpClient.listFolderContent();
-        return toFSObjects(result);
+        return Collections.unmodifiableList(toFSObjects(result));
     }
 
     /**
