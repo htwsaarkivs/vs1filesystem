@@ -122,6 +122,11 @@ public class RemoteFolder extends RemoteFSObject implements Folder {
             } else {
                 object = new RemoteFile(name, tcpClient, this);
             }
+
+            if (lineArr.length > 2 && lineArr[2].equals(LS.LOCKED)) {
+                object.getPermissions().setLocked(true);
+            }
+
             fileList.add(object);
 
         }

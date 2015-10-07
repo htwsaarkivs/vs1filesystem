@@ -25,9 +25,10 @@ import java.util.Objects;
  */
 public class LS extends AbstractCommand {
 
-    public static String COMMAND_STRING = "LS";
-    public static String FOLDER = "[FOLDER]";
-    public static String FILE = "[FILE]";
+    public static final String COMMAND_STRING = "LS";
+    public static final String FOLDER = "[FOLDER]";
+    public static final String FILE = "[FILE]";
+    public static final String LOCKED = "[LOCKED]";
 
     public ServerReply execute(ServerProtocol prot, RequestList requestList) {
         if(!prot.getState().equals(SimpleProtocolState.AUTHENTICATED))
@@ -53,7 +54,7 @@ public class LS extends AbstractCommand {
         return new SimpleServerProtocolReply(new ReplyCode219(), this);
     }
 
-    static public String toProtString(List<FSObject> list) {
+    public static String toProtString(List<FSObject> list) {
         StringBuilder buf = new StringBuilder();
 
         for (FSObject obj: list) {
@@ -67,6 +68,10 @@ public class LS extends AbstractCommand {
             else {
                 buf.append("\t");
                 buf.append(FILE);
+            }
+            if (obj.getPermissions().isLocked()) {
+                buf.append("\t");
+                buf.append(LOCKED);
             }
             buf.append("\n");
         }

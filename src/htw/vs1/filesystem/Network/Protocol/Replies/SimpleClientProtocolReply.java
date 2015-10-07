@@ -11,8 +11,6 @@ public class SimpleClientProtocolReply implements ClientReply {
 
     private List<String> data = new LinkedList<>();
 
-    private boolean success = true;
-
     public SimpleClientProtocolReply() {
     }
 
