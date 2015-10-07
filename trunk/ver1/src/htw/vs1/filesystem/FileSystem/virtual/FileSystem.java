@@ -82,7 +82,7 @@ public class FileSystem implements FileSystemInterface {
      */
     public void setWorkingDirectory(Folder workingFolder) throws FileSystemException {
         if (!workingFolder.getPermissions().isCDAllowed()) {
-            throw new PermissionDeniedException("");
+            throw new PermissionDeniedException(workingFolder);
         }
         this.workingFolder = workingFolder;
     }
