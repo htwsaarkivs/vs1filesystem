@@ -3,6 +3,7 @@ package htw.vs1.filesystem.FileSystem.virtual;
 import com.sun.istack.internal.NotNull;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
 import htw.vs1.filesystem.FileSystemManger;
+import htw.vs1.filesystem.Network.Protocol.Replies.Codes.ReplyCode;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -79,7 +80,10 @@ public class FileSystem implements FileSystemInterface {
     /**
      * {@inheritDoc}
      */
-    public void setWorkingDirectory(Folder workingFolder) {
+    public void setWorkingDirectory(Folder workingFolder) throws FileSystemException {
+        if (!workingFolder.getPermissions().isCDAllowed()) {
+            throw new PermissionDeniedException("");
+        }
         this.workingFolder = workingFolder;
     }
 

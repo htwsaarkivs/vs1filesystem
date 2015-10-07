@@ -21,7 +21,7 @@ import java.util.Collection;
  */
 public class FileSystemManger {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     private static FileSystemManger INSTANCE = new FileSystemManger();
 

@@ -34,7 +34,11 @@ public class PhysicalFileSystemWatchService extends AbstractWatchService {
      * Resets the working directory to the root folder.
      */
     private void resetWorkingDirectory() {
-        fileSystem.setWorkingDirectory(LocalFolder.getRootFolder());
+        try {
+            fileSystem.setWorkingDirectory(LocalFolder.getRootFolder());
+        } catch (FileSystemException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
