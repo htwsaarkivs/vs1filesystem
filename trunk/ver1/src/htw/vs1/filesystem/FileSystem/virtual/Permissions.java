@@ -64,4 +64,7 @@ public class Permissions {
         this.mountable = true;
     }
 
+    protected void setLocked(boolean locked) {
+        this.locked = locked;
+    }
 }
