@@ -28,7 +28,9 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
-    private static final String BACK_FOLDER_NAME = "..";
+    private static final String BACK_FOLDER_NAME = FileSystem.UP;
+
+
     @FXML
     public ImageView imageViewServerIndicator;
     @FXML
@@ -70,13 +72,13 @@ public class Controller implements Initializable {
     public void changeDirectory (String directory){
         try {
             fileSystem.changeDirectory(directory);
+            listDirectoryContent();
         } catch (FileSystemException e) {
             if (FileSystemManger.DEBUG) {
                 e.printStackTrace();
             }
             showErrorMessage(e);
         }
-        listDirectoryContent();
     }
 
     public void home(ActionEvent actionEvent) {

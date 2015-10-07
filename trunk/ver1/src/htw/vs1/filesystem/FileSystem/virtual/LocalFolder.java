@@ -355,6 +355,25 @@ public class LocalFolder extends LocalFSObject implements Folder {
     }
 
     @Override
+    public void toggleLock() throws FileSystemException {
+        if (getPermissions().isLocked()) {
+            super.toggleLock();
+            toogleLockContent();
+        } else {
+            toogleLockContent();
+            super.toggleLock();
+        }
+
+        // first lock or unlock recursively all containing objects.
+    }
+
+    private void toogleLockContent() throws FileSystemException {
+        for (FSObject object : getContent()) {
+            object.toggleLock();
+        }
+    }
+
+    @Override
     public void setPath(Path path) {
         super.setPath(path);
 

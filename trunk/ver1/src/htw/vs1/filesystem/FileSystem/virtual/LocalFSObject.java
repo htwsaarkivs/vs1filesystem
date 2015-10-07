@@ -138,7 +138,7 @@ public abstract class LocalFSObject extends AbstractFSObject {
     }
 
     @Override
-    public void toggleLock() {
+    public void toggleLock() throws FileSystemException {
         permissions.toggleLock();
     }
 
