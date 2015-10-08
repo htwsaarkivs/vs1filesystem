@@ -36,11 +36,11 @@ public class DiscoveryListener extends DiscoveryThread {
 
     @Override
     protected void discovery(DatagramSocket socket) throws InterruptedException {
-        byte[] receiveBuffer = new byte[15000];
+        byte[] receiveBuffer = new byte[1000];
         DatagramPacket packet = new DatagramPacket(receiveBuffer, receiveBuffer.length);
         try {
             socket.receive(packet);
-
+            socket.setReceiveBufferSize(100);
             BroadcastPacket recPacket = new BroadcastPacket(packet.getData());
 
 
