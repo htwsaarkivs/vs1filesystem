@@ -3,6 +3,7 @@ import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Protocol.Client.SimpleClientProtocol;
 import htw.vs1.filesystem.Network.Protocol.Commands.Command;
+import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolFatalError;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
 import htw.vs1.filesystem.Network.Protocol.Replies.ClientReply;
 import htw.vs1.filesystem.Network.Protocol.State.SimpleProtocolState;
@@ -35,6 +36,7 @@ public class TCPClient {
     private void connect() throws FileSystemException {
         try {
             socket = new Socket(ip, port);
+            socket.setKeepAlive(true);
             clientProtocol = new SimpleClientProtocol(socket);
             clientProtocol.readLine(); // First skip the Server-Ready output // TODO: evaluate ServerReadyOutput
             clientProtocol.setState(SimpleProtocolState.READY);
@@ -59,7 +61,25 @@ public class TCPClient {
      * @throws FileSystemException
      */
     private boolean isProtocolConnectedState() throws FileSystemException {
-        return !(null == clientProtocol || clientProtocol.getState().equals(SimpleProtocolState.IDLE));
+        if (null == clientProtocol || clientProtocol.getState().equals(SimpleProtocolState.IDLE)) {
+            // if the protocol is not instantiated or has the idle state the connection is not established
+            return false;
+        }
+
+        // otherwise we have to ensure that we can execute the noop-command to proof that we are connected
+        try {
+            Command.NOOP(clientProtocol);
+        } catch (SimpleProtocolFatalError e) {
+            // we get this exception if the server closed our connection meanwhile
+            if (FileSystemManger.DEBUG) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        return true;
+
+        //return !(null == clientProtocol || clientProtocol.getState().equals(SimpleProtocolState.IDLE));
     }
 
     private void checkAuthStatusTryToLoginIfNecessary() throws FileSystemException {
