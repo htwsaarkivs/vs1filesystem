@@ -97,4 +97,9 @@ public interface Command {
         Command cmd = new EXIT();
         return cmd.invoke(clientProtocol);
     }
+
+    static ClientReply NOOP(SimpleClientProtocol clientProtocol) throws FileSystemException {
+        Command cmd = new NOOP();
+        return cmd.invoke(clientProtocol);
+    }
 }

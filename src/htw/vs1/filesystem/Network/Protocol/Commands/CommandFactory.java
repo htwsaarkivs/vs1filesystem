@@ -1,8 +1,6 @@
 package htw.vs1.filesystem.Network.Protocol.Commands;
 
-import java.awt.*;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -35,6 +33,7 @@ public class CommandFactory {
         commands.put(DELETE.COMMAND_STRING, new DELETE());
         commands.put(RENAME.COMMAND_STRING, new RENAME());
         commands.put(SEARCH.COMMAND_STRING, new SEARCH());
+        commands.put(NOOP.COMMAND_STRING, new NOOP());
     }
 
     /**

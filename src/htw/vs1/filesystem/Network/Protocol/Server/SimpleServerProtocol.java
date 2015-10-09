@@ -53,8 +53,10 @@ public class SimpleServerProtocol extends SimpleProtocol implements ServerProtoc
             try {
                 readLine();
                 ServerReply reply = analyzer.parseCommand(this);
-                reply.putReply(this);
-                if (reply.terminatesConnection()) throw new SimpleProtocolTerminateConnection();
+                if (null != reply) {
+                    reply.putReply(this);
+                    if (reply.terminatesConnection()) throw new SimpleProtocolTerminateConnection();
+                }
             } catch (FileSystemException e) {
                 putLine("Connection terminated: " + e.toString());
                 e.printStackTrace();
