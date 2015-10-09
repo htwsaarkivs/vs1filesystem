@@ -46,6 +46,8 @@ public class Controller implements Initializable {
     @FXML
     private TableColumn<FileType, Image> tableColumnIcon;
     @FXML
+    private TableColumn<SearchItem, Image> tableColumnSearchIcon;
+    @FXML
     private TableColumn<FileType, FileType.FileObject> tableColumnName;
     @FXML
     private TableColumn<FileType, String> tableColumnType;
@@ -129,8 +131,8 @@ public class Controller implements Initializable {
         Object cellContent = getCellContenct();
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Rename File/Folder");
-        dialog.setHeaderText("Oh baby please give me a new name. Oh yeah, baby do it now");
-        dialog.setContentText("give it to me:");
+        dialog.setHeaderText("Enter new name");
+        dialog.setContentText("gNew name:");
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(name -> {
@@ -317,6 +319,13 @@ public class Controller implements Initializable {
 
         listViewTabLog.setItems(logEntries);
 
+//        listViewTabLog.setCellFactory(new Callback<ListView, ListCell>() {
+//            @Override
+//            public ListCell call(ListView param) {
+//                return null;
+//            }
+//        });
+
         FileSystemManger.getInstance().addNetworkLogSubscriber(
                 log -> Platform.runLater(() -> logEntries.add(log.getLog()))
         );
@@ -361,6 +370,21 @@ public class Controller implements Initializable {
 
             }
         });
+
+
+//        tableViewSearch.getSelectionModel().setCellSelectionEnabled(true);
+//        tableViewSearch.setOnMouseClicked(event -> {
+//            if (event.getClickCount() == 2) {
+//                Object cellValue = getCellContenct();
+//
+//                if (cellValue instanceof FileType.FileObject && ((FileType.FileObject) cellValue).isFolder()) {
+//                    Folder folder = (Folder) cellValue;
+//                    Folder parent = folder.getParentFolder();
+//                    changeDirectory(parent.toString());
+//                }
+//
+//            }
+//        });
         /**
          * Initiate the columns of the tableViewSearch
          */
