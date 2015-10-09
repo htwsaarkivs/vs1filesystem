@@ -70,23 +70,6 @@ public class Controller implements Initializable {
     private ObservableList<FileSystemServer> serverEntrys = FXCollections.observableArrayList();
 
     private FileSystemInterface fileSystem;
-    private TableCell<FileType, Image> iconCellFactory = new TableCell<FileType, Image>() {
-        ImageView imageView = new ImageView();
-        @Override
-        protected void updateItem(Image item, boolean empty) {
-            setGraphic(null);
-            if (item != null) {
-                HBox box = new HBox();
-                box.setSpacing(12);
-
-                imageView.setFitWidth(20);
-                imageView.setFitHeight(20);
-                imageView.setImage(item);
-                box.getChildren().add(imageView);
-                setGraphic(box);
-            }
-        }
-    };
 
     public void changeDirectory (String directory) {
         boolean error = false;
