@@ -46,9 +46,11 @@ public class Controller implements Initializable {
     @FXML
     private TableColumn<FileType, Image> tableColumnIcon;
     @FXML
-    private TableColumn<FileType, FileType.FileObject> tableColumnName;
+    private TableColumn<FileType, FileObject> tableColumnName;
     @FXML
     private TableColumn<FileType, String> tableColumnType;
+    @FXML
+    public TableColumn<SearchItem, Image> tableColumnSearchIcon;
     @FXML
     private TableColumn<SearchItem,String> tableColumnSearchName;
     @FXML
@@ -68,6 +70,23 @@ public class Controller implements Initializable {
     private ObservableList<FileSystemServer> serverEntrys = FXCollections.observableArrayList();
 
     private FileSystemInterface fileSystem;
+    private TableCell<FileType, Image> iconCellFactory = new TableCell<FileType, Image>() {
+        ImageView imageView = new ImageView();
+        @Override
+        protected void updateItem(Image item, boolean empty) {
+            setGraphic(null);
+            if (item != null) {
+                HBox box = new HBox();
+                box.setSpacing(12);
+
+                imageView.setFitWidth(20);
+                imageView.setFitHeight(20);
+                imageView.setImage(item);
+                box.getChildren().add(imageView);
+                setGraphic(box);
+            }
+        }
+    };
 
     public void changeDirectory (String directory) {
         boolean error = false;
@@ -271,7 +290,8 @@ public class Controller implements Initializable {
             list = fileSystem.search(searchStr);
             for (FSObject fsObject : list) {
 
-                searchResults.add(new SearchItem(fsObject.getName(), fsObject.getParentFolder().getAbsolutePath()));
+                searchResults.add(
+                        new SearchItem(fsObject.getName(), (fsObject instanceof Folder), fsObject.getPermissions(), fsObject.getParentFolder().getAbsolutePath()));
             }
         } catch (Throwable e) {
             if (FileSystemManger.DEBUG) {
@@ -355,7 +375,7 @@ public class Controller implements Initializable {
 
                 Object cellValue = getCellContenct();
 
-                if (cellValue instanceof FileType.FileObject && ((FileType.FileObject) cellValue).isFolder()) {
+                if (cellValue instanceof FileObject && ((FileObject) cellValue).isFolder()) {
                     changeDirectory(cellValue.toString());
                 }
 
@@ -364,7 +384,27 @@ public class Controller implements Initializable {
         /**
          * Initiate the columns of the tableViewSearch
          */
-        tableColumnSearchName.setCellValueFactory(cellData -> cellData.getValue().fileNameProperty());
+        tableColumnSearchIcon.setCellValueFactory(cellData -> cellData.getValue().iconProperty());
+        tableColumnSearchIcon.setCellFactory(param -> new TableCell<SearchItem, Image>() {
+                    ImageView imageView = new ImageView();
+
+                    @Override
+                    protected void updateItem(Image item, boolean empty) {
+                        setGraphic(null);
+                        if (item != null) {
+                            HBox box = new HBox();
+                            box.setSpacing(12);
+
+                            imageView.setFitWidth(20);
+                            imageView.setFitHeight(20);
+                            imageView.setImage(item);
+                            box.getChildren().add(imageView);
+                            setGraphic(box);
+                        }
+                    }
+                }
+        );
+                tableColumnSearchName.setCellValueFactory(cellData -> cellData.getValue().fileNameProperty());
         tableColumnSearchDirectory.setCellValueFactory(cellData -> cellData.getValue().pathProperty());
 
 
