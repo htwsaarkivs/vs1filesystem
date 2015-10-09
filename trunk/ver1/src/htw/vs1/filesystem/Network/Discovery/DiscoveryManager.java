@@ -63,7 +63,7 @@ public class DiscoveryManager {
         listener = null;
     }
 
-    public void add(@NotNull String host, int port, @NotNull String hostName) {
+    public synchronized void add(@NotNull String host, int port, @NotNull String hostName) {
         saveCurrentSetState();
 
         // TODO: ist nicht wirklich effizient. bessere methode ??
@@ -77,13 +77,16 @@ public class DiscoveryManager {
         notifyDataSetChanged();
     }
 
-    public void deleteOutdatedEntries() {
+    public synchronized void deleteOutdatedEntries() {
         saveCurrentSetState();
-        for (FileSystemServer server : discoveredServerInstances) {
+
+        for (Iterator<FileSystemServer> it = discoveredServerInstances.iterator() ; it.hasNext() ;) {
+            FileSystemServer server = it.next();
             if (server.isOutdated()) {
-                discoveredServerInstances.remove(server);
+                it.remove();
             }
         }
+
         notifyDataSetChanged();
     }
 
