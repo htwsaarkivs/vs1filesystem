@@ -155,7 +155,8 @@
                                  <children>
                                     <TableView fx:id="tableViewSearch" layoutX="171.0" layoutY="-35.0" prefHeight="130.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columns>
-                                        <TableColumn fx:id="tableColumnSearchName" minWidth="390.0" prefWidth="390.0" text="Name" />
+                                          <TableColumn fx:id="tableColumnSearchIcon" minWidth="30.0" prefWidth="30.0" text="" />
+                                        <TableColumn fx:id="tableColumnSearchName" minWidth="360.0" prefWidth="360.0" text="Name" />
                                         <TableColumn fx:id="tableColumnSearchDirectory" minWidth="390.0" prefWidth="75.0" text="Directory" />
                                       </columns>
                                     </TableView>
