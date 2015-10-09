@@ -9,6 +9,9 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class SearchItem {
 
+    public static final int COL_NAME_INDEX = 0;
+    public static final int COL_DIR_INDEX = 1;
+
     private final SimpleStringProperty fileName;
     private final SimpleStringProperty path;
 

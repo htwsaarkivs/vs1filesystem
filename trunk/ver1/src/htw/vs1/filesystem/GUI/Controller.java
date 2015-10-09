@@ -46,8 +46,6 @@ public class Controller implements Initializable {
     @FXML
     private TableColumn<FileType, Image> tableColumnIcon;
     @FXML
-    private TableColumn<SearchItem, Image> tableColumnSearchIcon;
-    @FXML
     private TableColumn<FileType, FileType.FileObject> tableColumnName;
     @FXML
     private TableColumn<FileType, String> tableColumnType;
@@ -319,13 +317,6 @@ public class Controller implements Initializable {
 
         listViewTabLog.setItems(logEntries);
 
-//        listViewTabLog.setCellFactory(new Callback<ListView, ListCell>() {
-//            @Override
-//            public ListCell call(ListView param) {
-//                return null;
-//            }
-//        });
-
         FileSystemManger.getInstance().addNetworkLogSubscriber(
                 log -> Platform.runLater(() -> logEntries.add(log.getLog()))
         );
@@ -370,26 +361,24 @@ public class Controller implements Initializable {
 
             }
         });
-
-
-//        tableViewSearch.getSelectionModel().setCellSelectionEnabled(true);
-//        tableViewSearch.setOnMouseClicked(event -> {
-//            if (event.getClickCount() == 2) {
-//                Object cellValue = getCellContenct();
-//
-//                if (cellValue instanceof FileType.FileObject && ((FileType.FileObject) cellValue).isFolder()) {
-//                    Folder folder = (Folder) cellValue;
-//                    Folder parent = folder.getParentFolder();
-//                    changeDirectory(parent.toString());
-//                }
-//
-//            }
-//        });
         /**
          * Initiate the columns of the tableViewSearch
          */
         tableColumnSearchName.setCellValueFactory(cellData -> cellData.getValue().fileNameProperty());
         tableColumnSearchDirectory.setCellValueFactory(cellData -> cellData.getValue().pathProperty());
+
+
+
+        tableViewSearch.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                int selectedIndex = tableViewSearch.getSelectionModel().getSelectedIndex();
+
+                SearchItem selectedItem = searchResults.get(selectedIndex);
+
+                changeDirectory(selectedItem.getPath());
+                // TODO: nameObj in der Liste markieren...
+            }
+        });
 
 
         refreshServerList();

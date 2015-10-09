@@ -45,12 +45,12 @@
       </MenuBar>
       <ToolBar fx:id="toolBarButtons" VBox.vgrow="ALWAYS">
         <items>
-          <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#home" prefHeight="30.0" prefWidth="30.0">
+          <Button fx:id="homeBtn" mnemonicParsing="false" prefHeight="30.0" onAction="#home" prefWidth="30.0">
                <tooltip>
                   <Tooltip fx:id="TooltipHomeBtn" text="Home" textAlignment="CENTER" />
                </tooltip>
             </Button>
-            <Button fx:id="refreshBtn" mnemonicParsing="false" onAction="#refresh" prefHeight="30.0" prefWidth="30.0">
+            <Button fx:id="refreshBtn" mnemonicParsing="false" prefHeight="30.0" onAction="#refresh" prefWidth="30.0">
                <tooltip>
                   <Tooltip fx:id="tooltipRefreshBtn" text="Refresh Browser View" />
                </tooltip></Button>
@@ -155,8 +155,7 @@
                                  <children>
                                     <TableView fx:id="tableViewSearch" layoutX="171.0" layoutY="-35.0" prefHeight="130.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columns>
-                                          <TableColumn prefWidth="33.0" />
-                                        <TableColumn fx:id="tableColumnSearchIcon" minWidth="390.0" prefWidth="432.0" text="Name" />
+                                        <TableColumn fx:id="tableColumnSearchName" minWidth="390.0" prefWidth="390.0" text="Name" />
                                         <TableColumn fx:id="tableColumnSearchDirectory" minWidth="390.0" prefWidth="75.0" text="Directory" />
                                       </columns>
                                     </TableView>
