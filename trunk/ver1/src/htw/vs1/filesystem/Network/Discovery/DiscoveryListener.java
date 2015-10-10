@@ -4,8 +4,6 @@ import htw.vs1.filesystem.FileSystemManger;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.Enumeration;
-import java.util.List;
 
 /**
  * The DiscoveryListener is a simple server listening on the
@@ -49,7 +47,7 @@ public class DiscoveryListener extends DiscoveryThread {
                 int port = recPacket.getPort(); //Integer.parseInt(portStr);
 
                 DiscoveryManager.getInstance().add(
-                        packet.getAddress().getHostAddress(), port, packet.getAddress().getHostName());
+                        packet.getAddress().getHostAddress(), port, packet.getAddress().getHostAddress());
             }
 
             long end = System.currentTimeMillis();
