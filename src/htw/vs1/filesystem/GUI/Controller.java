@@ -8,6 +8,7 @@ import htw.vs1.filesystem.FileSystem.virtual.Folder;
 import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
+import htw.vs1.filesystem.Network.Log.LogEntry;
 import htw.vs1.filesystem.Network.Protocol.ServerStatus;
 import htw.vs1.filesystem.Network.TCPParallelServer;
 import javafx.application.Platform;
@@ -20,6 +21,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -45,7 +47,7 @@ public class Controller implements Initializable {
     @FXML
     private TableView tableViewSearch;
     @FXML
-    private ListView listViewTabLog;
+    private ListView<LogEntry> listViewTabLog;
     @FXML
     private TextField textFieldDirectory;
     @FXML
@@ -73,7 +75,7 @@ public class Controller implements Initializable {
 
     private ObservableList<FileType> currentDirectory = FXCollections.observableArrayList();
     private ObservableList<SearchItem> searchResults = FXCollections.observableArrayList();
-    private ObservableList<String> logEntries = FXCollections.observableArrayList();
+    private ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
     private ObservableList<FileSystemServer> serverEntrys = FXCollections.observableArrayList();
 
     private FileSystemInterface fileSystem;
@@ -328,7 +330,7 @@ public class Controller implements Initializable {
         listViewTabLog.setItems(logEntries);
 
         FileSystemManger.getInstance().addNetworkLogSubscriber(
-                log -> Platform.runLater(() -> logEntries.add(log.getLog()))
+                log -> Platform.runLater(() -> logEntries.add(log))
         );
 
         /**
