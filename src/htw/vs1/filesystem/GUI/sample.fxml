@@ -181,7 +181,7 @@
       </SplitPane>
       <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="800.0">
          <children>
-            <Button fx:id="clearLogBtn" mnemonicParsing="false" prefHeight="22.0" prefWidth="26.0">
+            <Button fx:id="clearLogBtn" mnemonicParsing="false" prefHeight="22.0" prefWidth="26.0" onAction="#clearLog">
                <HBox.margin>
                   <Insets left="4.0" />
                </HBox.margin>
@@ -189,7 +189,7 @@
                   <Tooltip fx:id="tooltipClearLog" text="Clear Log" />
                </tooltip>
             </Button>
-            <Button fx:id="clearSearchBtn" mnemonicParsing="false" prefHeight="22.0" prefWidth="26.0">
+            <Button fx:id="clearSearchBtn" mnemonicParsing="false" prefHeight="22.0" prefWidth="26.0" onAction="#clearSearchResults">
                <HBox.margin>
                   <Insets left="4.0" />
                </HBox.margin>
@@ -197,14 +197,14 @@
                   <Tooltip fx:id="tooltipClearSearch" text="Clear Search" />
                </tooltip>
             </Button>
-            <Button fx:id="autoMountBtn" mnemonicParsing="false" prefHeight="22.0" prefWidth="26.0">
+            <!--<Button fx:id="autoMountBtn" mnemonicParsing="false" prefHeight="22.0" prefWidth="26.0">
                <HBox.margin>
                   <Insets left="4.0" />
                </HBox.margin>
                <tooltip>
                   <Tooltip fx:id="tooltipAutoMount" text="Mount all Server" />
                </tooltip>
-            </Button>
+            </Button>-->
             <Region fx:id="region" prefHeight="30.0" prefWidth="617.0" HBox.hgrow="ALWAYS" />
             <Label fx:id="serverRunnigLabel" prefHeight="17.0" prefWidth="97.0" text="Server running:" />
             <ImageView fx:id="imageViewServerIndicator" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">

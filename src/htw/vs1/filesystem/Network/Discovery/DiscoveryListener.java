@@ -38,7 +38,6 @@ public class DiscoveryListener extends DiscoveryThread {
         DatagramPacket packet = new DatagramPacket(receiveBuffer, receiveBuffer.length);
         try {
             socket.receive(packet);
-            long start = System.currentTimeMillis();
             socket.setReceiveBufferSize(100);
             BroadcastPacket recPacket = new BroadcastPacket(packet.getData());
 
@@ -49,10 +48,6 @@ public class DiscoveryListener extends DiscoveryThread {
                 DiscoveryManager.getInstance().add(
                         packet.getAddress().getHostAddress(), port, packet.getAddress().getHostAddress());
             }
-
-            long end = System.currentTimeMillis();
-            long diff = end - start;
-            System.out.println("Discovery packet analyzed in " + diff + " ms");
 
         } catch (IOException e) {
             if (FileSystemManger.DEBUG) {
