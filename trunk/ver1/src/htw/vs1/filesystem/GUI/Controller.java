@@ -1,7 +1,10 @@
 package htw.vs1.filesystem.GUI;
 
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
-import htw.vs1.filesystem.FileSystem.virtual.*;
+import htw.vs1.filesystem.FileSystem.virtual.FSObject;
+import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
+import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
+import htw.vs1.filesystem.FileSystem.virtual.Folder;
 import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
@@ -22,6 +25,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -33,6 +37,9 @@ public class Controller implements Initializable {
 
     @FXML
     public ImageView imageViewServerIndicator;
+    public Button clearLogBtn;
+    public Button clearSearchBtn;
+    public Tab tabLog;
     @FXML
     private TableView<FileType> tableView;
     @FXML
@@ -422,7 +429,6 @@ public class Controller implements Initializable {
                 };
             }
         });
-        tabPane.getSelectionModel().select(tabServer);
         DiscoveryManager.getInstance().attachObserver(() -> {
             /*
             With the Platform.runLater()-call it will be granted that the
@@ -439,6 +445,25 @@ public class Controller implements Initializable {
            }
        });
 
+
+        tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (Objects.equals(newValue.getId(), tabLog.getId())) {
+                // Log-Tab visible
+                clearLogBtn.setVisible(true);
+                clearSearchBtn.setVisible(false);
+            } else if (Objects.equals(newValue.getId(), tabSearch.getId())) {
+                // Log-Tab visible
+                clearLogBtn.setVisible(false);
+                clearSearchBtn.setVisible(true);
+            } else {
+                // ServerTab or no tab visible
+                clearLogBtn.setVisible(false);
+                clearSearchBtn.setVisible(false);
+            }
+        });
+
+
+        tabPane.getSelectionModel().select(tabServer);
 
         setServerStatusIndicator(FileSystemManger.getInstance().getServerStatus());
         FileSystemManger.getInstance().attachServerStatusObserver(this::setServerStatusIndicator);
@@ -463,5 +488,13 @@ public class Controller implements Initializable {
     private void refreshServerList() {
         serverEntrys.clear();
         serverEntrys.addAll(FileSystemManger.getInstance().listAvailableFileSystemServers());
+    }
+
+    public void clearSearchResults(ActionEvent event) {
+        searchResults.clear();
+    }
+
+    public void clearLog(ActionEvent event) {
+        logEntries.clear();
     }
 }
