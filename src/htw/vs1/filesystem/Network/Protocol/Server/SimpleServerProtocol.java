@@ -2,6 +2,7 @@ package htw.vs1.filesystem.Network.Protocol.Server;
 
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
 import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
+import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Main;
 import htw.vs1.filesystem.Network.Protocol.Commands.CommandFactory;
 import htw.vs1.filesystem.Network.Protocol.Exceptions.SimpleProtocolInitializationErrorException;
@@ -59,7 +60,9 @@ public class SimpleServerProtocol extends SimpleProtocol implements ServerProtoc
                 }
             } catch (FileSystemException e) {
                 putLine("Connection terminated: " + e.toString());
-                e.printStackTrace();
+                if (FileSystemManger.DEBUG) {
+                    e.printStackTrace();
+                }
                 break;
             }
         }
