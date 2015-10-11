@@ -33,7 +33,7 @@ public class FileSystemManger {
      */
     private static final String ROOT_FOLDER_NAME = "local";
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     private static FileSystemManger INSTANCE = new FileSystemManger();
 
