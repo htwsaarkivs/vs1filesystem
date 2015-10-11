@@ -48,6 +48,8 @@ public class TCPParallelWorker implements Runnable {
             }
         }
 
+        System.out.println("Thread beendet");
+
     }
 
 
