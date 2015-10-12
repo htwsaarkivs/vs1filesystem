@@ -13,12 +13,15 @@
         <menus>
             <Menu fx:id="MenuSystem" mnemonicParsing="false" text="System">
               <items>
-                  <MenuItem fx:id="MenuItemMount" mnemonicParsing="false" onAction="#mount" text="Mount" />
-                  <MenuItem fx:id="MenuItemClose" mnemonicParsing="false" onAction="#close" text="Close" />
+                  <MenuItem fx:id="menuItemHome" mnemonicParsing="false" text="Home" />
+                  <MenuItem fx:id="menuItemRefresh" mnemonicParsing="false" text="Refresh" />
+                  <MenuItem fx:id="menuItemMount" mnemonicParsing="false" onAction="#mount" text="Mount" />
+                  <MenuItem fx:id="menuItemClose" mnemonicParsing="false" onAction="#close" text="Close" />
               </items>
             </Menu>
           <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
             <items>
+                  <MenuItem fx:id="menuItemLock" mnemonicParsing="false" text="Lock File / Folder" />
                   <MenuItem fx:id="menuItemFolder" mnemonicParsing="false" onAction="#createDir" text="Create new Folder" />
                   <MenuItem fx:id="menuItemFile" mnemonicParsing="false" onAction="#createFile" text="Create new File" />
             </items>
@@ -31,8 +34,8 @@
           </Menu>
           <Menu fx:id="MenuHelp" mnemonicParsing="false" text="Help">
             <items>
-                  <MenuItem fx:id="MenuItemHelp" mnemonicParsing="false" text="Help" />
-              <MenuItem fx:id="MenuItemAbout" mnemonicParsing="false" text="About vfiles_1.0" />
+                  <MenuItem fx:id="menuItemHelp" mnemonicParsing="false" text="Help" />
+              <MenuItem fx:id="menuItemAbout" mnemonicParsing="false" text="About vfiles_1.0" />
             </items>
           </Menu>
         </menus>
@@ -45,12 +48,12 @@
       </MenuBar>
       <ToolBar fx:id="toolBarButtons" VBox.vgrow="ALWAYS">
         <items>
-          <Button fx:id="homeBtn" mnemonicParsing="false" prefHeight="30.0" onAction="#home" prefWidth="30.0">
+          <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#home" prefHeight="30.0" prefWidth="30.0">
                <tooltip>
                   <Tooltip fx:id="TooltipHomeBtn" text="Home" textAlignment="CENTER" />
                </tooltip>
             </Button>
-            <Button fx:id="refreshBtn" mnemonicParsing="false" prefHeight="30.0" onAction="#refresh" prefWidth="30.0">
+            <Button fx:id="refreshBtn" mnemonicParsing="false" onAction="#refresh" prefHeight="30.0" prefWidth="30.0">
                <tooltip>
                   <Tooltip fx:id="tooltipRefreshBtn" text="Refresh Browser View" />
                </tooltip></Button>
@@ -71,7 +74,7 @@
             </Separator>
             <Button fx:id="lockBtn" mnemonicParsing="false" onAction="#toggleLock" prefHeight="30.0" prefWidth="30.0">
                <tooltip>
-                  <Tooltip fx:id="tooltipLockFolder" text="Lock Folder" />
+                  <Tooltip fx:id="tooltipLockFolder" text="Lock File / Folder" />
                </tooltip></Button>
             <Separator orientation="VERTICAL" prefHeight="20.0">
                <padding>
@@ -103,6 +106,12 @@
                   <Tooltip fx:id="TooltipDelete" text="Delete" textAlignment="CENTER" />
                </tooltip>
             </Button>
+            <Separator orientation="VERTICAL" prefHeight="20.0">
+               <padding>
+                  <Insets left="3.0" />
+               </padding>
+            </Separator>
+            <Button fx:id="helpBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" />
         </items>
       </ToolBar>
       <HBox>
@@ -181,7 +190,7 @@
       </SplitPane>
       <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="800.0">
          <children>
-            <Button fx:id="clearLogBtn" mnemonicParsing="false" prefHeight="22.0" prefWidth="26.0" onAction="#clearLog">
+            <Button fx:id="clearLogBtn" mnemonicParsing="false" onAction="#clearLog" prefHeight="22.0" prefWidth="26.0">
                <HBox.margin>
                   <Insets left="4.0" />
                </HBox.margin>
@@ -189,7 +198,7 @@
                   <Tooltip fx:id="tooltipClearLog" text="Clear Log" />
                </tooltip>
             </Button>
-            <Button fx:id="clearSearchBtn" mnemonicParsing="false" prefHeight="22.0" prefWidth="26.0" onAction="#clearSearchResults">
+            <Button fx:id="clearSearchBtn" mnemonicParsing="false" onAction="#clearSearchResults" prefHeight="22.0" prefWidth="26.0">
                <HBox.margin>
                   <Insets left="4.0" />
                </HBox.margin>
@@ -205,14 +214,17 @@
                   <Tooltip fx:id="tooltipAutoMount" text="Mount all Server" />
                </tooltip>
             </Button>-->
-            <Region fx:id="region" prefHeight="30.0" prefWidth="617.0" HBox.hgrow="ALWAYS" />
-            <Label fx:id="serverRunnigLabel" prefHeight="17.0" prefWidth="97.0" text="Server running:" />
+            <Region fx:id="region" prefHeight="27.0" prefWidth="514.0" HBox.hgrow="ALWAYS" />
+            <Label fx:id="serverRunnigLabel" alignment="CENTER" prefHeight="17.0" prefWidth="105.0" text="Server running:">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin></Label>
             <ImageView fx:id="imageViewServerIndicator" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/Button_Red/Button_Red_032.png" />
                </image>
                <HBox.margin>
-                  <Insets left="4.0" right="4.0" />
+                  <Insets left="4.0" right="15.0" />
                </HBox.margin>
             </ImageView>
          </children>
