@@ -9,6 +9,7 @@ import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
 import htw.vs1.filesystem.Network.Log.LogEntry;
+import htw.vs1.filesystem.Network.Log.LogType;
 import htw.vs1.filesystem.Network.Protocol.ServerStatus;
 import htw.vs1.filesystem.Network.TCPParallelServer;
 import javafx.application.Platform;
@@ -141,7 +142,7 @@ public class Controller implements Initializable {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Rename File/Folder");
         dialog.setHeaderText("Enter new name");
-        dialog.setContentText("gNew name:");
+        dialog.setContentText("new name:");
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(name -> {
@@ -225,12 +226,10 @@ public class Controller implements Initializable {
     }
 
     public void mount(ActionEvent actionEvent) {
-        // TODO: schöner custom dialog zur Eingabe von Ordername, remote Host und Port.
-
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Mount remote file system");
-        //dialog.setHeaderText("Look, a Text Input Dialog");
-        dialog.setContentText("foldername:host:port");
+        dialog.setHeaderText("Please enter the Foldername, the host IP and port of filesystem");
+        dialog.setContentText("Format: foldername:host:port");
 
         Optional<String> result = dialog.showAndWait();
 
@@ -328,6 +327,27 @@ public class Controller implements Initializable {
         }
 
         listViewTabLog.setItems(logEntries);
+        listViewTabLog.setCellFactory(new Callback<ListView<LogEntry>, ListCell<LogEntry>>() {
+            @Override
+            public ListCell<LogEntry> call(ListView<LogEntry> param) {
+                return new ListCell<LogEntry>(){
+                    @Override
+                    protected void updateItem(LogEntry item, boolean empty){
+                        super.updateItem(item,empty);
+                        if (null == item){
+                            setText("");
+                        }else if (item.getType() == LogType.SERVER_LOG) {
+                            setText(item.getLog());
+                            setTextFill(Color.BLUE);
+                        }else {
+                            setText(item.toString());
+                            setTextFill(Color.RED);
+                        }
+                    }
+                };
+            }
+        });
+
 
         FileSystemManger.getInstance().addNetworkLogSubscriber(
                 log -> Platform.runLater(() -> logEntries.add(log))
@@ -361,7 +381,7 @@ public class Controller implements Initializable {
         /**
          * Add Mouselistener, check for doubleclick and that the clicked item is a folder
          */
-        tableView.getSelectionModel().setCellSelectionEnabled(true);
+        tableView.getSelectionModel().setCellSelectionEnabled(false);
         tableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
 
