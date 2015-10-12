@@ -141,8 +141,8 @@ public class Controller implements Initializable {
         Object cellContent = getCellContenct();
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Rename File/Folder");
-        dialog.setHeaderText("Enter new name");
-        dialog.setContentText("new name:");
+        dialog.setHeaderText("Please enter new name");
+        dialog.setContentText("New name:");
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(name -> {
