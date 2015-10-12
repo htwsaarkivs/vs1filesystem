@@ -18,11 +18,11 @@ public class Resources {
     public static Image fsObjectIcon(boolean isFolder, Permissions permissions) {
         if (isFolder) {
             return (permissions.isLocked())
-                    ? new Image(FileType.class.getResource("images/Folder_Lock/Folder_Lock_032.png").toString())
+                    ? new Image(FileType.class.getResource("images/Locked/Folder_Locked_new_032.png").toString())
                     : new Image(FileType.class.getResource("images/Folder/Folder_032.png").toString());
         } else {
             return (permissions.isLocked())
-                    ? new Image(FileType.class.getResource("images/File_Lock/File_Lock_032.png").toString())
+                    ? new Image(FileType.class.getResource("images/Locked/File_Text_Locked_new_032.png").toString())
                     : new Image(FileType.class.getResource("images/File_Text/File_Text_032.png").toString());
         }
     }
