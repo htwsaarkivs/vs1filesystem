@@ -66,9 +66,9 @@ public class Controller implements Initializable {
     @FXML
     public TableColumn<SearchItem, Image> tableColumnSearchIcon;
     @FXML
-    private TableColumn<SearchItem,String> tableColumnSearchName;
+    private TableColumn<SearchItem, String> tableColumnSearchName;
     @FXML
-    private TableColumn<SearchItem,String> tableColumnSearchDirectory;
+    private TableColumn<SearchItem, String> tableColumnSearchDirectory;
     @FXML
     private Tab tabSearch;
     @FXML
@@ -85,13 +85,13 @@ public class Controller implements Initializable {
 
     private FileSystemInterface fileSystem;
 
-    private void setButtons(boolean value){
+    private void setButtons(boolean value) {
         deleteBtn.setDisable(value);
         renameBtn.setDisable(value);
         lockBtn.setDisable(value);
     }
 
-    public void changeDirectory (String directory) {
+    public void changeDirectory(String directory) {
         boolean error = false;
         try {
             fileSystem.changeDirectory(directory);
@@ -120,11 +120,11 @@ public class Controller implements Initializable {
         listDirectoryContent();
     }
 
-    public void listDirectoryContent () {
+    public void listDirectoryContent() {
         listDirectoryContent(true);
     }
 
-    public void listDirectoryContent (boolean showErrorMessage) {
+    public void listDirectoryContent(boolean showErrorMessage) {
         List<FSObject> list;
         try {
             list = fileSystem.getWorkingDirectory().getContent();
@@ -149,7 +149,7 @@ public class Controller implements Initializable {
 
     }
 
-    public void rename (){
+    public void rename() {
         Object cellContent = getCellContenct();
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Rename File/Folder");
@@ -171,7 +171,7 @@ public class Controller implements Initializable {
         setButtons(true);
     }
 
-    public void delete (){
+    public void delete() {
         Object cellValue = getCellContenct();
         try {
             fileSystem.delete(cellValue.toString());
@@ -184,6 +184,7 @@ public class Controller implements Initializable {
         }
         setButtons(true);
     }
+
     public void toggleLock(ActionEvent actionEvent) {
         Object cellValue = getCellContenct();
         try {
@@ -198,7 +199,7 @@ public class Controller implements Initializable {
         setButtons(true);
     }
 
-    public void createDir(){
+    public void createDir() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Create Folder");
         dialog.setHeaderText("Please enter a foldername");
@@ -219,7 +220,7 @@ public class Controller implements Initializable {
         });
     }
 
-    public void createFile(){
+    public void createFile() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Create File");
         dialog.setHeaderText("Please enter a filename");
@@ -272,7 +273,7 @@ public class Controller implements Initializable {
         System.exit(0);
     }
 
-    public void initiateFilesystem () throws IOException {
+    public void initiateFilesystem() throws IOException {
         fileSystem = FileSystemManger.getInstance().getFileSystem(true);
 
         listDirectoryContent();
@@ -286,7 +287,7 @@ public class Controller implements Initializable {
     }
 
 
-    public void search(){
+    public void search() {
         String searchStr = textFieldSearch.getText();
         if (searchStr == null || searchStr.isEmpty()) return;
 
@@ -311,13 +312,13 @@ public class Controller implements Initializable {
 
     }
 
-    public void showErrorMessage(Throwable e){
-        Alert alert  = new Alert(Alert.AlertType.ERROR);
+    public void showErrorMessage(Throwable e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(e.getClass().getSimpleName() + ": " + e.getMessage());
         alert.showAndWait();
     }
 
-    public Object getCellContenct (){
+    public Object getCellContenct() {
         TablePosition position = tableView.getSelectionModel().getSelectedCells().get(0);
         int row = position.getRow();
         TableColumn column = position.getTableColumn();
@@ -349,19 +350,19 @@ public class Controller implements Initializable {
         listViewTabLog.setCellFactory(new Callback<ListView<LogEntry>, ListCell<LogEntry>>() {
             @Override
             public ListCell<LogEntry> call(ListView<LogEntry> param) {
-                return new ListCell<LogEntry>(){
+                return new ListCell<LogEntry>() {
                     @Override
-                    protected void updateItem(LogEntry item, boolean empty){
+                    protected void updateItem(LogEntry item, boolean empty) {
 
-                        super.updateItem(item,empty);
-                        if (null == item){
+                        super.updateItem(item, empty);
+                        if (null == item) {
                             setText("");
-                        }else if (item.getType() == LogType.SERVER_LOG) {
+                        } else if (item.getType() == LogType.SERVER_LOG) {
                             ImageView image = new ImageView(Controller.class.getResource("images/Button_Blue/Button_Blue_016.png").toString());
                             setText(item.getLog());
                             setTextFill(Color.BLUE);
                             setGraphic(image);
-                        }else {
+                        } else {
                             ImageView image = new ImageView(Controller.class.getResource("images/Button_Red/Button_Red_016.png").toString());
                             setText(item.toString());
                             setTextFill(Color.RED);
@@ -383,6 +384,7 @@ public class Controller implements Initializable {
         tableColumnIcon.setCellValueFactory(cellData -> cellData.getValue().iconProperty());
         tableColumnIcon.setCellFactory(param -> new TableCell<FileType, Image>() {
             ImageView imageView = new ImageView();
+
             @Override
             protected void updateItem(Image item, boolean empty) {
                 setGraphic(null);
@@ -447,9 +449,8 @@ public class Controller implements Initializable {
                     }
                 }
         );
-                tableColumnSearchName.setCellValueFactory(cellData -> cellData.getValue().fileNameProperty());
+        tableColumnSearchName.setCellValueFactory(cellData -> cellData.getValue().fileNameProperty());
         tableColumnSearchDirectory.setCellValueFactory(cellData -> cellData.getValue().pathProperty());
-
 
 
         tableViewSearch.setOnMouseClicked(event -> {
@@ -491,12 +492,12 @@ public class Controller implements Initializable {
 
         });
 
-       listViewTabServer.setOnMouseClicked(event -> {
-           if (event.getClickCount() == 2){
-               FileSystemServer currentItem = listViewTabServer.getSelectionModel().getSelectedItem();
-               mount(currentItem.getHostName(), currentItem.getHost(), currentItem.getPort());
-           }
-       });
+        listViewTabServer.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                FileSystemServer currentItem = listViewTabServer.getSelectionModel().getSelectedItem();
+                mount(currentItem.getHostName(), currentItem.getHost(), currentItem.getPort());
+            }
+        });
 
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -520,11 +521,11 @@ public class Controller implements Initializable {
 
     }
 
-    public void clearSelectedTab (){
+    public void clearSelectedTab() {
         Tab currentTab = tabPane.getSelectionModel().getSelectedItem();
-        if (currentTab.equals(tabLog)){
+        if (currentTab.equals(tabLog)) {
             logEntries.clear();
-        }else if (currentTab.equals(tabSearch)){
+        } else if (currentTab.equals(tabSearch)) {
             searchResults.clear();
         }
     }
@@ -549,11 +550,12 @@ public class Controller implements Initializable {
         serverEntrys.addAll(FileSystemManger.getInstance().listAvailableFileSystemServers());
     }
 
-    public void clearSearchResults(ActionEvent event) {
-        searchResults.clear();
+    public void showAbout (){
+        Alert about = new Alert(Alert.AlertType.INFORMATION);
+        about.setTitle("Title");
+        about.setHeaderText("Headertext");
+        about.setContentText("Contenttext");
+        about.showAndWait();
     }
 
-    public void clearLog(ActionEvent event) {
-        logEntries.clear();
-    }
 }
