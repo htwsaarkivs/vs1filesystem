@@ -190,20 +190,12 @@
       </SplitPane>
       <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="800.0">
          <children>
-            <Button fx:id="clearLogBtn" mnemonicParsing="false" onAction="#clearLog" prefHeight="22.0" prefWidth="26.0">
+            <Button fx:id="clearSelTabBtn" mnemonicParsing="false" onAction="#clearSelectedTab" prefHeight="22.0" prefWidth="26.0">
                <HBox.margin>
                   <Insets left="4.0" />
                </HBox.margin>
                <tooltip>
                   <Tooltip fx:id="tooltipClearLog" text="Clear Log" />
-               </tooltip>
-            </Button>
-            <Button fx:id="clearSearchBtn" mnemonicParsing="false" onAction="#clearSearchResults" prefHeight="22.0" prefWidth="26.0">
-               <HBox.margin>
-                  <Insets left="4.0" />
-               </HBox.margin>
-               <tooltip>
-                  <Tooltip fx:id="tooltipClearSearch" text="Clear Search" />
                </tooltip>
             </Button>
             <!--<Button fx:id="autoMountBtn" mnemonicParsing="false" prefHeight="22.0" prefWidth="26.0">

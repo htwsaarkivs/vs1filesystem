@@ -42,8 +42,7 @@ public class Controller implements Initializable {
 
     @FXML
     public ImageView imageViewServerIndicator;
-    public Button clearLogBtn;
-    public Button clearSearchBtn;
+    public Button clearSelTabBtn;
     public Button deleteBtn;
     public Button renameBtn;
     public Button lockBtn;
@@ -503,16 +502,13 @@ public class Controller implements Initializable {
         tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (Objects.equals(newValue.getId(), tabLog.getId())) {
                 // Log-Tab visible
-                clearLogBtn.setVisible(true);
-                clearSearchBtn.setVisible(false);
+                clearSelTabBtn.setVisible(true);
             } else if (Objects.equals(newValue.getId(), tabSearch.getId())) {
                 // Log-Tab visible
-                clearLogBtn.setVisible(false);
-                clearSearchBtn.setVisible(true);
+                clearSelTabBtn.setVisible(true);
             } else {
                 // ServerTab or no tab visible
-                clearLogBtn.setVisible(false);
-                clearSearchBtn.setVisible(false);
+                clearSelTabBtn.setVisible(false);
             }
         });
 
@@ -522,6 +518,15 @@ public class Controller implements Initializable {
         setServerStatusIndicator(FileSystemManger.getInstance().getServerStatus());
         FileSystemManger.getInstance().attachServerStatusObserver(this::setServerStatusIndicator);
 
+    }
+
+    public void clearSelectedTab (){
+        Tab currentTab = tabPane.getSelectionModel().getSelectedItem();
+        if (currentTab.equals(tabLog)){
+            logEntries.clear();
+        }else if (currentTab.equals(tabSearch)){
+            searchResults.clear();
+        }
     }
 
     private void setServerStatusIndicator(ServerStatus status) {
