@@ -21,12 +21,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -38,6 +42,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     private static final String BACK_FOLDER_NAME = FileSystem.UP;
+    private static final String PATH_TO_PDF = "F:\\GoogleDrive\\SVN\\ver1\\src\\htw\\vs1\\filesystem\\GUI\\resources\\GUIHelp.pdf";
 
 
     @FXML
@@ -558,4 +563,7 @@ public class Controller implements Initializable {
         about.showAndWait();
     }
 
+    public void openHelp () throws IOException {
+        Desktop.getDesktop().open(new File(PATH_TO_PDF));
+    }
 }
