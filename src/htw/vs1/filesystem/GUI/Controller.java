@@ -244,7 +244,7 @@ public class Controller implements Initializable {
     public void mount(ActionEvent actionEvent) {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Mount remote file system");
-        dialog.setHeaderText("Please enter the Foldername, the host IP and port of filesystem");
+        dialog.setHeaderText("Please enter the foldername, the host IP and port of filesystem");
         dialog.setContentText("Format: foldername:host:port");
 
         Optional<String> result = dialog.showAndWait();
@@ -552,9 +552,9 @@ public class Controller implements Initializable {
 
     public void showAbout (){
         Alert about = new Alert(Alert.AlertType.INFORMATION);
-        about.setTitle("Title");
-        about.setHeaderText("Headertext");
-        about.setContentText("Contenttext");
+        about.setTitle("About");
+        about.setHeaderText("vfiles v 1.0");
+        about.setContentText("© by Daniel Barth, Felix Blechschmitt, Regine Eboumbou, Hendrik Fritsch, Markus Jungbluth, Adrian Müller, Marc Otting");
         about.showAndWait();
     }
 
