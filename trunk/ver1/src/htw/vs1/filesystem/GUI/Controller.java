@@ -13,6 +13,8 @@ import htw.vs1.filesystem.Network.Log.LogType;
 import htw.vs1.filesystem.Network.Protocol.ServerStatus;
 import htw.vs1.filesystem.Network.TCPParallelServer;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -42,6 +44,9 @@ public class Controller implements Initializable {
     public ImageView imageViewServerIndicator;
     public Button clearLogBtn;
     public Button clearSearchBtn;
+    public Button deleteBtn;
+    public Button renameBtn;
+    public Button lockBtn;
     public Tab tabLog;
     @FXML
     private TableView<FileType> tableView;
@@ -81,6 +86,12 @@ public class Controller implements Initializable {
 
     private FileSystemInterface fileSystem;
 
+    private void setButtons(boolean value){
+        deleteBtn.setDisable(value);
+        renameBtn.setDisable(value);
+        lockBtn.setDisable(value);
+    }
+
     public void changeDirectory (String directory) {
         boolean error = false;
         try {
@@ -98,10 +109,12 @@ public class Controller implements Initializable {
         // but we do not show an error if updating the view failed,
         // because the error was already shown by changing the directory.
         listDirectoryContent(error);
+        setButtons(true);
     }
 
     public void home(ActionEvent actionEvent) {
         changeDirectory("/");
+        setButtons(true);
     }
 
     public void refresh(ActionEvent actionEvent) {
@@ -156,6 +169,7 @@ public class Controller implements Initializable {
                 showErrorMessage(e);
             }
         });
+        setButtons(true);
     }
 
     public void delete (){
@@ -169,6 +183,7 @@ public class Controller implements Initializable {
             }
             showErrorMessage(e);
         }
+        setButtons(true);
     }
     public void toggleLock(ActionEvent actionEvent) {
         Object cellValue = getCellContenct();
@@ -181,6 +196,7 @@ public class Controller implements Initializable {
             }
             showErrorMessage(e);
         }
+        setButtons(true);
     }
 
     public void createDir(){
@@ -311,6 +327,10 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        /**
+         * Disable edit buttons @ programm start
+         */
+        setButtons(true);
 
         /**
          * Initiate the textfields
@@ -396,6 +416,13 @@ public class Controller implements Initializable {
                     changeDirectory(cellValue.toString());
                 }
 
+            }
+        });
+
+        tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<FileType>() {
+            @Override
+            public void changed(ObservableValue<? extends FileType> observable, FileType oldValue, FileType newValue) {
+                setButtons(false);
             }
         });
         /**
