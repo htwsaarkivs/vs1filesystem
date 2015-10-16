@@ -35,7 +35,7 @@
           <Menu fx:id="MenuHelp" mnemonicParsing="false" text="Help">
             <items>
                   <MenuItem fx:id="menuItemHelp" mnemonicParsing="false" text="Help" />
-              <MenuItem fx:id="menuItemAbout" mnemonicParsing="false" text="About vfiles_1.0" />
+              <MenuItem fx:id="menuItemAbout" mnemonicParsing="false" onAction="#showAbout" text="About vfiles_1.0" />
             </items>
           </Menu>
         </menus>
