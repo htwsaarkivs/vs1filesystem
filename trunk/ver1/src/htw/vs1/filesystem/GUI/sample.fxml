@@ -50,7 +50,7 @@
         <items>
           <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#home" prefHeight="30.0" prefWidth="30.0">
                <tooltip>
-                  <Tooltip fx:id="TooltipHomeBtn" text="Home" textAlignment="CENTER" />
+                  <Tooltip fx:id="tooltipHomeBtn" text="Home" textAlignment="CENTER" />
                </tooltip>
             </Button>
             <Button fx:id="refreshBtn" mnemonicParsing="false" onAction="#refresh" prefHeight="30.0" prefWidth="30.0">
@@ -83,12 +83,12 @@
             </Separator>
             <Button fx:id="createDirBtn" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#createDir" prefHeight="30.0" prefWidth="30.0">
                <tooltip>
-                  <Tooltip fx:id="TooltipCreateDirectory" text="Create new Directory" textAlignment="CENTER" />
+                  <Tooltip fx:id="tooltipCreateDirectory" text="Create new Directory" textAlignment="CENTER" />
                </tooltip>
             </Button>
             <Button fx:id="createFileBtn" layoutX="57.0" layoutY="14.0" mnemonicParsing="false" onAction="#createFile" prefHeight="30.0" prefWidth="30.0">
                <tooltip>
-                  <Tooltip fx:id="TooltipCreateFile" text="Create new File" textAlignment="CENTER" />
+                  <Tooltip fx:id="tooltipCreateFile" text="Create new File" textAlignment="CENTER" />
                </tooltip>
             </Button>
             <Separator orientation="VERTICAL" prefHeight="20.0">
@@ -98,12 +98,12 @@
             </Separator>
             <Button fx:id="renameBtn" layoutX="147.0" layoutY="14.0" mnemonicParsing="false" onAction="#rename" prefHeight="30.0" prefWidth="30.0">
                <tooltip>
-                  <Tooltip fx:id="TooltipRename" text="Rename" textAlignment="CENTER" />
+                  <Tooltip fx:id="tooltipRename" text="Rename" textAlignment="CENTER" />
                </tooltip>
             </Button>
             <Button fx:id="deleteBtn" layoutX="212.0" layoutY="14.0" mnemonicParsing="false" onAction="#delete" prefHeight="30.0" prefWidth="30.0">
                <tooltip>
-                  <Tooltip fx:id="TooltipDelete" text="Delete" textAlignment="CENTER" />
+                  <Tooltip fx:id="tooltipDelete" text="Delete" textAlignment="CENTER" />
                </tooltip>
             </Button>
             <Separator orientation="VERTICAL" prefHeight="20.0">
@@ -111,7 +111,10 @@
                   <Insets left="3.0" />
                </padding>
             </Separator>
-            <Button fx:id="helpBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" />
+            <Button fx:id="helpBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0">
+               <tooltip>
+                  <Tooltip fx:id="tooltipHelp" text="Help" />
+               </tooltip></Button>
         </items>
       </ToolBar>
       <HBox>
