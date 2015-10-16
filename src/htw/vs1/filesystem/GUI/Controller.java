@@ -333,15 +333,20 @@ public class Controller implements Initializable {
                 return new ListCell<LogEntry>(){
                     @Override
                     protected void updateItem(LogEntry item, boolean empty){
+
                         super.updateItem(item,empty);
                         if (null == item){
                             setText("");
                         }else if (item.getType() == LogType.SERVER_LOG) {
+                            ImageView image = new ImageView(Controller.class.getResource("images/Button_Blue/Button_Blue_016.png").toString());
                             setText(item.getLog());
                             setTextFill(Color.BLUE);
+                            setGraphic(image);
                         }else {
+                            ImageView image = new ImageView(Controller.class.getResource("images/Button_Red/Button_Red_016.png").toString());
                             setText(item.toString());
                             setTextFill(Color.RED);
+                            setGraphic(image);
                         }
                     }
                 };
