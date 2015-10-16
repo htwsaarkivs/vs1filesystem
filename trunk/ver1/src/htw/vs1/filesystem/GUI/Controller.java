@@ -42,7 +42,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     private static final String BACK_FOLDER_NAME = FileSystem.UP;
-    private static final String PATH_TO_PDF = "F:\\GoogleDrive\\SVN\\ver1\\src\\htw\\vs1\\filesystem\\GUI\\resources\\GUIHelp.pdf";
+    private static final String PATH_TO_PDF = "src\\htw\\vs1\\filesystem\\GUI\\resources\\GUIHelp.pdf";
 
 
     @FXML
@@ -559,7 +559,7 @@ public class Controller implements Initializable {
         Alert about = new Alert(Alert.AlertType.INFORMATION);
         about.setTitle("About");
         about.setHeaderText("vfiles v 1.0");
-        about.setContentText("© by Daniel Barth, Felix Blechschmitt, Regine Eboumbou, Hendrik Fritsch, Markus Jungbluth, Adrian Mueller, Marc Otting");
+        about.setContentText("ï¿½ by Daniel Barth, Felix Blechschmitt, Regine Eboumbou, Hendrik Fritsch, Markus Jungbluth, Adrian Mueller, Marc Otting");
         about.showAndWait();
     }
 
