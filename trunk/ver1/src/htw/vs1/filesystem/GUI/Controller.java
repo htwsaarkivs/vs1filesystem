@@ -554,7 +554,7 @@ public class Controller implements Initializable {
         Alert about = new Alert(Alert.AlertType.INFORMATION);
         about.setTitle("About");
         about.setHeaderText("vfiles v 1.0");
-        about.setContentText("© by Daniel Barth, Felix Blechschmitt, Regine Eboumbou, Hendrik Fritsch, Markus Jungbluth, Adrian Müller, Marc Otting");
+        about.setContentText("© by Daniel Barth, Felix Blechschmitt, Regine Eboumbou, Hendrik Fritsch, Markus Jungbluth, Adrian Mueller, Marc Otting");
         about.showAndWait();
     }
 
