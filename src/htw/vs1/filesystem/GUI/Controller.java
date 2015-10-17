@@ -42,7 +42,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     private static final String BACK_FOLDER_NAME = FileSystem.UP;
-    private static final String PATH_TO_PDF = "src\\htw\\vs1\\filesystem\\GUI\\resources\\GUIHelp.pdf";
+    private static final String PATH_TO_PDF = "trunk\\ver1\\src\\htw\\vs1\\filesystem\\GUI\\resources\\GUIHelp.pdf";
 
 
     @FXML
@@ -565,5 +565,8 @@ public class Controller implements Initializable {
 
     public void openHelp () throws IOException {
         Desktop.getDesktop().open(new File(PATH_TO_PDF));
+
+        // File file = new File(PATH_TO_PDF);
+        // System.out.println(file.getCanonicalPath());
     }
 }
