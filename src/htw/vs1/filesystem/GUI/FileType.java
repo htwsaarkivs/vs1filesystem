@@ -18,9 +18,12 @@ public class FileType {
     private final SimpleObjectProperty<FileObject> fileName;
     private final SimpleStringProperty fileType;
 
+    private Permissions permissions;
+
     public FileType (String fileName, boolean isFolder, Permissions permissions) {
-        this.fileName= new SimpleObjectProperty<>(new FileObject(fileName, isFolder));
-        this.fileType= new SimpleStringProperty(isFolder ? "Folder" : "File");
+        this.permissions = permissions;
+        this.fileName = new SimpleObjectProperty<>(new FileObject(fileName, isFolder));
+        this.fileType = new SimpleStringProperty(isFolder ? "Folder" : "File");
         this.icon = new SimpleObjectProperty<>(Resources.fsObjectIcon(isFolder, permissions));
 
     }
@@ -49,4 +52,7 @@ public class FileType {
         return buffer.toString();
     }
 
+    public Permissions getPermissions() {
+        return permissions;
+    }
 }

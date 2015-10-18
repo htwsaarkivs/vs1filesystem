@@ -53,6 +53,10 @@ public class Controller implements Initializable {
     public Button lockBtn;
     public Tab tabLog;
     @FXML
+    public Button createDirBtn;
+    @FXML
+    public Button createFileBtn;
+    @FXML
     private TableView<FileType> tableView;
     @FXML
     private TableView tableViewSearch;
@@ -90,10 +94,22 @@ public class Controller implements Initializable {
 
     private FileSystemInterface fileSystem;
 
-    private void setButtons(boolean value) {
-        deleteBtn.setDisable(value);
-        renameBtn.setDisable(value);
-        lockBtn.setDisable(value);
+    private void setButtons(FileType selectedFileType) {
+        if (selectedFileType == null) {
+            // if there is no file object selected, delete/rename/lock is not possible
+            deleteBtn.setDisable(true);
+            renameBtn.setDisable(true);
+            lockBtn.setDisable(true);
+        } else {
+            // there is an item selected, so we have to check if any of these actions are allowed
+            deleteBtn.setDisable(!selectedFileType.getPermissions().isDeleteAllowed());
+            renameBtn.setDisable(!selectedFileType.getPermissions().isRenameAllowed());
+            lockBtn.setDisable(!selectedFileType.getPermissions().isLockingAllowed());
+        }
+
+        boolean addAllowed = fileSystem.getWorkingDirectory().getPermissions().isAddAllowed();
+        createDirBtn.setDisable(!addAllowed);
+        createFileBtn.setDisable(!addAllowed);
     }
 
     public void changeDirectory(String directory) {
@@ -113,12 +129,10 @@ public class Controller implements Initializable {
         // but we do not show an error if updating the view failed,
         // because the error was already shown by changing the directory.
         listDirectoryContent(error);
-        setButtons(true);
     }
 
     public void home(ActionEvent actionEvent) {
         changeDirectory("/");
-        setButtons(true);
     }
 
     public void refresh(ActionEvent actionEvent) {
@@ -152,10 +166,16 @@ public class Controller implements Initializable {
         }
 
 
+        // check if there is any selected object and reset the icon state (enabled/disabled)
+        FileType selectedObject = null;
+        if (!tableView.getSelectionModel().getSelectedCells().isEmpty()) {
+            selectedObject = getSelectedFileType();
+        }
+        setButtons(selectedObject);
     }
 
     public void rename() {
-        Object cellContent = getCellContenct();
+        Object cellContent = getSelectedCellContent();
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Rename File/Folder");
         dialog.setHeaderText("Please enter new name");
@@ -173,11 +193,10 @@ public class Controller implements Initializable {
                 showErrorMessage(e);
             }
         });
-        setButtons(true);
     }
 
     public void delete() {
-        Object cellValue = getCellContenct();
+        Object cellValue = getSelectedCellContent();
         try {
             fileSystem.delete(cellValue.toString());
             listDirectoryContent();
@@ -187,11 +206,10 @@ public class Controller implements Initializable {
             }
             showErrorMessage(e);
         }
-        setButtons(true);
     }
 
     public void toggleLock(ActionEvent actionEvent) {
-        Object cellValue = getCellContenct();
+        Object cellValue = getSelectedCellContent();
         try {
             fileSystem.toggleLock(cellValue.toString());
             listDirectoryContent();
@@ -201,7 +219,6 @@ public class Controller implements Initializable {
             }
             showErrorMessage(e);
         }
-        setButtons(true);
     }
 
     public void createDir() {
@@ -323,19 +340,21 @@ public class Controller implements Initializable {
         alert.showAndWait();
     }
 
-    public Object getCellContenct() {
+    public FileType getSelectedFileType() {
         TablePosition position = tableView.getSelectionModel().getSelectedCells().get(0);
         int row = position.getRow();
-        TableColumn column = position.getTableColumn();
-        return column.getCellObservableValue(row).getValue();
+        //TableColumn column = position.getTableColumn();
+        //return column.getCellObservableValue(row).getValue();
+
+        return currentDirectory.get(row);
+    }
+
+    public FileObject getSelectedCellContent() {
+        return getSelectedFileType().fileNameProperty().getValue();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /**
-         * Disable edit buttons @ programm start
-         */
-        setButtons(true);
 
         /**
          * Initiate the textfields
@@ -350,6 +369,13 @@ public class Controller implements Initializable {
             }
             showErrorMessage(e);
         }
+
+
+        /**
+         * Disable edit buttons @ program start
+         * after initiating the file system!
+         */
+        setButtons(null);
 
         listViewTabLog.setItems(logEntries);
         listViewTabLog.setCellFactory(new Callback<ListView<LogEntry>, ListCell<LogEntry>>() {
@@ -416,7 +442,7 @@ public class Controller implements Initializable {
         tableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
 
-                Object cellValue = getCellContenct();
+                Object cellValue = getSelectedCellContent();
 
                 if (cellValue instanceof FileObject && ((FileObject) cellValue).isFolder()) {
                     changeDirectory(cellValue.toString());
@@ -428,7 +454,7 @@ public class Controller implements Initializable {
         tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<FileType>() {
             @Override
             public void changed(ObservableValue<? extends FileType> observable, FileType oldValue, FileType newValue) {
-                setButtons(false);
+                setButtons(newValue);
             }
         });
         /**
