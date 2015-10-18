@@ -30,8 +30,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
@@ -42,8 +41,8 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     private static final String BACK_FOLDER_NAME = FileSystem.UP;
-    private static final String PATH_TO_PDF = "trunk\\ver1\\src\\htw\\vs1\\filesystem\\GUI\\resources\\GUIHelp.pdf";
-
+    //private static final String PATH_TO_PDF = "trunk\\ver1\\src\\htw\\vs1\\filesystem\\GUI\\resources\\GUIHelp.pdf";
+    private static final String PATH_TO_PDF = "resources/GUIHelp.pdf";
 
     @FXML
     public ImageView imageViewServerIndicator;
@@ -592,14 +591,24 @@ public class Controller implements Initializable {
         Alert about = new Alert(Alert.AlertType.INFORMATION);
         about.setTitle("About");
         about.setHeaderText("vfiles v1.0");
-        about.setContentText("\u00A9 by Daniel Barth, Felix Blechschmitt, Regine Eboumbou, Hendrik Fritsch, Markus Jungbluth, Adrian Mueller, Marc Otting");
+        about.setContentText("\u00A9 2015 by Daniel Barth, Felix Blechschmitt, Regine Eboumbou, Hendrik Fritsch, Markus Jungbluth, Adrian Mueller, Marc Otting");
         about.showAndWait();
     }
 
-    public void openHelp () throws IOException {
-        Desktop.getDesktop().open(new File(PATH_TO_PDF));
+    public void openHelp () {
+        try {
+            InputStream inputStream = getClass().getResourceAsStream(PATH_TO_PDF);
+            File tmpFile = File.createTempFile("helpVFiles", ".pdf");
+            FileOutputStream outputStream = new FileOutputStream(tmpFile);
+            Tools.copyStream(inputStream, outputStream);
+            inputStream.close();
+            outputStream.close();
 
-        // File file = new File(PATH_TO_PDF);
-        // System.out.println(file.getCanonicalPath());
+            Desktop.getDesktop().open(tmpFile);
+        } catch (IOException e) {
+            // TODO: @Marc bitte eine Meldung ausgeben. Danke!
+            e.printStackTrace();
+        }
     }
+
 }
