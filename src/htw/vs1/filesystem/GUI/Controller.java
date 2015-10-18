@@ -535,9 +535,11 @@ public class Controller implements Initializable {
             if (Objects.equals(newValue.getId(), tabLog.getId())) {
                 // Log-Tab visible
                 clearSelTabBtn.setVisible(true);
+                clearSelTabBtn.getTooltip().setText("Clear Log");
             } else if (Objects.equals(newValue.getId(), tabSearch.getId())) {
                 // Log-Tab visible
                 clearSelTabBtn.setVisible(true);
+                clearSelTabBtn.getTooltip().setText("Clear Search");
             } else {
                 // ServerTab or no tab visible
                 clearSelTabBtn.setVisible(false);
