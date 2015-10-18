@@ -491,7 +491,12 @@ public class Controller implements Initializable {
                 SearchItem selectedItem = searchResults.get(selectedIndex);
 
                 changeDirectory(selectedItem.getPath());
-                // TODO: nameObj in der Liste markieren...
+                                                        // create a dummy fileType to get the corresponding index
+                int index = currentDirectory.indexOf(new FileType(selectedItem.getFileName(), true, null));
+                if (index != -1) {
+                    //tableView.requestFocus();
+                    tableView.getSelectionModel().select(index);
+                }
             }
         });
 
