@@ -109,7 +109,7 @@
                   <Insets left="3.0" />
                </padding>
             </Separator>
-            <Button fx:id="helpBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" onAction="#openHelp">
+            <Button fx:id="helpBtn" mnemonicParsing="false" prefHeight="30.0" onAction="#openHelp" prefWidth="30.0">
                <tooltip>
                   <Tooltip fx:id="tooltipHelp" text="Help" />
                </tooltip></Button>
