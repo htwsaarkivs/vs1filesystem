@@ -605,9 +605,11 @@ public class Controller implements Initializable {
             outputStream.close();
 
             Desktop.getDesktop().open(tmpFile);
-        } catch (IOException e) {
-            // TODO: @Marc bitte eine Meldung ausgeben. Danke!
-            e.printStackTrace();
+        } catch (Throwable e) {
+            Alert io = new Alert(Alert.AlertType.ERROR);
+            io.setTitle("Error");
+            io.setContentText("Could not open Help PDF!");
+            io.showAndWait();
         }
     }
 
