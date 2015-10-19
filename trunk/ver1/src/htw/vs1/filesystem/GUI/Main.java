@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.GUI;
 
 import htw.vs1.filesystem.FileSystemManger;
+import htw.vs1.filesystem.GUI.help.HelpFileThread;
 import htw.vs1.filesystem.Network.TCPParallelServer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -14,7 +15,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
+        (new HelpFileThread()).start(); // load to help file from the resource folder to the local temp folder.
 
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Virtual Filesystem");

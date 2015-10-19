@@ -9,7 +9,7 @@ import java.io.OutputStream;
  */
 public class Tools {
 
-    static void copyStream( InputStream inputStream, OutputStream outputStream ) throws IOException {
+    public static void copyStream( InputStream inputStream, OutputStream outputStream ) throws IOException {
         try
         {
             byte  buffer[] = new byte[0xffff];
