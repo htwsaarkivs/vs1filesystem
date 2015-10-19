@@ -386,6 +386,7 @@ public class Controller implements Initializable {
                         super.updateItem(item, empty);
                         if (null == item) {
                             setText("");
+                            setGraphic(null);
                         } else if (item.getType() == LogType.SERVER_LOG) {
                             ImageView image = new ImageView(Controller.class.getResource("images/Button_Blue/Button_Blue_016.png").toString());
                             setText(item.getLog());
