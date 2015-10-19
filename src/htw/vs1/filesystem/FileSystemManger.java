@@ -18,6 +18,7 @@ import htw.vs1.filesystem.Network.Protocol.ServerStatus;
 import htw.vs1.filesystem.Network.ServerStatusObserver;
 import htw.vs1.filesystem.Network.TCPParallelServer;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -54,6 +55,8 @@ public class FileSystemManger {
     private FileSystemManger() {
         networkLog = new NetworkLog();
     }
+
+    private File helpFile = null;
 
     public FileSystem getFileSystem(boolean mountAllowed) {
         Folder fsRoot = getRootFolder();
@@ -240,4 +243,11 @@ public class FileSystemManger {
     }
 
 
+    public File getHelpFile() {
+        return helpFile;
+    }
+
+    public void setHelpFile(File helpFile) {
+        this.helpFile = helpFile;
+    }
 }

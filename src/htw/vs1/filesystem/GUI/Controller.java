@@ -42,7 +42,6 @@ public class Controller implements Initializable {
 
     private static final String BACK_FOLDER_NAME = FileSystem.UP;
     //private static final String PATH_TO_PDF = "trunk\\ver1\\src\\htw\\vs1\\filesystem\\GUI\\resources\\GUIHelp.pdf";
-    private static final String PATH_TO_PDF = "resources/GUIHelp.pdf";
 
     @FXML
     public ImageView imageViewServerIndicator;
@@ -597,14 +596,7 @@ public class Controller implements Initializable {
 
     public void openHelp () {
         try {
-            InputStream inputStream = getClass().getResourceAsStream(PATH_TO_PDF);
-            File tmpFile = File.createTempFile("helpVFiles", ".pdf");
-            FileOutputStream outputStream = new FileOutputStream(tmpFile);
-            Tools.copyStream(inputStream, outputStream);
-            inputStream.close();
-            outputStream.close();
-
-            Desktop.getDesktop().open(tmpFile);
+            Desktop.getDesktop().open(FileSystemManger.getInstance().getHelpFile());
         } catch (Throwable e) {
             Alert io = new Alert(Alert.AlertType.ERROR);
             io.setTitle("Error");
