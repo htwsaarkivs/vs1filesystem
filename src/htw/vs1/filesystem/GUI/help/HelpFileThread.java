@@ -1,6 +1,7 @@
 package htw.vs1.filesystem.GUI.help;
 
 import htw.vs1.filesystem.FileSystemManger;
+import htw.vs1.filesystem.GUI.Controller;
 import htw.vs1.filesystem.GUI.Tools;
 
 import java.io.File;
@@ -17,13 +18,13 @@ import java.io.InputStream;
  */
 public class HelpFileThread extends Thread {
 
-    private static final String PATH_TO_PDF = "../resources/GUIHelp.pdf";
+    private static final String PATH_TO_PDF = "resources/GUIHelp.pdf";
 
     @Override
     public void run() {
 
         try {
-            InputStream inputStream = getClass().getResourceAsStream(PATH_TO_PDF);
+            InputStream inputStream = Controller.class.getResourceAsStream(PATH_TO_PDF);
             File tmpFile = File.createTempFile("helpVFiles", ".pdf");
             FileOutputStream outputStream = new FileOutputStream(tmpFile);
             Tools.copyStream(inputStream, outputStream);
