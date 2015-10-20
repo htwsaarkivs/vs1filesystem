@@ -1,10 +1,7 @@
 package htw.vs1.filesystem.GUI;
 
 import htw.vs1.filesystem.FileSystem.exceptions.FileSystemException;
-import htw.vs1.filesystem.FileSystem.virtual.FSObject;
-import htw.vs1.filesystem.FileSystem.virtual.FileSystem;
-import htw.vs1.filesystem.FileSystem.virtual.FileSystemInterface;
-import htw.vs1.filesystem.FileSystem.virtual.Folder;
+import htw.vs1.filesystem.FileSystem.virtual.*;
 import htw.vs1.filesystem.FileSystemManger;
 import htw.vs1.filesystem.Network.Discovery.DiscoveryManager;
 import htw.vs1.filesystem.Network.Discovery.FileSystemServer;
@@ -31,6 +28,7 @@ import javafx.util.Callback;
 
 import java.awt.*;
 import java.io.*;
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
@@ -443,8 +441,20 @@ public class Controller implements Initializable {
 
                 Object cellValue = getSelectedCellContent();
 
-                if (cellValue instanceof FileObject && ((FileObject) cellValue).isFolder()) {
+                if (cellValue != null && ((FileObject) cellValue).isFolder()) {
                     changeDirectory(cellValue.toString());
+                } else if (cellValue != null && !((FileObject) cellValue).isFolder()) {
+                    String name = ((FileObject) cellValue).getName();
+                    try {
+                        FSObject item = fileSystem.getWorkingDirectory().getObject(name);
+                        if (item instanceof LocalFile) {
+                            File file = ((LocalFile) item).getPhysicalFile();
+                            Desktop.getDesktop().open(file);
+                        }
+                    } catch (FileSystemException | IOException e) {
+                        // TODO: blabla
+                        e.printStackTrace();
+                    }
                 }
 
             }
