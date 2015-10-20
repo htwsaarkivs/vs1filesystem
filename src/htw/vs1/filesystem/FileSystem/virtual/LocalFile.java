@@ -58,4 +58,11 @@ public class LocalFile extends LocalFSObject implements File {
             }
         }
     }
+
+    public java.io.File getPhysicalFile() throws FileSystemException{
+        if (null != getPath()) {
+            return getPath().toFile();
+        }
+        return null;
+    }
 }
