@@ -11,6 +11,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+
+/**
+ * Main-Class for our gui application.
+ */
 public class Main extends Application {
 
     @Override

@@ -10,6 +10,8 @@ import htw.vs1.filesystem.Network.Protocol.Requests.RequestList;
 import htw.vs1.filesystem.Network.Protocol.Server.ServerProtocol;
 
 /**
+ * Command interface for each command implementation.
+ *
  * Created by markus on 12.06.15.
  */
 public interface Command {

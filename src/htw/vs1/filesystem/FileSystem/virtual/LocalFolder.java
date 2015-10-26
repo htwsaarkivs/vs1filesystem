@@ -1,9 +1,7 @@
 package htw.vs1.filesystem.FileSystem.virtual;
 
-import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import htw.vs1.filesystem.FileSystem.exceptions.*;
-import htw.vs1.filesystem.FileSystem.physical.PhysicalFileSystemAdapter;
 import htw.vs1.filesystem.FileSystemManger;
 
 import java.io.IOException;
