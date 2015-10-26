@@ -35,11 +35,12 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-
+/**
+ * Controller-Class to handle gui events.
+ */
 public class Controller implements Initializable {
 
     private static final String BACK_FOLDER_NAME = FileSystem.UP;
-    //private static final String PATH_TO_PDF = "trunk\\ver1\\src\\htw\\vs1\\filesystem\\GUI\\resources\\GUIHelp.pdf";
 
     @FXML
     public ImageView imageViewServerIndicator;

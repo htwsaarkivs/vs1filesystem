@@ -4,6 +4,9 @@ import htw.vs1.filesystem.FileSystem.virtual.Permissions;
 import javafx.scene.image.Image;
 
 /**
+ * Static class containing references to our resources
+ * which are used in the controller.
+ *
  * Created by Felix on 30.09.2015.
  */
 public class Resources {
